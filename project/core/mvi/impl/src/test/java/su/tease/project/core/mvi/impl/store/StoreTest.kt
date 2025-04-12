@@ -48,6 +48,35 @@ class StoreTest {
         val expectedStringValue = "42"
         val expectedListStringValue = listOf("42")
 
+        store.dispatcher.dispatch(
+            StubSuspendAction2(
+                intValue = expectedIntValue,
+                stringValue = expectedStringValue,
+                listStringValue = expectedListStringValue,
+            )
+        )
+
+        assertEquals(
+            CombinedState(
+                StubState1(),
+                StubState2().copy(
+                    intValue = expectedIntValue,
+                    stringValue = expectedStringValue,
+                    listStringValue = expectedListStringValue + expectedStringValue
+                )
+            ),
+            store.state.value
+        )
+    }
+
+
+    @Test
+    fun check_suspend_action_and_subscription_state() = runTest {
+        val store = createStubStore()
+        val expectedIntValue = 42
+        val expectedStringValue = "42"
+        val expectedListStringValue = listOf("42")
+
         val stateUpdates = mutableListOf<StubState2>()
         val job = launch { store.select<StubState2, StubState2> { it }.toList(stateUpdates) }
         store.dispatcher.dispatch(
@@ -90,14 +119,6 @@ class StoreTest {
                 listStringValue = expectedListStringValue + expectedStringValue
             ),
             stateUpdates[4]
-        )
-        assertEquals(
-            StubState2().copy(
-                intValue = expectedIntValue,
-                stringValue = expectedStringValue,
-                listStringValue = expectedListStringValue + expectedStringValue
-            ),
-            store.state.value
         )
         job.cancel()
     }
