@@ -1,4 +1,4 @@
-package su.tease.project.core.mvi.impl.store.stub.stub2
+package su.tease.project.core.mvi.impl.stub.stub2
 
 import su.tease.project.core.mvi.api.action.Action
 import su.tease.project.core.mvi.api.reducer.Reducer

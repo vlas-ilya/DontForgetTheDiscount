@@ -1,9 +1,8 @@
-package su.tease.project.core.mvi.impl.reducer
+package su.tease.project.core.mvi.impl.combine
 
 import su.tease.project.core.mvi.api.action.Action
 import su.tease.project.core.mvi.api.reducer.Reducer
 import su.tease.project.core.mvi.api.state.State
-import su.tease.project.core.mvi.impl.state.CombinedState
 
 internal class CombinedReducer<S1 : State, S2 : State>(
     private val reducer1: Reducer<S1>,

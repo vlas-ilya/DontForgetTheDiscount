@@ -1,4 +1,4 @@
-package su.tease.project.core.mvi.impl.store.stub.stub2
+package su.tease.project.core.mvi.impl.stub.stub2
 
 import kotlinx.parcelize.Parcelize
 import su.tease.project.core.mvi.api.state.State

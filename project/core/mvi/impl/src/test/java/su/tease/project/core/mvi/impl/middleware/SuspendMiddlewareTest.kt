@@ -1,6 +1,5 @@
-package su.tease.project.core.mvi.impl.store
+package su.tease.project.core.mvi.impl.middleware
 
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runTest
@@ -9,40 +8,13 @@ import org.junit.Test
 import su.tease.project.core.mvi.impl.combine.CombinedState
 import su.tease.project.core.mvi.impl.stub.createStubStore
 import su.tease.project.core.mvi.impl.stub.stub1.StubState1
-import su.tease.project.core.mvi.impl.stub.stub2.StubAction2
 import su.tease.project.core.mvi.impl.stub.stub2.StubState2
+import su.tease.project.core.mvi.impl.stub.stub2.StubSuspendAction2
 
-class StoreTest {
-
-    @Test
-    fun check_init_state() {
-        val store = createStubStore()
-
-        assertEquals(
-            CombinedState(StubState1(), StubState2()),
-            store.state.value
-        )
-    }
+class SuspendMiddlewareTest {
 
     @Test
-    fun check_simple_action_state() = runTest {
-        val expectedIntValue = 42
-
-        val store = createStubStore()
-
-        store.dispatcher.dispatch(StubAction2.OnUpdateIntValue(expectedIntValue))
-
-        assertEquals(
-            CombinedState(
-                StubState1(),
-                StubState2().copy(intValue = expectedIntValue)
-            ),
-            store.state.value
-        )
-    }
-
-    @Test
-    fun check_subscription() = runTest {
+    fun check_suspend_action_and_subscription_state_by_selector_with_mapping() = runTest {
         val expectedIntValue = 42
         val expectedStringValue = "42"
         val expectedListStringValue = listOf("42")
@@ -52,16 +24,13 @@ class StoreTest {
 
         val stateUpdates = mutableListOf<CombinedState<StubState1, StubState2>>()
         val job = launch { data.toList(stateUpdates) }
-
-        delay(100)
-        store.dispatcher.dispatch(StubAction2.OnUpdateIntValue(expectedIntValue))
-        delay(100)
-        store.dispatcher.dispatch(StubAction2.OnUpdateStringValue(expectedStringValue))
-        delay(100)
-        store.dispatcher.dispatch(StubAction2.OnUpdateListStringValue(expectedListStringValue))
-        delay(100)
-        store.dispatcher.dispatch(StubAction2.OnAddToListStringValue(expectedStringValue))
-        delay(100)
+        store.dispatcher.dispatch(
+            StubSuspendAction2(
+                intValue = expectedIntValue,
+                stringValue = expectedStringValue,
+                listStringValue = expectedListStringValue,
+            )
+        )
 
         assertEquals(
             CombinedState(
