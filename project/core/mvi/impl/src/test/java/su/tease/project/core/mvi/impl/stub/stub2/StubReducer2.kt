@@ -1,12 +1,12 @@
 package su.tease.project.core.mvi.impl.stub.stub2
 
-import su.tease.project.core.mvi.api.action.Action
+import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.reducer.Reducer
 
 class StubReducer2 : Reducer<StubState2> {
     override val initState: StubState2 = StubState2()
 
-    override fun StubState2.onAction(action: Action): StubState2 = when (action) {
+    override fun StubState2.onAction(action: PlainAction): StubState2 = when (action) {
         is StubAction2.OnUpdateIntValue -> onUpdateIntValue(action)
         is StubAction2.OnUpdateStringValue -> onUpdateStringValue(action)
         is StubAction2.OnUpdateListStringValue -> onUpdateListStringValue(action)

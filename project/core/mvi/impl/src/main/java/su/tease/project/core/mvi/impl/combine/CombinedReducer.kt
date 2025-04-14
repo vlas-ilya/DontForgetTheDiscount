@@ -1,6 +1,6 @@
 package su.tease.project.core.mvi.impl.combine
 
-import su.tease.project.core.mvi.api.action.Action
+import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.reducer.Reducer
 import su.tease.project.core.mvi.api.state.State
 
@@ -14,7 +14,7 @@ internal class CombinedReducer<S1 : State, S2 : State>(
         reducer2.initState,
     )
 
-    override fun CombinedState<S1, S2>.onAction(action: Action): CombinedState<S1, S2> {
+    override fun CombinedState<S1, S2>.onAction(action: PlainAction): CombinedState<S1, S2> {
         val newState1 = reducer1.run { state1.onAction(action) }
         val newState2 = reducer2.run { state2.onAction(action) }
         return when {
