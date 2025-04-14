@@ -64,4 +64,5 @@ dependencies {
 
     // project
     implementation(project(":project:core:mvi:api"))
+    implementation(project(":project:core:utils"))
 }

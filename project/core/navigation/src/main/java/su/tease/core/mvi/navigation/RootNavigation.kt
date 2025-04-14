@@ -13,13 +13,21 @@ import su.tease.project.core.utils.stack.replaceLast
 
 @Parcelize
 data class RootNavigation(
-    val initApplication: AppNavigation,
-    private val stack: Stack<AppNavigation> = Stack(prev = null, value = initApplication),
+    val initApp: AppNavigation,
+    private val stack: Stack<AppNavigation> = Stack(prev = null, value = initApp),
 ) : Navigation {
 
     @IgnoredOnParcel
-    override val top
-        get() = stack.value.top
+    override val page
+        get() = stack.value.page
+
+    @IgnoredOnParcel
+    val feature
+        get() = stack.value.feature
+
+    @IgnoredOnParcel
+    val app
+        get() = stack.value
 
     @IgnoredOnParcel
     private val compare: (AppNavigation, AppNavigation) -> Boolean =
@@ -72,4 +80,8 @@ data class RootNavigation(
         .dropLastWhile { compare(it, app).not() }
         ?.removeLast()
         ?.let { copy(stack = it) }
+
+    fun replace(app: AppNavigation): RootNavigation = copy(
+        stack = Stack(prev = null, value = app)
+    )
 }

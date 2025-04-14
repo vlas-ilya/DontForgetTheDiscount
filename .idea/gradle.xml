@@ -13,10 +13,11 @@
             <option value="$PROJECT_DIR$/project" />
             <option value="$PROJECT_DIR$/project/app" />
             <option value="$PROJECT_DIR$/project/core" />
-            <option value="$PROJECT_DIR$/project/core/component" />
+            <option value="$PROJECT_DIR$/project/core/miv_component" />
             <option value="$PROJECT_DIR$/project/core/mvi" />
             <option value="$PROJECT_DIR$/project/core/mvi/api" />
             <option value="$PROJECT_DIR$/project/core/mvi/impl" />
+            <option value="$PROJECT_DIR$/project/core/mvi_android" />
             <option value="$PROJECT_DIR$/project/core/mvi_navigation" />
             <option value="$PROJECT_DIR$/project/core/navigation" />
             <option value="$PROJECT_DIR$/project/core/utils" />
@@ -26,6 +27,7 @@
             <option value="$PROJECT_DIR$/project/design/theme/impl" />
             <option value="$PROJECT_DIR$/project/feature" />
             <option value="$PROJECT_DIR$/project/feature/main" />
+            <option value="$PROJECT_DIR$/project/feature/splash" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

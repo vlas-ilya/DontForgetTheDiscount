@@ -1,11 +1,14 @@
 package su.tease.project.design.theme.impl.utils
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import su.tease.design.theme.api.Sizes
 import su.tease.project.design.theme.impl.ThemeValue
 
 internal data class SizesImpl(
-    override val pagePadding: PaddingValues
+    override val navigationHeight: Dp,
+    override val pagePadding: PaddingValues,
 ) : Sizes {
 
     companion object {
@@ -17,9 +20,8 @@ internal data class SizesImpl(
 }
 
 private fun makeLightSizes(): Sizes = SizesImpl(
-
+    navigationHeight = 40.dp,
+    pagePadding = PaddingValues(4.dp)
 )
 
-private fun makeNightSizes(): Sizes = SizesImpl(
-
-)
+private fun makeNightSizes(): Sizes = makeLightSizes()

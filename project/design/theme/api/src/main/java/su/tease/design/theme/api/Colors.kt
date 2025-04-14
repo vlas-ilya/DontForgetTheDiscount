@@ -6,4 +6,5 @@ import androidx.compose.ui.graphics.Color
 @Immutable
 interface Colors {
     val background: Color
+    val text: Color
 }

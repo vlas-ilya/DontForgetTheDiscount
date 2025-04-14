@@ -1,7 +1,8 @@
+@file:Suppress("DEPRECATION")
 package su.tease.project.core.mvi.api.store
 
 import su.tease.project.core.mvi.api.action.Action
 
 interface Dispatcher {
-    suspend fun dispatch(action: Action)
+    fun dispatch(action: Action)
 }

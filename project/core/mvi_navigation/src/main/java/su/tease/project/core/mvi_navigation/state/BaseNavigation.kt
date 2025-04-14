@@ -20,7 +20,7 @@ data object SplashNavigationTarget : NavigationTarget.Page
 data object FinishNavigationTarget : NavigationTarget.Page
 
 val baseRootNavigation: RootNavigation = RootNavigation(
-    initApplication = AppNavigation(
+    initApp = AppNavigation(
         name = AppNavigationTarget,
         initFeature = FeatureNavigation(
             name = MainFeatureNavigationTarget,
@@ -32,7 +32,7 @@ val baseRootNavigation: RootNavigation = RootNavigation(
 )
 
 val finishRootNavigationTarget = RootNavigation(
-    initApplication = AppNavigation(
+    initApp = AppNavigation(
         name = AppNavigationTarget,
         initFeature = FeatureNavigation(
             name = MainFeatureNavigationTarget,

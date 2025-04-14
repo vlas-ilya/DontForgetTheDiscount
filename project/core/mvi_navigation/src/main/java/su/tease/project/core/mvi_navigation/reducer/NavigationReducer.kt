@@ -31,6 +31,7 @@ class NavigationReducer : Reducer<NavigationState> {
         is NavigationAction.ForwardToPage -> root.forward(action.page)
         is NavigationAction.SwitchApp -> root.switchTo(action.app, action.clearStack)
         is NavigationAction.SwitchFeature -> root.switchTo(action.feature, action.clearStack)
+        is NavigationAction.ReplaceApp -> root.replace(action.app)
     }
         ?.let { copy(root = it) }
         ?: copy(root = finishRootNavigationTarget)

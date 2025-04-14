@@ -9,3 +9,5 @@ inline fun <T> T.tryTransformIf(condition: Boolean, block: (T) -> T?): T? =
 
 inline fun <T, R> T.letIf(condition: Boolean, block: (T) -> R): R? =
     if (condition) block(this) else null
+
+fun <T> T.unit(): Unit = Unit

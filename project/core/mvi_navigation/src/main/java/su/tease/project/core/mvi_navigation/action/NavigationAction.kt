@@ -11,7 +11,7 @@ sealed interface NavigationAction : PlainAction {
     @Parcelize
     data class ForwardToPage(
         val page: PageNavigation,
-        val singleTop: Boolean = true,
+        val singleTop: Boolean = false,
     ) : NavigationAction
 
     @Parcelize
@@ -25,16 +25,20 @@ sealed interface NavigationAction : PlainAction {
     ) : NavigationAction
 
     @Parcelize
-    data class SwitchFeature(
-        val feature: FeatureNavigation,
-        val clearStack: Boolean = true,
+    data class ReplaceApp(
+        val app: AppNavigation,
     ) : NavigationAction
 
+    @Parcelize
+    data class SwitchFeature(
+        val feature: FeatureNavigation,
+        val clearStack: Boolean = false,
+    ) : NavigationAction
 
     @Parcelize
     data class SwitchApp(
         val app: AppNavigation,
-        val clearStack: Boolean = true,
+        val clearStack: Boolean = false,
     ) : NavigationAction
 
     @Parcelize

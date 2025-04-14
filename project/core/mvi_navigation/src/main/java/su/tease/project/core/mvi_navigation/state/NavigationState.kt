@@ -8,5 +8,5 @@ import su.tease.project.core.mvi.api.state.State
 @Parcelize
 data class NavigationState(
     val root: RootNavigation = baseRootNavigation,
-    val top: PageNavigation = baseRootNavigation.top
+    val top: PageNavigation = baseRootNavigation.page
 ) : State

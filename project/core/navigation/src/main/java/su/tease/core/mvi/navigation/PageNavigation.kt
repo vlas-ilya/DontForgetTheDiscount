@@ -9,6 +9,6 @@ data class PageNavigation(
 ) : Navigation {
 
     @IgnoredOnParcel
-    override val top
+    override val page
         get() = this
 }

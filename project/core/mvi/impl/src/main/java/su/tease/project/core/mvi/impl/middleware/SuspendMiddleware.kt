@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package su.tease.project.core.mvi.impl.middleware
 
 import su.tease.project.core.mvi.api.action.Action

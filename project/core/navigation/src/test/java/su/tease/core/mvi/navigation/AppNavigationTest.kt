@@ -50,7 +50,7 @@ class AppNavigationTest {
 
     @Test
     fun `AppNavigation top returns last page`() {
-        val top = stubApp.top
+        val top = stubApp.page
 
         assertEquals(PageNavigation(StubPage.Page7("7")), top)
     }
@@ -59,8 +59,8 @@ class AppNavigationTest {
     fun `AppNavigation forward to page`() {
         val newApp = stubApp.forward(PageNavigation(StubPage.Page8("8")))
 
-        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.top)
-        assertEquals(PageNavigation(StubPage.Page8("8")), newApp?.top)
+        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
+        assertEquals(PageNavigation(StubPage.Page8("8")), newApp?.page)
 
         assertEquals(
             AppNavigation(
@@ -109,8 +109,8 @@ class AppNavigationTest {
     fun `AppNavigation forward to new page with singleTop`() {
         val newApp = stubApp.forward(PageNavigation(StubPage.Page8("8")), singleTop = true)
 
-        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.top)
-        assertEquals(PageNavigation(StubPage.Page8("8")), newApp?.top)
+        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
+        assertEquals(PageNavigation(StubPage.Page8("8")), newApp?.page)
 
         assertEquals(
             AppNavigation(
@@ -159,8 +159,8 @@ class AppNavigationTest {
     fun `AppNavigation forward to existed in other feature page with singleTop`() {
         val newApp = stubApp.forward(PageNavigation(StubPage.Page1), singleTop = true)
 
-        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.top)
-        assertEquals(PageNavigation(StubPage.Page1), newApp?.top)
+        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
+        assertEquals(PageNavigation(StubPage.Page1), newApp?.page)
 
         assertEquals(
             AppNavigation(
@@ -209,8 +209,8 @@ class AppNavigationTest {
     fun `AppNavigation forward to existed in last feature page with singleTop`() {
         val newApp = stubApp.forward(PageNavigation(StubPage.Page6("6")), singleTop = true)
 
-        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.top)
-        assertEquals(PageNavigation(StubPage.Page6("6")), newApp?.top)
+        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
+        assertEquals(PageNavigation(StubPage.Page6("6")), newApp?.page)
 
         assertEquals(
             AppNavigation(
@@ -258,8 +258,8 @@ class AppNavigationTest {
     fun `AppNavigation forward to existed in last feature last page with singleTop`() {
         val newApp = stubApp.forward(PageNavigation(StubPage.Page7("7")), singleTop = true)
 
-        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.top)
-        assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.top)
+        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
+        assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.page)
 
         assertEquals(
             AppNavigation(
@@ -307,8 +307,8 @@ class AppNavigationTest {
     fun `AppNavigation forward to existed in last feature last page without singleTop`() {
         val newApp = stubApp.forward(PageNavigation(StubPage.Page7("7")))
 
-        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.top)
-        assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.top)
+        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
+        assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.page)
 
         assertEquals(
             AppNavigation(
@@ -368,8 +368,8 @@ class AppNavigationTest {
             ),
         )
 
-        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.top)
-        assertEquals(PageNavigation(StubPage.Page7("7.1")), newApp.top)
+        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
+        assertEquals(PageNavigation(StubPage.Page7("7.1")), newApp.page)
 
         assertEquals(
             AppNavigation(
@@ -433,8 +433,8 @@ class AppNavigationTest {
             singleTop = true
         )
 
-        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.top)
-        assertEquals(PageNavigation(StubPage.Page5("5")), newApp.top)
+        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
+        assertEquals(PageNavigation(StubPage.Page5("5")), newApp.page)
 
         assertEquals(
             AppNavigation(
@@ -487,8 +487,8 @@ class AppNavigationTest {
             ),
         )
 
-        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.top)
-        assertEquals(PageNavigation(StubPage.Page7("7.1")), newApp?.top)
+        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
+        assertEquals(PageNavigation(StubPage.Page7("7.1")), newApp?.page)
 
         assertEquals(
             AppNavigation(
@@ -551,8 +551,8 @@ class AppNavigationTest {
             ),
         )
 
-        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.top)
-        assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.top)
+        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
+        assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.page)
 
         assertEquals(
             AppNavigation(
@@ -606,8 +606,8 @@ class AppNavigationTest {
             cleanStack = true,
         )
 
-        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.top)
-        assertEquals(PageNavigation(StubPage.Page5("5")), newApp?.top)
+        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
+        assertEquals(PageNavigation(StubPage.Page5("5")), newApp?.page)
 
         assertEquals(
             AppNavigation(
@@ -653,8 +653,8 @@ class AppNavigationTest {
     fun `AppNavigation back`() {
         val newApp = stubApp.back()
 
-        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.top)
-        assertEquals(PageNavigation(StubPage.Page6("6")), newApp?.top)
+        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
+        assertEquals(PageNavigation(StubPage.Page6("6")), newApp?.page)
 
         assertEquals(
             AppNavigation(
@@ -701,8 +701,8 @@ class AppNavigationTest {
     fun `AppNavigation back and close the feature`() {
         val newApp = stubApp.back()?.back()?.back()
 
-        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.top)
-        assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.top)
+        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
+        assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.page)
 
         assertEquals(
             AppNavigation(
@@ -755,7 +755,7 @@ class AppNavigationTest {
             ?.back()?.back()?.back()
             ?.back()?.back()?.back()
 
-        assertEquals(PageNavigation(StubPage.Page5("5")), newApp?.top)
+        assertEquals(PageNavigation(StubPage.Page5("5")), newApp?.page)
 
         assertEquals(
             AppNavigation(
@@ -782,8 +782,8 @@ class AppNavigationTest {
     fun `AppNavigation back to last page`() {
         val newApp = stubApp.backTo(PageNavigation(StubPage.Page7("?")))
 
-        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.top)
-        assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.top)
+        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
+        assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.page)
 
         assertEquals(
             AppNavigation(
@@ -831,8 +831,8 @@ class AppNavigationTest {
     fun `AppNavigation back to some existed page`() {
         val newApp = stubApp.backTo(PageNavigation(StubPage.Page6("?")))
 
-        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.top)
-        assertEquals(PageNavigation(StubPage.Page6("6")), newApp?.top)
+        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
+        assertEquals(PageNavigation(StubPage.Page6("6")), newApp?.page)
 
         assertEquals(
             AppNavigation(
@@ -879,8 +879,8 @@ class AppNavigationTest {
     fun `AppNavigation back to not existed page`() {
         val newApp = stubApp.backTo(PageNavigation(StubPage.Page1))
 
-        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.top)
-        assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.top)
+        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
+        assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.page)
 
         assertEquals(
             AppNavigation(
@@ -924,8 +924,8 @@ class AppNavigationTest {
             )
         )
 
-        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.top)
-        assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.top)
+        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
+        assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.page)
 
         assertEquals(
             AppNavigation(
@@ -978,8 +978,8 @@ class AppNavigationTest {
             )
         )
 
-        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.top)
-        assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.top)
+        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
+        assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.page)
 
         assertEquals(
             AppNavigation(
@@ -1036,8 +1036,8 @@ class AppNavigationTest {
             )
         )
 
-        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.top)
-        assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.top)
+        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
+        assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.page)
 
         assertEquals(
             AppNavigation(
@@ -1081,8 +1081,8 @@ class AppNavigationTest {
             )
         )
 
-        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.top)
-        assertEquals(PageNavigation(StubPage.Page1), newApp?.top)
+        assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
+        assertEquals(PageNavigation(StubPage.Page1), newApp?.page)
 
         assertEquals(
             AppNavigation(

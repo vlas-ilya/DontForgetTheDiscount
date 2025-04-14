@@ -98,7 +98,7 @@ class RootNavigationTest {
     )
 
     private val stubRoot = RootNavigation(
-        initApplication = AppNavigation(
+        initApp = AppNavigation(
             name = StubApp.App1,
             initFeature = FeatureNavigation(
                 name = StubFeature.Feature1,
@@ -110,7 +110,7 @@ class RootNavigationTest {
 
     @Test
     fun `RootNavigation top returns last page`() {
-        val top = stubRoot.top
+        val top = stubRoot.page
 
         assertEquals(PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")), top)
     }
@@ -119,12 +119,12 @@ class RootNavigationTest {
     fun `RootNavigation forward to page`() {
         val newRoot = stubRoot.forward(PageNavigation(StubPage.Page8("App2 - Feature3 - Page 8")))
 
-        assertEquals(PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")), stubRoot.top)
-        assertEquals(PageNavigation(StubPage.Page8("App2 - Feature3 - Page 8")), newRoot?.top)
+        assertEquals(PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")), stubRoot.page)
+        assertEquals(PageNavigation(StubPage.Page8("App2 - Feature3 - Page 8")), newRoot?.page)
 
         assertEquals(
             RootNavigation(
-                initApplication = AppNavigation(
+                initApp = AppNavigation(
                     name = StubApp.App1,
                     initFeature = FeatureNavigation(
                         name = StubFeature.Feature1,
@@ -167,12 +167,12 @@ class RootNavigationTest {
             singleTop = true
         )
 
-        assertEquals(PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")), stubRoot.top)
-        assertEquals(PageNavigation(StubPage.Page8("App2 - Feature3 - Page 8")), newRoot?.top)
+        assertEquals(PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")), stubRoot.page)
+        assertEquals(PageNavigation(StubPage.Page8("App2 - Feature3 - Page 8")), newRoot?.page)
 
         assertEquals(
             RootNavigation(
-                initApplication = AppNavigation(
+                initApp = AppNavigation(
                     name = StubApp.App1,
                     initFeature = FeatureNavigation(
                         name = StubFeature.Feature1,
@@ -215,8 +215,8 @@ class RootNavigationTest {
             singleTop = true
         )
 
-        assertEquals(PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")), stubRoot.top)
-        assertEquals(PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")), newRoot?.top)
+        assertEquals(PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")), stubRoot.page)
+        assertEquals(PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")), newRoot?.page)
 
         assertEquals(
             stubRoot,
@@ -231,12 +231,12 @@ class RootNavigationTest {
             singleTop = true
         )
 
-        assertEquals(PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")), stubRoot.top)
-        assertEquals(PageNavigation(StubPage.Page6("App2 - Feature3 - New Page 6")), newRoot?.top)
+        assertEquals(PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")), stubRoot.page)
+        assertEquals(PageNavigation(StubPage.Page6("App2 - Feature3 - New Page 6")), newRoot?.page)
 
         assertEquals(
             RootNavigation(
-                initApplication = AppNavigation(
+                initApp = AppNavigation(
                     name = StubApp.App1,
                     initFeature = FeatureNavigation(
                         name = StubFeature.Feature1,
@@ -280,12 +280,12 @@ class RootNavigationTest {
             )
         )
 
-        assertEquals(PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")), stubRoot.top)
-        assertEquals(PageNavigation(StubPage.Page6("App2 - Feature4 - New Page 6")), newRoot?.top)
+        assertEquals(PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")), stubRoot.page)
+        assertEquals(PageNavigation(StubPage.Page6("App2 - Feature4 - New Page 6")), newRoot?.page)
 
         assertEquals(
             RootNavigation(
-                initApplication = AppNavigation(
+                initApp = AppNavigation(
                     name = StubApp.App1,
                     initFeature = FeatureNavigation(
                         name = StubFeature.Feature1,
@@ -326,12 +326,12 @@ class RootNavigationTest {
             singleTop = true,
         )
 
-        assertEquals(PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")), stubRoot.top)
-        assertEquals(PageNavigation(StubPage.Page6("App2 - Feature4 - New Page 6")), newRoot?.top)
+        assertEquals(PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")), stubRoot.page)
+        assertEquals(PageNavigation(StubPage.Page6("App2 - Feature4 - New Page 6")), newRoot?.page)
 
         assertEquals(
             RootNavigation(
-                initApplication = AppNavigation(
+                initApp = AppNavigation(
                     name = StubApp.App1,
                     initFeature = FeatureNavigation(
                         name = StubFeature.Feature1,
@@ -372,12 +372,12 @@ class RootNavigationTest {
             singleTop = true,
         )
 
-        assertEquals(PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")), stubRoot.top)
-        assertEquals(PageNavigation(StubPage.Page5("App2 - Feature3 - Page 5")), newRoot?.top)
+        assertEquals(PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")), stubRoot.page)
+        assertEquals(PageNavigation(StubPage.Page5("App2 - Feature3 - Page 5")), newRoot?.page)
 
         assertEquals(
             RootNavigation(
-                initApplication = AppNavigation(
+                initApp = AppNavigation(
                     name = StubApp.App1,
                     initFeature = FeatureNavigation(
                         name = StubFeature.Feature1,
@@ -416,12 +416,12 @@ class RootNavigationTest {
             ),
         )
 
-        assertEquals(PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")), stubRoot.top)
-        assertEquals(PageNavigation(StubPage.Page5("App2 - Feature3 - Page 5")), newRoot?.top)
+        assertEquals(PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")), stubRoot.page)
+        assertEquals(PageNavigation(StubPage.Page5("App2 - Feature3 - Page 5")), newRoot?.page)
 
         assertEquals(
             RootNavigation(
-                initApplication = AppNavigation(
+                initApp = AppNavigation(
                     name = StubApp.App1,
                     initFeature = FeatureNavigation(
                         name = StubFeature.Feature1,
@@ -462,12 +462,12 @@ class RootNavigationTest {
             singleTop = true
         )
 
-        assertEquals(PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")), stubRoot.top)
-        assertEquals(PageNavigation(StubPage.Page5("App2 - Feature2 - Page 5")), newRoot?.top)
+        assertEquals(PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")), stubRoot.page)
+        assertEquals(PageNavigation(StubPage.Page5("App2 - Feature2 - Page 5")), newRoot?.page)
 
         assertEquals(
             RootNavigation(
-                initApplication = AppNavigation(
+                initApp = AppNavigation(
                     name = StubApp.App1,
                     initFeature = FeatureNavigation(
                         name = StubFeature.Feature1,

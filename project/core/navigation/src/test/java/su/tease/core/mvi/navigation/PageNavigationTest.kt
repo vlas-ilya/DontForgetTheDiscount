@@ -10,7 +10,7 @@ class PageNavigationTest {
     fun `PageNavigation top returns this`() {
         val pageNavigation = PageNavigation(StubPage.Page1)
 
-        val top = pageNavigation.top
+        val top = pageNavigation.page
 
         assertEquals(pageNavigation, top)
     }

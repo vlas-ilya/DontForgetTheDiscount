@@ -21,7 +21,7 @@ class FeatureNavigationTest {
             ),
         )
 
-        val top = feature.top
+        val top = feature.page
 
         assertEquals(PageNavigation(StubPage.Page3), top)
     }
@@ -40,8 +40,8 @@ class FeatureNavigationTest {
 
         val newFeature = feature.forward(PageNavigation(StubPage.Page4))
 
-        assertEquals(PageNavigation(StubPage.Page3), feature.top)
-        assertEquals(PageNavigation(StubPage.Page4), newFeature.top)
+        assertEquals(PageNavigation(StubPage.Page3), feature.page)
+        assertEquals(PageNavigation(StubPage.Page4), newFeature.page)
     }
 
     @Test
@@ -58,7 +58,7 @@ class FeatureNavigationTest {
 
         val newFeature = feature.forward(PageNavigation(StubPage.Page4), singleTop = true)
 
-        assertEquals(PageNavigation(StubPage.Page3), feature.top)
+        assertEquals(PageNavigation(StubPage.Page3), feature.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),
@@ -68,7 +68,7 @@ class FeatureNavigationTest {
             feature.stack
         )
 
-        assertEquals(PageNavigation(StubPage.Page4), newFeature.top)
+        assertEquals(PageNavigation(StubPage.Page4), newFeature.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),
@@ -94,7 +94,7 @@ class FeatureNavigationTest {
 
         val newFeature = feature.forward(PageNavigation(StubPage.Page2), singleTop = true)
 
-        assertEquals(PageNavigation(StubPage.Page3), feature.top)
+        assertEquals(PageNavigation(StubPage.Page3), feature.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),
@@ -104,7 +104,7 @@ class FeatureNavigationTest {
             feature.stack
         )
 
-        assertEquals(PageNavigation(StubPage.Page2), newFeature.top)
+        assertEquals(PageNavigation(StubPage.Page2), newFeature.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),
@@ -129,7 +129,7 @@ class FeatureNavigationTest {
 
         val newFeature = feature.forward(PageNavigation(StubPage.Page5("test 1")), singleTop = true)
 
-        assertEquals(PageNavigation(StubPage.Page3), feature.top)
+        assertEquals(PageNavigation(StubPage.Page3), feature.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),
@@ -139,7 +139,7 @@ class FeatureNavigationTest {
             feature.stack
         )
 
-        assertEquals(PageNavigation(StubPage.Page5("test 1")), newFeature.top)
+        assertEquals(PageNavigation(StubPage.Page5("test 1")), newFeature.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),
@@ -164,7 +164,7 @@ class FeatureNavigationTest {
 
         val newFeature = feature.forward(PageNavigation(StubPage.Page3), singleTop = true)
 
-        assertEquals(PageNavigation(StubPage.Page3), feature.top)
+        assertEquals(PageNavigation(StubPage.Page3), feature.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),
@@ -174,7 +174,7 @@ class FeatureNavigationTest {
             feature.stack
         )
 
-        assertEquals(PageNavigation(StubPage.Page3), newFeature.top)
+        assertEquals(PageNavigation(StubPage.Page3), newFeature.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),
@@ -199,7 +199,7 @@ class FeatureNavigationTest {
 
         val newFeature = feature.forward(PageNavigation(StubPage.Page3))
 
-        assertEquals(PageNavigation(StubPage.Page3), feature.top)
+        assertEquals(PageNavigation(StubPage.Page3), feature.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),
@@ -209,7 +209,7 @@ class FeatureNavigationTest {
             feature.stack
         )
 
-        assertEquals(PageNavigation(StubPage.Page3), newFeature.top)
+        assertEquals(PageNavigation(StubPage.Page3), newFeature.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),
@@ -235,7 +235,7 @@ class FeatureNavigationTest {
 
         val newFeature = feature.forward(PageNavigation(StubPage.Page2))
 
-        assertEquals(PageNavigation(StubPage.Page3), feature.top)
+        assertEquals(PageNavigation(StubPage.Page3), feature.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),
@@ -245,7 +245,7 @@ class FeatureNavigationTest {
             feature.stack
         )
 
-        assertEquals(PageNavigation(StubPage.Page2), newFeature.top)
+        assertEquals(PageNavigation(StubPage.Page2), newFeature.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),
@@ -271,7 +271,7 @@ class FeatureNavigationTest {
 
         val newFeature = feature.back()
 
-        assertEquals(PageNavigation(StubPage.Page3), feature.top)
+        assertEquals(PageNavigation(StubPage.Page3), feature.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),
@@ -281,7 +281,7 @@ class FeatureNavigationTest {
             feature.stack
         )
 
-        assertEquals(PageNavigation(StubPage.Page2), newFeature?.top)
+        assertEquals(PageNavigation(StubPage.Page2), newFeature?.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),
@@ -303,7 +303,7 @@ class FeatureNavigationTest {
 
         val newFeature = feature.back()
 
-        assertEquals(PageNavigation(StubPage.Page1), feature.top)
+        assertEquals(PageNavigation(StubPage.Page1), feature.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),
@@ -328,7 +328,7 @@ class FeatureNavigationTest {
 
         val newFeature = feature.backTo(PageNavigation(StubPage.Page3))
 
-        assertEquals(PageNavigation(StubPage.Page3), feature.top)
+        assertEquals(PageNavigation(StubPage.Page3), feature.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),
@@ -338,7 +338,7 @@ class FeatureNavigationTest {
             feature.stack
         )
 
-        assertEquals(PageNavigation(StubPage.Page3), newFeature?.top)
+        assertEquals(PageNavigation(StubPage.Page3), newFeature?.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),
@@ -363,7 +363,7 @@ class FeatureNavigationTest {
 
         val newFeature = feature.backTo(PageNavigation(StubPage.Page2))
 
-        assertEquals(PageNavigation(StubPage.Page3), feature.top)
+        assertEquals(PageNavigation(StubPage.Page3), feature.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),
@@ -373,7 +373,7 @@ class FeatureNavigationTest {
             feature.stack
         )
 
-        assertEquals(PageNavigation(StubPage.Page2), newFeature?.top)
+        assertEquals(PageNavigation(StubPage.Page2), newFeature?.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),
@@ -397,7 +397,7 @@ class FeatureNavigationTest {
 
         val newFeature = feature.backTo(PageNavigation(StubPage.Page1))
 
-        assertEquals(PageNavigation(StubPage.Page3), feature.top)
+        assertEquals(PageNavigation(StubPage.Page3), feature.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),
@@ -407,7 +407,7 @@ class FeatureNavigationTest {
             feature.stack
         )
 
-        assertEquals(PageNavigation(StubPage.Page1), newFeature?.top)
+        assertEquals(PageNavigation(StubPage.Page1), newFeature?.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),
@@ -430,7 +430,7 @@ class FeatureNavigationTest {
 
         val newFeature = feature.backTo(PageNavigation(StubPage.Page4))
 
-        assertEquals(PageNavigation(StubPage.Page3), feature.top)
+        assertEquals(PageNavigation(StubPage.Page3), feature.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),
@@ -459,7 +459,7 @@ class FeatureNavigationTest {
 
         val newFeature = feature.backTo(PageNavigation(StubPage.Page5("")))
 
-        assertEquals(PageNavigation(StubPage.Page3), feature.top)
+        assertEquals(PageNavigation(StubPage.Page3), feature.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),
@@ -469,7 +469,7 @@ class FeatureNavigationTest {
             feature.stack
         )
 
-        assertEquals(PageNavigation(StubPage.Page5("test")), newFeature?.top)
+        assertEquals(PageNavigation(StubPage.Page5("test")), newFeature?.page)
         assertEquals(
             makeStack(
                 PageNavigation(StubPage.Page1),

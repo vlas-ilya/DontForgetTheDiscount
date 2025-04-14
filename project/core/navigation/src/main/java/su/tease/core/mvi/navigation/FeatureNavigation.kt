@@ -16,8 +16,8 @@ data class FeatureNavigation(
 ) : Navigation {
 
     @IgnoredOnParcel
-    override val top
-        get() = stack.value.top
+    override val page
+        get() = stack.value.page
 
     @IgnoredOnParcel
     private val compare: (PageNavigation, PageNavigation) -> Boolean =

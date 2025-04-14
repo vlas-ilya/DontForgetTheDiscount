@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.decompose)
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
+    implementation(libs.koin.android)
 
     // compose
     val composeBom = platform(libs.compose.bom)
@@ -93,8 +94,15 @@ dependencies {
     implementation(libs.retrofit)
 
     // project
-    implementation(project(":project:design:theme:api"))
+    implementation(project(":project:feature:main"))
+    implementation(project(":project:feature:splash"))
     implementation(project(":project:design:theme:impl"))
+    implementation(project(":project:design:theme:api"))
     implementation(project(":project:core:mvi:api"))
     implementation(project(":project:core:mvi:impl"))
+    implementation(project(":project:core:mvi_android"))
+    implementation(project(":project:core:miv_component"))
+    implementation(project(":project:core:mvi_navigation"))
+    implementation(project(":project:core:navigation"))
+    implementation(project(":project:core:utils"))
 }
