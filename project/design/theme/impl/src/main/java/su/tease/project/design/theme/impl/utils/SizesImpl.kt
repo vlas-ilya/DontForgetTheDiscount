@@ -7,7 +7,6 @@ import su.tease.design.theme.api.Sizes
 import su.tease.project.design.theme.impl.ThemeValue
 
 internal data class SizesImpl(
-    override val navigationHeight: Dp,
     override val pagePadding: PaddingValues,
 ) : Sizes {
 
@@ -20,8 +19,7 @@ internal data class SizesImpl(
 }
 
 private fun makeLightSizes(): Sizes = SizesImpl(
-    navigationHeight = 40.dp,
-    pagePadding = PaddingValues(4.dp)
+    pagePadding = PaddingValues(4.dp),
 )
 
 private fun makeNightSizes(): Sizes = makeLightSizes()

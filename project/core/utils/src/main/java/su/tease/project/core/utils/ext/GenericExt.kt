@@ -11,3 +11,5 @@ inline fun <T, R> T.letIf(condition: Boolean, block: (T) -> R): R? =
     if (condition) block(this) else null
 
 fun <T> T.unit(): Unit = Unit
+
+fun <T> Boolean.choose(then: T, other: T): T = if (this) then else other

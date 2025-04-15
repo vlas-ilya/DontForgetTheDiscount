@@ -6,6 +6,5 @@ import androidx.compose.ui.unit.Dp
 
 @Immutable
 interface Sizes {
-    val navigationHeight: Dp
     val pagePadding: PaddingValues
 }

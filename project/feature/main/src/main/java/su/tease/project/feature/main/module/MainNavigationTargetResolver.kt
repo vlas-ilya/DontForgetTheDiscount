@@ -21,6 +21,8 @@ import su.tease.project.feature.main.presentation.MainPage2
 import su.tease.project.feature.main.presentation.MainPage2NavigationTarget
 import su.tease.project.feature.main.presentation.MainPage3
 import su.tease.project.feature.main.presentation.MainPage3NavigationTarget
+import su.tease.project.feature.main.presentation.MainPage4
+import su.tease.project.feature.main.presentation.MainPage4NavigationTarget
 
 class MainNavigationTargetResolver<S : State>(
     private val store: Store<S>
@@ -30,6 +32,7 @@ class MainNavigationTargetResolver<S : State>(
         is MainPage1NavigationTarget -> MainPage1(store)
         is MainPage2NavigationTarget -> MainPage2(store)
         is MainPage3NavigationTarget -> MainPage3(store)
+        is MainPage4NavigationTarget -> MainPage4(store)
         else -> null
     }
 

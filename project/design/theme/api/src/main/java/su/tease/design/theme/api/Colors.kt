@@ -7,4 +7,7 @@ import androidx.compose.ui.graphics.Color
 interface Colors {
     val background: Color
     val text: Color
+    val navigationBarBackground: Color
+    val navigationItemContent: Color
+    val navigationItemContentSelected: Color
 }

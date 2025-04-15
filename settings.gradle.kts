@@ -23,6 +23,8 @@ rootProject.name = "Don't Forget The Discount"
 include(":project:app")
 include(":project:feature:main")
 include(":project:feature:splash")
+include(":project:design:component:navigation_bar")
+include(":project:design:icons")
 include(":project:design:theme:impl")
 include(":project:design:theme:api")
 include(":project:core:mvi:api")

@@ -96,6 +96,8 @@ dependencies {
     // project
     implementation(project(":project:feature:main"))
     implementation(project(":project:feature:splash"))
+    implementation(project(":project:design:icons"))
+    implementation(project(":project:design:component:navigation_bar"))
     implementation(project(":project:design:theme:impl"))
     implementation(project(":project:design:theme:api"))
     implementation(project(":project:core:mvi:api"))

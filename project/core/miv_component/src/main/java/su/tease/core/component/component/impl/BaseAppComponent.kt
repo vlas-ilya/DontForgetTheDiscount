@@ -14,7 +14,7 @@ abstract class BaseAppComponent<S : State>(
     open fun RootContainerConfiguration.configure() {}
 
     @Composable
-    open fun NavigationBar(target: NavigationTarget.Feature) {}
+    open fun ComposeNavigationBar(target: NavigationTarget.Feature) {}
 
     @Composable
     @Deprecated(

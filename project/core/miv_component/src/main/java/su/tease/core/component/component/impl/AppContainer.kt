@@ -55,7 +55,7 @@ class AppContainer<S : State>(
                         .align(Alignment.BottomCenter)
                         .fillMaxWidth()
                 ) {
-                    appComponent.NavigationBar(featureTarget.name)
+                    appComponent.ComposeNavigationBar(featureTarget.name)
                 }
             }
         }

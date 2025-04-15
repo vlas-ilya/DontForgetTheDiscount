@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "su.tease.project.feature.main"
+    namespace = "su.tease.design.component.navigation_bar"
     compileSdk = 35
 
     defaultConfig {
@@ -41,8 +41,8 @@ dependencies {
     implementation(libs.koin.core)
 
     // core
-    implementation(libs.kotlin.collections.immutable)
     implementation(libs.kotlin.coroutines.core)
+    implementation(libs.kotlin.collections.immutable)
     testImplementation(libs.junit)
     testImplementation(libs.kotlin.coroutines.test)
 
@@ -60,13 +60,7 @@ dependencies {
 
     // project
     implementation(project(":project:design:icons"))
-    implementation(project(":project:design:component:navigation_bar"))
     implementation(project(":project:design:theme:impl"))
     implementation(project(":project:design:theme:api"))
-    implementation(project(":project:core:mvi:api"))
-    implementation(project(":project:core:mvi:impl"))
-    implementation(project(":project:core:miv_component"))
-    implementation(project(":project:core:mvi_navigation"))
-    implementation(project(":project:core:navigation"))
     implementation(project(":project:core:utils"))
 }
