@@ -4,9 +4,7 @@ import androidx.compose.runtime.Composable
 import su.tease.project.core.mvi.api.state.State
 import su.tease.project.core.mvi.api.store.Store
 
-abstract class BaseRootComponent<S : State>(
-    store: Store<S>,
-) : BaseMviComponent<S>(store) {
+abstract class BaseRootComponent : BaseMviComponent() {
 
     @Composable
     @Deprecated(

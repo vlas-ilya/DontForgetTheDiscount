@@ -1,11 +1,10 @@
 package su.tease.project.core.mvi_navigation.state
 
 import kotlinx.parcelize.Parcelize
-import su.tease.core.mvi.navigation.AppNavigation
 import su.tease.core.mvi.navigation.FeatureNavigation
 import su.tease.core.mvi.navigation.NavigationTarget
-import su.tease.core.mvi.navigation.PageNavigation
 import su.tease.core.mvi.navigation.RootNavigation
+import su.tease.core.mvi.navigation.app
 
 @Parcelize
 data object AppNavigationTarget : NavigationTarget.App
@@ -20,25 +19,21 @@ data object SplashNavigationTarget : NavigationTarget.Page
 data object FinishNavigationTarget : NavigationTarget.Page
 
 val baseRootNavigation: RootNavigation = RootNavigation(
-    initApp = AppNavigation(
-        name = AppNavigationTarget,
-        initFeature = FeatureNavigation(
+    initApp = app(
+        AppNavigationTarget,
+        FeatureNavigation(
             name = MainFeatureNavigationTarget,
-            initPage = PageNavigation(
-                name = SplashNavigationTarget
-            )
-        )
+            initPage = SplashNavigationTarget,
+        ),
     )
 )
 
 val finishRootNavigationTarget = RootNavigation(
-    initApp = AppNavigation(
-        name = AppNavigationTarget,
-        initFeature = FeatureNavigation(
+    initApp = app(
+        AppNavigationTarget,
+        FeatureNavigation(
             name = MainFeatureNavigationTarget,
-            initPage = PageNavigation(
-                name = FinishNavigationTarget
-            )
-        )
+            initPage = FinishNavigationTarget,
+        ),
     )
 )

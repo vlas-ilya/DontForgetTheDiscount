@@ -10,6 +10,7 @@ import su.tease.project.core.utils.stack.last
 import su.tease.project.core.utils.stack.moveToUp
 import su.tease.project.core.utils.stack.removeLast
 import su.tease.project.core.utils.stack.replaceLast
+import kotlin.reflect.KClass
 
 @Parcelize
 data class RootNavigation(
@@ -33,7 +34,7 @@ data class RootNavigation(
     private val compare: (AppNavigation, AppNavigation) -> Boolean =
         { o1, o2 -> o1.name.some(o2.name) }
 
-    fun forward(page: PageNavigation, singleTop: Boolean = false): RootNavigation? = stack
+    fun forward(page: NavigationTarget.Page, singleTop: Boolean = false): RootNavigation? = stack
         .replaceLast(stack.value.forward(page, singleTop))
         ?.let { copy(stack = it) }
 
@@ -52,7 +53,7 @@ data class RootNavigation(
 
     fun switchTo(app: AppNavigation, cleanStack: Boolean = false): RootNavigation? = app
         .let { stack.last { it.name == app.name } ?: app }
-        .tryTransformIf(cleanStack) { it.backTo(it.initFeature) }
+        .tryTransformIf(cleanStack) { it.backToFeature(it.initFeature) }
         ?.let { stack.moveToUp(it, compare) }
         ?.let { copy(stack = it) }
 
@@ -60,24 +61,45 @@ data class RootNavigation(
         .replaceLast(stack.value.back())
         ?.let { copy(stack = it) }
 
-    fun backTo(page: PageNavigation): RootNavigation? = stack
-        .replaceLast(stack.value.backTo(page))
+    fun backToPage(page: NavigationTarget.Page): RootNavigation? = stack
+        .replaceLast(stack.value.backToPage(page))
         ?.let { copy(stack = it) }
 
-    fun backTo(feature: FeatureNavigation): RootNavigation? = stack
-        .replaceLast(stack.value.backTo(feature))
+    fun backToPage(page: KClass<NavigationTarget.Page>): RootNavigation? = stack
+        .replaceLast(stack.value.backToPage(page))
         ?.let { copy(stack = it) }
 
-    fun backTo(app: AppNavigation): RootNavigation? = stack
+    fun backToFeature(feature: FeatureNavigation): RootNavigation? = stack
+        .replaceLast(stack.value.backToFeature(feature))
+        ?.let { copy(stack = it) }
+
+    fun backToFeature(feature: KClass<FeatureNavigation>): RootNavigation? = stack
+        .replaceLast(stack.value.backToFeature(feature))
+        ?.let { copy(stack = it) }
+
+    fun backToApp(app: AppNavigation): RootNavigation? = stack
         .dropLastWhile { compare(it, app).not() }
         ?.let { copy(stack = it) }
 
-    fun finish(feature: FeatureNavigation): RootNavigation? = stack
-        .replaceLast(stack.value.finish(feature))
+    fun backToApp(app: KClass<AppNavigation>): RootNavigation? = stack
+        .dropLastWhile { it.name::class != app }
         ?.let { copy(stack = it) }
 
-    fun finish(app: AppNavigation): RootNavigation? = stack
+    fun finishFeature(feature: FeatureNavigation): RootNavigation? = stack
+        .replaceLast(stack.value.finishFeature(feature))
+        ?.let { copy(stack = it) }
+
+    fun finishFeature(feature: KClass<FeatureNavigation>): RootNavigation? = stack
+        .replaceLast(stack.value.finishFeature(feature))
+        ?.let { copy(stack = it) }
+
+    fun finishApp(app: AppNavigation): RootNavigation? = stack
         .dropLastWhile { compare(it, app).not() }
+        ?.removeLast()
+        ?.let { copy(stack = it) }
+
+    fun finishApp(app: KClass<AppNavigation>): RootNavigation? = stack
+        .dropLastWhile { it.name::class != app }
         ?.removeLast()
         ?.let { copy(stack = it) }
 

@@ -6,17 +6,14 @@ import androidx.compose.runtime.LaunchedEffect
 import kotlinx.coroutines.delay
 import su.tease.core.component.component.impl.BasePageComponent
 import su.tease.project.core.mvi.api.state.State
+import su.tease.project.core.mvi.api.store.Dispatcher
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi_navigation.action.NavigationAction
-import su.tease.project.core.mvi_navigation.state.SplashNavigationTarget
-import su.tease.project.feature.main.presentation.mainApp1Navigation
+import su.tease.project.feature.main.presentation.MainApp1
 
 class SplashPageComponent<S : State>(
     store: Store<S>,
-) : BasePageComponent<S>(
-    store = store,
-    target = SplashNavigationTarget,
-) {
+) : BasePageComponent(), Store<S> by store, Dispatcher by store.dispatcher {
 
     @Composable
     override fun Compose() {
@@ -24,7 +21,7 @@ class SplashPageComponent<S : State>(
 
         LaunchedEffect(Unit) {
             delay(1000)
-            dispatch(NavigationAction.ReplaceApp(mainApp1Navigation))
+            dispatch(NavigationAction.ReplaceApp(MainApp1("From Splash")))
         }
     }
 }

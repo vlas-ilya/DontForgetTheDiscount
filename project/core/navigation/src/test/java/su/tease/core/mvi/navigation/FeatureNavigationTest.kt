@@ -326,7 +326,7 @@ class FeatureNavigationTest {
             ),
         )
 
-        val newFeature = feature.backTo(PageNavigation(StubPage.Page3))
+        val newFeature = feature.backToPage(PageNavigation(StubPage.Page3))
 
         assertEquals(PageNavigation(StubPage.Page3), feature.page)
         assertEquals(
@@ -361,7 +361,7 @@ class FeatureNavigationTest {
             ),
         )
 
-        val newFeature = feature.backTo(PageNavigation(StubPage.Page2))
+        val newFeature = feature.backToPage(PageNavigation(StubPage.Page2))
 
         assertEquals(PageNavigation(StubPage.Page3), feature.page)
         assertEquals(
@@ -395,7 +395,7 @@ class FeatureNavigationTest {
             ),
         )
 
-        val newFeature = feature.backTo(PageNavigation(StubPage.Page1))
+        val newFeature = feature.backToPage(PageNavigation(StubPage.Page1))
 
         assertEquals(PageNavigation(StubPage.Page3), feature.page)
         assertEquals(
@@ -428,7 +428,7 @@ class FeatureNavigationTest {
             ),
         )
 
-        val newFeature = feature.backTo(PageNavigation(StubPage.Page4))
+        val newFeature = feature.backToPage(PageNavigation(StubPage.Page4))
 
         assertEquals(PageNavigation(StubPage.Page3), feature.page)
         assertEquals(
@@ -457,7 +457,7 @@ class FeatureNavigationTest {
             ),
         )
 
-        val newFeature = feature.backTo(PageNavigation(StubPage.Page5("")))
+        val newFeature = feature.backToPage(PageNavigation(StubPage.Page5("")))
 
         assertEquals(PageNavigation(StubPage.Page3), feature.page)
         assertEquals(

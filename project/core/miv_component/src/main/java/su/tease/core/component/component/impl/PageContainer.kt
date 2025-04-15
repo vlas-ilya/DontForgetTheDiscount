@@ -29,7 +29,6 @@ class PageContainer<S : State>(
         val pageTarget = store.select(page()).collectAsState(null).value ?: return
 
         val pageComponent = navigationTargetResolver.resolve(pageTarget.name)
-            ?: error("There are no page component")
 
         LaunchedEffect(pageTarget) {
             pageComponent.run {

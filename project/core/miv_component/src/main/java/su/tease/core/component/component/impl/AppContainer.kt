@@ -33,7 +33,6 @@ class AppContainer<S : State>(
         val featureTarget = store.select(feature()).collectAsState(null).value ?: return
 
         val appComponent = navigationTargetResolver.resolve(appTarget.name)
-            ?: error("There are no app component")
 
         LaunchedEffect(appTarget) {
             appComponent.run {

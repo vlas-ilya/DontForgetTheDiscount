@@ -11,31 +11,22 @@ import androidx.compose.ui.res.painterResource
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.parcelize.Parcelize
 import su.tease.core.component.component.impl.BaseAppComponent
-import su.tease.core.mvi.navigation.AppNavigation
 import su.tease.core.mvi.navigation.NavigationTarget
+import su.tease.core.mvi.navigation.app
 import su.tease.design.component.navigation_bar.NavigationBar
 import su.tease.design.component.navigation_bar.data.NavigationBarItemData
 import su.tease.project.core.mvi.api.state.State
+import su.tease.project.core.mvi.api.store.Dispatcher
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.impl.selector.select
 import su.tease.project.core.mvi_navigation.action.NavigationAction
 import su.tease.project.core.mvi_navigation.selector.feature
 import su.tease.project.design.icons.R
 
-@Parcelize
-data object MainApp1NavigationTarget : NavigationTarget.App
-
-val mainApp1Navigation = AppNavigation(
-    name = MainApp1NavigationTarget,
-    initFeature = mainFeature1Navigation,
-)
-
 class MainApp1<S : State>(
     store: Store<S>,
-) : BaseAppComponent<S>(
-    store = store,
-    target = MainApp1NavigationTarget,
-) {
+) : BaseAppComponent(), Store<S> by store, Dispatcher by store.dispatcher {
+
     @Composable
     override fun Compose(child: @Composable () -> Unit) {
         Column(
@@ -43,7 +34,7 @@ class MainApp1<S : State>(
         ) {
             Text("MainApp1")
             Button(
-                onClick = { dispatch(NavigationAction.SwitchApp(mainApp2Navigation)) }
+                onClick = { dispatch(NavigationAction.SwitchApp(MainApp2())) }
             ) {
                 Text(text = "Switch to App 2")
             }
@@ -59,13 +50,13 @@ class MainApp1<S : State>(
             selected = feature,
             items = persistentListOf(
                 NavigationBarItemData(
-                    value = mainFeature1Navigation,
+                    value = MainFeature1("From App 1"),
                     name = "Feature 1",
                     image = painterResource(R.drawable.antenna)
                 ),
 
                 NavigationBarItemData(
-                    value = mainFeature2Navigation,
+                    value = MainFeature2(),
                     name = "Feature 2",
                     image = painterResource(R.drawable.alarm_clock)
                 )
@@ -74,4 +65,14 @@ class MainApp1<S : State>(
             dispatch(NavigationAction.SwitchFeature(it))
         }
     }
+
+    companion object {
+        operator fun invoke(text: String) = app(
+            Target,
+            MainFeature1(text),
+        )
+    }
+
+    @Parcelize
+    data object Target : NavigationTarget.App
 }

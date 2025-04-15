@@ -6,12 +6,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import su.tease.core.component.component.impl.BaseRootComponent
-import su.tease.project.core.mvi.api.state.State
-import su.tease.project.core.mvi.api.store.Store
 
-class DontForgetTheDiscountRootComponent<S: State>(
-    store: Store<S>,
-): BaseRootComponent<S>(store) {
+class DontForgetTheDiscountRootComponent : BaseRootComponent() {
 
     @Composable
     override fun Compose(child: @Composable () -> Unit) {

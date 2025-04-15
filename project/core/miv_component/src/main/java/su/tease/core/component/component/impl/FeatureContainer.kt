@@ -28,7 +28,6 @@ class FeatureContainer<S : State>(
         val featureTarget = store.select(feature()).collectAsState(null).value ?: return
 
         val featureComponent = navigationTargetResolver.resolve(featureTarget.name)
-            ?: error("There are no feature component")
 
         LaunchedEffect(featureTarget) {
             featureComponent.run {

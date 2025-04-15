@@ -21,11 +21,11 @@ class NavigationReducer : Reducer<NavigationState> {
         action: NavigationAction
     ) = when (action) {
         is NavigationAction.Back -> root.back()
-        is NavigationAction.BackToApp -> root.backTo(action.app)
-        is NavigationAction.BackToFeature -> root.backTo(action.feature)
-        is NavigationAction.BackToPage -> root.backTo(action.page)
-        is NavigationAction.FinishApp -> root.finish(action.app)
-        is NavigationAction.FinishFeature -> root.finish(action.feature)
+        is NavigationAction.BackToApp -> root.backToApp(action.app)
+        is NavigationAction.BackToFeature -> root.backToFeature(action.feature)
+        is NavigationAction.BackToPage -> root.backToPage(action.page)
+        is NavigationAction.FinishApp -> root.finishApp(action.app)
+        is NavigationAction.FinishFeature -> root.finishFeature(action.feature)
         is NavigationAction.ForwardToApp -> root.forward(action.app)
         is NavigationAction.ForwardToFeature -> root.forward(action.feature)
         is NavigationAction.ForwardToPage -> root.forward(action.page)

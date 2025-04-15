@@ -1,8 +1,10 @@
 package su.tease.dontforgetthediscount.module
 
 import org.koin.dsl.module
+import su.tease.core.component.component.provider.AppProvider
+import su.tease.core.component.component.provider.FeatureProvider
+import su.tease.core.component.component.provider.PageProvider
 import su.tease.core.component.resolver.impl.AppNavigationTargetResolver
-import su.tease.core.component.resolver.NavigationTargetResolver
 import su.tease.dontforgetthediscount.component.DontForgetTheDiscountComponent
 import su.tease.project.core.mvi.api.store.Store
 
@@ -16,7 +18,10 @@ val dontForgetTheDiscountModule = module {
 
     factory<AppNavigationTargetResolver> {
         AppNavigationTargetResolver(
-            resolvers = getAll<NavigationTargetResolver>(),
+            scope = this,
+            pages = getAll(),
+            features = getAll(),
+            apps = getAll(),
         )
     }
 }

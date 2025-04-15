@@ -16,7 +16,7 @@ import su.tease.project.core.mvi_navigation.state.FinishNavigationTarget
 
 class RootContainer<S : State>(
     private val store: Store<S>,
-    private val root: BaseRootComponent<S>,
+    private val root: BaseRootComponent,
     private val navigationTargetResolver: NavigationTargetResolver,
 ) : Component, RootContainerConfiguration {
 

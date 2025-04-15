@@ -96,6 +96,7 @@ dependencies {
     // project
     implementation(project(":project:feature:main"))
     implementation(project(":project:feature:splash"))
+    implementation(project(":project:feature:cacheback"))
     implementation(project(":project:design:icons"))
     implementation(project(":project:design:component:navigation_bar"))
     implementation(project(":project:design:theme:impl"))

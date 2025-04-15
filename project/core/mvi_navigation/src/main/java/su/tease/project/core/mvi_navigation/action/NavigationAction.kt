@@ -3,6 +3,7 @@ package su.tease.project.core.mvi_navigation.action
 import kotlinx.parcelize.Parcelize
 import su.tease.core.mvi.navigation.AppNavigation
 import su.tease.core.mvi.navigation.FeatureNavigation
+import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.core.mvi.navigation.PageNavigation
 import su.tease.project.core.mvi.api.action.PlainAction
 
@@ -10,7 +11,7 @@ sealed interface NavigationAction : PlainAction {
 
     @Parcelize
     data class ForwardToPage(
-        val page: PageNavigation,
+        val page: NavigationTarget.Page,
         val singleTop: Boolean = false,
     ) : NavigationAction
 
@@ -46,7 +47,7 @@ sealed interface NavigationAction : PlainAction {
 
     @Parcelize
     data class BackToPage(
-        val page: PageNavigation
+        val page: NavigationTarget.Page
     ) : NavigationAction
 
     @Parcelize

@@ -780,7 +780,7 @@ class AppNavigationTest {
 
     @Test
     fun `AppNavigation back to last page`() {
-        val newApp = stubApp.backTo(PageNavigation(StubPage.Page7("?")))
+        val newApp = stubApp.backToPage(PageNavigation(StubPage.Page7("?")))
 
         assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
         assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.page)
@@ -829,7 +829,7 @@ class AppNavigationTest {
 
     @Test
     fun `AppNavigation back to some existed page`() {
-        val newApp = stubApp.backTo(PageNavigation(StubPage.Page6("?")))
+        val newApp = stubApp.backToPage(PageNavigation(StubPage.Page6("?")))
 
         assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
         assertEquals(PageNavigation(StubPage.Page6("6")), newApp?.page)
@@ -877,7 +877,7 @@ class AppNavigationTest {
 
     @Test
     fun `AppNavigation back to not existed page`() {
-        val newApp = stubApp.backTo(PageNavigation(StubPage.Page1))
+        val newApp = stubApp.backToPage(PageNavigation(StubPage.Page1))
 
         assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
         assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.page)
@@ -917,7 +917,7 @@ class AppNavigationTest {
 
     @Test
     fun `AppNavigation back to last feature`() {
-        val newApp = stubApp.backTo(
+        val newApp = stubApp.backToFeature(
             FeatureNavigation(
                 StubFeature.Feature3,
                 initPage = PageNavigation(StubPage.Page5("?"))
@@ -971,7 +971,7 @@ class AppNavigationTest {
 
     @Test
     fun `AppNavigation back to some existed feature`() {
-        val newApp = stubApp.backTo(
+        val newApp = stubApp.backToFeature(
             FeatureNavigation(
                 StubFeature.Feature2,
                 initPage = PageNavigation(StubPage.Page5("?"))
@@ -1016,7 +1016,7 @@ class AppNavigationTest {
 
     @Test
     fun `AppNavigation back to not existed feature`() {
-        val newApp = stubApp.backTo(
+        val newApp = stubApp.backToFeature(
             FeatureNavigation(
                 StubFeature.Feature4,
                 initPage = PageNavigation(StubPage.Page5("?"))
@@ -1029,7 +1029,7 @@ class AppNavigationTest {
 
     @Test
     fun `AppNavigation finish last feature`() {
-        val newApp = stubApp.finish(
+        val newApp = stubApp.finishFeature(
             FeatureNavigation(
                 StubFeature.Feature3,
                 initPage = PageNavigation(StubPage.Page5("?"))
@@ -1074,7 +1074,7 @@ class AppNavigationTest {
 
     @Test
     fun `AppNavigation finish some existed feature`() {
-        val newApp = stubApp.finish(
+        val newApp = stubApp.finishFeature(
             FeatureNavigation(
                 StubFeature.Feature2,
                 initPage = PageNavigation(StubPage.Page5("?"))
@@ -1110,7 +1110,7 @@ class AppNavigationTest {
 
     @Test
     fun `AppNavigation finish first feature`() {
-        val newApp = stubApp.finish(
+        val newApp = stubApp.finishFeature(
             FeatureNavigation(
                 StubFeature.Feature1,
                 initPage = PageNavigation(StubPage.Page5("?"))
@@ -1121,7 +1121,7 @@ class AppNavigationTest {
 
     @Test
     fun `AppNavigation finish not existed feature`() {
-        val newApp = stubApp.finish(
+        val newApp = stubApp.finishFeature(
             FeatureNavigation(
                 StubFeature.Feature4,
                 initPage = PageNavigation(StubPage.Page5("?"))

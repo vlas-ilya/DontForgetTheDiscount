@@ -6,17 +6,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import su.tease.core.component.component.impl.RootContainer
 import su.tease.core.component.component.impl.BaseMviComponent
-import su.tease.design.theme.api.Theme
+import su.tease.core.component.component.impl.RootContainer
 import su.tease.core.component.resolver.impl.AppNavigationTargetResolver
+import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.state.State
 import su.tease.project.core.mvi.api.store.Store
 
 class DontForgetTheDiscountComponent<S : State>(
-    store: Store<S>,
+    private val store: Store<S>,
     private val navigationTargetResolver: AppNavigationTargetResolver,
-) : BaseMviComponent<S>(store) {
+) : BaseMviComponent() {
 
     @Composable
     override fun Compose() {
@@ -27,10 +27,8 @@ class DontForgetTheDiscountComponent<S : State>(
                 .padding(Theme.sizes.pagePadding)
         ) {
             RootContainer(
-                store = this@DontForgetTheDiscountComponent,
-                root = DontForgetTheDiscountRootComponent(
-                    store = this@DontForgetTheDiscountComponent
-                ),
+                store = store,
+                root = DontForgetTheDiscountRootComponent(),
                 navigationTargetResolver = navigationTargetResolver,
             ).Compose()
         }

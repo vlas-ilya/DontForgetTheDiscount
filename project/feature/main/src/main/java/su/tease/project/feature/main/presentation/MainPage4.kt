@@ -8,24 +8,14 @@ import kotlinx.parcelize.Parcelize
 import su.tease.core.component.component.impl.BasePageComponent
 import su.tease.core.component.utils.AppContainerConfiguration
 import su.tease.core.mvi.navigation.NavigationTarget
-import su.tease.core.mvi.navigation.PageNavigation
 import su.tease.project.core.mvi.api.state.State
+import su.tease.project.core.mvi.api.store.Dispatcher
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi_navigation.action.NavigationAction
 
-@Parcelize
-data object MainPage4NavigationTarget : NavigationTarget.Page
-
-val mainPage4Navigation = PageNavigation(
-    name = MainPage4NavigationTarget
-)
-
 class MainPage4<S : State>(
     store: Store<S>,
-) : BasePageComponent<S>(
-    store = store,
-    target = MainPage4NavigationTarget,
-) {
+) : BasePageComponent(), Store<S> by store, Dispatcher by store.dispatcher {
 
     override fun AppContainerConfiguration.configure() {
         hasNavigationBar = false
@@ -36,10 +26,13 @@ class MainPage4<S : State>(
         Column {
             Text("MainPage4")
             Button(
-                onClick = { dispatch(NavigationAction.ForwardToPage(mainPage1Navigation)) }
+                onClick = { dispatch(NavigationAction.ForwardToPage(MainPage1.Target("From 4"))) }
             ) {
                 Text("Forward To MainPage1")
             }
         }
     }
+
+    @Parcelize
+    data object Target : NavigationTarget.Page
 }

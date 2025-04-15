@@ -7,35 +7,29 @@ import androidx.compose.runtime.Composable
 import kotlinx.parcelize.Parcelize
 import su.tease.core.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
-import su.tease.core.mvi.navigation.PageNavigation
 import su.tease.project.core.mvi.api.state.State
+import su.tease.project.core.mvi.api.store.Dispatcher
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi_navigation.action.NavigationAction
 
-@Parcelize
-data object MainPage1NavigationTarget : NavigationTarget.Page
-
-val mainPage1Navigation = PageNavigation(
-    name = MainPage1NavigationTarget
-)
-
 class MainPage1<S : State>(
     store: Store<S>,
-) : BasePageComponent<S>(
-    store = store,
-    target = MainPage1NavigationTarget,
-) {
+    private val target: Target,
+) : BasePageComponent(), Store<S> by store, Dispatcher by store.dispatcher {
 
     @Composable
     override fun Compose() {
         Column {
-            Text("MainPage1")
+            Text("MainPage1 ${target.text}")
 
             Button(
-                onClick = { dispatch(NavigationAction.ForwardToPage(mainPage2Navigation))}
+                onClick = { dispatch(NavigationAction.ForwardToPage(MainPage2.Target)) }
             ) {
                 Text("Forward To MainPage2")
             }
         }
     }
+
+    @Parcelize
+    data class Target(val text: String) : NavigationTarget.Page
 }
