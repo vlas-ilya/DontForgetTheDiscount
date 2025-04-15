@@ -31,7 +31,7 @@ class SelectorTest {
                 stringValue = expectedStringValue,
                 listStringValue = expectedListStringValue,
             )
-        )
+        ).join()
 
         assertEquals(
             0,
@@ -74,7 +74,7 @@ class SelectorTest {
                 stringValue = expectedStringValue,
                 listStringValue = expectedListStringValue,
             )
-        )
+        ).join()
 
         assertEquals(
             StubState2(
@@ -137,7 +137,7 @@ class SelectorTest {
                 stringValue = expectedStringValue,
                 listStringValue = expectedListStringValue,
             )
-        )
+        ).join()
 
         assertEquals(
             StubState2VO(
@@ -199,7 +199,7 @@ class SelectorTest {
                 stringValue = expectedStringValue,
                 listStringValue = expectedListStringValue,
             )
-        )
+        ).join()
 
         assertEquals(
             StubState2VO(

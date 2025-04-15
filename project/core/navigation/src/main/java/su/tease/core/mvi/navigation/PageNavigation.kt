@@ -11,4 +11,6 @@ data class PageNavigation(
     @IgnoredOnParcel
     override val page
         get() = this
+
+    fun some(feature: PageNavigation) = name.some(feature.name)
 }

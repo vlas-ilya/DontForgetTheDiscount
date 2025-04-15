@@ -11,6 +11,7 @@ import androidx.compose.ui.res.painterResource
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.parcelize.Parcelize
 import su.tease.core.component.component.impl.BaseAppComponent
+import su.tease.core.mvi.navigation.FeatureNavigation
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.core.mvi.navigation.app
 import su.tease.design.component.navigation_bar.NavigationBar
@@ -60,7 +61,8 @@ class MainApp1<S : State>(
                     name = "Feature 2",
                     image = painterResource(R.drawable.alarm_clock)
                 )
-            )
+            ),
+            compare = FeatureNavigation::some,
         ) {
             dispatch(NavigationAction.SwitchFeature(it))
         }

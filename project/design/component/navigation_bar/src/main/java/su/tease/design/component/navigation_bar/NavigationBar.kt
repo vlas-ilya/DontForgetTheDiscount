@@ -34,6 +34,7 @@ fun <T> NavigationBar(
     selected: T,
     items: PersistentList<NavigationBarItemData<T>>,
     modifier: Modifier = Modifier,
+    compare: (T, T) -> Boolean = { a, b -> a == b},
     onSelect: (T) -> Unit,
 ) {
     Box(
@@ -50,7 +51,7 @@ fun <T> NavigationBar(
                 key(it.value) {
                     NavigationBarItem(
                         data = it,
-                        selected = it.value == selected,
+                        selected = compare(it.value, selected),
                         onSelect = onSelect,
                     )
                 }

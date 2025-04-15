@@ -11,7 +11,7 @@ class RootNavigationTest {
 
     private val stubApp1Feature1 = FeatureNavigation(
         name = StubFeature.Feature1,
-        initPage = PageNavigation(StubPage.Page5("App1 - Feature1 - Page 5")),
+        initPage = StubPage.Page5("App1 - Feature1 - Page 5"),
         stack = makeStack(
             PageNavigation(StubPage.Page5("App1 - Feature1 - Page 5")),
             PageNavigation(StubPage.Page6("App1 - Feature1 - Page 6")),
@@ -22,7 +22,7 @@ class RootNavigationTest {
 
     private val stubApp1Feature2 = FeatureNavigation(
         name = StubFeature.Feature2,
-        initPage = PageNavigation(StubPage.Page5("App1 - Feature2 - Page 5")),
+        initPage = StubPage.Page5("App1 - Feature2 - Page 5"),
         stack = makeStack(
             PageNavigation(StubPage.Page5("App1 - Feature2 - Page 5")),
             PageNavigation(StubPage.Page6("App1 - Feature2 - Page 6")),
@@ -32,7 +32,7 @@ class RootNavigationTest {
 
     private val stubApp1Feature3 = FeatureNavigation(
         name = StubFeature.Feature3,
-        initPage = PageNavigation(StubPage.Page5("App1 - Feature3 - Page 5")),
+        initPage = StubPage.Page5("App1 - Feature3 - Page 5"),
         stack = makeStack(
             PageNavigation(StubPage.Page5("App1 - Feature3 - Page 5")),
             PageNavigation(StubPage.Page6("App1 - Feature3 - Page 6")),
@@ -44,7 +44,7 @@ class RootNavigationTest {
         name = StubApp.App1,
         initFeature = FeatureNavigation(
             name = StubFeature.Feature1,
-            initPage = PageNavigation(StubPage.Page5("App1 - Feature1 - Page 5")),
+            initPage = StubPage.Page5("App1 - Feature1 - Page 5"),
         ),
         stack = makeStack(
             stubApp1Feature1,
@@ -55,7 +55,7 @@ class RootNavigationTest {
 
     private val stubApp2Feature1 = FeatureNavigation(
         name = StubFeature.Feature1,
-        initPage = PageNavigation(StubPage.Page5("App2 - Feature1 - Page 5")),
+        initPage = StubPage.Page5("App2 - Feature1 - Page 5"),
         stack = makeStack(
             PageNavigation(StubPage.Page5("App2 - Feature1 - Page 5")),
             PageNavigation(StubPage.Page6("App2 - Feature1 - Page 6")),
@@ -66,7 +66,7 @@ class RootNavigationTest {
 
     private val stubApp2Feature2 = FeatureNavigation(
         name = StubFeature.Feature2,
-        initPage = PageNavigation(StubPage.Page5("App2 - Feature2 - Page 5")),
+        initPage = StubPage.Page5("App2 - Feature2 - Page 5"),
         stack = makeStack(
             PageNavigation(StubPage.Page5("App2 - Feature2 - Page 5")),
             PageNavigation(StubPage.Page6("App2 - Feature2 - Page 6")),
@@ -76,7 +76,7 @@ class RootNavigationTest {
 
     private val stubApp2Feature3 = FeatureNavigation(
         name = StubFeature.Feature3,
-        initPage = PageNavigation(StubPage.Page5("App2 - Feature3 - Page 5")),
+        initPage = StubPage.Page5("App2 - Feature3 - Page 5"),
         stack = makeStack(
             PageNavigation(StubPage.Page5("App2 - Feature3 - Page 5")),
             PageNavigation(StubPage.Page6("App2 - Feature3 - Page 6")),
@@ -88,7 +88,7 @@ class RootNavigationTest {
         name = StubApp.App2,
         initFeature = FeatureNavigation(
             name = StubFeature.Feature1,
-            initPage = PageNavigation(StubPage.Page5("App2 - Feature1 - Page 5")),
+            initPage = StubPage.Page5("App2 - Feature1 - Page 5"),
         ),
         stack = makeStack(
             stubApp2Feature1,
@@ -102,7 +102,7 @@ class RootNavigationTest {
             name = StubApp.App1,
             initFeature = FeatureNavigation(
                 name = StubFeature.Feature1,
-                initPage = PageNavigation(StubPage.Page5("App1 - 5")),
+                initPage = StubPage.Page5("App1 - 5"),
             ),
         ),
         stack = makeStack(stubApp1, stubApp2)
@@ -117,7 +117,7 @@ class RootNavigationTest {
 
     @Test
     fun `RootNavigation forward to page`() {
-        val newRoot = stubRoot.forward(PageNavigation(StubPage.Page8("App2 - Feature3 - Page 8")))
+        val newRoot = stubRoot.forward(StubPage.Page8("App2 - Feature3 - Page 8"))
 
         assertEquals(PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")), stubRoot.page)
         assertEquals(PageNavigation(StubPage.Page8("App2 - Feature3 - Page 8")), newRoot?.page)
@@ -128,7 +128,7 @@ class RootNavigationTest {
                     name = StubApp.App1,
                     initFeature = FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("App1 - 5")),
+                        initPage = StubPage.Page5("App1 - 5"),
                     ),
                 ),
                 stack = makeStack(
@@ -137,14 +137,14 @@ class RootNavigationTest {
                         name = StubApp.App2,
                         initFeature = FeatureNavigation(
                             name = StubFeature.Feature1,
-                            initPage = PageNavigation(StubPage.Page5("App2 - Feature1 - Page 5")),
+                            initPage = StubPage.Page5("App2 - Feature1 - Page 5"),
                         ),
                         stack = makeStack(
                             stubApp2Feature1,
                             stubApp2Feature2,
                             FeatureNavigation(
                                 name = StubFeature.Feature3,
-                                initPage = PageNavigation(StubPage.Page5("App2 - Feature3 - Page 5")),
+                                initPage = StubPage.Page5("App2 - Feature3 - Page 5"),
                                 stack = makeStack(
                                     PageNavigation(StubPage.Page5("App2 - Feature3 - Page 5")),
                                     PageNavigation(StubPage.Page6("App2 - Feature3 - Page 6")),
@@ -163,7 +163,7 @@ class RootNavigationTest {
     @Test
     fun `RootNavigation forward to new page with singleTop`() {
         val newRoot = stubRoot.forward(
-            PageNavigation(StubPage.Page8("App2 - Feature3 - Page 8")),
+            StubPage.Page8("App2 - Feature3 - Page 8"),
             singleTop = true
         )
 
@@ -176,7 +176,7 @@ class RootNavigationTest {
                     name = StubApp.App1,
                     initFeature = FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("App1 - 5")),
+                        initPage = StubPage.Page5("App1 - 5"),
                     ),
                 ),
                 stack = makeStack(
@@ -185,14 +185,14 @@ class RootNavigationTest {
                         name = StubApp.App2,
                         initFeature = FeatureNavigation(
                             name = StubFeature.Feature1,
-                            initPage = PageNavigation(StubPage.Page5("App2 - Feature1 - Page 5")),
+                            initPage = StubPage.Page5("App2 - Feature1 - Page 5"),
                         ),
                         stack = makeStack(
                             stubApp2Feature1,
                             stubApp2Feature2,
                             FeatureNavigation(
                                 name = StubFeature.Feature3,
-                                initPage = PageNavigation(StubPage.Page5("App2 - Feature3 - Page 5")),
+                                initPage = StubPage.Page5("App2 - Feature3 - Page 5"),
                                 stack = makeStack(
                                     PageNavigation(StubPage.Page5("App2 - Feature3 - Page 5")),
                                     PageNavigation(StubPage.Page6("App2 - Feature3 - Page 6")),
@@ -211,7 +211,7 @@ class RootNavigationTest {
     @Test
     fun `RootNavigation forward to last page with singleTop`() {
         val newRoot = stubRoot.forward(
-            PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")),
+            StubPage.Page7("App2 - Feature3 - Page 7"),
             singleTop = true
         )
 
@@ -227,7 +227,7 @@ class RootNavigationTest {
     @Test
     fun `RootNavigation forward to existed page with singleTop`() {
         val newRoot = stubRoot.forward(
-            PageNavigation(StubPage.Page6("App2 - Feature3 - New Page 6")),
+            StubPage.Page6("App2 - Feature3 - New Page 6"),
             singleTop = true
         )
 
@@ -240,7 +240,7 @@ class RootNavigationTest {
                     name = StubApp.App1,
                     initFeature = FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("App1 - 5")),
+                        initPage = StubPage.Page5("App1 - 5"),
                     ),
                 ),
                 stack = makeStack(
@@ -249,14 +249,14 @@ class RootNavigationTest {
                         name = StubApp.App2,
                         initFeature = FeatureNavigation(
                             name = StubFeature.Feature1,
-                            initPage = PageNavigation(StubPage.Page5("App2 - Feature1 - Page 5")),
+                            initPage = StubPage.Page5("App2 - Feature1 - Page 5"),
                         ),
                         stack = makeStack(
                             stubApp2Feature1,
                             stubApp2Feature2,
                             FeatureNavigation(
                                 name = StubFeature.Feature3,
-                                initPage = PageNavigation(StubPage.Page5("App2 - Feature3 - Page 5")),
+                                initPage = StubPage.Page5("App2 - Feature3 - Page 5"),
                                 stack = makeStack(
                                     PageNavigation(StubPage.Page5("App2 - Feature3 - Page 5")),
                                     PageNavigation(StubPage.Page7("App2 - Feature3 - Page 7")),
@@ -276,7 +276,7 @@ class RootNavigationTest {
         val newRoot = stubRoot.forward(
             FeatureNavigation(
                 name = StubFeature.Feature4,
-                initPage = PageNavigation(StubPage.Page6("App2 - Feature4 - New Page 6"))
+                initPage = StubPage.Page6("App2 - Feature4 - New Page 6")
             )
         )
 
@@ -289,7 +289,7 @@ class RootNavigationTest {
                     name = StubApp.App1,
                     initFeature = FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("App1 - 5")),
+                        initPage = StubPage.Page5("App1 - 5"),
                     ),
                 ),
                 stack = makeStack(
@@ -298,7 +298,7 @@ class RootNavigationTest {
                         name = StubApp.App2,
                         initFeature = FeatureNavigation(
                             name = StubFeature.Feature1,
-                            initPage = PageNavigation(StubPage.Page5("App2 - Feature1 - Page 5")),
+                            initPage = StubPage.Page5("App2 - Feature1 - Page 5"),
                         ),
                         stack = makeStack(
                             stubApp2Feature1,
@@ -306,7 +306,7 @@ class RootNavigationTest {
                             stubApp2Feature3,
                             FeatureNavigation(
                                 name = StubFeature.Feature4,
-                                initPage = PageNavigation(StubPage.Page6("App2 - Feature4 - New Page 6"))
+                                initPage = StubPage.Page6("App2 - Feature4 - New Page 6")
                             )
                         )
                     )
@@ -321,7 +321,7 @@ class RootNavigationTest {
         val newRoot = stubRoot.forward(
             FeatureNavigation(
                 name = StubFeature.Feature4,
-                initPage = PageNavigation(StubPage.Page6("App2 - Feature4 - New Page 6"))
+                initPage = StubPage.Page6("App2 - Feature4 - New Page 6")
             ),
             singleTop = true,
         )
@@ -335,7 +335,7 @@ class RootNavigationTest {
                     name = StubApp.App1,
                     initFeature = FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("App1 - 5")),
+                        initPage = StubPage.Page5("App1 - 5"),
                     ),
                 ),
                 stack = makeStack(
@@ -344,7 +344,7 @@ class RootNavigationTest {
                         name = StubApp.App2,
                         initFeature = FeatureNavigation(
                             name = StubFeature.Feature1,
-                            initPage = PageNavigation(StubPage.Page5("App2 - Feature1 - Page 5")),
+                            initPage = StubPage.Page5("App2 - Feature1 - Page 5"),
                         ),
                         stack = makeStack(
                             stubApp2Feature1,
@@ -352,7 +352,7 @@ class RootNavigationTest {
                             stubApp2Feature3,
                             FeatureNavigation(
                                 name = StubFeature.Feature4,
-                                initPage = PageNavigation(StubPage.Page6("App2 - Feature4 - New Page 6"))
+                                initPage = StubPage.Page6("App2 - Feature4 - New Page 6")
                             )
                         )
                     )
@@ -367,7 +367,7 @@ class RootNavigationTest {
         val newRoot = stubRoot.forward(
             FeatureNavigation(
                 name = StubFeature.Feature3,
-                initPage = PageNavigation(StubPage.Page5("App2 - Feature3 - Page 5")),
+                initPage = StubPage.Page5("App2 - Feature3 - Page 5"),
             ),
             singleTop = true,
         )
@@ -381,7 +381,7 @@ class RootNavigationTest {
                     name = StubApp.App1,
                     initFeature = FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("App1 - 5")),
+                        initPage = StubPage.Page5("App1 - 5"),
                     ),
                 ),
                 stack = makeStack(
@@ -390,14 +390,14 @@ class RootNavigationTest {
                         name = StubApp.App2,
                         initFeature = FeatureNavigation(
                             name = StubFeature.Feature1,
-                            initPage = PageNavigation(StubPage.Page5("App2 - Feature1 - Page 5")),
+                            initPage = StubPage.Page5("App2 - Feature1 - Page 5"),
                         ),
                         stack = makeStack(
                             stubApp2Feature1,
                             stubApp2Feature2,
                             FeatureNavigation(
                                 name = StubFeature.Feature3,
-                                initPage = PageNavigation(StubPage.Page5("App2 - Feature3 - Page 5")),
+                                initPage = StubPage.Page5("App2 - Feature3 - Page 5"),
                             ),
                         )
                     )
@@ -412,7 +412,7 @@ class RootNavigationTest {
         val newRoot = stubRoot.forward(
             FeatureNavigation(
                 name = StubFeature.Feature3,
-                initPage = PageNavigation(StubPage.Page5("App2 - Feature3 - Page 5")),
+                initPage = StubPage.Page5("App2 - Feature3 - Page 5"),
             ),
         )
 
@@ -425,7 +425,7 @@ class RootNavigationTest {
                     name = StubApp.App1,
                     initFeature = FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("App1 - 5")),
+                        initPage = StubPage.Page5("App1 - 5"),
                     ),
                 ),
                 stack = makeStack(
@@ -434,7 +434,7 @@ class RootNavigationTest {
                         name = StubApp.App2,
                         initFeature = FeatureNavigation(
                             name = StubFeature.Feature1,
-                            initPage = PageNavigation(StubPage.Page5("App2 - Feature1 - Page 5")),
+                            initPage = StubPage.Page5("App2 - Feature1 - Page 5"),
                         ),
                         stack = makeStack(
                             stubApp2Feature1,
@@ -442,7 +442,7 @@ class RootNavigationTest {
                             stubApp2Feature3,
                             FeatureNavigation(
                                 name = StubFeature.Feature3,
-                                initPage = PageNavigation(StubPage.Page5("App2 - Feature3 - Page 5")),
+                                initPage = StubPage.Page5("App2 - Feature3 - Page 5"),
                             ),
                         )
                     )
@@ -457,7 +457,7 @@ class RootNavigationTest {
         val newRoot = stubRoot.forward(
             FeatureNavigation(
                 name = StubFeature.Feature2,
-                initPage = PageNavigation(StubPage.Page5("App2 - Feature2 - Page 5")),
+                initPage = StubPage.Page5("App2 - Feature2 - Page 5"),
             ),
             singleTop = true
         )
@@ -471,7 +471,7 @@ class RootNavigationTest {
                     name = StubApp.App1,
                     initFeature = FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("App1 - 5")),
+                        initPage = StubPage.Page5("App1 - 5"),
                     ),
                 ),
                 stack = makeStack(
@@ -480,14 +480,14 @@ class RootNavigationTest {
                         name = StubApp.App2,
                         initFeature = FeatureNavigation(
                             name = StubFeature.Feature1,
-                            initPage = PageNavigation(StubPage.Page5("App2 - Feature1 - Page 5")),
+                            initPage = StubPage.Page5("App2 - Feature1 - Page 5"),
                         ),
                         stack = makeStack(
                             stubApp2Feature1,
                             stubApp2Feature3,
                             FeatureNavigation(
                                 name = StubFeature.Feature2,
-                                initPage = PageNavigation(StubPage.Page5("App2 - Feature2 - Page 5")),
+                                initPage = StubPage.Page5("App2 - Feature2 - Page 5"),
                             ),
                         )
                     )

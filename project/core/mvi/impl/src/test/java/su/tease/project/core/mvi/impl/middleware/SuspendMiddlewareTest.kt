@@ -14,7 +14,7 @@ import su.tease.project.core.mvi.impl.stub.stub2.StubSuspendAction2
 class SuspendMiddlewareTest {
 
     @Test
-    fun check_suspend_action_and_subscription_state_by_selector_with_mapping() = runTest {
+    fun `Check suspend action and subscription state by selector with mapping`() = runTest {
         val expectedIntValue = 42
         val expectedStringValue = "42"
         val expectedListStringValue = listOf("42")
@@ -30,7 +30,7 @@ class SuspendMiddlewareTest {
                 stringValue = expectedStringValue,
                 listStringValue = expectedListStringValue,
             )
-        )
+        ).join()
 
         assertEquals(
             CombinedState(

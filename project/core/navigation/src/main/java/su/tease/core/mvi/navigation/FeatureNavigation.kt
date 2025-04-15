@@ -40,6 +40,8 @@ data class FeatureNavigation(
     fun backToPage(page: KClass<NavigationTarget.Page>): FeatureNavigation? = stack
         .dropLastWhile { it.name::class != page }
         ?.let { copy(stack = it) }
+
+    fun some(feature: FeatureNavigation) = name.some(feature.name)
 }
 
 fun feature(

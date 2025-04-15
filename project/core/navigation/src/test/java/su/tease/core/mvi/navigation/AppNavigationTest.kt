@@ -14,12 +14,12 @@ class AppNavigationTest {
         name = StubApp.App1,
         initFeature = FeatureNavigation(
             name = StubFeature.Feature1,
-            initPage = PageNavigation(StubPage.Page5("5")),
+            initPage = StubPage.Page5("5"),
         ),
         stack = makeStack(
             FeatureNavigation(
                 name = StubFeature.Feature1,
-                initPage = PageNavigation(StubPage.Page5("5")),
+                initPage = StubPage.Page5("5"),
                 stack = makeStack(
                     PageNavigation(StubPage.Page5("5")),
                     PageNavigation(StubPage.Page6("6")),
@@ -29,7 +29,7 @@ class AppNavigationTest {
             ),
             FeatureNavigation(
                 name = StubFeature.Feature2,
-                initPage = PageNavigation(StubPage.Page5("5")),
+                initPage = StubPage.Page5("5"),
                 stack = makeStack(
                     PageNavigation(StubPage.Page5("5")),
                     PageNavigation(StubPage.Page6("6")),
@@ -38,7 +38,7 @@ class AppNavigationTest {
             ),
             FeatureNavigation(
                 name = StubFeature.Feature3,
-                initPage = PageNavigation(StubPage.Page5("5")),
+                initPage = StubPage.Page5("5"),
                 stack = makeStack(
                     PageNavigation(StubPage.Page5("5")),
                     PageNavigation(StubPage.Page6("6")),
@@ -57,7 +57,7 @@ class AppNavigationTest {
 
     @Test
     fun `AppNavigation forward to page`() {
-        val newApp = stubApp.forward(PageNavigation(StubPage.Page8("8")))
+        val newApp = stubApp.forward(StubPage.Page8("8"))
 
         assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
         assertEquals(PageNavigation(StubPage.Page8("8")), newApp?.page)
@@ -67,12 +67,12 @@ class AppNavigationTest {
                 name = StubApp.App1,
                 initFeature = FeatureNavigation(
                     name = StubFeature.Feature1,
-                    initPage = PageNavigation(StubPage.Page5("5")),
+                    initPage = StubPage.Page5("5"),
                 ),
                 stack = makeStack(
                     FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -82,7 +82,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature2,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -91,7 +91,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature3,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -107,7 +107,7 @@ class AppNavigationTest {
 
     @Test
     fun `AppNavigation forward to new page with singleTop`() {
-        val newApp = stubApp.forward(PageNavigation(StubPage.Page8("8")), singleTop = true)
+        val newApp = stubApp.forward(StubPage.Page8("8"), singleTop = true)
 
         assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
         assertEquals(PageNavigation(StubPage.Page8("8")), newApp?.page)
@@ -117,12 +117,12 @@ class AppNavigationTest {
                 name = StubApp.App1,
                 initFeature = FeatureNavigation(
                     name = StubFeature.Feature1,
-                    initPage = PageNavigation(StubPage.Page5("5")),
+                    initPage = StubPage.Page5("5"),
                 ),
                 stack = makeStack(
                     FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -132,7 +132,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature2,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -141,7 +141,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature3,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -157,7 +157,7 @@ class AppNavigationTest {
 
     @Test
     fun `AppNavigation forward to existed in other feature page with singleTop`() {
-        val newApp = stubApp.forward(PageNavigation(StubPage.Page1), singleTop = true)
+        val newApp = stubApp.forward(StubPage.Page1, singleTop = true)
 
         assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
         assertEquals(PageNavigation(StubPage.Page1), newApp?.page)
@@ -167,12 +167,12 @@ class AppNavigationTest {
                 name = StubApp.App1,
                 initFeature = FeatureNavigation(
                     name = StubFeature.Feature1,
-                    initPage = PageNavigation(StubPage.Page5("5")),
+                    initPage = StubPage.Page5("5"),
                 ),
                 stack = makeStack(
                     FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -182,7 +182,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature2,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -191,7 +191,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature3,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -207,7 +207,7 @@ class AppNavigationTest {
 
     @Test
     fun `AppNavigation forward to existed in last feature page with singleTop`() {
-        val newApp = stubApp.forward(PageNavigation(StubPage.Page6("6")), singleTop = true)
+        val newApp = stubApp.forward(StubPage.Page6("6"), singleTop = true)
 
         assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
         assertEquals(PageNavigation(StubPage.Page6("6")), newApp?.page)
@@ -217,12 +217,12 @@ class AppNavigationTest {
                 name = StubApp.App1,
                 initFeature = FeatureNavigation(
                     name = StubFeature.Feature1,
-                    initPage = PageNavigation(StubPage.Page5("5")),
+                    initPage = StubPage.Page5("5"),
                 ),
                 stack = makeStack(
                     FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -232,7 +232,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature2,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -241,7 +241,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature3,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page7("7")),
@@ -256,7 +256,7 @@ class AppNavigationTest {
 
     @Test
     fun `AppNavigation forward to existed in last feature last page with singleTop`() {
-        val newApp = stubApp.forward(PageNavigation(StubPage.Page7("7")), singleTop = true)
+        val newApp = stubApp.forward(StubPage.Page7("7"), singleTop = true)
 
         assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
         assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.page)
@@ -266,12 +266,12 @@ class AppNavigationTest {
                 name = StubApp.App1,
                 initFeature = FeatureNavigation(
                     name = StubFeature.Feature1,
-                    initPage = PageNavigation(StubPage.Page5("5")),
+                    initPage = StubPage.Page5("5"),
                 ),
                 stack = makeStack(
                     FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -281,7 +281,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature2,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -290,7 +290,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature3,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -305,7 +305,7 @@ class AppNavigationTest {
 
     @Test
     fun `AppNavigation forward to existed in last feature last page without singleTop`() {
-        val newApp = stubApp.forward(PageNavigation(StubPage.Page7("7")))
+        val newApp = stubApp.forward(StubPage.Page7("7"))
 
         assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
         assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.page)
@@ -315,12 +315,12 @@ class AppNavigationTest {
                 name = StubApp.App1,
                 initFeature = FeatureNavigation(
                     name = StubFeature.Feature1,
-                    initPage = PageNavigation(StubPage.Page5("5")),
+                    initPage = StubPage.Page5("5"),
                 ),
                 stack = makeStack(
                     FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -330,7 +330,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature2,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -339,7 +339,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature3,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -358,7 +358,7 @@ class AppNavigationTest {
         val newApp = stubApp.forward(
             FeatureNavigation(
                 name = StubFeature.Feature4,
-                initPage = PageNavigation(StubPage.Page5("5")),
+                initPage = StubPage.Page5("5"),
                 stack = makeStack(
                     PageNavigation(StubPage.Page5("5")),
                     PageNavigation(StubPage.Page6("6")),
@@ -376,12 +376,12 @@ class AppNavigationTest {
                 name = StubApp.App1,
                 initFeature = FeatureNavigation(
                     name = StubFeature.Feature1,
-                    initPage = PageNavigation(StubPage.Page5("5")),
+                    initPage = StubPage.Page5("5"),
                 ),
                 stack = makeStack(
                     FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -391,7 +391,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature2,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -400,7 +400,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature3,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -409,7 +409,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature4,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -428,7 +428,7 @@ class AppNavigationTest {
         val newApp = stubApp.forward(
             FeatureNavigation(
                 name = StubFeature.Feature1,
-                initPage = PageNavigation(StubPage.Page5("5")),
+                initPage = StubPage.Page5("5"),
             ),
             singleTop = true
         )
@@ -441,12 +441,12 @@ class AppNavigationTest {
                 name = StubApp.App1,
                 initFeature = FeatureNavigation(
                     name = StubFeature.Feature1,
-                    initPage = PageNavigation(StubPage.Page5("5")),
+                    initPage = StubPage.Page5("5"),
                 ),
                 stack = makeStack(
                     FeatureNavigation(
                         name = StubFeature.Feature2,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -455,7 +455,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature3,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -464,7 +464,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                     ),
                 )
             ),
@@ -477,7 +477,7 @@ class AppNavigationTest {
         val newApp = stubApp.switchTo(
             FeatureNavigation(
                 name = StubFeature.Feature4,
-                initPage = PageNavigation(StubPage.Page5("5")),
+                initPage = StubPage.Page5("5"),
                 stack = makeStack(
                     PageNavigation(StubPage.Page5("5")),
                     PageNavigation(StubPage.Page6("6")),
@@ -495,12 +495,12 @@ class AppNavigationTest {
                 name = StubApp.App1,
                 initFeature = FeatureNavigation(
                     name = StubFeature.Feature1,
-                    initPage = PageNavigation(StubPage.Page5("5")),
+                    initPage = StubPage.Page5("5"),
                 ),
                 stack = makeStack(
                     FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -510,7 +510,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature2,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -519,7 +519,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature3,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -528,7 +528,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature4,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -547,7 +547,7 @@ class AppNavigationTest {
         val newApp = stubApp.switchTo(
             FeatureNavigation(
                 name = StubFeature.Feature2,
-                initPage = PageNavigation(StubPage.Page5("5")),
+                initPage = StubPage.Page5("5"),
             ),
         )
 
@@ -559,12 +559,12 @@ class AppNavigationTest {
                 name = StubApp.App1,
                 initFeature = FeatureNavigation(
                     name = StubFeature.Feature1,
-                    initPage = PageNavigation(StubPage.Page5("5")),
+                    initPage = StubPage.Page5("5"),
                 ),
                 stack = makeStack(
                     FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -574,7 +574,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature3,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -583,7 +583,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature2,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -601,7 +601,7 @@ class AppNavigationTest {
         val newApp = stubApp.switchTo(
             FeatureNavigation(
                 name = StubFeature.Feature2,
-                initPage = PageNavigation(StubPage.Page5("5")),
+                initPage = StubPage.Page5("5"),
             ),
             cleanStack = true,
         )
@@ -614,12 +614,12 @@ class AppNavigationTest {
                 name = StubApp.App1,
                 initFeature = FeatureNavigation(
                     name = StubFeature.Feature1,
-                    initPage = PageNavigation(StubPage.Page5("5")),
+                    initPage = StubPage.Page5("5"),
                 ),
                 stack = makeStack(
                     FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -629,7 +629,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature3,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -638,7 +638,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature2,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                         ),
@@ -661,12 +661,12 @@ class AppNavigationTest {
                 name = StubApp.App1,
                 initFeature = FeatureNavigation(
                     name = StubFeature.Feature1,
-                    initPage = PageNavigation(StubPage.Page5("5")),
+                    initPage = StubPage.Page5("5"),
                 ),
                 stack = makeStack(
                     FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -676,7 +676,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature2,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -685,7 +685,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature3,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -709,12 +709,12 @@ class AppNavigationTest {
                 name = StubApp.App1,
                 initFeature = FeatureNavigation(
                     name = StubFeature.Feature1,
-                    initPage = PageNavigation(StubPage.Page5("5")),
+                    initPage = StubPage.Page5("5"),
                 ),
                 stack = makeStack(
                     FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -724,7 +724,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature2,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -762,12 +762,12 @@ class AppNavigationTest {
                 name = StubApp.App1,
                 initFeature = FeatureNavigation(
                     name = StubFeature.Feature1,
-                    initPage = PageNavigation(StubPage.Page5("5")),
+                    initPage = StubPage.Page5("5"),
                 ),
                 stack = makeStack(
                     FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                         ),
@@ -780,7 +780,7 @@ class AppNavigationTest {
 
     @Test
     fun `AppNavigation back to last page`() {
-        val newApp = stubApp.backToPage(PageNavigation(StubPage.Page7("?")))
+        val newApp = stubApp.backToPage(StubPage.Page7("?"))
 
         assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
         assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.page)
@@ -790,12 +790,12 @@ class AppNavigationTest {
                 name = StubApp.App1,
                 initFeature = FeatureNavigation(
                     name = StubFeature.Feature1,
-                    initPage = PageNavigation(StubPage.Page5("5")),
+                    initPage = StubPage.Page5("5"),
                 ),
                 stack = makeStack(
                     FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -805,7 +805,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature2,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -814,7 +814,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature3,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -829,7 +829,7 @@ class AppNavigationTest {
 
     @Test
     fun `AppNavigation back to some existed page`() {
-        val newApp = stubApp.backToPage(PageNavigation(StubPage.Page6("?")))
+        val newApp = stubApp.backToPage(StubPage.Page6("?"))
 
         assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
         assertEquals(PageNavigation(StubPage.Page6("6")), newApp?.page)
@@ -839,12 +839,12 @@ class AppNavigationTest {
                 name = StubApp.App1,
                 initFeature = FeatureNavigation(
                     name = StubFeature.Feature1,
-                    initPage = PageNavigation(StubPage.Page5("5")),
+                    initPage = StubPage.Page5("5"),
                 ),
                 stack = makeStack(
                     FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -854,7 +854,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature2,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -863,7 +863,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature3,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -877,7 +877,7 @@ class AppNavigationTest {
 
     @Test
     fun `AppNavigation back to not existed page`() {
-        val newApp = stubApp.backToPage(PageNavigation(StubPage.Page1))
+        val newApp = stubApp.backToPage(StubPage.Page1)
 
         assertEquals(PageNavigation(StubPage.Page7("7")), stubApp.page)
         assertEquals(PageNavigation(StubPage.Page7("7")), newApp?.page)
@@ -887,12 +887,12 @@ class AppNavigationTest {
                 name = StubApp.App1,
                 initFeature = FeatureNavigation(
                     name = StubFeature.Feature1,
-                    initPage = PageNavigation(StubPage.Page5("5")),
+                    initPage = StubPage.Page5("5"),
                 ),
                 stack = makeStack(
                     FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -902,7 +902,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature2,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -920,7 +920,7 @@ class AppNavigationTest {
         val newApp = stubApp.backToFeature(
             FeatureNavigation(
                 StubFeature.Feature3,
-                initPage = PageNavigation(StubPage.Page5("?"))
+                initPage = StubPage.Page5("?"),
             )
         )
 
@@ -932,12 +932,12 @@ class AppNavigationTest {
                 name = StubApp.App1,
                 initFeature = FeatureNavigation(
                     name = StubFeature.Feature1,
-                    initPage = PageNavigation(StubPage.Page5("5")),
+                    initPage = StubPage.Page5("5"),
                 ),
                 stack = makeStack(
                     FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -947,7 +947,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature2,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -956,7 +956,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature3,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -974,7 +974,7 @@ class AppNavigationTest {
         val newApp = stubApp.backToFeature(
             FeatureNavigation(
                 StubFeature.Feature2,
-                initPage = PageNavigation(StubPage.Page5("?"))
+                initPage = StubPage.Page5("?"),
             )
         )
 
@@ -986,12 +986,12 @@ class AppNavigationTest {
                 name = StubApp.App1,
                 initFeature = FeatureNavigation(
                     name = StubFeature.Feature1,
-                    initPage = PageNavigation(StubPage.Page5("5")),
+                    initPage = StubPage.Page5("5"),
                 ),
                 stack = makeStack(
                     FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -1001,7 +1001,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature2,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -1019,12 +1019,11 @@ class AppNavigationTest {
         val newApp = stubApp.backToFeature(
             FeatureNavigation(
                 StubFeature.Feature4,
-                initPage = PageNavigation(StubPage.Page5("?"))
+                initPage = StubPage.Page5("?"),
             )
         )
         assertNull(newApp)
     }
-
 
 
     @Test
@@ -1032,7 +1031,7 @@ class AppNavigationTest {
         val newApp = stubApp.finishFeature(
             FeatureNavigation(
                 StubFeature.Feature3,
-                initPage = PageNavigation(StubPage.Page5("?"))
+                initPage = StubPage.Page5("?"),
             )
         )
 
@@ -1044,12 +1043,12 @@ class AppNavigationTest {
                 name = StubApp.App1,
                 initFeature = FeatureNavigation(
                     name = StubFeature.Feature1,
-                    initPage = PageNavigation(StubPage.Page5("5")),
+                    initPage = StubPage.Page5("5"),
                 ),
                 stack = makeStack(
                     FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -1059,7 +1058,7 @@ class AppNavigationTest {
                     ),
                     FeatureNavigation(
                         name = StubFeature.Feature2,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -1077,7 +1076,7 @@ class AppNavigationTest {
         val newApp = stubApp.finishFeature(
             FeatureNavigation(
                 StubFeature.Feature2,
-                initPage = PageNavigation(StubPage.Page5("?"))
+                initPage = StubPage.Page5("?"),
             )
         )
 
@@ -1089,12 +1088,12 @@ class AppNavigationTest {
                 name = StubApp.App1,
                 initFeature = FeatureNavigation(
                     name = StubFeature.Feature1,
-                    initPage = PageNavigation(StubPage.Page5("5")),
+                    initPage = StubPage.Page5("5"),
                 ),
                 stack = makeStack(
                     FeatureNavigation(
                         name = StubFeature.Feature1,
-                        initPage = PageNavigation(StubPage.Page5("5")),
+                        initPage = StubPage.Page5("5"),
                         stack = makeStack(
                             PageNavigation(StubPage.Page5("5")),
                             PageNavigation(StubPage.Page6("6")),
@@ -1113,7 +1112,7 @@ class AppNavigationTest {
         val newApp = stubApp.finishFeature(
             FeatureNavigation(
                 StubFeature.Feature1,
-                initPage = PageNavigation(StubPage.Page5("?"))
+                initPage = StubPage.Page5("?"),
             )
         )
         assertNull(newApp)
@@ -1124,7 +1123,7 @@ class AppNavigationTest {
         val newApp = stubApp.finishFeature(
             FeatureNavigation(
                 StubFeature.Feature4,
-                initPage = PageNavigation(StubPage.Page5("?"))
+                initPage = StubPage.Page5("?"),
             )
         )
         assertNull(newApp)

@@ -75,6 +75,8 @@ data class AppNavigation(
         .dropLastWhile { it.name::class != feature }
         ?.removeLast()
         ?.let { copy(stack = it) }
+
+    fun some(app: PageNavigation) = name.some(app.name)
 }
 
 fun app(

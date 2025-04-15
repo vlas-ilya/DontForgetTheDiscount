@@ -30,7 +30,7 @@ class StoreTest {
 
         val store = createStubStore()
 
-        store.dispatcher.dispatch(StubAction2.OnUpdateIntValue(expectedIntValue))
+        store.dispatcher.dispatch(StubAction2.OnUpdateIntValue(expectedIntValue)).join()
 
         assertEquals(
             CombinedState(
@@ -42,7 +42,7 @@ class StoreTest {
     }
 
     @Test
-    fun check_subscription() = runTest {
+    fun `Check subscription`() = runTest {
         val expectedIntValue = 42
         val expectedStringValue = "42"
         val expectedListStringValue = listOf("42")
@@ -52,15 +52,16 @@ class StoreTest {
 
         val stateUpdates = mutableListOf<CombinedState<StubState1, StubState2>>()
         val job = launch { data.toList(stateUpdates) }
+        val dispatcher = store.dispatcher
 
         delay(100)
-        store.dispatcher.dispatch(StubAction2.OnUpdateIntValue(expectedIntValue))
+        dispatcher.dispatch(StubAction2.OnUpdateIntValue(expectedIntValue)).join()
         delay(100)
-        store.dispatcher.dispatch(StubAction2.OnUpdateStringValue(expectedStringValue))
+        dispatcher.dispatch(StubAction2.OnUpdateStringValue(expectedStringValue)).join()
         delay(100)
-        store.dispatcher.dispatch(StubAction2.OnUpdateListStringValue(expectedListStringValue))
+        dispatcher.dispatch(StubAction2.OnUpdateListStringValue(expectedListStringValue)).join()
         delay(100)
-        store.dispatcher.dispatch(StubAction2.OnAddToListStringValue(expectedStringValue))
+        dispatcher.dispatch(StubAction2.OnAddToListStringValue(expectedStringValue)).join()
         delay(100)
 
         assertEquals(
