@@ -1,3 +1,5 @@
+@file:Suppress("TooManyFunctions", "LongMethod", "LargeClass")
+
 package su.tease.project.core.mvi.impl.middleware
 
 import kotlinx.coroutines.flow.toList
@@ -14,84 +16,85 @@ import su.tease.project.core.mvi.impl.stub.stub2.StubSuspendAction2
 class SuspendMiddlewareTest {
 
     @Test
-    fun `Check suspend action and subscription state by selector with mapping`() = runTest {
-        val expectedIntValue = 42
-        val expectedStringValue = "42"
-        val expectedListStringValue = listOf("42")
+    fun `Check suspend action and subscription state by selector with mapping`() =
+        runTest {
+            val expectedIntValue = 42
+            val expectedStringValue = "42"
+            val expectedListStringValue = listOf("42")
 
-        val store = createStubStore()
-        val data = store.state
+            val store = createStubStore()
+            val data = store.state
 
-        val stateUpdates = mutableListOf<CombinedState<StubState1, StubState2>>()
-        val job = launch { data.toList(stateUpdates) }
-        store.dispatcher.dispatch(
-            StubSuspendAction2(
-                intValue = expectedIntValue,
-                stringValue = expectedStringValue,
-                listStringValue = expectedListStringValue,
+            val stateUpdates = mutableListOf<CombinedState<StubState1, StubState2>>()
+            val job = launch { data.toList(stateUpdates) }
+            store.dispatcher.dispatch(
+                StubSuspendAction2(
+                    intValue = expectedIntValue,
+                    stringValue = expectedStringValue,
+                    listStringValue = expectedListStringValue,
+                ),
+            ).join()
+
+            assertEquals(
+                CombinedState(
+                    StubState1(),
+                    StubState2(),
+                ),
+                stateUpdates[0],
             )
-        ).join()
+            assertEquals(
+                CombinedState(
+                    StubState1(),
+                    StubState2().copy(
+                        intValue = expectedIntValue,
+                    ),
+                ),
+                stateUpdates[1],
+            )
+            assertEquals(
+                CombinedState(
+                    StubState1(),
+                    StubState2().copy(
+                        intValue = expectedIntValue,
+                        stringValue = expectedStringValue,
+                    ),
+                ),
+                stateUpdates[2],
+            )
+            assertEquals(
+                CombinedState(
+                    StubState1(),
+                    StubState2().copy(
+                        intValue = expectedIntValue,
+                        stringValue = expectedStringValue,
+                        listStringValue = expectedListStringValue,
+                    ),
+                ),
+                stateUpdates[3],
+            )
+            assertEquals(
+                CombinedState(
+                    StubState1(),
+                    StubState2().copy(
+                        intValue = expectedIntValue,
+                        stringValue = expectedStringValue,
+                        listStringValue = expectedListStringValue + expectedStringValue,
+                    ),
+                ),
+                stateUpdates[4],
+            )
+            assertEquals(
+                CombinedState(
+                    StubState1(),
+                    StubState2().copy(
+                        intValue = expectedIntValue,
+                        stringValue = expectedStringValue,
+                        listStringValue = expectedListStringValue + expectedStringValue,
+                    ),
+                ),
+                store.state.value,
+            )
 
-        assertEquals(
-            CombinedState(
-                StubState1(),
-                StubState2(),
-            ),
-            stateUpdates[0]
-        )
-        assertEquals(
-            CombinedState(
-                StubState1(),
-                StubState2().copy(
-                    intValue = expectedIntValue
-                ),
-            ),
-            stateUpdates[1]
-        )
-        assertEquals(
-            CombinedState(
-                StubState1(),
-                StubState2().copy(
-                    intValue = expectedIntValue,
-                    stringValue = expectedStringValue,
-                ),
-            ),
-            stateUpdates[2]
-        )
-        assertEquals(
-            CombinedState(
-                StubState1(),
-                StubState2().copy(
-                    intValue = expectedIntValue,
-                    stringValue = expectedStringValue,
-                    listStringValue = expectedListStringValue
-                ),
-            ),
-            stateUpdates[3]
-        )
-        assertEquals(
-            CombinedState(
-                StubState1(),
-                StubState2().copy(
-                    intValue = expectedIntValue,
-                    stringValue = expectedStringValue,
-                    listStringValue = expectedListStringValue + expectedStringValue
-                ),
-            ),
-            stateUpdates[4]
-        )
-        assertEquals(
-            CombinedState(
-                StubState1(),
-                StubState2().copy(
-                    intValue = expectedIntValue,
-                    stringValue = expectedStringValue,
-                    listStringValue = expectedListStringValue + expectedStringValue
-                ),
-            ),
-            store.state.value
-        )
-
-        job.cancel()
-    }
+            job.cancel()
+        }
 }

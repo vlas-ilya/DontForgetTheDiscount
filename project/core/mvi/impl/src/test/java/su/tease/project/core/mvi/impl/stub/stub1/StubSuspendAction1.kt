@@ -8,7 +8,7 @@ class StubSuspendAction1(
     private val intValue: Int,
     private val stringValue: String,
     private val listStringValue: List<String>,
-): SuspendAction {
+) : SuspendAction {
     override suspend fun invoke(dispatcher: Dispatcher) {
         delay(100)
         dispatcher.dispatch(StubAction1.OnUpdateIntValue(intValue))

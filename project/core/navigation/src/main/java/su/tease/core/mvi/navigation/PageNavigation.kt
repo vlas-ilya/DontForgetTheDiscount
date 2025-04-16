@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class PageNavigation(
-    val name: NavigationTarget.Page
+    val name: NavigationTarget.Page,
 ) : Navigation {
 
     @IgnoredOnParcel

@@ -6,7 +6,6 @@ import org.junit.Test
 import su.tease.project.core.utils.stack.stub.toStubIntList
 
 class StackRemoveLastTest {
-
     @Test
     fun `Remove single element`() {
         val stack = listOf(1).toStubIntList().toStack() ?: return

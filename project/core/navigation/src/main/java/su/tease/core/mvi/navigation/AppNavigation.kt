@@ -13,6 +13,7 @@ import su.tease.project.core.utils.stack.replaceLast
 import kotlin.reflect.KClass
 
 @Parcelize
+@Suppress("TooManyFunctions")
 data class AppNavigation(
     val name: NavigationTarget.App,
     val initFeature: FeatureNavigation,
@@ -31,16 +32,28 @@ data class AppNavigation(
     private val compare: (FeatureNavigation, FeatureNavigation) -> Boolean =
         { o1, o2 -> o1.name.some(o2.name) }
 
-    fun forward(page: NavigationTarget.Page, singleTop: Boolean = false): AppNavigation? = stack
+    fun forward(
+        page: NavigationTarget.Page,
+        singleTop: Boolean = false,
+    ): AppNavigation? = stack
         .replaceLast(stack.value.forward(page, singleTop))
         ?.let { copy(stack = it) }
 
-    fun forward(feature: FeatureNavigation, singleTop: Boolean = false): AppNavigation = copy(
-        stack = if (singleTop) stack.moveToUp(feature, compare)
-        else stack.add(feature)
+    fun forward(
+        feature: FeatureNavigation,
+        singleTop: Boolean = false,
+    ): AppNavigation = copy(
+        stack = if (singleTop) {
+            stack.moveToUp(feature, compare)
+        } else {
+            stack.add(feature)
+        },
     )
 
-    fun switchTo(feature: FeatureNavigation, cleanStack: Boolean = false): AppNavigation? = feature
+    fun switchTo(
+        feature: FeatureNavigation,
+        cleanStack: Boolean = false,
+    ): AppNavigation? = feature
         .let { stack.last { it.name == feature.name } ?: feature }
         .tryTransformIf(cleanStack) { it.backToPage(it.initPage) }
         ?.let { stack.moveToUp(it, compare) }
@@ -84,5 +97,5 @@ fun app(
     initFeature: FeatureNavigation,
 ) = AppNavigation(
     name = app,
-    initFeature = initFeature
+    initFeature = initFeature,
 )

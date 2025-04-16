@@ -1,7 +1,6 @@
 package su.tease.project.design.theme.impl.utils
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import su.tease.design.theme.api.Sizes
 import su.tease.project.design.theme.impl.ThemeValue

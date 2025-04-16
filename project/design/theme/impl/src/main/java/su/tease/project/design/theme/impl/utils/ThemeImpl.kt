@@ -9,8 +9,9 @@ import su.tease.project.design.theme.impl.ThemeValue
 internal data class ThemeImpl(
     override val color: Colors,
     override val font: Fonts,
-    override val size: Sizes
+    override val size: Sizes,
 ) : Theme {
+
     companion object {
         internal fun make(themeValue: ThemeValue): Theme = ThemeImpl(
             color = ColorsImpl.make(themeValue),

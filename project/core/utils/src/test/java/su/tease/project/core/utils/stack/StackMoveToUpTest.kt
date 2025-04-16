@@ -6,7 +6,6 @@ import su.tease.project.core.utils.stack.stub.StubInt
 import su.tease.project.core.utils.stack.stub.toStubIntList
 
 class StackMoveToUpTest {
-
     @Test
     fun `move to up first element`() {
         val stack = listOf(1, 2, 3, 4, 5).toStubIntList().toStack() ?: return

@@ -11,7 +11,10 @@ class SuspendMiddleware : Middleware {
 
     override fun couldHandle(action: Action) = action is SuspendAction
 
-    override suspend fun handle(dispatcher: Dispatcher, action: Action) {
+    override suspend fun handle(
+        dispatcher: Dispatcher,
+        action: Action,
+    ) {
         require(action is SuspendAction)
         action.invoke(dispatcher)
     }

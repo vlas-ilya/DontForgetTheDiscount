@@ -7,4 +7,20 @@ plugins {
     alias(libs.plugins.room) apply false
     alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.kotlin.parcelize) apply false
+    alias(libs.plugins.detekt)
+}
+
+subprojects {
+    apply(plugin = rootProject.libs.plugins.detekt.get().pluginId)
+
+    detekt {
+        config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
+        buildUponDefaultConfig = true
+        autoCorrect = true
+    }
+
+    dependencies {
+        detektPlugins(rootProject.libs.detekt.formatting)
+        detektPlugins(rootProject.libs.detekt.compose)
+    }
 }

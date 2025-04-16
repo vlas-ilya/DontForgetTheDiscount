@@ -13,6 +13,7 @@ import su.tease.project.core.utils.stack.replaceLast
 import kotlin.reflect.KClass
 
 @Parcelize
+@Suppress("TooManyFunctions")
 data class RootNavigation(
     val initApp: AppNavigation,
     private val stack: Stack<AppNavigation> = Stack(prev = null, value = initApp),
@@ -34,24 +35,42 @@ data class RootNavigation(
     private val compare: (AppNavigation, AppNavigation) -> Boolean =
         { o1, o2 -> o1.name.some(o2.name) }
 
-    fun forward(page: NavigationTarget.Page, singleTop: Boolean = false): RootNavigation? = stack
+    fun forward(
+        page: NavigationTarget.Page,
+        singleTop: Boolean = false,
+    ): RootNavigation? = stack
         .replaceLast(stack.value.forward(page, singleTop))
         ?.let { copy(stack = it) }
 
-    fun forward(feature: FeatureNavigation, singleTop: Boolean = false): RootNavigation? = stack
+    fun forward(
+        feature: FeatureNavigation,
+        singleTop: Boolean = false,
+    ): RootNavigation? = stack
         .replaceLast(stack.value.forward(feature, singleTop))
         ?.let { copy(stack = it) }
 
-    fun forward(app: AppNavigation, singleTop: Boolean = false): RootNavigation = copy(
-        stack = if (singleTop) stack.moveToUp(app, compare)
-        else stack.add(app)
+    fun forward(
+        app: AppNavigation,
+        singleTop: Boolean = false,
+    ): RootNavigation = copy(
+        stack = if (singleTop) {
+            stack.moveToUp(app, compare)
+        } else {
+            stack.add(app)
+        },
     )
 
-    fun switchTo(feature: FeatureNavigation, cleanStack: Boolean = false): RootNavigation? = stack
+    fun switchTo(
+        feature: FeatureNavigation,
+        cleanStack: Boolean = false,
+    ): RootNavigation? = stack
         .replaceLast(stack.value.switchTo(feature, cleanStack))
         ?.let { copy(stack = it) }
 
-    fun switchTo(app: AppNavigation, cleanStack: Boolean = false): RootNavigation? = app
+    fun switchTo(
+        app: AppNavigation,
+        cleanStack: Boolean = false,
+    ): RootNavigation? = app
         .let { stack.last { it.name == app.name } ?: app }
         .tryTransformIf(cleanStack) { it.backToFeature(it.initFeature) }
         ?.let { stack.moveToUp(it, compare) }
@@ -104,6 +123,6 @@ data class RootNavigation(
         ?.let { copy(stack = it) }
 
     fun replace(app: AppNavigation): RootNavigation = copy(
-        stack = Stack(prev = null, value = app)
+        stack = Stack(prev = null, value = app),
     )
 }

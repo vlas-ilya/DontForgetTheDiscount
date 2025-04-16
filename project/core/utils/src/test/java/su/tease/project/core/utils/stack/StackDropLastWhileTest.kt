@@ -7,7 +7,6 @@ import su.tease.project.core.utils.stack.stub.StubInt
 import su.tease.project.core.utils.stack.stub.toStubIntList
 
 class StackDropLastWhileTest {
-
     @Test
     fun `Drop last zero elements`() {
         val stack = listOf(1, 2, 3, 4, 5).toStubIntList().toStack() ?: return

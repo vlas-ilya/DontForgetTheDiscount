@@ -1,9 +1,9 @@
 package su.tease.project.feature.main.module
 
 import org.koin.dsl.module
-import su.tease.core.component.component.provider.app
-import su.tease.core.component.component.provider.feature
-import su.tease.core.component.component.provider.page
+import su.tease.core.mvi.component.component.provider.app
+import su.tease.core.mvi.component.component.provider.feature
+import su.tease.core.mvi.component.component.provider.page
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.feature.main.presentation.MainApp1
 import su.tease.project.feature.main.presentation.MainApp2

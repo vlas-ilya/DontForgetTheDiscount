@@ -7,5 +7,9 @@ import su.tease.project.core.mvi.api.store.Dispatcher
 
 interface Middleware {
     fun couldHandle(action: Action): Boolean
-    suspend fun handle(dispatcher: Dispatcher, action: Action)
+
+    suspend fun handle(
+        dispatcher: Dispatcher,
+        action: Action,
+    )
 }

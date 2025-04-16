@@ -13,7 +13,7 @@ import kotlin.reflect.KClass
 data class FeatureNavigation(
     val name: NavigationTarget.Feature,
     val initPage: NavigationTarget.Page,
-    val stack: Stack<PageNavigation> = Stack(prev = null, value = PageNavigation(initPage))
+    val stack: Stack<PageNavigation> = Stack(prev = null, value = PageNavigation(initPage)),
 ) : Navigation {
 
     @IgnoredOnParcel
@@ -24,9 +24,15 @@ data class FeatureNavigation(
     private val compare: (PageNavigation, PageNavigation) -> Boolean =
         { o1, o2 -> o1.name.some(o2.name) }
 
-    fun forward(page: NavigationTarget.Page, singleTop: Boolean = false): FeatureNavigation = copy(
-        stack = if (singleTop) stack.moveToUp(PageNavigation(page), compare)
-        else stack.add(PageNavigation(page))
+    fun forward(
+        page: NavigationTarget.Page,
+        singleTop: Boolean = false,
+    ): FeatureNavigation = copy(
+        stack = if (singleTop) {
+            stack.moveToUp(PageNavigation(page), compare)
+        } else {
+            stack.add(PageNavigation(page))
+        },
     )
 
     fun back(): FeatureNavigation? = stack

@@ -1,11 +1,9 @@
 package su.tease.project.core.utils.ext
 
-
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class ListExtTest {
-
     @Test
     fun `2 items list`() {
         val list = listOf(1, 2)

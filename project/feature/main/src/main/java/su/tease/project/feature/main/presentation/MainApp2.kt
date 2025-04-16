@@ -10,20 +10,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.parcelize.Parcelize
-import su.tease.core.component.component.impl.BaseAppComponent
+import su.tease.core.mvi.component.component.impl.BaseAppComponent
 import su.tease.core.mvi.navigation.FeatureNavigation
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.core.mvi.navigation.app
-import su.tease.design.component.navigation_bar.NavigationBar
-import su.tease.design.component.navigation_bar.data.NavigationBarItemData
+import su.tease.design.component.navigationbar.NavigationBar
+import su.tease.design.component.navigationbar.data.NavigationBarItemData
 import su.tease.project.core.mvi.api.state.State
 import su.tease.project.core.mvi.api.store.Dispatcher
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.impl.selector.select
-import su.tease.project.core.mvi_navigation.action.NavigationAction
-import su.tease.project.core.mvi_navigation.selector.feature
+import su.tease.project.core.mvi.navigation.action.NavigationAction
+import su.tease.project.core.mvi.navigation.selector.feature
 import su.tease.project.design.icons.R
-
 
 class MainApp2<S : State>(
     store: Store<S>,
@@ -32,13 +31,13 @@ class MainApp2<S : State>(
     @Composable
     override fun Compose(child: @Composable () -> Unit) {
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         ) {
             Text("MainApp2")
             Button(
                 onClick = {
                     dispatch(NavigationAction.SwitchApp(MainApp1("From App 2")))
-                }
+                },
             ) {
                 Text(text = "Switch to App 1")
             }
@@ -56,19 +55,17 @@ class MainApp2<S : State>(
                 NavigationBarItemData(
                     value = MainFeature2(),
                     name = "Feature 2",
-                    image = painterResource(R.drawable.alarm_clock)
+                    image = painterResource(R.drawable.alarm_clock),
                 ),
-
                 NavigationBarItemData(
                     value = MainFeature3(),
                     name = "Feature 3",
-                    image = painterResource(R.drawable.shopping_bag)
+                    image = painterResource(R.drawable.shopping_bag),
                 ),
             ),
+            onSelect = { dispatch(NavigationAction.SwitchFeature(it)) },
             compare = FeatureNavigation::some,
-        ) {
-            dispatch(NavigationAction.SwitchFeature(it))
-        }
+        )
     }
 
     companion object {
@@ -81,4 +78,3 @@ class MainApp2<S : State>(
     @Parcelize
     data object Target : NavigationTarget.App
 }
-

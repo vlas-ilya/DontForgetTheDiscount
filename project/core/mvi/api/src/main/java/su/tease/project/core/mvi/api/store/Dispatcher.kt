@@ -1,4 +1,5 @@
 @file:Suppress("DEPRECATION")
+
 package su.tease.project.core.mvi.api.store
 
 import kotlinx.coroutines.Job

@@ -7,5 +7,5 @@ import su.tease.project.core.mvi.api.state.State
 data class StubState1(
     val intValue: Int = 0,
     val stringValue: String = "",
-    val listStringValue: List<String> = listOf()
-): State
+    val listStringValue: List<String> = listOf(),
+) : State

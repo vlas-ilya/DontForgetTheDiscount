@@ -1,10 +1,7 @@
 package su.tease.dontforgetthediscount.module
 
 import org.koin.dsl.module
-import su.tease.core.component.component.provider.AppProvider
-import su.tease.core.component.component.provider.FeatureProvider
-import su.tease.core.component.component.provider.PageProvider
-import su.tease.core.component.resolver.impl.AppNavigationTargetResolver
+import su.tease.core.mvi.component.resolver.impl.AppNavigationTargetResolver
 import su.tease.dontforgetthediscount.component.DontForgetTheDiscountComponent
 import su.tease.project.core.mvi.api.store.Store
 

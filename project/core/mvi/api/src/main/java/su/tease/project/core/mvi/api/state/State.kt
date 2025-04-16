@@ -6,6 +6,5 @@ import kotlin.reflect.KClass
 
 @Immutable
 interface State : Parcelable {
-    fun findState(clazz: KClass<out State>): State? =
-        if (this::class == clazz) this else null
+    fun findState(clazz: KClass<out State>): State? = if (this::class == clazz) this else null
 }

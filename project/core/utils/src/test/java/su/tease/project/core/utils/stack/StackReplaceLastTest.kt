@@ -1,13 +1,11 @@
 package su.tease.project.core.utils.stack
 
-
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import su.tease.project.core.utils.stack.stub.StubInt
 import su.tease.project.core.utils.stack.stub.toStubIntList
 
 class StackReplaceLastTest {
-
     @Test
     fun `Replace last`() {
         val stack = listOf(1, 2, 3, 4).toStubIntList().toStack() ?: return

@@ -24,5 +24,3 @@ interface Theme {
             get() = LocalTheme.current.size
     }
 }
-
-

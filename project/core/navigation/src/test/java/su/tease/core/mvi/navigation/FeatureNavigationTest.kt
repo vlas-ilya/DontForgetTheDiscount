@@ -8,18 +8,19 @@ import su.tease.core.mvi.navigation.stub.StubPage
 import su.tease.project.core.utils.stack.makeStack
 
 class FeatureNavigationTest {
-
     @Test
     fun `FeatureNavigation top returns last page`() {
-        val feature = FeatureNavigation(
-            name = StubFeature.Feature1,
-            initPage = StubPage.Page1,
-            stack = makeStack(
-                PageNavigation(StubPage.Page1),
-                PageNavigation(StubPage.Page2),
-                PageNavigation(StubPage.Page3),
-            ),
-        )
+        val feature =
+            FeatureNavigation(
+                name = StubFeature.Feature1,
+                initPage = StubPage.Page1,
+                stack =
+                makeStack(
+                    PageNavigation(StubPage.Page1),
+                    PageNavigation(StubPage.Page2),
+                    PageNavigation(StubPage.Page3),
+                ),
+            )
 
         val top = feature.page
 
@@ -28,15 +29,17 @@ class FeatureNavigationTest {
 
     @Test
     fun `FeatureNavigation forward`() {
-        val feature = FeatureNavigation(
-            name = StubFeature.Feature1,
-            initPage = StubPage.Page1,
-            stack = makeStack(
-                PageNavigation(StubPage.Page1),
-                PageNavigation(StubPage.Page2),
-                PageNavigation(StubPage.Page3),
-            ),
-        )
+        val feature =
+            FeatureNavigation(
+                name = StubFeature.Feature1,
+                initPage = StubPage.Page1,
+                stack =
+                makeStack(
+                    PageNavigation(StubPage.Page1),
+                    PageNavigation(StubPage.Page2),
+                    PageNavigation(StubPage.Page3),
+                ),
+            )
 
         val newFeature = feature.forward(StubPage.Page4)
 
@@ -46,15 +49,17 @@ class FeatureNavigationTest {
 
     @Test
     fun `FeatureNavigation forward new page with singleTop`() {
-        val feature = FeatureNavigation(
-            name = StubFeature.Feature1,
-            initPage = StubPage.Page1,
-            stack = makeStack(
-                PageNavigation(StubPage.Page1),
-                PageNavigation(StubPage.Page2),
-                PageNavigation(StubPage.Page3),
-            ),
-        )
+        val feature =
+            FeatureNavigation(
+                name = StubFeature.Feature1,
+                initPage = StubPage.Page1,
+                stack =
+                makeStack(
+                    PageNavigation(StubPage.Page1),
+                    PageNavigation(StubPage.Page2),
+                    PageNavigation(StubPage.Page3),
+                ),
+            )
 
         val newFeature = feature.forward(StubPage.Page4, singleTop = true)
 
@@ -65,7 +70,7 @@ class FeatureNavigationTest {
                 PageNavigation(StubPage.Page2),
                 PageNavigation(StubPage.Page3),
             ),
-            feature.stack
+            feature.stack,
         )
 
         assertEquals(PageNavigation(StubPage.Page4), newFeature.page)
@@ -76,21 +81,23 @@ class FeatureNavigationTest {
                 PageNavigation(StubPage.Page3),
                 PageNavigation(StubPage.Page4),
             ),
-            newFeature.stack
+            newFeature.stack,
         )
     }
 
     @Test
     fun `FeatureNavigation forward existed page with singleTop`() {
-        val feature = FeatureNavigation(
-            name = StubFeature.Feature1,
-            initPage = StubPage.Page1,
-            stack = makeStack(
-                PageNavigation(StubPage.Page1),
-                PageNavigation(StubPage.Page2),
-                PageNavigation(StubPage.Page3),
-            ),
-        )
+        val feature =
+            FeatureNavigation(
+                name = StubFeature.Feature1,
+                initPage = StubPage.Page1,
+                stack =
+                makeStack(
+                    PageNavigation(StubPage.Page1),
+                    PageNavigation(StubPage.Page2),
+                    PageNavigation(StubPage.Page3),
+                ),
+            )
 
         val newFeature = feature.forward(StubPage.Page2, singleTop = true)
 
@@ -101,7 +108,7 @@ class FeatureNavigationTest {
                 PageNavigation(StubPage.Page2),
                 PageNavigation(StubPage.Page3),
             ),
-            feature.stack
+            feature.stack,
         )
 
         assertEquals(PageNavigation(StubPage.Page2), newFeature.page)
@@ -111,21 +118,23 @@ class FeatureNavigationTest {
                 PageNavigation(StubPage.Page3),
                 PageNavigation(StubPage.Page2),
             ),
-            newFeature.stack
+            newFeature.stack,
         )
     }
 
     @Test
     fun `FeatureNavigation forward existed page with data with singleTop`() {
-        val feature = FeatureNavigation(
-            name = StubFeature.Feature1,
-            initPage = StubPage.Page1,
-            stack = makeStack(
-                PageNavigation(StubPage.Page1),
-                PageNavigation(StubPage.Page5("test")),
-                PageNavigation(StubPage.Page3),
-            ),
-        )
+        val feature =
+            FeatureNavigation(
+                name = StubFeature.Feature1,
+                initPage = StubPage.Page1,
+                stack =
+                makeStack(
+                    PageNavigation(StubPage.Page1),
+                    PageNavigation(StubPage.Page5("test")),
+                    PageNavigation(StubPage.Page3),
+                ),
+            )
 
         val newFeature = feature.forward(StubPage.Page5("test 1"), singleTop = true)
 
@@ -136,7 +145,7 @@ class FeatureNavigationTest {
                 PageNavigation(StubPage.Page5("test")),
                 PageNavigation(StubPage.Page3),
             ),
-            feature.stack
+            feature.stack,
         )
 
         assertEquals(PageNavigation(StubPage.Page5("test 1")), newFeature.page)
@@ -146,21 +155,23 @@ class FeatureNavigationTest {
                 PageNavigation(StubPage.Page3),
                 PageNavigation(StubPage.Page5("test 1")),
             ),
-            newFeature.stack
+            newFeature.stack,
         )
     }
 
     @Test
     fun `FeatureNavigation forward last page with singleTop`() {
-        val feature = FeatureNavigation(
-            name = StubFeature.Feature1,
-            initPage = StubPage.Page1,
-            stack = makeStack(
-                PageNavigation(StubPage.Page1),
-                PageNavigation(StubPage.Page2),
-                PageNavigation(StubPage.Page3),
-            ),
-        )
+        val feature =
+            FeatureNavigation(
+                name = StubFeature.Feature1,
+                initPage = StubPage.Page1,
+                stack =
+                makeStack(
+                    PageNavigation(StubPage.Page1),
+                    PageNavigation(StubPage.Page2),
+                    PageNavigation(StubPage.Page3),
+                ),
+            )
 
         val newFeature = feature.forward(StubPage.Page3, singleTop = true)
 
@@ -171,7 +182,7 @@ class FeatureNavigationTest {
                 PageNavigation(StubPage.Page2),
                 PageNavigation(StubPage.Page3),
             ),
-            feature.stack
+            feature.stack,
         )
 
         assertEquals(PageNavigation(StubPage.Page3), newFeature.page)
@@ -181,21 +192,23 @@ class FeatureNavigationTest {
                 PageNavigation(StubPage.Page2),
                 PageNavigation(StubPage.Page3),
             ),
-            newFeature.stack
+            newFeature.stack,
         )
     }
 
     @Test
     fun `FeatureNavigation forward last page without singleTop`() {
-        val feature = FeatureNavigation(
-            name = StubFeature.Feature1,
-            initPage = StubPage.Page1,
-            stack = makeStack(
-                PageNavigation(StubPage.Page1),
-                PageNavigation(StubPage.Page2),
-                PageNavigation(StubPage.Page3),
-            ),
-        )
+        val feature =
+            FeatureNavigation(
+                name = StubFeature.Feature1,
+                initPage = StubPage.Page1,
+                stack =
+                makeStack(
+                    PageNavigation(StubPage.Page1),
+                    PageNavigation(StubPage.Page2),
+                    PageNavigation(StubPage.Page3),
+                ),
+            )
 
         val newFeature = feature.forward(StubPage.Page3)
 
@@ -206,7 +219,7 @@ class FeatureNavigationTest {
                 PageNavigation(StubPage.Page2),
                 PageNavigation(StubPage.Page3),
             ),
-            feature.stack
+            feature.stack,
         )
 
         assertEquals(PageNavigation(StubPage.Page3), newFeature.page)
@@ -217,21 +230,23 @@ class FeatureNavigationTest {
                 PageNavigation(StubPage.Page3),
                 PageNavigation(StubPage.Page3),
             ),
-            newFeature.stack
+            newFeature.stack,
         )
     }
 
     @Test
     fun `FeatureNavigation forward existed page without singleTop`() {
-        val feature = FeatureNavigation(
-            name = StubFeature.Feature1,
-            initPage = StubPage.Page1,
-            stack = makeStack(
-                PageNavigation(StubPage.Page1),
-                PageNavigation(StubPage.Page2),
-                PageNavigation(StubPage.Page3),
-            ),
-        )
+        val feature =
+            FeatureNavigation(
+                name = StubFeature.Feature1,
+                initPage = StubPage.Page1,
+                stack =
+                makeStack(
+                    PageNavigation(StubPage.Page1),
+                    PageNavigation(StubPage.Page2),
+                    PageNavigation(StubPage.Page3),
+                ),
+            )
 
         val newFeature = feature.forward(StubPage.Page2)
 
@@ -242,7 +257,7 @@ class FeatureNavigationTest {
                 PageNavigation(StubPage.Page2),
                 PageNavigation(StubPage.Page3),
             ),
-            feature.stack
+            feature.stack,
         )
 
         assertEquals(PageNavigation(StubPage.Page2), newFeature.page)
@@ -253,21 +268,23 @@ class FeatureNavigationTest {
                 PageNavigation(StubPage.Page3),
                 PageNavigation(StubPage.Page2),
             ),
-            newFeature.stack
+            newFeature.stack,
         )
     }
 
     @Test
     fun `FeatureNavigation back`() {
-        val feature = FeatureNavigation(
-            name = StubFeature.Feature1,
-            initPage = StubPage.Page1,
-            stack = makeStack(
-                PageNavigation(StubPage.Page1),
-                PageNavigation(StubPage.Page2),
-                PageNavigation(StubPage.Page3),
-            ),
-        )
+        val feature =
+            FeatureNavigation(
+                name = StubFeature.Feature1,
+                initPage = StubPage.Page1,
+                stack =
+                makeStack(
+                    PageNavigation(StubPage.Page1),
+                    PageNavigation(StubPage.Page2),
+                    PageNavigation(StubPage.Page3),
+                ),
+            )
 
         val newFeature = feature.back()
 
@@ -278,7 +295,7 @@ class FeatureNavigationTest {
                 PageNavigation(StubPage.Page2),
                 PageNavigation(StubPage.Page3),
             ),
-            feature.stack
+            feature.stack,
         )
 
         assertEquals(PageNavigation(StubPage.Page2), newFeature?.page)
@@ -287,19 +304,21 @@ class FeatureNavigationTest {
                 PageNavigation(StubPage.Page1),
                 PageNavigation(StubPage.Page2),
             ),
-            newFeature?.stack
+            newFeature?.stack,
         )
     }
 
     @Test
     fun `FeatureNavigation back last page`() {
-        val feature = FeatureNavigation(
-            name = StubFeature.Feature1,
-            initPage = StubPage.Page1,
-            stack = makeStack(
-                PageNavigation(StubPage.Page1),
-            ),
-        )
+        val feature =
+            FeatureNavigation(
+                name = StubFeature.Feature1,
+                initPage = StubPage.Page1,
+                stack =
+                makeStack(
+                    PageNavigation(StubPage.Page1),
+                ),
+            )
 
         val newFeature = feature.back()
 
@@ -308,7 +327,7 @@ class FeatureNavigationTest {
             makeStack(
                 PageNavigation(StubPage.Page1),
             ),
-            feature.stack
+            feature.stack,
         )
 
         assertNull(newFeature)
@@ -316,15 +335,17 @@ class FeatureNavigationTest {
 
     @Test
     fun `FeatureNavigation backTo last page`() {
-        val feature = FeatureNavigation(
-            name = StubFeature.Feature1,
-            initPage = StubPage.Page1,
-            stack = makeStack(
-                PageNavigation(StubPage.Page1),
-                PageNavigation(StubPage.Page2),
-                PageNavigation(StubPage.Page3),
-            ),
-        )
+        val feature =
+            FeatureNavigation(
+                name = StubFeature.Feature1,
+                initPage = StubPage.Page1,
+                stack =
+                makeStack(
+                    PageNavigation(StubPage.Page1),
+                    PageNavigation(StubPage.Page2),
+                    PageNavigation(StubPage.Page3),
+                ),
+            )
 
         val newFeature = feature.backToPage(StubPage.Page3)
 
@@ -335,7 +356,7 @@ class FeatureNavigationTest {
                 PageNavigation(StubPage.Page2),
                 PageNavigation(StubPage.Page3),
             ),
-            feature.stack
+            feature.stack,
         )
 
         assertEquals(PageNavigation(StubPage.Page3), newFeature?.page)
@@ -345,21 +366,23 @@ class FeatureNavigationTest {
                 PageNavigation(StubPage.Page2),
                 PageNavigation(StubPage.Page3),
             ),
-            newFeature?.stack
+            newFeature?.stack,
         )
     }
 
     @Test
     fun `FeatureNavigation backTo existed page`() {
-        val feature = FeatureNavigation(
-            name = StubFeature.Feature1,
-            initPage = StubPage.Page1,
-            stack = makeStack(
-                PageNavigation(StubPage.Page1),
-                PageNavigation(StubPage.Page2),
-                PageNavigation(StubPage.Page3),
-            ),
-        )
+        val feature =
+            FeatureNavigation(
+                name = StubFeature.Feature1,
+                initPage = StubPage.Page1,
+                stack =
+                makeStack(
+                    PageNavigation(StubPage.Page1),
+                    PageNavigation(StubPage.Page2),
+                    PageNavigation(StubPage.Page3),
+                ),
+            )
 
         val newFeature = feature.backToPage(StubPage.Page2)
 
@@ -370,7 +393,7 @@ class FeatureNavigationTest {
                 PageNavigation(StubPage.Page2),
                 PageNavigation(StubPage.Page3),
             ),
-            feature.stack
+            feature.stack,
         )
 
         assertEquals(PageNavigation(StubPage.Page2), newFeature?.page)
@@ -379,21 +402,23 @@ class FeatureNavigationTest {
                 PageNavigation(StubPage.Page1),
                 PageNavigation(StubPage.Page2),
             ),
-            newFeature?.stack
+            newFeature?.stack,
         )
     }
 
     @Test
     fun `FeatureNavigation backTo first page`() {
-        val feature = FeatureNavigation(
-            name = StubFeature.Feature1,
-            initPage = StubPage.Page1,
-            stack = makeStack(
-                PageNavigation(StubPage.Page1),
-                PageNavigation(StubPage.Page2),
-                PageNavigation(StubPage.Page3),
-            ),
-        )
+        val feature =
+            FeatureNavigation(
+                name = StubFeature.Feature1,
+                initPage = StubPage.Page1,
+                stack =
+                makeStack(
+                    PageNavigation(StubPage.Page1),
+                    PageNavigation(StubPage.Page2),
+                    PageNavigation(StubPage.Page3),
+                ),
+            )
 
         val newFeature = feature.backToPage(StubPage.Page1)
 
@@ -404,7 +429,7 @@ class FeatureNavigationTest {
                 PageNavigation(StubPage.Page2),
                 PageNavigation(StubPage.Page3),
             ),
-            feature.stack
+            feature.stack,
         )
 
         assertEquals(PageNavigation(StubPage.Page1), newFeature?.page)
@@ -412,21 +437,23 @@ class FeatureNavigationTest {
             makeStack(
                 PageNavigation(StubPage.Page1),
             ),
-            newFeature?.stack
+            newFeature?.stack,
         )
     }
 
     @Test
     fun `FeatureNavigation backTo not existed page`() {
-        val feature = FeatureNavigation(
-            name = StubFeature.Feature1,
-            initPage = StubPage.Page1,
-            stack = makeStack(
-                PageNavigation(StubPage.Page1),
-                PageNavigation(StubPage.Page2),
-                PageNavigation(StubPage.Page3),
-            ),
-        )
+        val feature =
+            FeatureNavigation(
+                name = StubFeature.Feature1,
+                initPage = StubPage.Page1,
+                stack =
+                makeStack(
+                    PageNavigation(StubPage.Page1),
+                    PageNavigation(StubPage.Page2),
+                    PageNavigation(StubPage.Page3),
+                ),
+            )
 
         val newFeature = feature.backToPage(StubPage.Page4)
 
@@ -437,25 +464,25 @@ class FeatureNavigationTest {
                 PageNavigation(StubPage.Page2),
                 PageNavigation(StubPage.Page3),
             ),
-            feature.stack
+            feature.stack,
         )
 
         assertNull(newFeature)
     }
 
-
-
     @Test
     fun `FeatureNavigation backTo existed page with data`() {
-        val feature = FeatureNavigation(
-            name = StubFeature.Feature1,
-            initPage = StubPage.Page1,
-            stack = makeStack(
-                PageNavigation(StubPage.Page1),
-                PageNavigation(StubPage.Page5("test")),
-                PageNavigation(StubPage.Page3),
-            ),
-        )
+        val feature =
+            FeatureNavigation(
+                name = StubFeature.Feature1,
+                initPage = StubPage.Page1,
+                stack =
+                makeStack(
+                    PageNavigation(StubPage.Page1),
+                    PageNavigation(StubPage.Page5("test")),
+                    PageNavigation(StubPage.Page3),
+                ),
+            )
 
         val newFeature = feature.backToPage(StubPage.Page5(""))
 
@@ -466,7 +493,7 @@ class FeatureNavigationTest {
                 PageNavigation(StubPage.Page5("test")),
                 PageNavigation(StubPage.Page3),
             ),
-            feature.stack
+            feature.stack,
         )
 
         assertEquals(PageNavigation(StubPage.Page5("test")), newFeature?.page)
@@ -475,7 +502,7 @@ class FeatureNavigationTest {
                 PageNavigation(StubPage.Page1),
                 PageNavigation(StubPage.Page5("test")),
             ),
-            newFeature?.stack
+            newFeature?.stack,
         )
     }
 }

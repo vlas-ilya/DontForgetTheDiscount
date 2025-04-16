@@ -12,7 +12,6 @@ internal data class ColorsImpl(
     override val navigationItemContent: Color,
     override val navigationItemContentSelected: Color,
 ) : Colors {
-
     companion object {
         internal fun make(themeValue: ThemeValue): Colors = when (themeValue) {
             ThemeValue.LIGHT -> makeLightColors()

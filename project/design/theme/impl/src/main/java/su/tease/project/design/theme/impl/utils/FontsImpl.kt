@@ -9,7 +9,7 @@ import su.tease.design.theme.api.utils.FontSetting
 import su.tease.project.design.theme.impl.ThemeValue
 
 internal data class FontsImpl(
-    override val text: FontSetting
+    override val text: FontSetting,
 ) : Fonts {
 
     companion object {
@@ -26,7 +26,7 @@ private fun makeLightFonts(): Fonts = FontsImpl(
         fontStyle = FontStyle.Normal,
         fontWeight = FontWeight.Normal,
         fontFamily = FontFamily.Default,
-    )
+    ),
 )
 
 private fun makeNightFonts(): Fonts = makeLightFonts()

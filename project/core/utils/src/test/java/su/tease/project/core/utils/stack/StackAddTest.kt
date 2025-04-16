@@ -6,7 +6,6 @@ import su.tease.project.core.utils.stack.stub.StubInt
 import su.tease.project.core.utils.stack.stub.toStubIntList
 
 class StackAddTest {
-
     @Test
     fun `Add to Stack with one element`() {
         val stack = listOf(1).toStubIntList().toStack() ?: return
