@@ -1,8 +1,7 @@
-package su.tease.project.core.mvi.impl.selector
+package su.tease.project.core.mvi.api.selector
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import su.tease.project.core.mvi.api.selector.Selector
 import su.tease.project.core.mvi.api.state.State
 import su.tease.project.core.mvi.api.store.Store
 

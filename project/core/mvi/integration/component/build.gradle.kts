@@ -70,6 +70,6 @@ dependencies {
     // project
     implementation(project(":project:core:mvi:api"))
     implementation(project(":project:core:mvi:impl"))
-    implementation(project(":project:core:mvi_navigation"))
+    implementation(project(":project:core:mvi:integration:navigation"))
     implementation(project(":project:core:navigation"))
 }

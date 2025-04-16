@@ -14,7 +14,7 @@ import su.tease.core.mvi.component.resolver.NavigationTargetResolver
 import su.tease.core.mvi.component.utils.AppContainerConfiguration
 import su.tease.project.core.mvi.api.state.State
 import su.tease.project.core.mvi.api.store.Store
-import su.tease.project.core.mvi.impl.selector.select
+import su.tease.project.core.mvi.api.selector.select
 import su.tease.project.core.mvi.navigation.selector.app
 import su.tease.project.core.mvi.navigation.selector.feature
 

@@ -19,7 +19,7 @@ import su.tease.design.component.navigationbar.data.NavigationBarItemData
 import su.tease.project.core.mvi.api.state.State
 import su.tease.project.core.mvi.api.store.Dispatcher
 import su.tease.project.core.mvi.api.store.Store
-import su.tease.project.core.mvi.impl.selector.select
+import su.tease.project.core.mvi.api.selector.select
 import su.tease.project.core.mvi.navigation.action.NavigationAction
 import su.tease.project.core.mvi.navigation.selector.feature
 import su.tease.project.design.icons.R

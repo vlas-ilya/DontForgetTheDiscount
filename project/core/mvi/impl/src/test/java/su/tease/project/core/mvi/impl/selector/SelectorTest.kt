@@ -6,6 +6,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import su.tease.project.core.mvi.api.selector.Selector
+import su.tease.project.core.mvi.api.selector.select
 import su.tease.project.core.mvi.impl.stub.createStubStore
 import su.tease.project.core.mvi.impl.stub.stub2.StubState2
 import su.tease.project.core.mvi.impl.stub.stub2.StubState2VO

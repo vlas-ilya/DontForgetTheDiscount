@@ -64,9 +64,8 @@ dependencies {
     implementation(project(":project:design:theme:impl"))
     implementation(project(":project:design:theme:api"))
     implementation(project(":project:core:mvi:api"))
-    implementation(project(":project:core:mvi:impl"))
-    implementation(project(":project:core:miv_component"))
-    implementation(project(":project:core:mvi_navigation"))
+    implementation(project(":project:core:mvi:integration:component"))
+    implementation(project(":project:core:mvi:integration:navigation"))
     implementation(project(":project:core:navigation"))
     implementation(project(":project:core:utils"))
 }
