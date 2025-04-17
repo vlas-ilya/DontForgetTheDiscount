@@ -104,8 +104,11 @@ dependencies {
     implementation(project(":project:core:mvi:api"))
     implementation(project(":project:core:mvi:impl"))
     implementation(project(":project:core:mvi:integration:android"))
+    implementation(project(":project:core:mvi:integration:clean"))
     implementation(project(":project:core:mvi:integration:component"))
     implementation(project(":project:core:mvi:integration:navigation"))
+    implementation(project(":project:core:mvi:middleware:intercept"))
+    implementation(project(":project:core:mvi:middleware:suspend"))
     implementation(project(":project:core:navigation"))
     implementation(project(":project:core:utils"))
 }

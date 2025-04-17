@@ -12,6 +12,14 @@ internal fun <S1 : State, S2 : State> combine(
     reducer2 = reducer2,
 )
 
+fun <S1 : State, S2 : State> combine(
+    state1: S1,
+    state2: S2,
+): State = CombinedState(
+    state1 = state1,
+    state2 = state2,
+)
+
 fun combine(vararg reducer: Reducer<*>): Reducer<*> = combine(reducer.toList())
 
 fun combine(reducers: List<Reducer<*>>): Reducer<*> {
