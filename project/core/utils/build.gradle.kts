@@ -57,6 +57,9 @@ dependencies {
     androidTestImplementation(composeBom)
     androidTestImplementation(libs.compose.ui.test)
 
+    // Network
+    implementation(libs.retrofit)
+
     // core
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.kotlin.collections.immutable)

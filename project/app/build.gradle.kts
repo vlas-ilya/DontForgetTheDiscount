@@ -92,6 +92,9 @@ dependencies {
 
     // Network
     implementation(libs.retrofit)
+    implementation(libs.retrofit.serialization)
+    implementation(libs.kotlin.serialization)
+    implementation(libs.okhttp3.logging)
 
     // project
     implementation(project(":project:feature:main"))

@@ -40,6 +40,9 @@ dependencies {
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
 
+    // Network
+    implementation(libs.retrofit)
+
     // core
     implementation(libs.kotlin.collections.immutable)
     implementation(libs.kotlin.coroutines.core)

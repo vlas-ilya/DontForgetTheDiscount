@@ -9,11 +9,11 @@ import su.tease.core.mvi.navigation.NavigationTarget
 
 data class FeatureProvider<T : NavigationTarget.Feature>(
     val target: Class<T>,
-    val component: Scope.(target: T) -> BaseFeatureComponent,
+    val component: Scope.(provider: StoreTargetProvider<T>) -> BaseFeatureComponent,
 )
 
 inline fun <reified T : NavigationTarget.Feature> Module.feature(
-    noinline component: Scope.(target: T) -> BaseFeatureComponent
+    noinline component: Scope.(provider: StoreTargetProvider<T>) -> BaseFeatureComponent
 ) {
     single(named(T::class.java.name)) {
         FeatureProvider(T::class.java, component)

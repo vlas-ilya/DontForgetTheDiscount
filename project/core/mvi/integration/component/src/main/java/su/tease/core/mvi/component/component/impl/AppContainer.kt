@@ -38,6 +38,7 @@ class AppContainer<S : State>(
                 root.configure()
             }
         }
+
         Box(modifier = Modifier.fillMaxSize()) {
             appComponent.Compose {
                 FeatureContainer(

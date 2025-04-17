@@ -9,11 +9,11 @@ import su.tease.core.mvi.navigation.NavigationTarget
 
 data class PageProvider<T : NavigationTarget.Page>(
     val target: Class<T>,
-    val component: Scope.(target: T) -> BasePageComponent,
+    val component: Scope.(provider: StoreTargetProvider<T>) -> BasePageComponent,
 )
 
 inline fun <reified T : NavigationTarget.Page> Module.page(
-    noinline component: Scope.(target: T) -> BasePageComponent
+    noinline component: Scope.(provider: StoreTargetProvider<T>) -> BasePageComponent
 ) {
     single(named(T::class.java.name)) {
         PageProvider(T::class.java, component)
