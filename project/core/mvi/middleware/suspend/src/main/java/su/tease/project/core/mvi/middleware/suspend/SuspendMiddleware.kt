@@ -6,7 +6,6 @@ import su.tease.project.core.mvi.api.action.Action
 import su.tease.project.core.mvi.api.middleware.Middleware
 import su.tease.project.core.mvi.api.store.Dispatcher
 
-@Suppress("DEPRECATION")
 fun interface SuspendAction : Action {
     suspend operator fun invoke(dispatcher: Dispatcher)
 }

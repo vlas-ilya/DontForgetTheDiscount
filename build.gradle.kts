@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.kotlin.parcelize) apply false
     alias(libs.plugins.detekt)
+    alias(libs.plugins.jetbrains.kotlin.jvm) apply false
 }
 
 subprojects {

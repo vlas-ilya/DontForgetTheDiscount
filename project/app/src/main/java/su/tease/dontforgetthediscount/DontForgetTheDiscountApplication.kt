@@ -6,6 +6,7 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import su.tease.core.mvi.android.AndroidMviApplication
 import su.tease.dontforgetthediscount.module.dontForgetTheDiscountModule
+import su.tease.dontforgetthediscount.network.retrofitModule
 import su.tease.dontforgetthediscount.state.dontForgetTheDiscountMiddlewares
 import su.tease.dontforgetthediscount.state.dontForgetTheDiscountReducer
 import su.tease.feature.splash.splashModule
@@ -28,10 +29,11 @@ class DontForgetTheDiscountApplication : AndroidMviApplication(
             androidLogger()
             androidContext(this@DontForgetTheDiscountApplication)
             modules(dontForgetTheDiscountStoreModule)
+            modules(dontForgetTheDiscountModule)
+            modules(retrofitModule)
             modules(splashModule)
             modules(mainModule)
             modules(cacheBackModule)
-            modules(dontForgetTheDiscountModule)
         }
     }
 }

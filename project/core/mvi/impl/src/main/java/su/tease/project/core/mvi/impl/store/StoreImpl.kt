@@ -31,18 +31,16 @@ class StoreImpl<S : State>(
     override val dispatcher: Dispatcher = this
 
     override fun dispatch(action: Action) = coroutineScope.launch(Dispatchers.Default) {
-        val middlewares = middlewares.filter { it.couldHandle(action) }
-        if (middlewares.isNotEmpty()) {
-            middlewares.forEach { it.handle(dispatcher, action) }
-            return@launch
-        }
+        middlewares
+            .filter { it.couldHandle(action) }
+            .forEach { it.handle(dispatcher, action) }
 
-        if (action !is PlainAction) return@launch
-
-        stateMutex.withLock {
-            val currentState = stateFlow.value
-            val nextState = reducer.run { currentState.onAction(action) }
-            stateFlow.emit(nextState)
+        if (action is PlainAction) {
+            stateMutex.withLock {
+                val currentState = stateFlow.value
+                val nextState = reducer.run { currentState.onAction(action) }
+                stateFlow.emit(nextState)
+            }
         }
     }
 }

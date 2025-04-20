@@ -4,7 +4,7 @@ import org.koin.dsl.module
 import su.tease.core.mvi.component.component.provider.feature
 import su.tease.core.mvi.component.component.provider.page
 import su.tease.project.core.utils.utils.api
-import su.tease.project.feature.cacheback.data.dataSource.BankDictionary
+import su.tease.project.feature.cacheback.data.dataSource.Dictionary
 import su.tease.project.feature.cacheback.domain.interceptor.CacheBackBankInterceptor
 import su.tease.project.feature.cacheback.domain.interceptor.impl.CacheBackBankInterceptorImpl
 import su.tease.project.feature.cacheback.domain.usecase.LoadCacheBackBankListUseCase
@@ -14,7 +14,7 @@ import su.tease.project.feature.cacheback.presentation.list.CacheBackListPage
 
 val cacheBackModule = module {
 
-    api<BankDictionary>()
+    api<Dictionary>()
 
     factory<CacheBackBankInterceptor> {
         CacheBackBankInterceptorImpl()
