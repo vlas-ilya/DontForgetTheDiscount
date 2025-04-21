@@ -12,7 +12,6 @@ import su.tease.dontforgetthediscount.state.dontForgetTheDiscountLogger
 import su.tease.dontforgetthediscount.state.dontForgetTheDiscountMiddlewares
 import su.tease.dontforgetthediscount.state.dontForgetTheDiscountReducer
 import su.tease.feature.splash.splashModule
-import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.feature.cacheback.module.cacheBackModule
 import su.tease.project.feature.main.module.mainModule
 import timber.log.Timber

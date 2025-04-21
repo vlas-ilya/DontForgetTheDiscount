@@ -1,4 +1,4 @@
-package su.tease.project.feature.cacheback.presentation.list
+package su.tease.project.feature.cacheback.presentation
 
 import androidx.compose.runtime.Composable
 import kotlinx.parcelize.Parcelize
@@ -8,8 +8,9 @@ import su.tease.core.mvi.navigation.feature
 import su.tease.project.core.mvi.api.state.State
 import su.tease.project.core.mvi.api.store.Dispatcher
 import su.tease.project.core.mvi.api.store.Store
+import su.tease.project.feature.cacheback.presentation.list.CacheBackListPage
 
-class CacheBackListFeature<S : State>(
+class CacheBackFeature<S : State>(
     store: Store<S>,
 ) : BaseFeatureComponent(), Store<S> by store, Dispatcher by store.dispatcher {
 

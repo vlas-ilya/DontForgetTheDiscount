@@ -11,7 +11,7 @@ fun CacheBackCodeEntity.toDomain() = CacheBackCode(
     code = CacheBackCodeValue(code),
 )
 
-fun CacheBackCode.toDto(cacheBackId: CacheBackId) = CacheBackCodeEntity(
+fun CacheBackCode.toEntity(cacheBackId: CacheBackId) = CacheBackCodeEntity(
     id = id.value,
     code = code.code,
     cacheBackId = cacheBackId.value,

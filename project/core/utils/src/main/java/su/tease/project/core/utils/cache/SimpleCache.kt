@@ -2,6 +2,7 @@ package su.tease.project.core.utils.cache
 
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import su.tease.project.core.utils.ext.unit
 
 class SimpleCache {
     private val cache = mutableMapOf<Any, Any>()
@@ -17,6 +18,11 @@ class SimpleCache {
             .withLock { cache.getOrPut(key) { defaultValue() as Any } }
             .also { removeKeyMutex(key) }
         ) as R
+
+    suspend fun clear(key: Any) = getKeyMutex(key).withLock {
+        cache.remove(key)
+        removeKeyMutex(key)
+    }.unit()
 
     private suspend fun getKeyMutex(key: Any) =
         locksMutex.withLock { locks.getOrPut(key) { Mutex() } }

@@ -36,4 +36,3 @@ value class CacheBackIcon(val url: String) : Parcelable
 @JvmInline
 @Parcelize
 value class CacheBackSize(val percent: Int) : Parcelable
-

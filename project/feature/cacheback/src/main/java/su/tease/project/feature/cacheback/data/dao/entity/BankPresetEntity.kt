@@ -3,10 +3,9 @@ package su.tease.project.feature.cacheback.data.dao.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.Relation
 
-@Entity(tableName = "CacheBackBankEntity")
-data class CacheBackBankEntity(
+@Entity(tableName = "BankPresetEntity")
+data class BankPresetEntity(
 
     @PrimaryKey
     val id: String,

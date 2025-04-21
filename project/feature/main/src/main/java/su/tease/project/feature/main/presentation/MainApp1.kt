@@ -23,7 +23,7 @@ import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.navigation.action.NavigationAction
 import su.tease.project.core.mvi.navigation.selector.feature
 import su.tease.project.design.icons.R
-import su.tease.project.feature.cacheback.presentation.list.CacheBackListFeature
+import su.tease.project.feature.cacheback.presentation.CacheBackFeature
 
 class MainApp1<S : State>(
     store: Store<S>,
@@ -62,7 +62,7 @@ class MainApp1<S : State>(
                     image = painterResource(R.drawable.alarm_clock),
                 ),
                 NavigationBarItemData(
-                    value = CacheBackListFeature(),
+                    value = CacheBackFeature(),
                     name = "Cache Back",
                     image = painterResource(R.drawable.dollar),
                 ),

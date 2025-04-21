@@ -4,49 +4,50 @@ import kotlinx.collections.immutable.PersistentList
 import su.tease.core.clean.domain.entity.EntityId
 import su.tease.project.core.utils.ext.mapPersistent
 import su.tease.project.core.utils.utils.withDefault
-import su.tease.project.feature.cacheback.data.dao.CacheBackBankDao
+import su.tease.project.feature.cacheback.data.dao.BankDao
 import su.tease.project.feature.cacheback.data.dao.CacheBackCodeDao
 import su.tease.project.feature.cacheback.data.dao.CacheBackDao
 import su.tease.project.feature.cacheback.data.dao.mapper.toDomain
-import su.tease.project.feature.cacheback.data.dao.mapper.toDto
-import su.tease.project.feature.cacheback.domain.entity.CacheBackBank
-import su.tease.project.feature.cacheback.domain.repository.CacheBackBankRepository
+import su.tease.project.feature.cacheback.data.dao.mapper.toEntity
+import su.tease.project.feature.cacheback.domain.entity.Bank
+import su.tease.project.feature.cacheback.domain.repository.BankRepository
 
-class CacheBackBankRepositoryImpl(
-    private val cacheBackBankDao: CacheBackBankDao,
+class BankRepositoryImpl(
+    private val cacheBackBankDao: BankDao,
     private val cacheBackDao: CacheBackDao,
     private val cacheBackCodeDao: CacheBackCodeDao,
-) : CacheBackBankRepository {
+) : BankRepository {
 
-    override suspend fun save(bank: CacheBackBank) = withDefault {
-        cacheBackBankDao.save(bank.toDto())
-        cacheBackDao.updateBy(bank.id.value, bank.cacheBacks.map { it.toDto(bank.id) })
+    override suspend fun save(bank: Bank) = withDefault {
+        cacheBackBankDao.save(bank.toEntity())
+        cacheBackDao.updateBy(bank.id.value, bank.cacheBacks.map { it.toEntity(bank.id) })
         bank.cacheBacks.forEach { cacheBack ->
             cacheBackCodeDao.updateBy(
                 cacheBack.id.value,
-                cacheBack.codes.map { it.toDto(cacheBack.id) })
+                cacheBack.codes.map { it.toEntity(cacheBack.id) }
+            )
         }
     }
 
-    override suspend fun find(id: EntityId<CacheBackBank>): CacheBackBank? = withDefault {
+    override suspend fun find(id: EntityId<Bank>): Bank? = withDefault {
         cacheBackBankDao.get(id.value)?.toDomain(
             cacheBackEntityList(id.value)
         )
     }
 
-    override suspend fun list(): PersistentList<CacheBackBank> = withDefault {
+    override suspend fun list(): PersistentList<Bank> = withDefault {
         cacheBackBankDao.list().mapPersistent {
             it.toDomain(cacheBackEntityList(it.id))
         }
     }
 
-    override suspend fun delete(id: EntityId<CacheBackBank>): Boolean= withDefault {
+    override suspend fun delete(id: EntityId<Bank>): Boolean = withDefault {
         val bank = find(id) ?: return@withDefault false
         bank.cacheBacks.forEach {
             cacheBackCodeDao.deleteBy(it.id.value)
         }
         cacheBackDao.deleteBy(id.value)
-        cacheBackBankDao.delete(bank.toDto())
+        cacheBackBankDao.delete(bank.toEntity())
         true
     }
 

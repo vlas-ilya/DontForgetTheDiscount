@@ -8,21 +8,21 @@ import su.tease.core.clean.domain.entity.EntityId
 
 @Parcelize
 @Immutable
-data class CacheBackBank(
-    val id: CacheBackBankId,
-    val name: CacheBackBankName,
-    val icon: CacheBackBankIcon,
+data class Bank(
+    val id: BankId,
+    val name: BankName,
+    val icon: BankIcon,
     val cacheBacks: PersistentList<CacheBack>,
 ) : Parcelable
 
 @JvmInline
 @Parcelize
-value class CacheBackBankId(override val value: String) : EntityId<CacheBackBank>, Parcelable
+value class BankId(override val value: String) : EntityId<Bank>, Parcelable
 
 @JvmInline
 @Parcelize
-value class CacheBackBankIcon(val url: String) : Parcelable
+value class BankIcon(val url: String) : Parcelable
 
 @JvmInline
 @Parcelize
-value class CacheBackBankName(val value: String) : Parcelable
+value class BankName(val value: String) : Parcelable

@@ -1,14 +1,19 @@
 package su.tease.project.feature.cacheback.domain.repository
 
+import kotlinx.collections.immutable.PersistentList
 import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
-import su.tease.project.feature.cacheback.domain.entity.preset.CacheBackIcon
 import su.tease.project.feature.cacheback.domain.entity.preset.CacheBackPreset
+import su.tease.project.feature.cacheback.domain.entity.preset.IconPreset
 
 interface DictionaryRepository {
 
-    suspend fun banks(): List<BankPreset>
+    suspend fun banks(): PersistentList<BankPreset>
 
-    suspend fun cacheBacks(): List<CacheBackPreset>
+    suspend fun cacheBacks(): PersistentList<CacheBackPreset>
 
-    suspend fun cacheBacksIcons(): List<CacheBackIcon>
+    suspend fun cacheBacksIcons(): PersistentList<IconPreset>
+
+    suspend fun add(bank: BankPreset)
+
+    suspend fun add(cacheBank: CacheBackPreset)
 }

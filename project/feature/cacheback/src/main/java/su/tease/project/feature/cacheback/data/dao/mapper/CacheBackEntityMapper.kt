@@ -3,7 +3,7 @@ package su.tease.project.feature.cacheback.data.dao.mapper
 import kotlinx.collections.immutable.PersistentList
 import su.tease.project.feature.cacheback.data.dao.entity.CacheBackEntity
 import su.tease.project.feature.cacheback.domain.entity.CacheBack
-import su.tease.project.feature.cacheback.domain.entity.CacheBackBankId
+import su.tease.project.feature.cacheback.domain.entity.BankId
 import su.tease.project.feature.cacheback.domain.entity.CacheBackCode
 import su.tease.project.feature.cacheback.domain.entity.CacheBackIcon
 import su.tease.project.feature.cacheback.domain.entity.CacheBackId
@@ -22,11 +22,11 @@ fun CacheBackEntity.toDomain(
     codes = codes,
 )
 
-fun CacheBack.toDto(cacheBackBankId: CacheBackBankId) = CacheBackEntity(
+fun CacheBack.toEntity(bankId: BankId) = CacheBackEntity(
     id = id.value,
     name = name.value,
     info = info.value,
     iconUrl = icon.url,
     size = size.percent,
-    cacheBackBankId = cacheBackBankId.value,
+    cacheBackBankId = bankId.value,
 )

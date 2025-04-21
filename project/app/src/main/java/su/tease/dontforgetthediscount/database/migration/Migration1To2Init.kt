@@ -3,12 +3,12 @@ package su.tease.dontforgetthediscount.database.migration
 import su.tease.dontforgetthediscount.database.migration
 
 val migration1to2Init = migration(1, 2) {
-    execSQL(CreateTableCacheBackCodeEntity.trimIndent())
-    execSQL(CreateTableCacheBackEntity.trimIndent())
-    execSQL(CreateTableCacheBackBankEntity.trimIndent())
+    execSQL(CREATE_TABLE_CACHE_BACK_CODE_ENTITY.trimIndent())
+    execSQL(CREATE_TABLE_CACHE_BACK_ENTITY.trimIndent())
+    execSQL(CREATE_TABLE_BANK_ENTITY.trimIndent())
 }
 
-private const val CreateTableCacheBackCodeEntity = """
+private const val CREATE_TABLE_CACHE_BACK_CODE_ENTITY = """
     CREATE TABLE `CacheBackCodeEntity` (
         `id` varchar(40),
         `code` varchar(10),
@@ -23,23 +23,23 @@ private const val CreateTableCacheBackCodeEntity = """
     ON CacheBackCodeEntity (cacheBackId);
 """
 
-private const val CreateTableCacheBackEntity = """
+private const val CREATE_TABLE_CACHE_BACK_ENTITY = """
     CREATE TABLE `CacheBackEntity` (
         `id` varchar(40),
         `name` varchar(255),
         `info` varchar(255),
         `iconUrl` varchar(255),
         `size` integer,
-        `cacheBackBankId` varchar(40),
-        FOREIGN KEY (cacheBackBankId)  REFERENCES CacheBackBankEntity (id)
+        `bankId` varchar(40),
+        FOREIGN KEY (bankId)  REFERENCES BankEntity (id)
     );
     
-    CREATE INDEX index_CacheBackEntity_cacheBackBankId
-    ON CacheBackCodeEntity (cacheBackBankId);
+    CREATE INDEX index_CacheBackEntity_bankId
+    ON CacheBackCodeEntity (bankId);
 """
 
-private const val CreateTableCacheBackBankEntity = """
-    CREATE TABLE `CacheBackBankEntity` (
+private const val CREATE_TABLE_BANK_ENTITY = """
+    CREATE TABLE `BankEntity` (
         `id` varchar(40),
         `name` varchar(255),
         `iconUrl` varchar(255),

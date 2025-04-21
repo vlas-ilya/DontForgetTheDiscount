@@ -10,11 +10,9 @@ data class CacheBackCode(
     val code: CacheBackCodeValue,
 ) : Parcelable
 
-
 @JvmInline
 @Parcelize
 value class CacheBackCodeId(override val value: String) : EntityId<CacheBackCode>, Parcelable
-
 
 @JvmInline
 @Parcelize

@@ -11,7 +11,7 @@ import su.tease.project.core.mvi.api.state.LoadingStatus
 import su.tease.project.core.mvi.api.state.State
 import su.tease.project.core.mvi.api.store.Dispatcher
 import su.tease.project.core.mvi.api.store.Store
-import su.tease.project.feature.cacheback.domain.usecase.LoadCacheBackBankListUseCase
+import su.tease.project.feature.cacheback.domain.usecase.LoadBankListUseCase
 import su.tease.project.feature.cacheback.presentation.CacheBackState
 import su.tease.project.feature.cacheback.presentation.list.component.CacheBackListFailed
 import su.tease.project.feature.cacheback.presentation.list.component.CacheBackListInit
@@ -20,11 +20,11 @@ import su.tease.project.feature.cacheback.presentation.list.component.CacheBackL
 
 class CacheBackListPage<S : State>(
     store: Store<S>,
-    private val loadCacheBackBankListUseCase: LoadCacheBackBankListUseCase,
+    private val loadBankListUseCase: LoadBankListUseCase,
 ) : BasePageComponent(), Store<S> by store, Dispatcher by store.dispatcher {
 
     init {
-        dispatch(loadCacheBackBankListUseCase())
+        dispatch(loadBankListUseCase())
     }
 
     @Composable
@@ -42,7 +42,7 @@ class CacheBackListPage<S : State>(
         }
     }
 
-    private fun onRefresh() = dispatch(loadCacheBackBankListUseCase())
+    private fun onRefresh() = dispatch(loadBankListUseCase())
 
     @Parcelize
     data object Target : NavigationTarget.Page
