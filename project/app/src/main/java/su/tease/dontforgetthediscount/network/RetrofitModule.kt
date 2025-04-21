@@ -11,15 +11,16 @@ import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 
 val retrofitModule = module {
+
     single { HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY) } bind Interceptor::class
 
-    single<OkHttpClient> {
+    single {
         OkHttpClient.Builder()
             .apply { getAll<Interceptor>().forEach(::addInterceptor) }
             .build()
     }
 
-    single<Retrofit> {
+    single {
         val baseUrl = "https://dontforgetthediscount.ru/"
         val okHttpClient = get<OkHttpClient>()
 

@@ -12,12 +12,12 @@ data class CacheBackBank(
     val id: CacheBackBankId,
     val name: CacheBackBankName,
     val icon: CacheBackBankIcon,
-    val cacheBack: PersistentList<CacheBack>
+    val cacheBacks: PersistentList<CacheBack>,
 ) : Parcelable
 
 @JvmInline
 @Parcelize
-value class CacheBackBankId(override val id: String) : EntityId<CacheBackId>, Parcelable
+value class CacheBackBankId(override val value: String) : EntityId<CacheBackBank>, Parcelable
 
 @JvmInline
 @Parcelize

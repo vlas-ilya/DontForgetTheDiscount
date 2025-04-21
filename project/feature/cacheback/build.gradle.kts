@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 android {
@@ -25,12 +27,18 @@ android {
             )
         }
     }
+    
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = "11"
+    }
+
+    room {
+        schemaDirectory("$projectDir/schemas")
     }
 }
 
@@ -48,6 +56,12 @@ dependencies {
     implementation(libs.kotlin.coroutines.core)
     testImplementation(libs.junit)
     testImplementation(libs.kotlin.coroutines.test)
+
+    // Database
+    ksp(libs.room.compiler)
+    annotationProcessor(libs.room.compiler)
+    implementation(libs.room.ktx)
+    debugImplementation(libs.room.testing)
 
     // compose
     val composeBom = platform(libs.compose.bom)

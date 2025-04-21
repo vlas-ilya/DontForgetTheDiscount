@@ -19,7 +19,7 @@ data class CacheBack(
 
 @JvmInline
 @Parcelize
-value class CacheBackId(override val id: String) : EntityId<CacheBackId>, Parcelable
+value class CacheBackId(override val value: String) : EntityId<CacheBackId>, Parcelable
 
 @JvmInline
 @Parcelize
@@ -31,12 +31,9 @@ value class CacheBackInfo(val value: String) : Parcelable
 
 @JvmInline
 @Parcelize
-value class CacheBackIcon(val value: String) : Parcelable
+value class CacheBackIcon(val url: String) : Parcelable
 
 @JvmInline
 @Parcelize
 value class CacheBackSize(val percent: Int) : Parcelable
 
-@JvmInline
-@Parcelize
-value class CacheBackCode(val code: String) : Parcelable

@@ -38,7 +38,7 @@ class CacheBackListPage<S : State>(
             LoadingStatus.Init -> CacheBackListInit()
             LoadingStatus.Loading -> CacheBackListLoading()
             LoadingStatus.Success -> CacheBackListSuccess(list, ::onRefresh)
-            LoadingStatus.Failed -> CacheBackListFailed(error, ::onRefresh)
+            LoadingStatus.Failed -> CacheBackListFailed(::onRefresh)
         }
     }
 

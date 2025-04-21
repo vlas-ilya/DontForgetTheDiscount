@@ -24,7 +24,6 @@
             <option value="$PROJECT_DIR$/project/core/mvi/integration/navigation" />
             <option value="$PROJECT_DIR$/project/core/mvi/middleware" />
             <option value="$PROJECT_DIR$/project/core/mvi/middleware/intercept" />
-            <option value="$PROJECT_DIR$/project/core/mvi/middleware/logger" />
             <option value="$PROJECT_DIR$/project/core/mvi/middleware/suspend" />
             <option value="$PROJECT_DIR$/project/core/navigation" />
             <option value="$PROJECT_DIR$/project/core/utils" />

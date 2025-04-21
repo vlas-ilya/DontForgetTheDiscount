@@ -10,9 +10,7 @@ import su.tease.project.core.mvi.navigation.state.SplashNavigationTarget
 
 val splashModule = module {
 
-    page<SplashNavigationTarget> { SplashPageComponent(store = it.store) }
-
-    feature<MainFeatureNavigationTarget> { SplashFeatureComponent(store = it.store) }
-
-    app<AppNavigationTarget> { SplashAppComponent(store = it.store) }
+    page<SplashNavigationTarget> { SplashPageComponent(it.store) }
+    feature<MainFeatureNavigationTarget> { SplashFeatureComponent(it.store) }
+    app<AppNavigationTarget> { SplashAppComponent(it.store) }
 }

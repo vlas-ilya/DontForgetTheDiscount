@@ -16,11 +16,13 @@ import su.tease.project.core.mvi.api.reducer.Reducer
 import su.tease.project.core.mvi.api.state.State
 import su.tease.project.core.mvi.api.store.Dispatcher
 import su.tease.project.core.mvi.api.store.Store
+import su.tease.project.core.mvi.impl.logger.StoreLogger
 
 class StoreImpl<S : State>(
     private val reducer: Reducer<S>,
     private val middlewares: List<Middleware>,
     private val coroutineScope: CoroutineScope,
+    private val logger: StoreLogger? = null,
     savedState: S? = null,
 ) : Store<S>, Dispatcher {
     private val stateMutex = Mutex()
@@ -37,8 +39,9 @@ class StoreImpl<S : State>(
 
         if (action is PlainAction) {
             stateMutex.withLock {
-                val currentState = stateFlow.value
-                val nextState = reducer.run { currentState.onAction(action) }
+                val prevState = stateFlow.value
+                val nextState = reducer.run { prevState.onAction(action) }
+                logger?.log(prevState, action, nextState)
                 stateFlow.emit(nextState)
             }
         }

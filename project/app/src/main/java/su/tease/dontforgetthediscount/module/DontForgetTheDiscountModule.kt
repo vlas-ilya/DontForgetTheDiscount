@@ -4,17 +4,18 @@ import org.koin.dsl.module
 import su.tease.core.mvi.component.resolver.impl.AppNavigationTargetResolver
 import su.tease.dontforgetthediscount.component.DontForgetTheDiscountComponent
 import su.tease.project.core.mvi.api.store.Store
+import su.tease.project.core.utils.cache.SimpleCache
 
 val dontForgetTheDiscountModule = module {
 
-    factory<DontForgetTheDiscountComponent<*>> {
+    factory {
         DontForgetTheDiscountComponent(
             store = get<Store<*>>(),
             navigationTargetResolver = get(),
         )
     }
 
-    single<AppNavigationTargetResolver> {
+    single {
         AppNavigationTargetResolver(
             scope = this,
             pages = getAll(),
@@ -22,4 +23,6 @@ val dontForgetTheDiscountModule = module {
             apps = getAll(),
         )
     }
+
+    single { SimpleCache() }
 }

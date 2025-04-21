@@ -15,15 +15,16 @@ import su.tease.project.feature.main.presentation.MainPage3
 import su.tease.project.feature.main.presentation.MainPage4
 
 val mainModule = module {
-    page<MainPage1.Target> { MainPage1(store = it.store, target = it.target) }
-    page<MainPage2.Target> { MainPage2(store = it.store) }
-    page<MainPage3.Target> { MainPage3(store = it.store) }
-    page<MainPage4.Target> { MainPage4(store = it.store) }
 
-    feature<MainFeature1.Target> { MainFeature1(store = it.store) }
-    feature<MainFeature2.Target> { MainFeature2(store = it.store) }
-    feature<MainFeature3.Target> { MainFeature3(store = it.store) }
+    page<MainPage1.Target> { MainPage1(it.store, it.target) }
+    page<MainPage2.Target> { MainPage2(it.store) }
+    page<MainPage3.Target> { MainPage3(it.store) }
+    page<MainPage4.Target> { MainPage4(it.store) }
 
-    app<MainApp1.Target> { MainApp1(store = it.store) }
-    app<MainApp2.Target> { MainApp2(store = it.store) }
+    feature<MainFeature1.Target> { MainFeature1(it.store) }
+    feature<MainFeature2.Target> { MainFeature2(it.store) }
+    feature<MainFeature3.Target> { MainFeature3(it.store) }
+
+    app<MainApp1.Target> { MainApp1(it.store) }
+    app<MainApp2.Target> { MainApp2(it.store) }
 }
