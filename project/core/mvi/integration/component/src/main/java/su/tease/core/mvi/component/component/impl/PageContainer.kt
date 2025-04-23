@@ -16,8 +16,8 @@ import su.tease.project.core.mvi.api.state.State
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.navigation.selector.page
 
-class PageContainer<S : State>(
-    private val store: Store<S>,
+class PageContainer(
+    private val store: Store<*>,
     private val navigationTargetResolver: NavigationTargetResolver,
     private val root: RootContainerConfiguration,
     private val app: AppContainerConfiguration,

@@ -15,25 +15,12 @@ data object MainFeatureNavigationTarget : NavigationTarget.Feature
 @Parcelize
 data object SplashNavigationTarget : NavigationTarget.Page
 
-@Parcelize
-data object FinishNavigationTarget : NavigationTarget.Page
-
 val baseRootNavigation: RootNavigation = RootNavigation(
     initApp = app(
         AppNavigationTarget,
         FeatureNavigation(
             name = MainFeatureNavigationTarget,
             initPage = SplashNavigationTarget,
-        ),
-    ),
-)
-
-val finishRootNavigationTarget = RootNavigation(
-    initApp = app(
-        AppNavigationTarget,
-        FeatureNavigation(
-            name = MainFeatureNavigationTarget,
-            initPage = FinishNavigationTarget,
         ),
     ),
 )

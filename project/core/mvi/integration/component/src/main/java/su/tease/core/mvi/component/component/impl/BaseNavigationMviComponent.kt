@@ -3,81 +3,59 @@ package su.tease.core.mvi.component.component.impl
 import su.tease.core.mvi.navigation.AppNavigation
 import su.tease.core.mvi.navigation.FeatureNavigation
 import su.tease.core.mvi.navigation.NavigationTarget
-import su.tease.project.core.mvi.api.store.Dispatcher
+import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.navigation.action.NavigationAction
 
-abstract class BaseNavigationMviComponent : BaseMviComponent() {
+abstract class BaseNavigationMviComponent(
+    store: Store<*>
+) : BaseMviComponent(store) {
 
-    protected fun Dispatcher.forward(
+    protected fun forward(
         page: NavigationTarget.Page,
         singleTop: Boolean = false,
-    ) {
-        dispatch(NavigationAction.ForwardToPage(page, singleTop))
-    }
+    ) = dispatch(NavigationAction.ForwardToPage(page, singleTop))
 
-    protected fun Dispatcher.forward(
+    protected fun forward(
         feature: FeatureNavigation,
-    ) {
-        dispatch(NavigationAction.ForwardToFeature(feature))
-    }
+    ) = dispatch(NavigationAction.ForwardToFeature(feature))
 
-    protected fun Dispatcher.forward(
+    protected fun forward(
         app: AppNavigation,
-    ) {
-        dispatch(NavigationAction.ForwardToApp(app))
-    }
+    ) = dispatch(NavigationAction.ForwardToApp(app))
 
-    protected fun Dispatcher.replace(
+    protected fun replace(
         app: AppNavigation,
-    ) {
-        dispatch(NavigationAction.ReplaceApp(app))
-    }
+    ) = dispatch(NavigationAction.ReplaceApp(app))
 
-    protected fun Dispatcher.switch(
+    protected fun switch(
         feature: FeatureNavigation,
         clearStack: Boolean = false,
-    ) {
-        dispatch(NavigationAction.SwitchFeature(feature, clearStack))
-    }
+    ) = dispatch(NavigationAction.SwitchFeature(feature, clearStack))
 
-    protected fun Dispatcher.switch(
+    protected fun switch(
         app: AppNavigation,
         clearStack: Boolean = false,
-    ) {
-        dispatch(NavigationAction.SwitchApp(app, clearStack))
-    }
+    ) = dispatch(NavigationAction.SwitchApp(app, clearStack))
 
-    protected fun Dispatcher.back() {
-        dispatch(NavigationAction.Back)
-    }
+    protected fun back() = dispatch(NavigationAction.Back)
 
-    protected fun Dispatcher.backTo(
+    protected fun backTo(
         page: NavigationTarget.Page,
-    ) {
-        dispatch(NavigationAction.BackToPage(page))
-    }
+    ) = dispatch(NavigationAction.BackToPage(page))
 
-    protected fun Dispatcher.backTo(
+    protected fun backTo(
         feature: FeatureNavigation,
-    ) {
-        dispatch(NavigationAction.BackToFeature(feature))
-    }
+    ) = dispatch(NavigationAction.BackToFeature(feature))
 
-    protected fun Dispatcher.backTo(
+    protected fun backTo(
         app: AppNavigation,
-    ) {
-        dispatch(NavigationAction.BackToApp(app))
-    }
+    ) = dispatch(NavigationAction.BackToApp(app))
 
-    protected fun Dispatcher.finish(
+    protected fun finish(
         feature: FeatureNavigation,
-    ) {
-        dispatch(NavigationAction.FinishFeature(feature))
-    }
+    ) = dispatch(NavigationAction.FinishFeature(feature))
 
-    protected fun Dispatcher.finish(
+    protected fun finish(
         app: AppNavigation,
-    ) {
-        dispatch(NavigationAction.FinishApp(app))
-    }
+    ) = dispatch(NavigationAction.FinishApp(app))
 }

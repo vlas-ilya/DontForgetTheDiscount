@@ -1,24 +1,59 @@
 package su.tease.project.feature.cacheback.presentation.add.page
 
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
 import kotlinx.parcelize.Parcelize
 import su.tease.core.mvi.component.component.impl.BasePageComponent
+import su.tease.core.mvi.component.utils.AppContainerConfiguration
+import su.tease.core.mvi.component.utils.RootContainerConfiguration
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.project.core.mvi.api.action.PlainAction
-import su.tease.project.core.mvi.api.state.State
-import su.tease.project.core.mvi.api.store.Dispatcher
 import su.tease.project.core.mvi.api.store.Store
+import su.tease.project.core.utils.utils.memoize
+import su.tease.project.design.component.controls.page.DFPage
+import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
 import su.tease.project.feature.cacheback.domain.interceptor.DictionaryInterceptor
+import su.tease.project.feature.cacheback.presentation.add.component.BankPresetPreview
 
-class BankSelectPage<S : State>(
-    store: Store<S>,
-    val target: Target,
+class BankSelectPage(
+    store: Store<*>,
+    private val target: Target,
     private val dictionaryInterceptor: DictionaryInterceptor,
-) : BasePageComponent(), Store<S> by store, Dispatcher by store.dispatcher {
+) : BasePageComponent(store) {
+
+    override fun RootContainerConfiguration.configure() {
+        isFullscreen = true
+    }
+
+    override fun AppContainerConfiguration.configure() {
+        hasNavigationBar = false
+    }
 
     @Composable
     override fun Compose() {
+        val banks by memoize { dictionaryInterceptor.banks() }
+
+        DFPage(
+            title = stringResource(R.string.choose_bank_page),
+            onBackPressed = ::back,
+        ) {
+            LazyColumn {
+                banks?.forEach {
+                    item(key = it.id) {
+                        BankPresetPreview(
+                            bank = it,
+                            onClick = {
+                                dispatch(OnSelectAction(target.target, it))
+                                back()
+                            }
+                        )
+                    }
+                }
+            }
+        }
     }
 
     @Parcelize

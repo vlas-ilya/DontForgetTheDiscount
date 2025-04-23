@@ -10,9 +10,9 @@ import su.tease.project.core.mvi.api.store.Dispatcher
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.feature.cacheback.presentation.list.CacheBackListPage
 
-class CacheBackFeature<S : State>(
-    store: Store<S>,
-) : BaseFeatureComponent(), Store<S> by store, Dispatcher by store.dispatcher {
+class CacheBackFeature(
+    store: Store<*>,
+) : BaseFeatureComponent(store) {
 
     @Composable
     override fun Compose(child: @Composable () -> Unit) {

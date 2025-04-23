@@ -5,17 +5,15 @@ import kotlinx.parcelize.Parcelize
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.project.core.mvi.api.action.PlainAction
-import su.tease.project.core.mvi.api.state.State
-import su.tease.project.core.mvi.api.store.Dispatcher
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.feature.cacheback.domain.entity.preset.IconPreset
 import su.tease.project.feature.cacheback.domain.interceptor.DictionaryInterceptor
 
-class IconSelectPage<S : State>(
-    store: Store<S>,
+class IconSelectPage(
+    store: Store<*>,
     val target: Target,
     private val dictionaryInterceptor: DictionaryInterceptor,
-) : BasePageComponent(), Store<S> by store, Dispatcher by store.dispatcher {
+) : BasePageComponent(store) {
 
     @Composable
     override fun Compose() {

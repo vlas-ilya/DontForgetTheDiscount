@@ -6,14 +6,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import su.tease.core.mvi.component.component.impl.BaseRootComponent
+import su.tease.project.core.mvi.api.store.Store
 
-class DontForgetTheDiscountRootComponent : BaseRootComponent() {
+class DontForgetTheDiscountRootComponent(store: Store<*>) : BaseRootComponent(store) {
     @Composable
     override fun Compose(child: @Composable () -> Unit) {
         Column(
             modifier = Modifier.fillMaxSize(),
         ) {
-            Text("RootComponent")
             child()
         }
     }

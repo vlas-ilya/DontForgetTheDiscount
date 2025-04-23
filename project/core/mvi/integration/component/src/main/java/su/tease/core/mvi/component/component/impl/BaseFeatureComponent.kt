@@ -3,8 +3,9 @@ package su.tease.core.mvi.component.component.impl
 import androidx.compose.runtime.Composable
 import su.tease.core.mvi.component.utils.AppContainerConfiguration
 import su.tease.core.mvi.component.utils.RootContainerConfiguration
+import su.tease.project.core.mvi.api.store.Store
 
-abstract class BaseFeatureComponent : BaseNavigationMviComponent() {
+abstract class BaseFeatureComponent(store: Store<*>) : BaseNavigationMviComponent(store) {
 
     open fun RootContainerConfiguration.configure() {}
 

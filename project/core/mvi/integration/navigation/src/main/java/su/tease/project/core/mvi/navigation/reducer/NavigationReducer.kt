@@ -4,13 +4,13 @@ import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.reducer.Reducer
 import su.tease.project.core.mvi.navigation.action.NavigationAction
 import su.tease.project.core.mvi.navigation.state.NavigationState
-import su.tease.project.core.mvi.navigation.state.finishRootNavigationTarget
 
 class NavigationReducer : Reducer<NavigationState> {
     override val initState = NavigationState()
 
     override fun NavigationState.onAction(action: PlainAction) = when (action) {
         is NavigationAction -> onNavigationAction(action)
+        is NavigationAction.Start -> copy(finished = false)
         else -> this
     }
 
@@ -27,5 +27,5 @@ class NavigationReducer : Reducer<NavigationState> {
         is NavigationAction.SwitchApp -> root.switchTo(action.app, action.clearStack)
         is NavigationAction.SwitchFeature -> root.switchTo(action.feature, action.clearStack)
         is NavigationAction.ReplaceApp -> root.replace(action.app)
-    }.let { copy(root = it ?: finishRootNavigationTarget) }
+    }.let { if (it == null) copy(finished = true) else copy(root = it) }
 }

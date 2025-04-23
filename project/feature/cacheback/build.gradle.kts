@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
 }
@@ -38,7 +39,7 @@ android {
     }
 
     room {
-        schemaDirectory("$projectDir/schemas")
+        schemaDirectory("$rootDir/schemas")
     }
 }
 
@@ -78,6 +79,7 @@ dependencies {
     // project
     implementation(project(":project:design:icons"))
     implementation(project(":project:design:component:navigation_bar"))
+    implementation(project(":project:design:component:controls"))
     implementation(project(":project:design:theme:impl"))
     implementation(project(":project:design:theme:api"))
     implementation(project(":project:core:clean"))

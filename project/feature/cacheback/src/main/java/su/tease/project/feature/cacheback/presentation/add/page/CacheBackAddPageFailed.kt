@@ -1,4 +1,4 @@
-package su.tease.project.feature.cacheback.presentation.add.component
+package su.tease.project.feature.cacheback.presentation.add.page
 
 import androidx.compose.runtime.Composable
 

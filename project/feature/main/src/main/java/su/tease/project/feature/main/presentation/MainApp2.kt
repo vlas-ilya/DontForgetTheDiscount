@@ -2,10 +2,7 @@ package su.tease.project.feature.main.presentation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import kotlinx.collections.immutable.persistentListOf
@@ -16,38 +13,25 @@ import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.core.mvi.navigation.app
 import su.tease.design.component.navigationbar.NavigationBar
 import su.tease.design.component.navigationbar.data.NavigationBarItemData
-import su.tease.project.core.mvi.api.selector.select
-import su.tease.project.core.mvi.api.state.State
-import su.tease.project.core.mvi.api.store.Dispatcher
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.navigation.action.NavigationAction
 import su.tease.project.core.mvi.navigation.selector.feature
 import su.tease.project.design.icons.R
 
-class MainApp2<S : State>(
-    store: Store<S>,
-) : BaseAppComponent(), Store<S> by store, Dispatcher by store.dispatcher {
+class MainApp2(store: Store<*>) : BaseAppComponent(store) {
 
     @Composable
     override fun Compose(child: @Composable () -> Unit) {
         Column(
             modifier = Modifier.fillMaxSize(),
         ) {
-            Text("MainApp2")
-            Button(
-                onClick = {
-                    dispatch(NavigationAction.SwitchApp(MainApp1("From App 2")))
-                },
-            ) {
-                Text(text = "Switch to App 1")
-            }
             child()
         }
     }
 
     @Composable
     override fun ComposeNavigationBar(target: NavigationTarget.Feature) {
-        val feature = select(feature()).collectAsState(null).value ?: return
+        val feature = selectAsState(feature()).value ?: return
 
         NavigationBar(
             selected = feature,

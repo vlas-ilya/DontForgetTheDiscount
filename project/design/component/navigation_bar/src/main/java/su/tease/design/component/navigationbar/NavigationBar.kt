@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -12,7 +13,9 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.PersistentList
@@ -34,17 +37,17 @@ fun <T> NavigationBar(
     modifier: Modifier = Modifier,
     compare: (T, T) -> Boolean = { a, b -> a == b },
 ) {
-    MaterialNavigationBar(modifier) {
+    MaterialNavigationBar(
+        modifier = modifier,
+        containerColor = Theme.colors.header,
+        contentColor = Theme.colors.headerText,
+    ) {
         items.forEachIndexed { index, data ->
             val isSelected = compare(items[index].value, selected)
             MaterialNavigationBarItem(
                 icon = {
                     Icon(
                         painter = data.image,
-                        tint = isSelected.choose(
-                            Theme.colors.navigationItemContentSelected,
-                            Theme.colors.navigationItemContent,
-                        ),
                         contentDescription = data.contentDescription,
                         modifier = Modifier.size(30.dp),
                     )
@@ -52,14 +55,23 @@ fun <T> NavigationBar(
                 label = {
                     Text(
                         text = data.name,
-                        color = isSelected.choose(
-                            Theme.colors.navigationItemContentSelected,
-                            Theme.colors.navigationItemContent,
-                        ),
+                        fontWeight = isSelected.choose(
+                            FontWeight.Medium,
+                            FontWeight.Light,
+                        )
                     )
                 },
                 selected = isSelected,
                 onClick = { onSelect(items[index].value) },
+                colors = NavigationBarItemColors(
+                    selectedIconColor = Theme.colors.headerAccentText,
+                    selectedTextColor = Theme.colors.headerAccentText,
+                    selectedIndicatorColor = Color.Transparent,
+                    unselectedIconColor = Theme.colors.headerText,
+                    unselectedTextColor = Theme.colors.headerText,
+                    disabledIconColor = Theme.colors.headerText,
+                    disabledTextColor = Theme.colors.headerText,
+                ),
             )
         }
     }
@@ -93,8 +105,7 @@ private fun NavigationBarPreview() {
 
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(Theme.sizes.pagePadding),
+                .fillMaxWidth(),
         ) {
             NavigationBar(
                 selected = selected,

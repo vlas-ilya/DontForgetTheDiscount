@@ -49,7 +49,7 @@ android {
     }
 
     room {
-        schemaDirectory("$projectDir/schemas")
+        schemaDirectory("$rootDir/schemas")
     }
 }
 
@@ -103,6 +103,7 @@ dependencies {
     implementation(project(":project:feature:cacheback"))
     implementation(project(":project:design:icons"))
     implementation(project(":project:design:component:navigation_bar"))
+    implementation(project(":project:design:component:controls"))
     implementation(project(":project:design:theme:impl"))
     implementation(project(":project:design:theme:api"))
     implementation(project(":project:core:mvi:api"))

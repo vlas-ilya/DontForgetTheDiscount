@@ -1,6 +1,8 @@
 package su.tease.core.mvi.component.component.impl
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
@@ -12,16 +14,16 @@ import androidx.compose.ui.Modifier
 import su.tease.core.mvi.component.component.Component
 import su.tease.core.mvi.component.resolver.NavigationTargetResolver
 import su.tease.core.mvi.component.utils.AppContainerConfiguration
+import su.tease.core.mvi.component.utils.RootContainerConfiguration
 import su.tease.project.core.mvi.api.selector.select
-import su.tease.project.core.mvi.api.state.State
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.navigation.selector.app
 import su.tease.project.core.mvi.navigation.selector.feature
 
-class AppContainer<S : State>(
-    private val store: Store<S>,
+class AppContainer(
+    private val store: Store<*>,
     private val navigationTargetResolver: NavigationTargetResolver,
-    private val root: su.tease.core.mvi.component.utils.RootContainerConfiguration,
+    private val root: RootContainerConfiguration,
 ) : Component, AppContainerConfiguration {
 
     private val _hasNavigationBar = mutableStateOf(true)
@@ -39,21 +41,22 @@ class AppContainer<S : State>(
             }
         }
 
-        Box(modifier = Modifier.fillMaxSize()) {
-            appComponent.Compose {
-                FeatureContainer(
-                    store = store,
-                    navigationTargetResolver = navigationTargetResolver,
-                    root = root,
-                    app = this@AppContainer,
-                ).Compose()
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Box(modifier = Modifier.weight(1F)) {
+                appComponent.Compose {
+                    FeatureContainer(
+                        store = store,
+                        navigationTargetResolver = navigationTargetResolver,
+                        root = root,
+                        app = this@AppContainer,
+                    ).Compose()
+                }
             }
             if (_hasNavigationBar.value) {
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .fillMaxWidth(),
-                ) {
+                Box(modifier = Modifier.fillMaxWidth()) {
                     appComponent.ComposeNavigationBar(featureTarget.name)
                 }
             }

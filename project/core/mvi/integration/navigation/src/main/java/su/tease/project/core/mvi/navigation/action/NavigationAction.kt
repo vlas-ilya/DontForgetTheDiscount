@@ -57,4 +57,8 @@ sealed class NavigationAction : PlainAction {
     data class FinishApp(
         val app: AppNavigation,
     ) : NavigationAction()
+
+    @Parcelize
+    data object Start : PlainAction
 }
+

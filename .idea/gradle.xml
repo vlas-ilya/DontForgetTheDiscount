@@ -29,6 +29,7 @@
             <option value="$PROJECT_DIR$/project/core/utils" />
             <option value="$PROJECT_DIR$/project/design" />
             <option value="$PROJECT_DIR$/project/design/component" />
+            <option value="$PROJECT_DIR$/project/design/component/controls" />
             <option value="$PROJECT_DIR$/project/design/component/navigation_bar" />
             <option value="$PROJECT_DIR$/project/design/icons" />
             <option value="$PROJECT_DIR$/project/design/theme" />
