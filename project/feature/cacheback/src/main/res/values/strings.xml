@@ -2,8 +2,10 @@
 <resources>
     <string name="choose_bank">Выберите банк…</string>
     <string name="bank">Банк:</string>
+    <string name="icon">Иконка:</string>
     <string name="bank_content_description">Логотип банка "%s"</string>
     <string name="choose_bank_page">Выбор банка</string>
+    <string name="choose_cache_back_icon">Выбор иконки для кэшбэка</string>
     <string name="cache_back_page_title">Кэшбэк</string>
     <string name="add_cache_back_page_title">Добавить Кэшбэк</string>
     <string name="no_cache_back_result">Здесь пока ничего нет</string>

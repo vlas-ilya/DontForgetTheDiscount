@@ -6,7 +6,7 @@ import su.tease.project.feature.cacheback.domain.entity.CacheBackSize
 
 @Composable
 fun SizeSelect(
-    size: State<CacheBackSize?>,
+    sizeState: State<CacheBackSize?>,
     onChange: (CacheBackSize) -> Unit,
 ) {
 }

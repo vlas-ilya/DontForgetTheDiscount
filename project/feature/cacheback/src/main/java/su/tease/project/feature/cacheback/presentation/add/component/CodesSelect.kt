@@ -7,7 +7,7 @@ import su.tease.project.feature.cacheback.domain.entity.CacheBackCode
 
 @Composable
 fun CodesSelect(
-    codes: State<PersistentList<CacheBackCode>?>,
+    codesState: State<PersistentList<CacheBackCode>?>,
     onSelect: () -> Unit,
 ) {
 }

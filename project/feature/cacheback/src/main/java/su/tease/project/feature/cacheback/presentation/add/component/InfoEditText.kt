@@ -9,12 +9,12 @@ import su.tease.project.feature.cacheback.domain.entity.CacheBackInfo
 
 @Composable
 fun InfoEditText(
-    info: State<CacheBackInfo?>,
+    infoState: State<CacheBackInfo?>,
     onChange: (CacheBackInfo) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     DFTextField(
-        text = info.map { it?.value.orEmpty() },
+        text = infoState.map { it?.value.orEmpty() },
         onChange = { onChange(CacheBackInfo(it)) },
         modifier = modifier,
     )

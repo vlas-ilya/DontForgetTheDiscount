@@ -98,25 +98,26 @@ class CacheBackAddPage(
                 modifier = Modifier.fillMaxWidth(),
             )
             NameEditText(
-                name = name,
+                nameState = name,
                 onChange = { name.value = it },
                 modifier = Modifier.fillMaxWidth(),
             )
             InfoEditText(
-                info = info,
+                infoState = info,
                 onChange = { info.value = it },
                 modifier = Modifier.fillMaxWidth(),
             )
             IconSelect(
-                icon = icon,
+                iconState = icon,
                 onSelect = { forward(IconSelectPage<CacheBackReducer>(icon.value)) },
+                modifier = Modifier.fillMaxWidth(),
             )
             SizeSelect(
-                size = size,
+                sizeState = size,
                 onChange = { dispatch(Add.OnSizeChange(it)) }
             )
             CodesSelect(
-                codes = codes,
+                codesState = codes,
                 onSelect = { forward(CodesSelectPage<CacheBackReducer>(codes.value)) }
             )
             SaveButton {

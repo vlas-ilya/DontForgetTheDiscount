@@ -9,12 +9,12 @@ import su.tease.project.feature.cacheback.domain.entity.CacheBackName
 
 @Composable
 fun NameEditText(
-    name: State<CacheBackName?>,
+    nameState: State<CacheBackName?>,
     onChange: (CacheBackName) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     DFTextField(
-        text = name.map { it?.value.orEmpty() },
+        text = nameState.map { it?.value.orEmpty() },
         onChange = { onChange(CacheBackName(it)) },
         modifier = modifier,
     )
