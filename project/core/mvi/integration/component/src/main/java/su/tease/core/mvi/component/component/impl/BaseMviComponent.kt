@@ -15,7 +15,7 @@ import androidx.compose.runtime.State as ComposeState
 
 abstract class BaseMviComponent(
     protected val store: Store<*>
-) : Component {
+) : Component() {
 
     @Composable
     protected inline fun <reified S : State, T> selectAsState(

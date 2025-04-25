@@ -1,5 +1,8 @@
 package su.tease.dontforgetthediscount.module
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import org.koin.dsl.module
 import su.tease.core.mvi.component.resolver.impl.AppNavigationTargetResolver
 import su.tease.dontforgetthediscount.component.DontForgetTheDiscountComponent
@@ -20,6 +23,7 @@ val dontForgetTheDiscountModule = module {
     single {
         AppNavigationTargetResolver(
             scope = this,
+            coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default),
             pages = getAll(),
             features = getAll(),
             apps = getAll(),

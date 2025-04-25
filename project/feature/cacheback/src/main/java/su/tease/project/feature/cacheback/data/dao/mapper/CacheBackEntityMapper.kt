@@ -2,8 +2,8 @@ package su.tease.project.feature.cacheback.data.dao.mapper
 
 import kotlinx.collections.immutable.PersistentList
 import su.tease.project.feature.cacheback.data.dao.entity.CacheBackEntity
-import su.tease.project.feature.cacheback.domain.entity.CacheBack
 import su.tease.project.feature.cacheback.domain.entity.BankId
+import su.tease.project.feature.cacheback.domain.entity.CacheBack
 import su.tease.project.feature.cacheback.domain.entity.CacheBackCode
 import su.tease.project.feature.cacheback.domain.entity.CacheBackIcon
 import su.tease.project.feature.cacheback.domain.entity.CacheBackId

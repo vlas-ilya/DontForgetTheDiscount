@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import su.tease.core.mvi.component.component.impl.BaseMviComponent
 import su.tease.core.mvi.component.component.impl.RootContainer
@@ -22,7 +23,7 @@ class DontForgetTheDiscountComponent(
 ) : BaseMviComponent(store) {
 
     @Composable
-    override fun Compose() {
+    override operator fun invoke() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -30,11 +31,14 @@ class DontForgetTheDiscountComponent(
                 .padding(WindowInsets.navigationBars.asPaddingValues())
                 .background(Theme.colors.background),
         ) {
-            RootContainer(
-                store = store,
-                root = DontForgetTheDiscountRootComponent(store),
-                navigationTargetResolver = navigationTargetResolver,
-            ).Compose()
+            val rootContainer = remember {
+                RootContainer(
+                    store = store,
+                    root = DontForgetTheDiscountRootComponent(store),
+                    navigationTargetResolver = navigationTargetResolver,
+                )
+            }
+            rootContainer()
         }
     }
 }

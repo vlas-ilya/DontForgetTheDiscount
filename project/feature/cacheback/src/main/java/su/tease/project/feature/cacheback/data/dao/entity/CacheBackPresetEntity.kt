@@ -16,4 +16,3 @@ data class CacheBackPresetEntity(
     @ColumnInfo(name = "iconUrl")
     val iconUrl: String,
 )
-

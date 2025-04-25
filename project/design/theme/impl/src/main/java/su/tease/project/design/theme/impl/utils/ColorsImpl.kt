@@ -1,9 +1,10 @@
+@file:Suppress("MagicNumber")
+
 package su.tease.project.design.theme.impl.utils
 
 import androidx.compose.ui.graphics.Color
 import su.tease.design.theme.api.Colors
 import su.tease.project.design.theme.impl.ThemeValue
-import androidx.compose.ui.graphics.Color as ComposeColor
 
 internal data class ColorsImpl(
     override val accent1: Color,

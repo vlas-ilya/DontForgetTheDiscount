@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import su.tease.design.theme.api.Theme
+import su.tease.project.core.utils.ext.thenIfNotNull
 import su.tease.project.core.utils.utils.Callback
 import su.tease.project.design.component.controls.image.DFImage
 import su.tease.project.design.component.controls.text.DFText
@@ -21,10 +22,12 @@ import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
 @Composable
 fun BankPresetPreview(
     bank: BankPreset,
-    onClick: Callback,
+    modifier: Modifier = Modifier,
+    onClick: Callback? = null,
 ) = bank.run {
     Row(
-        modifier = Modifier.clickable { onClick() },
+        modifier = modifier
+            .thenIfNotNull(onClick) { clickable { it() } },
         verticalAlignment = Alignment.CenterVertically
     ) {
         DFImage(
@@ -32,7 +35,7 @@ fun BankPresetPreview(
             modifier = Modifier
                 .padding(start = Theme.sizes.padding4)
                 .clip(RoundedCornerShape(Theme.sizes.round4))
-                .size(Theme.sizes.size24)
+                .size(Theme.sizes.size28)
                 .background(Theme.colors.shimmer1),
             contentDescription = stringResource(R.string.bank_content_description, name)
         )

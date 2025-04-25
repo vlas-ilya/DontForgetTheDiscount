@@ -25,6 +25,6 @@ class SuspendMiddleware : Middleware {
         action: Action,
     ) {
         require(action is SuspendAction)
-        action.invoke(dispatcher)
+        action(dispatcher)
     }
 }

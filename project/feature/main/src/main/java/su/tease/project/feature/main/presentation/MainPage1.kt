@@ -1,7 +1,12 @@
 package su.tease.project.feature.main.presentation
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import kotlinx.parcelize.Parcelize
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
@@ -13,12 +18,39 @@ class MainPage1(
 ) : BasePageComponent(store) {
 
     @Composable
-    override fun Compose() {
+    override operator fun invoke() {
+        val value = remember { mutableStateOf(false) }
         Column {
-
+            Text(
+                text = if (value.value) "Test1" else "Test2",
+                modifier = Modifier.clickable { value.value = !value.value }
+            )
+            if (value.value) {
+                Test1()
+            } else {
+                Test2()
+            }
         }
     }
 
     @Parcelize
     data class Target(val text: String) : NavigationTarget.Page
+}
+
+@Composable
+fun Test1() {
+    val value = remember { mutableStateOf(0) }
+    Text(
+        text = value.value.toString(),
+        modifier = Modifier.clickable { value.value += 1 }
+    )
+}
+
+@Composable
+fun Test2() {
+    val value = remember { mutableStateOf(0) }
+    Text(
+        text = value.value.toString(),
+        modifier = Modifier.clickable { value.value += 1 }
+    )
 }

@@ -7,7 +7,7 @@ import su.tease.project.core.mvi.api.store.Store
 class SplashAppComponent(store: Store<*>) : BaseAppComponent(store) {
 
     @Composable
-    override fun Compose(child: @Composable () -> Unit) {
+    override operator fun invoke(child: @Composable () -> Unit) {
         child()
     }
 }

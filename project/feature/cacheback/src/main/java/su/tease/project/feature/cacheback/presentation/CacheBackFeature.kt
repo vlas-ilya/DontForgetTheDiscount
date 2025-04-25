@@ -5,8 +5,6 @@ import kotlinx.parcelize.Parcelize
 import su.tease.core.mvi.component.component.impl.BaseFeatureComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.core.mvi.navigation.feature
-import su.tease.project.core.mvi.api.state.State
-import su.tease.project.core.mvi.api.store.Dispatcher
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.feature.cacheback.presentation.list.CacheBackListPage
 
@@ -15,7 +13,7 @@ class CacheBackFeature(
 ) : BaseFeatureComponent(store) {
 
     @Composable
-    override fun Compose(child: @Composable () -> Unit) {
+    override operator fun invoke(child: @Composable () -> Unit) {
         child()
     }
 

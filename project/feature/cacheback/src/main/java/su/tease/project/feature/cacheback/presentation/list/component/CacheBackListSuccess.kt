@@ -38,7 +38,6 @@ fun CacheBackListSuccess(
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             list.value.forEach {
                 item(key = it.id) {
-
                 }
             }
         }

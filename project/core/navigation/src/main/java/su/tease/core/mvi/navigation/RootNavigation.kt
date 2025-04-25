@@ -1,15 +1,20 @@
+@file:Suppress("DEPRECATION")
+
 package su.tease.core.mvi.navigation
 
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
-import su.tease.project.core.utils.ext.tryTransformIf
+import su.tease.project.core.utils.ext.transformIfNullable
 import su.tease.project.core.utils.stack.Stack
 import su.tease.project.core.utils.stack.add
 import su.tease.project.core.utils.stack.dropLastWhile
+import su.tease.project.core.utils.stack.flatMap
 import su.tease.project.core.utils.stack.last
+import su.tease.project.core.utils.stack.map
 import su.tease.project.core.utils.stack.moveToUp
 import su.tease.project.core.utils.stack.removeLast
 import su.tease.project.core.utils.stack.replaceLast
+import su.tease.project.core.utils.uuid.ImplicitUuid
 import kotlin.reflect.KClass
 
 @Parcelize
@@ -17,7 +22,17 @@ import kotlin.reflect.KClass
 data class RootNavigation(
     val initApp: AppNavigation,
     private val stack: Stack<AppNavigation> = Stack(prev = null, value = initApp),
+    override val id: String = ImplicitUuid.make(),
 ) : Navigation {
+
+    @IgnoredOnParcel
+    val pageIdList: List<String> = stack.flatMap { it.pageIdList }
+
+    @IgnoredOnParcel
+    val featureIdList: List<String> = stack.flatMap { it.featureIdList }
+
+    @IgnoredOnParcel
+    val appIdList: List<String> = stack.map { it.id }
 
     @IgnoredOnParcel
     override val page
@@ -72,7 +87,7 @@ data class RootNavigation(
         cleanStack: Boolean = false,
     ): RootNavigation? = app
         .let { stack.last { it.name == app.name } ?: app }
-        .tryTransformIf(cleanStack) { it.backToFeature(it.initFeature) }
+        .transformIfNullable(cleanStack) { it.backToFeature(it.initFeature) }
         ?.let { stack.moveToUp(it, compare) }
         ?.let { copy(stack = it) }
 

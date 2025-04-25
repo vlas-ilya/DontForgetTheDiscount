@@ -39,7 +39,7 @@ class InterceptSuspendMiddleware : Middleware {
 
     override suspend fun handle(dispatcher: Dispatcher, action: Action) {
         when {
-            action is InterceptSuspendAction -> action.invoke(interceptDispatcher(dispatcher))
+            action is InterceptSuspendAction -> action(interceptDispatcher(dispatcher))
             action is PlainAction && interceptedBySomebody(action) -> notify(action)
             else -> dispatcher.dispatch(action)
         }

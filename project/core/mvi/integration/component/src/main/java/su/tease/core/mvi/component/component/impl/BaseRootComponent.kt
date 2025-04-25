@@ -11,10 +11,10 @@ abstract class BaseRootComponent(store: Store<*>) : BaseMviComponent(store) {
         replaceWith = ReplaceWith("Compose(child)"),
         level = DeprecationLevel.ERROR,
     )
-    override fun Compose() {
+    override operator fun invoke() {
         error("Not supported")
     }
 
     @Composable
-    abstract fun Compose(child: @Composable () -> Unit)
+    abstract operator fun invoke(child: @Composable () -> Unit)
 }

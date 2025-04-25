@@ -7,9 +7,18 @@ import su.tease.core.mvi.navigation.NavigationTarget
 
 interface NavigationTargetResolver {
 
-    fun <T : NavigationTarget.Page> resolve(page: T): BasePageComponent
+    fun <T : NavigationTarget.Page> resolve(
+        pageId: String,
+        page: T,
+    ): BasePageComponent
 
-    fun <T : NavigationTarget.Feature> resolve(feature: T): BaseFeatureComponent
+    fun <T : NavigationTarget.Feature> resolve(
+        featureId: String,
+        feature: T,
+    ): BaseFeatureComponent
 
-    fun <T : NavigationTarget.App> resolve(app: T): BaseAppComponent
+    fun <T : NavigationTarget.App> resolve(
+        appId: String,
+        app: T,
+    ): BaseAppComponent
 }

@@ -15,9 +15,8 @@ class MainPage4(store: Store<*>) : BasePageComponent(store) {
     }
 
     @Composable
-    override fun Compose() {
+    override operator fun invoke() {
         Column {
-
         }
     }
 

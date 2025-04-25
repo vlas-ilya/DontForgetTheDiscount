@@ -17,7 +17,7 @@ class CodesSelectPage(
 ) : BasePageComponent(store) {
 
     @Composable
-    override fun Compose() {
+    override operator fun invoke() {
     }
 
     @Parcelize

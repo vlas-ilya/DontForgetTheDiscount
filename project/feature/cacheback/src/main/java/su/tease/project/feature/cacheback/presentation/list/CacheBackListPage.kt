@@ -1,7 +1,6 @@
 package su.tease.project.feature.cacheback.presentation.list
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.parcelize.Parcelize
@@ -33,7 +32,7 @@ class CacheBackListPage(
 
     @Composable
     @Suppress("EmptyFunctionBlock")
-    override fun Compose() {
+    override operator fun invoke() {
         val status = selectAsState(CacheBackState::status, LoadingStatus.Init)
         val list = selectAsState(CacheBackState::list, persistentListOf())
         val error = selectAsState(CacheBackState::error)

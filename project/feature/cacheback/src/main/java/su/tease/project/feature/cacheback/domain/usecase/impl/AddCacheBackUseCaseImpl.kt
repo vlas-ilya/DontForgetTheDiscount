@@ -3,8 +3,8 @@ package su.tease.project.feature.cacheback.domain.usecase.impl
 import su.tease.core.clean.domain.repository.RepositoryException
 import su.tease.project.core.mvi.middleware.suspend.suspendAction
 import su.tease.project.core.utils.uuid.UuidProvider
-import su.tease.project.feature.cacheback.domain.entity.CacheBack
 import su.tease.project.feature.cacheback.domain.entity.BankId
+import su.tease.project.feature.cacheback.domain.entity.CacheBack
 import su.tease.project.feature.cacheback.domain.entity.CacheBackIcon
 import su.tease.project.feature.cacheback.domain.entity.CacheBackId
 import su.tease.project.feature.cacheback.domain.repository.BankRepository

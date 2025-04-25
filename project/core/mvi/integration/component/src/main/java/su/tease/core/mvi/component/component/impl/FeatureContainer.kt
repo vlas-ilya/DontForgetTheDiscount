@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import su.tease.core.mvi.component.component.Component
 import su.tease.core.mvi.component.resolver.NavigationTargetResolver
@@ -13,36 +14,40 @@ import su.tease.core.mvi.component.utils.FeatureContainerConfiguration
 import su.tease.core.mvi.component.utils.RootContainerConfiguration
 import su.tease.project.core.mvi.api.selector.select
 import su.tease.project.core.mvi.api.store.Store
-import su.tease.project.core.mvi.navigation.selector.feature
+import su.tease.project.core.mvi.navigation.selector.featureIdName
 
 class FeatureContainer(
     private val store: Store<*>,
     private val navigationTargetResolver: NavigationTargetResolver,
     private val root: RootContainerConfiguration,
     private val app: AppContainerConfiguration,
-) : Component, FeatureContainerConfiguration {
+) : Component(), FeatureContainerConfiguration {
 
     @Composable
-    override fun Compose() {
-        val featureTarget = store.select(feature()).collectAsState(null).value ?: return
+    override operator fun invoke() {
+        val (id, name) = store.select(featureIdName()).collectAsState(null).value ?: return
 
-        val featureComponent = navigationTargetResolver.resolve(featureTarget.name)
+        val featureComponent = remember(id, name) { navigationTargetResolver.resolve(id, name) }
 
-        LaunchedEffect(featureTarget) {
+        LaunchedEffect(id, name) {
             featureComponent.run {
                 root.configure()
                 app.configure()
             }
         }
+
         Box(modifier = Modifier.fillMaxSize()) {
-            featureComponent.Compose {
+            val pageContainer = remember {
                 PageContainer(
                     store = store,
                     navigationTargetResolver = navigationTargetResolver,
                     root = root,
                     app = app,
                     feature = this@FeatureContainer,
-                ).Compose()
+                )
+            }
+            featureComponent {
+                pageContainer()
             }
         }
     }

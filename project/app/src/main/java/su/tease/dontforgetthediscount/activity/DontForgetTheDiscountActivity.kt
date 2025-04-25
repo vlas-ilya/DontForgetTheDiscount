@@ -32,14 +32,15 @@ class DontForgetTheDiscountActivity : AppCompatActivity() {
         setContent {
             val finished = store
                 .select<NavigationState, Boolean> { finished }
-                .collectAsState(false).value
+                .collectAsState(false)
+                .value
 
             LaunchedEffect(finished) {
                 if (finished) finish()
             }
 
             Theme {
-                dontForgetTheDiscountComponent.Compose()
+                dontForgetTheDiscountComponent()
             }
         }
     }

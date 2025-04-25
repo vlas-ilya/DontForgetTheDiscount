@@ -77,6 +77,7 @@ class CacheBackReducer : Reducer<CacheBackState> {
 
     private fun CacheBackState.onAdd(action: Add) = changeAddForm {
         when (action) {
+            is Add.OnInit -> AddFormState()
             is Add.OnNameChange -> copy(name = action.name)
             is Add.OnInfoChange -> copy(info = action.info)
             is Add.OnSizeChange -> copy(size = action.size)

@@ -64,6 +64,6 @@ fun <L, R> Either<L, R>.orElse(defaultValue: R): R =
 
 inline fun <L, R> Either<L, R>.orElse(defaultValueProvider: () -> R): R =
     when (this) {
-        is Left -> defaultValueProvider.invoke()
+        is Left -> defaultValueProvider()
         is Right -> right
     }

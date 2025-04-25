@@ -14,7 +14,6 @@ import su.tease.core.mvi.navigation.app
 import su.tease.design.component.navigationbar.NavigationBar
 import su.tease.design.component.navigationbar.data.NavigationBarItemData
 import su.tease.project.core.mvi.api.store.Store
-import su.tease.project.core.mvi.navigation.action.NavigationAction
 import su.tease.project.core.mvi.navigation.selector.feature
 import su.tease.project.design.icons.R
 import su.tease.project.feature.cacheback.presentation.CacheBackFeature
@@ -22,7 +21,7 @@ import su.tease.project.feature.cacheback.presentation.CacheBackFeature
 class MainApp1(store: Store<*>) : BaseAppComponent(store) {
 
     @Composable
-    override fun Compose(child: @Composable () -> Unit) {
+    override operator fun invoke(child: @Composable () -> Unit) {
         Column(
             modifier = Modifier.fillMaxSize(),
         ) {
@@ -31,7 +30,7 @@ class MainApp1(store: Store<*>) : BaseAppComponent(store) {
     }
 
     @Composable
-    override fun ComposeNavigationBar(target: NavigationTarget.Feature) {
+    override fun ComposeNavigationBar() {
         val feature = selectAsState(feature()).value ?: return
 
         NavigationBar(
@@ -53,7 +52,7 @@ class MainApp1(store: Store<*>) : BaseAppComponent(store) {
                     image = painterResource(R.drawable.dollar),
                 ),
             ),
-            onSelect = { dispatch(NavigationAction.SwitchFeature(it)) },
+            onSelect = { switch(it) },
             compare = FeatureNavigation::some,
         )
     }

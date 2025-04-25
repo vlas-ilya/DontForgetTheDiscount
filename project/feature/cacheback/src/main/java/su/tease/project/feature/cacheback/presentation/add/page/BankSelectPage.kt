@@ -1,14 +1,19 @@
 package su.tease.project.feature.cacheback.presentation.add.page
 
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import kotlinx.parcelize.Parcelize
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.component.utils.AppContainerConfiguration
 import su.tease.core.mvi.component.utils.RootContainerConfiguration
 import su.tease.core.mvi.navigation.NavigationTarget
+import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.utils.memoize
@@ -33,14 +38,16 @@ class BankSelectPage(
     }
 
     @Composable
-    override fun Compose() {
+    override operator fun invoke() {
         val banks by memoize { dictionaryInterceptor.banks() }
 
         DFPage(
             title = stringResource(R.string.choose_bank_page),
             onBackPressed = ::back,
         ) {
-            LazyColumn {
+            LazyColumn(
+                contentPadding = PaddingValues(vertical = Theme.sizes.padding1)
+            ) {
                 banks?.forEach {
                     item(key = it.id) {
                         BankPresetPreview(
@@ -48,7 +55,10 @@ class BankSelectPage(
                             onClick = {
                                 dispatch(OnSelectAction(target.target, it))
                                 back()
-                            }
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = Theme.sizes.padding1),
                         )
                     }
                 }

@@ -61,4 +61,3 @@ sealed class NavigationAction : PlainAction {
     @Parcelize
     data object Start : PlainAction
 }
-

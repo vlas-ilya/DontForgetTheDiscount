@@ -23,3 +23,11 @@ fun Modifier.thenIf(
         this
     }
 }
+
+fun <T> Modifier.thenIfNotNull(value: T?, modify: Modifier.(T) -> Modifier): Modifier {
+    return if (value != null) {
+        modify(this, value)
+    } else {
+        this
+    }
+}

@@ -39,3 +39,14 @@ fun <T : Parcelable> Stack<T>.last(predicate: (T) -> Boolean): T? =
     } else {
         prev?.last(predicate)
     }
+
+inline fun <T : Parcelable, R> Stack<T>.map(transform: (T) -> R): List<R> = buildList {
+    var stack: Stack<T>? = this@map
+    while (stack != null) {
+        add(transform(stack.value))
+        stack = stack.prev
+    }
+}.reversed()
+
+inline fun <T : Parcelable, R> Stack<T>.flatMap(transform: (T) -> List<R>): List<R> =
+    map(transform).flatten()

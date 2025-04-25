@@ -2,8 +2,8 @@ package su.tease.project.feature.cacheback.data.dataSource
 
 import retrofit2.http.GET
 import su.tease.project.feature.cacheback.data.dataSource.dto.BankPresetDto
-import su.tease.project.feature.cacheback.data.dataSource.dto.IconPresetDto
 import su.tease.project.feature.cacheback.data.dataSource.dto.CacheBackPresetDto
+import su.tease.project.feature.cacheback.data.dataSource.dto.IconPresetDto
 
 interface DictionaryDataSource {
 

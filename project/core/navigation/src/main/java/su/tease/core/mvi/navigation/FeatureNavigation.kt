@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package su.tease.core.mvi.navigation
 
 import kotlinx.parcelize.IgnoredOnParcel
@@ -5,8 +7,10 @@ import kotlinx.parcelize.Parcelize
 import su.tease.project.core.utils.stack.Stack
 import su.tease.project.core.utils.stack.add
 import su.tease.project.core.utils.stack.dropLastWhile
+import su.tease.project.core.utils.stack.map
 import su.tease.project.core.utils.stack.moveToUp
 import su.tease.project.core.utils.stack.removeLast
+import su.tease.project.core.utils.uuid.ImplicitUuid
 import kotlin.reflect.KClass
 
 @Parcelize
@@ -14,7 +18,11 @@ data class FeatureNavigation(
     val name: NavigationTarget.Feature,
     val initPage: NavigationTarget.Page,
     val stack: Stack<PageNavigation> = Stack(prev = null, value = PageNavigation(initPage)),
+    override val id: String = ImplicitUuid.make(),
 ) : Navigation {
+
+    @IgnoredOnParcel
+    val pageIdList: List<String> = stack.map { it.id }
 
     @IgnoredOnParcel
     override val page

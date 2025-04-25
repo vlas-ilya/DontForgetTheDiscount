@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import su.tease.design.theme.api.Theme
 import su.tease.project.design.theme.impl.Theme
 
+@Suppress("ModifierMissing")
 @Composable
 fun Preview(content: @Composable ColumnScope.() -> Unit) {
     Theme {
