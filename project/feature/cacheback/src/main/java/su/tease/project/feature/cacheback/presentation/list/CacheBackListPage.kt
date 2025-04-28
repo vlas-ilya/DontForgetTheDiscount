@@ -31,7 +31,6 @@ class CacheBackListPage(
     }
 
     @Composable
-    @Suppress("EmptyFunctionBlock")
     override operator fun invoke() {
         val status = selectAsState(CacheBackState::status, LoadingStatus.Init)
         val list = selectAsState(CacheBackState::list, persistentListOf())

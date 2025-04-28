@@ -17,5 +17,5 @@ abstract class BasePageComponent(
         hasNavigationBar = true
     }
 
-    open fun FeatureContainerConfiguration.configure() {}
+    open fun FeatureContainerConfiguration.configure() = Unit
 }

@@ -40,7 +40,7 @@ class DontForgetTheDiscountActivity : AppCompatActivity() {
             }
 
             Theme {
-                dontForgetTheDiscountComponent()
+                dontForgetTheDiscountComponent.ComposeDontForgetTheDiscountComponent()
             }
         }
     }

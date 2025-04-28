@@ -7,9 +7,13 @@ import su.tease.project.core.mvi.api.store.Store
 
 abstract class BaseFeatureComponent(store: Store<*>) : BaseNavigationMviComponent(store) {
 
-    open fun RootContainerConfiguration.configure() {}
+    open fun RootContainerConfiguration.configure() {
+        isFullscreen = false
+    }
 
-    open fun AppContainerConfiguration.configure() {}
+    open fun AppContainerConfiguration.configure() {
+        hasNavigationBar = true
+    }
 
     @Composable
     @Deprecated(
@@ -22,5 +26,5 @@ abstract class BaseFeatureComponent(store: Store<*>) : BaseNavigationMviComponen
     }
 
     @Composable
-    abstract operator fun invoke(child: @Composable () -> Unit)
+    open operator fun invoke(child: @Composable () -> Unit) = child()
 }

@@ -11,19 +11,19 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import su.tease.core.mvi.component.component.impl.BaseMviComponent
-import su.tease.core.mvi.component.component.impl.RootContainer
+import su.tease.core.mvi.component.component.container.AppContainer
 import su.tease.core.mvi.component.resolver.impl.AppNavigationTargetResolver
+import su.tease.core.mvi.component.utils.RootContainerConfiguration
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.store.Store
 
 class DontForgetTheDiscountComponent(
-    store: Store<*>,
+    private val store: Store<*>,
     private val navigationTargetResolver: AppNavigationTargetResolver,
-) : BaseMviComponent(store) {
+) : RootContainerConfiguration {
 
     @Composable
-    override operator fun invoke() {
+    fun ComposeDontForgetTheDiscountComponent() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -31,14 +31,18 @@ class DontForgetTheDiscountComponent(
                 .padding(WindowInsets.navigationBars.asPaddingValues())
                 .background(Theme.colors.background),
         ) {
-            val rootContainer = remember {
-                RootContainer(
+            val appContainer = remember {
+                AppContainer(
                     store = store,
-                    root = DontForgetTheDiscountRootComponent(store),
                     navigationTargetResolver = navigationTargetResolver,
+                    root = this@DontForgetTheDiscountComponent,
                 )
             }
-            rootContainer()
+            appContainer.ComposeAppContainer()
         }
     }
+
+    override var isFullscreen: Boolean
+        get() = true
+        set(value) {}
 }

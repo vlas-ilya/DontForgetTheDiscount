@@ -1,6 +1,5 @@
 package su.tease.project.feature.cacheback.presentation
 
-import androidx.compose.runtime.Composable
 import kotlinx.parcelize.Parcelize
 import su.tease.core.mvi.component.component.impl.BaseFeatureComponent
 import su.tease.core.mvi.navigation.NavigationTarget
@@ -11,11 +10,6 @@ import su.tease.project.feature.cacheback.presentation.list.CacheBackListPage
 class CacheBackFeature(
     store: Store<*>,
 ) : BaseFeatureComponent(store) {
-
-    @Composable
-    override operator fun invoke(child: @Composable () -> Unit) {
-        child()
-    }
 
     companion object {
         operator fun invoke() = feature(

@@ -8,10 +8,12 @@ abstract class BaseAppComponent(
     store: Store<*>,
 ) : BaseNavigationMviComponent(store) {
 
-    open fun RootContainerConfiguration.configure() {}
+    open fun RootContainerConfiguration.configure() {
+        isFullscreen = false
+    }
 
     @Composable
-    open fun ComposeNavigationBar() {}
+    open fun ComposeNavigationBar() = Unit
 
     @Composable
     @Deprecated(
@@ -24,5 +26,5 @@ abstract class BaseAppComponent(
     }
 
     @Composable
-    abstract operator fun invoke(child: @Composable () -> Unit)
+    open operator fun invoke(child: @Composable () -> Unit) = child()
 }

@@ -49,6 +49,7 @@ class CacheBackAddPage(
 
     val name = mutableStateOf(CacheBackName(""))
     val info = mutableStateOf(CacheBackInfo(""))
+    val size = mutableStateOf(CacheBackSize(5))
 
     init {
         dispatch(Add.OnInit)
@@ -87,7 +88,6 @@ class CacheBackAddPage(
     private fun CacheBackAddPageForm() {
         val bank = selectAsState(bank)
         val icon = selectAsState(icon)
-        val size = selectAsState(size)
         val codes = selectAsState(codes)
         val addForm = selectAsState(addForm)
 
@@ -114,7 +114,8 @@ class CacheBackAddPage(
             )
             SizeSelect(
                 sizeState = size,
-                onChange = { dispatch(Add.OnSizeChange(it)) }
+                onChange = { size.value = it },
+                modifier = Modifier.fillMaxWidth(),
             )
             CodesSelect(
                 codesState = codes,

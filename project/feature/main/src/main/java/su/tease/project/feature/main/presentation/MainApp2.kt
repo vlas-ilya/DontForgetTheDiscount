@@ -1,7 +1,5 @@
 package su.tease.project.feature.main.presentation
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -18,15 +16,6 @@ import su.tease.project.core.mvi.navigation.selector.feature
 import su.tease.project.design.icons.R
 
 class MainApp2(store: Store<*>) : BaseAppComponent(store) {
-
-    @Composable
-    override operator fun invoke(child: @Composable () -> Unit) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-        ) {
-            child()
-        }
-    }
 
     @Composable
     override fun ComposeNavigationBar() {
