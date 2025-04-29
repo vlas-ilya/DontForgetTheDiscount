@@ -58,3 +58,8 @@ inline fun <T> Boolean.choose(
     then: () -> T,
     other: () -> T,
 ): T = if (this) then() else other()
+
+inline fun <reified T> Any?.takeIfIsInstance(): T? {
+    return if (this is T) this else null
+}
+

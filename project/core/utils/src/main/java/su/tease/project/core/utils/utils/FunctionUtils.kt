@@ -5,8 +5,14 @@ import androidx.compose.runtime.Composable
 typealias Callback = () -> Unit
 typealias ComposableContent = @Composable () -> Unit
 
-inline fun <T> tryOrDefault(defaultIfError: T, block: () -> T) = try {
+inline fun <T> tryOrDefault(returnOnError: T, block: () -> T) = try {
     block()
 } catch (e: Throwable) {
-    defaultIfError
+    returnOnError
+}
+
+inline fun <T> tryOrDefault(returnOnError: () -> T, block: () -> T) = try {
+    block()
+} catch (e: Throwable) {
+    returnOnError()
 }

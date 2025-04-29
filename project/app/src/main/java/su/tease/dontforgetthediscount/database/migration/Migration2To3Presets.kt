@@ -2,7 +2,7 @@ package su.tease.dontforgetthediscount.database.migration
 
 import su.tease.dontforgetthediscount.database.migration
 
-val migration2to3Init = migration(1, 2) {
+val migration2to3Init = migration(2, 3) {
     execSQL(CREATE_TABLE_BANK_PRESET_ENTITY.trimIndent())
     execSQL(CREATE_TABLE_CACHE_BACK_PRESET_ENTITY.trimIndent())
 }

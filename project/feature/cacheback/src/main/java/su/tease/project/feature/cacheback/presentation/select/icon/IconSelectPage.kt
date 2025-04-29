@@ -1,11 +1,15 @@
-package su.tease.project.feature.cacheback.presentation.add.page
+package su.tease.project.feature.cacheback.presentation.select.icon
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import kotlinx.parcelize.Parcelize
@@ -17,15 +21,15 @@ import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.utils.memoize
+import su.tease.project.design.component.controls.image.DFImage
 import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.feature.cacheback.R
-import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
+import su.tease.project.feature.cacheback.domain.entity.preset.IconPreset
 import su.tease.project.feature.cacheback.domain.interceptor.DictionaryInterceptor
-import su.tease.project.feature.cacheback.presentation.add.component.BankPresetPreview
 
-class BankSelectPage(
+class IconSelectPage(
     store: Store<*>,
-    private val target: Target,
+    val target: Target,
     private val dictionaryInterceptor: DictionaryInterceptor,
 ) : BasePageComponent(store) {
 
@@ -39,26 +43,28 @@ class BankSelectPage(
 
     @Composable
     override operator fun invoke() {
-        val banks by memoize { dictionaryInterceptor.banks() }
-
+        val icons by memoize { dictionaryInterceptor.cacheBacksIcons() }
+        val i by remember { mutableIntStateOf(0) }
+        val j = derivedStateOf { i + 1 }
         DFPage(
-            title = stringResource(R.string.choose_bank_page),
+            title = stringResource(R.string.choose_cache_back_icon),
             onBackPressed = ::back,
         ) {
-            LazyColumn(
-                contentPadding = PaddingValues(vertical = Theme.sizes.padding1)
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(minSize = Theme.sizes.size40)
             ) {
-                banks?.forEach {
-                    item(key = it.id) {
-                        BankPresetPreview(
-                            bank = it,
-                            onClick = {
-                                dispatch(OnSelectAction(target.target, it))
-                                back()
-                            },
+                icons?.forEach {
+                    item(key = it.url) {
+                        DFImage(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = Theme.sizes.padding1),
+                                .clickable {
+                                    dispatch(OnSelectAction(target.target, it))
+                                    back()
+                                }
+                                .padding(Theme.sizes.padding4)
+                                .size(Theme.sizes.size32),
+                            url = it.url,
+                            contentDescription = "",
                         )
                     }
                 }
@@ -69,18 +75,18 @@ class BankSelectPage(
     @Parcelize
     data class Target(
         val target: String,
-        val selected: BankPreset?
+        val selected: IconPreset?
     ) : NavigationTarget.Page
 
     @Parcelize
     data class OnSelectAction(
         val target: String,
-        val selected: BankPreset?
+        val selected: IconPreset?
     ) : PlainAction
 
     companion object {
         inline operator fun <reified T> invoke(
-            selected: BankPreset?,
+            selected: IconPreset?,
         ) = Target(T::class.java.name, selected)
     }
 }

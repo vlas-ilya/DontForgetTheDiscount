@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import su.tease.core.mvi.component.utils.AppContainerConfiguration
 import su.tease.core.mvi.component.utils.RootContainerConfiguration
 import su.tease.project.core.mvi.api.store.Store
+import su.tease.project.core.utils.utils.Callback
 
 abstract class BaseFeatureComponent(store: Store<*>) : BaseNavigationMviComponent(store) {
 
@@ -26,5 +27,5 @@ abstract class BaseFeatureComponent(store: Store<*>) : BaseNavigationMviComponen
     }
 
     @Composable
-    open operator fun invoke(child: @Composable () -> Unit) = child()
+    open operator fun invoke(child: @Composable Callback) = child()
 }

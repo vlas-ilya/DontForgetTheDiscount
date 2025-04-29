@@ -9,15 +9,16 @@ import su.tease.project.feature.cacheback.data.dao.DictionaryDao
 import su.tease.project.feature.cacheback.data.dao.entity.BankEntity
 import su.tease.project.feature.cacheback.data.dao.entity.BankPresetEntity
 import su.tease.project.feature.cacheback.data.dao.entity.CacheBackCodeEntity
+import su.tease.project.feature.cacheback.data.dao.entity.CacheBackCodePresetEntity
 import su.tease.project.feature.cacheback.data.dao.entity.CacheBackEntity
 import su.tease.project.feature.cacheback.data.dao.entity.CacheBackPresetEntity
 
 @Database(
     entities = [
         CacheBackEntity::class, BankEntity::class, CacheBackCodeEntity::class,
-        BankPresetEntity::class, CacheBackPresetEntity::class,
+        BankPresetEntity::class, CacheBackPresetEntity::class,CacheBackCodePresetEntity::class,
     ],
-    version = 3,
+    version = 4,
 )
 abstract class DontForgetTheDiscountDatabase : RoomDatabase() {
     abstract fun bankDao(): BankDao

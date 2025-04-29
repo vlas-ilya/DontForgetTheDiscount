@@ -1,10 +1,9 @@
-package su.tease.project.feature.cacheback.presentation.add.page
+package su.tease.project.feature.cacheback.presentation.select.bank
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -18,16 +17,15 @@ import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.utils.memoize
-import su.tease.project.design.component.controls.image.DFImage
 import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.feature.cacheback.R
-import su.tease.project.feature.cacheback.domain.entity.preset.IconPreset
+import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
 import su.tease.project.feature.cacheback.domain.interceptor.DictionaryInterceptor
-import su.tease.project.feature.cacheback.presentation.add.page.BankSelectPage.OnSelectAction
+import su.tease.project.feature.cacheback.presentation.add.component.BankPresetPreview
 
-class IconSelectPage(
+class BankSelectPage(
     store: Store<*>,
-    val target: Target,
+    private val target: Target,
     private val dictionaryInterceptor: DictionaryInterceptor,
 ) : BasePageComponent(store) {
 
@@ -41,26 +39,26 @@ class IconSelectPage(
 
     @Composable
     override operator fun invoke() {
-        val icons by memoize { dictionaryInterceptor.cacheBacksIcons() }
+        val banks by memoize { dictionaryInterceptor.banks() }
+
         DFPage(
-            title = stringResource(R.string.choose_cache_back_icon),
+            title = stringResource(R.string.choose_bank_page),
             onBackPressed = ::back,
         ) {
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(minSize = Theme.sizes.size40)
+            LazyColumn(
+                contentPadding = PaddingValues(vertical = Theme.sizes.padding1)
             ) {
-                icons?.forEach {
-                    item(key = it.url) {
-                        DFImage(
+                banks?.forEach {
+                    item(key = it.id) {
+                        BankPresetPreview(
+                            bank = it,
+                            onClick = {
+                                dispatch(OnSelectAction(target.target, it))
+                                back()
+                            },
                             modifier = Modifier
-                                .clickable {
-                                    dispatch(OnSelectAction(target.target, it))
-                                    back()
-                                }
-                                .padding(Theme.sizes.padding4)
-                                .size(Theme.sizes.size32),
-                            url = it.url,
-                            contentDescription = "",
+                                .fillMaxWidth()
+                                .padding(vertical = Theme.sizes.padding1),
                         )
                     }
                 }
@@ -71,18 +69,18 @@ class IconSelectPage(
     @Parcelize
     data class Target(
         val target: String,
-        val selected: IconPreset?
+        val selected: BankPreset?
     ) : NavigationTarget.Page
 
     @Parcelize
     data class OnSelectAction(
         val target: String,
-        val selected: IconPreset?
+        val selected: BankPreset?
     ) : PlainAction
 
     companion object {
         inline operator fun <reified T> invoke(
-            selected: IconPreset?,
+            selected: BankPreset?,
         ) = Target(T::class.java.name, selected)
     }
 }

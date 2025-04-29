@@ -3,6 +3,7 @@ package su.tease.project.feature.cacheback.domain.interceptor.impl
 import kotlinx.collections.immutable.PersistentList
 import su.tease.project.core.utils.utils.withDefault
 import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
+import su.tease.project.feature.cacheback.domain.entity.preset.CacheBackCodePreset
 import su.tease.project.feature.cacheback.domain.entity.preset.CacheBackPreset
 import su.tease.project.feature.cacheback.domain.entity.preset.IconPreset
 import su.tease.project.feature.cacheback.domain.interceptor.DictionaryInterceptor
@@ -24,11 +25,19 @@ class DictionaryInterceptorImpl(
         repository.cacheBacksIcons()
     }
 
+    override suspend fun cacheBacksCodes(): PersistentList<CacheBackCodePreset> = withDefault {
+        repository.cacheBacksCodes()
+    }
+
     override suspend fun add(bank: BankPreset) = withDefault {
         repository.add(bank)
     }
 
-    override suspend fun add(cacheBank: CacheBackPreset) = withDefault {
-        repository.add(cacheBank)
+    override suspend fun add(cacheBack: CacheBackPreset) = withDefault {
+        repository.add(cacheBack)
+    }
+
+    override suspend fun save(code: CacheBackCodePreset) = withDefault {
+        repository.save(code)
     }
 }

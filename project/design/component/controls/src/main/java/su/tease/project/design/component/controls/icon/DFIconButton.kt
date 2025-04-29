@@ -28,7 +28,7 @@ fun DFIconButton(
         modifier = modifier
             .clip(CircleShape)
             .size(Theme.sizes.size32)
-            .thenIf(background != null) { background(background!!) }
+            .thenIf(background != null) { Modifier.background(background!!) }
             .clickable { onClick() }
     ) {
         DFIcon(

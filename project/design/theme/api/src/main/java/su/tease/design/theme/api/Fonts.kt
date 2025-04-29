@@ -9,4 +9,5 @@ interface Fonts {
     val h1: FontSetting
     val placeholder: FontSetting
     val smallTitle: FontSetting
+    val smallInfo: FontSetting
 }

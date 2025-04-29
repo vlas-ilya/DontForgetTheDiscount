@@ -27,7 +27,7 @@ suspend inline fun <T> withUnconfined(crossinline block: suspend CoroutineScope.
     withContext(Dispatchers.Unconfined) { block() }
 
 fun <T> CoroutineScope.async(
-    defaultIfError: T,
+    returnOnError: T,
     context: CoroutineContext = EmptyCoroutineContext,
     start: CoroutineStart = CoroutineStart.DEFAULT,
     block: suspend CoroutineScope.() -> T,
@@ -39,7 +39,28 @@ fun <T> CoroutineScope.async(
             block()
         } catch (e: Throwable) {
             if (e is CancellationException) throw e
-            defaultIfError
+            returnOnError
+        }
+        deferred.complete(value)
+    }
+
+    return deferred
+}
+
+fun <T> CoroutineScope.async(
+    returnOnError: () -> T,
+    context: CoroutineContext = EmptyCoroutineContext,
+    start: CoroutineStart = CoroutineStart.DEFAULT,
+    block: suspend CoroutineScope.() -> T,
+): Deferred<T> {
+    val deferred = CompletableDeferred<T>()
+
+    launch(context, start) {
+        val value = try {
+            block()
+        } catch (e: Throwable) {
+            if (e is CancellationException) throw e
+            returnOnError()
         }
         deferred.complete(value)
     }

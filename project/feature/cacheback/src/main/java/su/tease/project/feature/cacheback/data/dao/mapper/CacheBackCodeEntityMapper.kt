@@ -13,6 +13,6 @@ fun CacheBackCodeEntity.toDomain() = CacheBackCode(
 
 fun CacheBackCode.toEntity(cacheBackId: CacheBackId) = CacheBackCodeEntity(
     id = id.value,
-    code = code.code,
+    code = code.value,
     cacheBackId = cacheBackId.value,
 )

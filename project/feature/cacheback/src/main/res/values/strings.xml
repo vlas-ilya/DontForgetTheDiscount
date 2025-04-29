@@ -9,4 +9,9 @@
     <string name="cache_back_page_title">Кэшбэк</string>
     <string name="add_cache_back_page_title">Добавить Кэшбэк</string>
     <string name="no_cache_back_result">Здесь пока ничего нет</string>
+    <string name="add_codes">Сохранить</string>
+    <string name="select_code">Добавить</string>
+    <string name="codes">MCC коды</string>
+    <string name="save">Сохранить</string>
+    <string name="bank_error">Укажите банк</string>
 </resources>

@@ -20,6 +20,8 @@ internal data class ColorsImpl(
     override val smallTitle: Color,
     override val shimmer1: Color,
     override val shimmer2: Color,
+    override val info: Color,
+    override val error: Color,
 
     override val navigationBarBackground: Color,
     override val navigationItemContent: Color,
@@ -47,6 +49,8 @@ private fun makeLightColors(): Colors = ColorsImpl(
     smallTitle = Color(0xFF536493),
     shimmer1 = Color(0xFFFFF1DB),
     shimmer2 = Color(0xFFD4BDAC),
+    info = Color(0xFF3D58A9),
+    error = Color(0xFFD22038),
 
     navigationBarBackground = Color.DarkGray,
     navigationItemContent = Color.LightGray,

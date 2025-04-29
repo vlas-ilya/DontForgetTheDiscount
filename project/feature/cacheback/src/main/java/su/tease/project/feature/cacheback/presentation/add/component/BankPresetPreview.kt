@@ -27,13 +27,12 @@ fun BankPresetPreview(
 ) = bank.run {
     Row(
         modifier = modifier
-            .thenIfNotNull(onClick) { clickable { it() } },
+            .thenIfNotNull(onClick) { Modifier.clickable { it() } },
         verticalAlignment = Alignment.CenterVertically
     ) {
         DFImage(
             url = icon.url,
             modifier = Modifier
-                .padding(start = Theme.sizes.padding4)
                 .clip(RoundedCornerShape(Theme.sizes.round4))
                 .size(Theme.sizes.size28)
                 .background(Theme.colors.shimmer1),

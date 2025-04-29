@@ -18,6 +18,9 @@ interface Colors {
     val smallTitle: Color
     val shimmer1: Color
     val shimmer2: Color
+    val info: Color
+    val error: Color
+
     val navigationBarBackground: Color
     val navigationItemContent: Color
     val navigationItemContentSelected: Color

@@ -18,3 +18,16 @@ inline fun <T> memoize(
     }
     return state
 }
+
+@Composable
+inline fun <T> memoize(
+    defaultValue: T,
+    key: Any = Unit,
+    crossinline block: suspend CoroutineScope.() -> T
+): State<T> {
+    val state = remember { mutableStateOf(defaultValue) }
+    LaunchedEffect(key) {
+        state.value = block()
+    }
+    return state
+}

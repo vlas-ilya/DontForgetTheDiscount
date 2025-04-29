@@ -13,6 +13,7 @@ internal data class FontsImpl(
     override val h1: FontSetting,
     override val placeholder: FontSetting,
     override val smallTitle: FontSetting,
+    override val smallInfo: FontSetting,
 ) : Fonts {
 
     companion object {
@@ -43,6 +44,12 @@ private fun makeLightFonts(): Fonts = FontsImpl(
         fontFamily = FontFamily.Default,
     ),
     smallTitle = FontSetting(
+        fontSize = 12.sp,
+        fontStyle = FontStyle.Normal,
+        fontWeight = FontWeight.Light,
+        fontFamily = FontFamily.Default,
+    ),
+    smallInfo = FontSetting(
         fontSize = 12.sp,
         fontStyle = FontStyle.Normal,
         fontWeight = FontWeight.Light,

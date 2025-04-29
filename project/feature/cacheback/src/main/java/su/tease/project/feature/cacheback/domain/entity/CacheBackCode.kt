@@ -16,4 +16,4 @@ value class CacheBackCodeId(override val value: String) : EntityId<CacheBackCode
 
 @JvmInline
 @Parcelize
-value class CacheBackCodeValue(val code: String) : Parcelable
+value class CacheBackCodeValue(val value: String) : Parcelable

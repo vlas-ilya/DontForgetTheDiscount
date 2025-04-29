@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import su.tease.design.theme.api.Theme
+import su.tease.project.core.utils.utils.Callback
 import su.tease.project.design.component.controls.image.DFImage
 import su.tease.project.design.component.controls.text.DFSmallTitle
 import su.tease.project.feature.cacheback.R
@@ -19,7 +20,7 @@ import su.tease.project.feature.cacheback.domain.entity.preset.IconPreset
 @Composable
 fun IconSelect(
     iconState: State<IconPreset?>,
-    onSelect: () -> Unit,
+    onSelect: Callback,
     modifier: Modifier = Modifier,
 ) {
     val icon by iconState

@@ -12,14 +12,16 @@ import su.tease.project.feature.cacheback.domain.interceptor.impl.DictionaryInte
 import su.tease.project.feature.cacheback.domain.repository.BankRepository
 import su.tease.project.feature.cacheback.domain.repository.DictionaryRepository
 import su.tease.project.feature.cacheback.domain.usecase.AddCacheBackUseCase
+import su.tease.project.feature.cacheback.domain.usecase.AddCodeUseCase
 import su.tease.project.feature.cacheback.domain.usecase.LoadBankListUseCase
 import su.tease.project.feature.cacheback.domain.usecase.impl.AddCacheBackUseCaseImpl
+import su.tease.project.feature.cacheback.domain.usecase.impl.AddCodeUseCaseImpl
 import su.tease.project.feature.cacheback.domain.usecase.impl.LoadBankListUseCaseImpl
 import su.tease.project.feature.cacheback.presentation.CacheBackFeature
 import su.tease.project.feature.cacheback.presentation.add.CacheBackAddPage
-import su.tease.project.feature.cacheback.presentation.add.page.BankSelectPage
-import su.tease.project.feature.cacheback.presentation.add.page.CodesSelectPage
-import su.tease.project.feature.cacheback.presentation.add.page.IconSelectPage
+import su.tease.project.feature.cacheback.presentation.select.bank.BankSelectPage
+import su.tease.project.feature.cacheback.presentation.select.code.CodesSelectPage
+import su.tease.project.feature.cacheback.presentation.select.icon.IconSelectPage
 import su.tease.project.feature.cacheback.presentation.list.CacheBackListPage
 
 val cacheBackModule = module {
@@ -31,12 +33,13 @@ val cacheBackModule = module {
     factory<BankRepository> { BankRepositoryImpl(get(), get(), get()) }
     factory<LoadBankListUseCase> { LoadBankListUseCaseImpl(get()) }
     factory<AddCacheBackUseCase> { AddCacheBackUseCaseImpl(get(), get()) }
+    factory<AddCodeUseCase> { AddCodeUseCaseImpl(get(), get()) }
 
     feature<CacheBackFeature.Target> { CacheBackFeature(it.store) }
 
     page<CacheBackListPage.Target> { CacheBackListPage(it.store, get()) }
     page<CacheBackAddPage.Target> { CacheBackAddPage(it.store, get()) }
     page<BankSelectPage.Target> { BankSelectPage(it.store, it.target, get()) }
-    page<CodesSelectPage.Target> { CodesSelectPage(it.store, it.target, get()) }
+    page<CodesSelectPage.Target> { CodesSelectPage(it.store, it.target, get(), get()) }
     page<IconSelectPage.Target> { IconSelectPage(it.store, it.target, get()) }
 }

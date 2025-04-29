@@ -5,6 +5,7 @@ import androidx.room.Room
 import org.koin.dsl.module
 import su.tease.dontforgetthediscount.database.migration.migration1to2Init
 import su.tease.dontforgetthediscount.database.migration.migration2to3Init
+import su.tease.dontforgetthediscount.database.migration.migration3to4Init
 
 val databaseModule = module {
     single {
@@ -16,6 +17,7 @@ val databaseModule = module {
             .addMigrations(
                 migration1to2Init,
                 migration2to3Init,
+                migration3to4Init,
             )
             .build()
     }

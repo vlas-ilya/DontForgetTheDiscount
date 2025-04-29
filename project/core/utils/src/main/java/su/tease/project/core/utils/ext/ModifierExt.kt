@@ -15,18 +15,26 @@ fun Modifier.thenIf(
 
 fun Modifier.thenIf(
     condition: Boolean,
-    modify: Modifier.() -> Modifier,
+    modify: () -> Modifier,
 ): Modifier {
     return if (condition) {
-        modify(this)
+        then(modify())
     } else {
         this
     }
 }
 
-fun <T> Modifier.thenIfNotNull(value: T?, modify: Modifier.(T) -> Modifier): Modifier {
+fun <T> Modifier.thenIfNotNull(value: T?, modify: (T) -> Modifier): Modifier {
     return if (value != null) {
-        modify(this, value)
+        then(modify(value))
+    } else {
+        this
+    }
+}
+
+inline fun <reified T> Modifier.thenIfIsInstance(value: Any?, modify: (T) -> Modifier): Modifier {
+    return if (value is T) {
+        then(modify(value))
     } else {
         this
     }

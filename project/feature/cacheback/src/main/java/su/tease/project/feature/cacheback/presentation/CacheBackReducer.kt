@@ -21,9 +21,9 @@ import su.tease.project.feature.cacheback.domain.entity.CacheBackSize
 import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
 import su.tease.project.feature.cacheback.domain.entity.preset.IconPreset
 import su.tease.project.feature.cacheback.domain.usecase.AddCacheBackAction
-import su.tease.project.feature.cacheback.presentation.add.page.BankSelectPage
-import su.tease.project.feature.cacheback.presentation.add.page.CodesSelectPage
-import su.tease.project.feature.cacheback.presentation.add.page.IconSelectPage
+import su.tease.project.feature.cacheback.presentation.select.bank.BankSelectPage
+import su.tease.project.feature.cacheback.presentation.select.code.CodesSelectPage
+import su.tease.project.feature.cacheback.presentation.select.icon.IconSelectPage
 import su.tease.project.feature.cacheback.domain.usecase.AddCacheBackAction as Add
 import su.tease.project.feature.cacheback.domain.usecase.LoadBankListAction as LoadList
 

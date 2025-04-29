@@ -13,6 +13,7 @@ import su.tease.project.feature.cacheback.data.dao.mapper.toEntity
 import su.tease.project.feature.cacheback.data.dataSource.DictionaryDataSource
 import su.tease.project.feature.cacheback.data.dataSource.mapper.toDomain
 import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
+import su.tease.project.feature.cacheback.domain.entity.preset.CacheBackCodePreset
 import su.tease.project.feature.cacheback.domain.entity.preset.CacheBackPreset
 import su.tease.project.feature.cacheback.domain.entity.preset.IconPreset
 import su.tease.project.feature.cacheback.domain.repository.DictionaryRepository
@@ -24,39 +25,53 @@ class DictionaryRepositoryImpl(
 ) : DictionaryRepository {
 
     override suspend fun banks(): PersistentList<BankPreset> = withDefault {
-        val remote = async(defaultIfError = emptyList()) {
+        val remote = async(returnOnError = emptyList()) {
             cache.getOrPut(BANKS_CACHE_REMOTE) {
                 dataSource.banks().map { it.toDomain() }
             }
         }
-        val local = async(defaultIfError = emptyList()) {
+        val local = async(returnOnError = emptyList()) {
             cache.getOrPut(BANKS_CACHE_LOCAL) {
                 dao.banks().map { it.toDomain() }
             }
         }
-        (remote.await() + local.await()).sortedBy { it.name }.toPersistentList()
+        (local.await() + remote.await()).sortedBy { it.name }.toPersistentList()
     }
 
     override suspend fun cacheBacks(): PersistentList<CacheBackPreset> = withDefault {
-        val remote = async(defaultIfError = emptyList()) {
+        val remote = async(returnOnError = emptyList()) {
             cache.getOrPut(CACHE_BACKS_CACHE_REMOTE) {
                 dataSource.cacheBacks().map { it.toDomain() }
             }
         }
-        val local = async(defaultIfError = emptyList()) {
+        val local = async(returnOnError = emptyList()) {
             cache.getOrPut(CACHE_BACKS_CACHE_LOCAL) {
                 dao.cacheBacks().map { it.toDomain() }
             }
         }
-        (remote.await() + local.await()).sortedBy { it.name }.toPersistentList()
+        (local.await() + remote.await()).sortedBy { it.name }.toPersistentList()
     }
 
     override suspend fun cacheBacksIcons(): PersistentList<IconPreset> = withDefault {
-        tryOrDefault(defaultIfError = persistentListOf()) {
+        tryOrDefault(returnOnError = persistentListOf()) {
             cache.getOrPut(CACHE_BACKS_ICONS_CACHE_REMOTE) {
                 dataSource.cacheBacksIcons().map { it.toDomain() }
             }.sortedBy { it.url }.toPersistentList()
         }
+    }
+
+    override suspend fun cacheBacksCodes(): PersistentList<CacheBackCodePreset> = withDefault {
+        val remote = async(returnOnError = emptyList()) {
+            cache.getOrPut(CACHE_BACK_CODES_CACHE_REMOTE) {
+                dataSource.cacheBackCodes().map { it.toDomain() }
+            }
+        }
+        val local = async(returnOnError = emptyList()) {
+            cache.getOrPut(CACHE_BACK_CODES_CACHE_LOCAL) {
+                dao.cacheBackCodes().map { it.toDomain() }
+            }
+        }
+        (local.await() + remote.await()).sortedBy { it.usageCount }.toPersistentList()
     }
 
     override suspend fun add(bank: BankPreset) = withDefault {
@@ -69,11 +84,18 @@ class DictionaryRepositoryImpl(
         cache.clear(CACHE_BACKS_CACHE_LOCAL)
     }
 
+    override suspend fun save(code: CacheBackCodePreset) {
+        dao.save(code.toEntity())
+        cache.clear(CACHE_BACK_CODES_CACHE_LOCAL)
+    }
+
     companion object {
         private const val BANKS_CACHE_REMOTE = "BANKS_CACHE_REMOTE"
         private const val CACHE_BACKS_CACHE_REMOTE = "CACHE_BACKS_CACHE_REMOTE"
+        private const val CACHE_BACK_CODES_CACHE_REMOTE = "CACHE_BACK_CODES_CACHE_REMOTE"
         private const val BANKS_CACHE_LOCAL = "BANKS_CACHE_LOCAL"
         private const val CACHE_BACKS_CACHE_LOCAL = "CACHE_BACKS_CACHE_LOCAL"
         private const val CACHE_BACKS_ICONS_CACHE_REMOTE = "CACHE_BACKS_ICONS_CACHE_REMOTE"
+        private const val CACHE_BACK_CODES_CACHE_LOCAL = "CACHE_BACK_CODES_CACHE_LOCAL"
     }
 }

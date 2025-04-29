@@ -16,6 +16,9 @@ import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.project.core.mvi.api.selector.Selector
 import su.tease.project.core.mvi.api.state.LoadingStatus
 import su.tease.project.core.mvi.api.store.Store
+import su.tease.project.core.utils.ext.isTrue
+import su.tease.project.core.utils.ext.map
+import su.tease.project.core.utils.ext.runIf
 import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.CacheBackCode
@@ -35,11 +38,11 @@ import su.tease.project.feature.cacheback.presentation.add.component.InfoEditTex
 import su.tease.project.feature.cacheback.presentation.add.component.NameEditText
 import su.tease.project.feature.cacheback.presentation.add.component.SaveButton
 import su.tease.project.feature.cacheback.presentation.add.component.SizeSelect
-import su.tease.project.feature.cacheback.presentation.add.page.BankSelectPage
 import su.tease.project.feature.cacheback.presentation.add.page.CacheBackAddPageFailed
 import su.tease.project.feature.cacheback.presentation.add.page.CacheBackAddPageLoading
-import su.tease.project.feature.cacheback.presentation.add.page.CodesSelectPage
-import su.tease.project.feature.cacheback.presentation.add.page.IconSelectPage
+import su.tease.project.feature.cacheback.presentation.select.bank.BankSelectPage
+import su.tease.project.feature.cacheback.presentation.select.code.CodesSelectPage
+import su.tease.project.feature.cacheback.presentation.select.icon.IconSelectPage
 import su.tease.project.feature.cacheback.domain.usecase.AddCacheBackAction as Add
 
 class CacheBackAddPage(
@@ -90,11 +93,13 @@ class CacheBackAddPage(
         val icon = selectAsState(icon)
         val codes = selectAsState(codes)
         val addForm = selectAsState(addForm)
+        val errors = addForm.map { it?.errors }
 
         Column {
             BankSelect(
                 bankState = bank,
                 onSelect = { forward(BankSelectPage<CacheBackReducer>(bank.value)) },
+                error = runIf(errors.value?.bank.isTrue()) { stringResource(R.string.bank_error) },
                 modifier = Modifier.fillMaxWidth(),
             )
             NameEditText(
@@ -119,7 +124,8 @@ class CacheBackAddPage(
             )
             CodesSelect(
                 codesState = codes,
-                onSelect = { forward(CodesSelectPage<CacheBackReducer>(codes.value)) }
+                onSelect = { forward(CodesSelectPage<CacheBackReducer>(codes.value)) },
+                modifier = Modifier.fillMaxWidth(),
             )
             SaveButton {
                 addForm.value?.let { dispatch(addCacheBackUseCase(it)) }
@@ -135,5 +141,4 @@ private val status = Selector<CacheBackState, LoadingStatus?> { addForm.status }
 private val addForm = Selector<CacheBackState, AddFormState?> { addForm }
 private val bank = Selector<CacheBackState, BankPreset?> { addForm.bank }
 private val icon = Selector<CacheBackState, IconPreset?> { addForm.icon }
-private val size = Selector<CacheBackState, CacheBackSize?> { addForm.size }
 private val codes = Selector<CacheBackState, PersistentList<CacheBackCode>?> { addForm.codes }
