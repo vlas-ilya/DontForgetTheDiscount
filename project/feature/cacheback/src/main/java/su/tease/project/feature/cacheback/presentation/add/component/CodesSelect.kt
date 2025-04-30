@@ -19,8 +19,8 @@ import su.tease.project.feature.cacheback.domain.entity.CacheBackCode
 @Composable
 fun CodesSelect(
     codesState: State<PersistentList<CacheBackCode>?>,
-    modifier: Modifier = Modifier,
     onSelect: Callback,
+    modifier: Modifier = Modifier,
 ) {
     val selectedCodesText = codesState
         .map { list -> (list?.map { it.code.value } ?: emptyList()).joinToString() }

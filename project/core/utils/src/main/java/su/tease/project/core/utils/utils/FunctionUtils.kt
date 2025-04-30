@@ -1,3 +1,5 @@
+@file:Suppress("SwallowedException", "TooGenericExceptionCaught")
+
 package su.tease.project.core.utils.utils
 
 import androidx.compose.runtime.Composable

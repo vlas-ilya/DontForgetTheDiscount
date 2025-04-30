@@ -35,7 +35,7 @@ fun BankPresetPreview(
             modifier = Modifier
                 .clip(RoundedCornerShape(Theme.sizes.round4))
                 .size(Theme.sizes.size28)
-                .background(Theme.colors.shimmer1),
+                .background(Theme.colors.tmpFiller),
             contentDescription = stringResource(R.string.bank_content_description, name)
         )
         DFText(

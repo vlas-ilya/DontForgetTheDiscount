@@ -1,7 +1,7 @@
 package su.tease.project.feature.main.presentation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.res.painterResource
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.parcelize.Parcelize
@@ -16,10 +16,11 @@ import su.tease.project.core.mvi.navigation.selector.feature
 import su.tease.project.design.icons.R
 import su.tease.project.feature.cacheback.presentation.CacheBackFeature
 
-class MainApp1(store: Store<*>) : BaseAppComponent(store) {
+class MainApp1(store: Store<*>) : BaseAppComponent(store,) {
 
     @Composable
     override fun ComposeNavigationBar() {
+        LaunchedEffect(Unit) { rootConfig { copy(isFullscreen = true) } }
         val feature = selectAsState(feature()).value ?: return
 
         NavigationBar(

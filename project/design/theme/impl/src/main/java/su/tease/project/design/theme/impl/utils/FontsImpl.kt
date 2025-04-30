@@ -10,6 +10,7 @@ import su.tease.project.design.theme.impl.ThemeValue
 
 internal data class FontsImpl(
     override val text: FontSetting,
+    override val title: FontSetting,
     override val h1: FontSetting,
     override val placeholder: FontSetting,
     override val smallTitle: FontSetting,
@@ -31,6 +32,12 @@ private fun makeLightFonts(): Fonts = FontsImpl(
         fontWeight = FontWeight.Normal,
         fontFamily = FontFamily.Default,
     ),
+    title = FontSetting(
+        fontSize = 18.sp,
+        fontStyle = FontStyle.Normal,
+        fontWeight = FontWeight.Bold,
+        fontFamily = FontFamily.Default,
+    ),
     h1 = FontSetting(
         fontSize = 32.sp,
         fontStyle = FontStyle.Normal,
@@ -46,7 +53,7 @@ private fun makeLightFonts(): Fonts = FontsImpl(
     smallTitle = FontSetting(
         fontSize = 12.sp,
         fontStyle = FontStyle.Normal,
-        fontWeight = FontWeight.Light,
+        fontWeight = FontWeight.Black,
         fontFamily = FontFamily.Default,
     ),
     smallInfo = FontSetting(

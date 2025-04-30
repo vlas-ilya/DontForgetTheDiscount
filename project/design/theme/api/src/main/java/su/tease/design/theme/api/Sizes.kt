@@ -5,6 +5,7 @@ import androidx.compose.ui.unit.Dp
 
 @Immutable
 interface Sizes {
+    val size0: Dp
     val size1: Dp
     val size2: Dp
     val size4: Dp
@@ -18,6 +19,7 @@ interface Sizes {
     val size28: Dp
     val size32: Dp
     val size40: Dp
+    val size50: Dp
     val padding1: Dp
     val padding2: Dp
     val padding4: Dp
@@ -34,4 +36,5 @@ interface Sizes {
     val round10: Dp
     val round12: Dp
     val roundInfinity: Dp
+    val elevation10: Dp
 }

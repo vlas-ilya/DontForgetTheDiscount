@@ -18,11 +18,12 @@ import su.tease.project.feature.cacheback.domain.usecase.impl.AddCacheBackUseCas
 import su.tease.project.feature.cacheback.domain.usecase.impl.AddCodeUseCaseImpl
 import su.tease.project.feature.cacheback.domain.usecase.impl.LoadBankListUseCaseImpl
 import su.tease.project.feature.cacheback.presentation.CacheBackFeature
+import su.tease.project.feature.cacheback.presentation.add.AddCacheBackFeature
 import su.tease.project.feature.cacheback.presentation.add.CacheBackAddPage
+import su.tease.project.feature.cacheback.presentation.list.CacheBackListPage
 import su.tease.project.feature.cacheback.presentation.select.bank.BankSelectPage
 import su.tease.project.feature.cacheback.presentation.select.code.CodesSelectPage
 import su.tease.project.feature.cacheback.presentation.select.icon.IconSelectPage
-import su.tease.project.feature.cacheback.presentation.list.CacheBackListPage
 
 val cacheBackModule = module {
 
@@ -36,6 +37,7 @@ val cacheBackModule = module {
     factory<AddCodeUseCase> { AddCodeUseCaseImpl(get(), get()) }
 
     feature<CacheBackFeature.Target> { CacheBackFeature(it.store) }
+    feature<AddCacheBackFeature.Target> { AddCacheBackFeature(it.store) }
 
     page<CacheBackListPage.Target> { CacheBackListPage(it.store, get()) }
     page<CacheBackAddPage.Target> { CacheBackAddPage(it.store, get()) }

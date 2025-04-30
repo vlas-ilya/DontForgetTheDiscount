@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber")
+
 package su.tease.dontforgetthediscount.database.migration
 
 import su.tease.dontforgetthediscount.database.migration

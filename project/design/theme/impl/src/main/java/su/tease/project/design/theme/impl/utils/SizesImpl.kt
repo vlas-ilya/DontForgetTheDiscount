@@ -6,6 +6,7 @@ import su.tease.design.theme.api.Sizes
 import su.tease.project.design.theme.impl.ThemeValue
 
 internal data class SizesImpl(
+    override val size0: Dp,
     override val size1: Dp,
     override val size2: Dp,
     override val size4: Dp,
@@ -19,6 +20,7 @@ internal data class SizesImpl(
     override val size28: Dp,
     override val size32: Dp,
     override val size40: Dp,
+    override val size50: Dp,
     override val padding1: Dp,
     override val padding2: Dp,
     override val padding4: Dp,
@@ -34,7 +36,8 @@ internal data class SizesImpl(
     override val round8: Dp,
     override val round10: Dp,
     override val round12: Dp,
-    override val roundInfinity: Dp
+    override val roundInfinity: Dp,
+    override val elevation10: Dp,
 ) : Sizes {
 
     companion object {
@@ -46,6 +49,7 @@ internal data class SizesImpl(
 }
 
 private fun makeLightSizes(): Sizes = SizesImpl(
+    size0 = 0.dp,
     size1 = 1.dp,
     size2 = 2.dp,
     size4 = 4.dp,
@@ -59,6 +63,7 @@ private fun makeLightSizes(): Sizes = SizesImpl(
     size28 = 28.dp,
     size32 = 32.dp,
     size40 = 40.dp,
+    size50 = 50.dp,
     padding1 = 1.dp,
     padding2 = 2.dp,
     padding4 = 4.dp,
@@ -75,6 +80,7 @@ private fun makeLightSizes(): Sizes = SizesImpl(
     round10 = 10.dp,
     round12 = 12.dp,
     roundInfinity = Int.MAX_VALUE.dp,
+    elevation10 = 10.dp,
 )
 
 private fun makeNightSizes(): Sizes = makeLightSizes()

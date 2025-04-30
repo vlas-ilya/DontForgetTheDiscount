@@ -43,6 +43,9 @@ class CodesSelectPage(
 
     @Composable
     override operator fun invoke() {
+        LaunchedEffect(Unit) { rootConfig { copy(isFullscreen = true) } }
+        LaunchedEffect(Unit) { appConfig { copy(titleRes = R.string.choose_code_page) } }
+
         val code = remember { mutableStateOf("") }
         val codePresets = remember { mutableStateListOf<String>() }
         val selectedCodes = remember { selected.toMutableStateList() }

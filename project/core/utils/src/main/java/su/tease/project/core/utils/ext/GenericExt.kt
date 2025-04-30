@@ -1,3 +1,5 @@
+@file:Suppress("TooManyFunctions")
+
 package su.tease.project.core.utils.ext
 
 inline fun <T> T.transformIf(
@@ -63,3 +65,18 @@ inline fun <reified T> Any?.takeIfIsInstance(): T? {
     return if (this is T) this else null
 }
 
+inline fun <T1, R> letInNotNull(t1: T1?, block: (t1: T1) -> R): R? {
+    return if (t1 != null) {
+        block(t1)
+    } else {
+        null
+    }
+}
+
+inline fun <T1, T2, R> letInNotNull(t1: T1?, t2: T2?, block: (t1: T1, t2: T2) -> R): R? {
+    return if (t1 != null && t2 != null) {
+        block(t1, t2)
+    } else {
+        null
+    }
+}

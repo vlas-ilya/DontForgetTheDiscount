@@ -5,24 +5,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.draw.clip
 import kotlinx.parcelize.Parcelize
 import su.tease.core.mvi.component.component.impl.BasePageComponent
-import su.tease.core.mvi.component.utils.AppContainerConfiguration
-import su.tease.core.mvi.component.utils.RootContainerConfiguration
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.utils.memoize
 import su.tease.project.design.component.controls.image.DFImage
-import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.preset.IconPreset
 import su.tease.project.feature.cacheback.domain.interceptor.DictionaryInterceptor
@@ -33,40 +29,34 @@ class IconSelectPage(
     private val dictionaryInterceptor: DictionaryInterceptor,
 ) : BasePageComponent(store) {
 
-    override fun RootContainerConfiguration.configure() {
-        isFullscreen = true
-    }
-
-    override fun AppContainerConfiguration.configure() {
-        hasNavigationBar = false
-    }
-
     @Composable
     override operator fun invoke() {
+        LaunchedEffect(Unit) { rootConfig { copy(isFullscreen = true) } }
+        LaunchedEffect(Unit) { appConfig { copy(titleRes = R.string.choose_cache_back_icon) } }
+
         val icons by memoize { dictionaryInterceptor.cacheBacksIcons() }
-        val i by remember { mutableIntStateOf(0) }
-        val j = derivedStateOf { i + 1 }
-        DFPage(
-            title = stringResource(R.string.choose_cache_back_icon),
-            onBackPressed = ::back,
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(minSize = Theme.sizes.size40),
+            modifier = Modifier.padding(
+                horizontal = Theme.sizes.padding6,
+                vertical = Theme.sizes.padding8
+            )
         ) {
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(minSize = Theme.sizes.size40)
-            ) {
-                icons?.forEach {
-                    item(key = it.url) {
-                        DFImage(
-                            modifier = Modifier
-                                .clickable {
-                                    dispatch(OnSelectAction(target.target, it))
-                                    back()
-                                }
-                                .padding(Theme.sizes.padding4)
-                                .size(Theme.sizes.size32),
-                            url = it.url,
-                            contentDescription = "",
-                        )
-                    }
+            icons?.forEach {
+                item(key = it.url) {
+                    DFImage(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(Theme.sizes.round4))
+                            .clickable {
+                                dispatch(OnSelectAction(target.target, it))
+                                back()
+                            }
+                            .padding(Theme.sizes.padding4)
+                            .size(Theme.sizes.size32),
+                        url = it.url,
+                        contentDescription = "",
+                        tint = Theme.colors.iconTint,
+                    )
                 }
             }
         }

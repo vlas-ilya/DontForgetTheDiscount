@@ -1,38 +1,51 @@
 package su.tease.project.design.component.controls.page
 
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.utils.utils.Callback
 import su.tease.project.core.utils.utils.ComposableContent
 
 @Composable
+@Suppress("LongParameterList", "ComposableParamOrder")
 fun DFPage(
     title: String,
     modifier: Modifier = Modifier,
-    onBackPressed: Callback,
-    onClosePressed: Callback? = null,
-    onRefresh: Callback? = null,
+    onBackPressed: Callback? = null,
+    @DrawableRes actionIcon: Int? = null,
+    onActionPressed: Callback? = null,
     floatingButton: DFPageFloatingButton? = null,
     content: ComposableContent,
 ) {
     Box(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .background(Theme.colors.background0)
+            .fillMaxSize()
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
+        Column(modifier = Modifier.fillMaxSize()) {
             DFPageTitle(
                 title = title,
                 onBackPressed = onBackPressed,
-                onClosePressed = onClosePressed,
+                onActionPressed = onActionPressed,
+                actionIcon = actionIcon,
             )
-            content()
+            Box(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(Theme.sizes.round10))
+                    .background(Theme.colors.background1)
+                    .fillMaxSize()
+            ) {
+                content()
+            }
         }
         floatingButton?.let {
             DFPageFloatingButton(

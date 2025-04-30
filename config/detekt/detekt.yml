@@ -64,7 +64,7 @@ complexity:
     threshold: 600
   LongMethod:
     active: true
-    threshold: 60
+    threshold: 120
   LongParameterList:
     active: true
     functionThreshold: 6
@@ -510,7 +510,7 @@ style:
     active: false
   DestructuringDeclarationWithTooManyEntries:
     active: true
-    maxDestructuringEntries: 3
+    maxDestructuringEntries: 10
   DoubleNegativeLambda:
     active: false
     negativeFunctions:

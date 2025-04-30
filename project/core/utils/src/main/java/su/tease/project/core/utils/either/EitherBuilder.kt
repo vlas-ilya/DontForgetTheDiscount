@@ -1,3 +1,5 @@
+@file:Suppress("SwallowedException")
+
 package su.tease.project.core.utils.either
 
 import su.tease.project.core.utils.either.Either.Left

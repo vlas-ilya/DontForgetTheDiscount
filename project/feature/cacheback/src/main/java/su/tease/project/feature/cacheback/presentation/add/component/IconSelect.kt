@@ -44,6 +44,7 @@ fun IconSelect(
                         .padding(Theme.sizes.padding4)
                         .size(Theme.sizes.size32),
                     contentDescription = "",
+                    tint = Theme.colors.iconTint,
                 )
             }
         }

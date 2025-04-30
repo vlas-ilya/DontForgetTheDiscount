@@ -16,7 +16,7 @@ import su.tease.project.feature.cacheback.data.dao.entity.CacheBackPresetEntity
 @Database(
     entities = [
         CacheBackEntity::class, BankEntity::class, CacheBackCodeEntity::class,
-        BankPresetEntity::class, CacheBackPresetEntity::class,CacheBackCodePresetEntity::class,
+        BankPresetEntity::class, CacheBackPresetEntity::class, CacheBackCodePresetEntity::class,
     ],
     version = 4,
 )

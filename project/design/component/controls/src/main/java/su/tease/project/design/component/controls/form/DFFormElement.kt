@@ -19,21 +19,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.utils.ext.runIf
-import su.tease.project.core.utils.utils.Callback
+import su.tease.project.core.utils.utils.ComposableContent
+import su.tease.project.design.component.controls.R
 import su.tease.project.design.component.controls.edit.DFTextField
 import su.tease.project.design.component.controls.icon.DFIcon
 import su.tease.project.design.component.controls.text.DFText
 import su.tease.project.design.theme.impl.utils.Preview
-import su.tease.project.design.component.controls.R
 
 @Composable
 @NonSkippableComposable
+@Suppress("ComposableParamOrder")
 fun DFFormElement(
     label: String,
-    modifier: Modifier = Modifier,
     info: State<String?>,
     error: State<String?>,
-    content: @Composable Callback,
+    modifier: Modifier = Modifier,
+    content: ComposableContent,
 ) {
     DFFormElement(
         label = label,
@@ -45,24 +46,27 @@ fun DFFormElement(
 }
 
 @Composable
+@Suppress("ComposableParamOrder")
 fun DFFormElement(
     label: String,
     modifier: Modifier = Modifier,
     info: String? = null,
     error: String? = null,
-    content: @Composable Callback,
+    content: ComposableContent,
 ) {
     Column(
         modifier = modifier
     ) {
         DFText(
-            text = label,
+            text = label.uppercase(),
             style = Theme.fonts.smallTitle,
-            color = Theme.colors.header,
-            modifier = Modifier.fillMaxWidth(),
+            color = Theme.colors.text,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = Theme.sizes.padding4),
         )
 
-        Spacer(modifier = Modifier.height(Theme.sizes.padding4))
+        Spacer(modifier = Modifier.height(Theme.sizes.padding2))
 
         content()
 
@@ -71,12 +75,14 @@ fun DFFormElement(
         }
 
         info?.let {
+            Spacer(modifier = Modifier.height(Theme.sizes.padding2))
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(start = Theme.sizes.padding4),
             ) {
                 DFIcon(
                     icon = R.drawable.exclamation,
-                    modifier = Modifier.size(Theme.sizes.size12),
+                    modifier = Modifier.size(Theme.sizes.size10),
                     tint = Theme.colors.info,
                 )
                 Spacer(modifier = Modifier.width(Theme.sizes.padding2))
@@ -90,12 +96,14 @@ fun DFFormElement(
         }
 
         error?.let {
+            Spacer(modifier = Modifier.height(Theme.sizes.padding2))
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(start = Theme.sizes.padding4),
             ) {
                 DFIcon(
                     icon = R.drawable.cross_circle,
-                    modifier = Modifier.size(Theme.sizes.size12),
+                    modifier = Modifier.size(Theme.sizes.size10),
                     tint = Theme.colors.error,
                 )
                 Spacer(modifier = Modifier.width(Theme.sizes.padding2))
@@ -106,7 +114,7 @@ fun DFFormElement(
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
-        }
+        } ?: Spacer(modifier = Modifier.size(Theme.sizes.size12))
     }
 }
 

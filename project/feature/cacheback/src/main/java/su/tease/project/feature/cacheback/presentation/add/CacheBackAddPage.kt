@@ -1,7 +1,10 @@
 package su.tease.project.feature.cacheback.presentation.add
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -10,16 +13,14 @@ import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.parcelize.Parcelize
 import su.tease.core.mvi.component.component.impl.BasePageComponent
-import su.tease.core.mvi.component.utils.AppContainerConfiguration
-import su.tease.core.mvi.component.utils.RootContainerConfiguration
 import su.tease.core.mvi.navigation.NavigationTarget
+import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.selector.Selector
 import su.tease.project.core.mvi.api.state.LoadingStatus
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.ext.isTrue
 import su.tease.project.core.utils.ext.map
 import su.tease.project.core.utils.ext.runIf
-import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.CacheBackCode
 import su.tease.project.feature.cacheback.domain.entity.CacheBackInfo
@@ -50,40 +51,33 @@ class CacheBackAddPage(
     private val addCacheBackUseCase: AddCacheBackUseCase,
 ) : BasePageComponent(store) {
 
-    val name = mutableStateOf(CacheBackName(""))
-    val info = mutableStateOf(CacheBackInfo(""))
-    val size = mutableStateOf(CacheBackSize(5))
+    private val name = mutableStateOf(CacheBackName(""))
+    private val info = mutableStateOf(CacheBackInfo(""))
+    private val size = mutableStateOf(CacheBackSize(DEFAULT_PERCENT))
 
     init {
         dispatch(Add.OnInit)
     }
 
-    override fun RootContainerConfiguration.configure() {
-        isFullscreen = true
-    }
-
-    override fun AppContainerConfiguration.configure() {
-        hasNavigationBar = false
-    }
-
     @Composable
     override operator fun invoke() {
+        LaunchedEffect(Unit) {
+            appConfig {
+                copy(titleRes = R.string.add_cache_back_page_title)
+            }
+        }
+
         val status = selectAsState(status).value
 
         LaunchedEffect(status) { if (status == LoadingStatus.Success) back() }
 
-        DFPage(
-            title = stringResource(R.string.add_cache_back_page_title),
-            onBackPressed = ::back,
-        ) {
-            when (status) {
-                null,
-                LoadingStatus.Success -> return@DFPage
+        when (status) {
+            null,
+            LoadingStatus.Success -> return
 
-                LoadingStatus.Init -> CacheBackAddPageForm()
-                LoadingStatus.Loading -> CacheBackAddPageLoading()
-                LoadingStatus.Failed -> CacheBackAddPageFailed()
-            }
+            LoadingStatus.Init -> CacheBackAddPageForm()
+            LoadingStatus.Loading -> CacheBackAddPageLoading()
+            LoadingStatus.Failed -> CacheBackAddPageFailed()
         }
     }
 
@@ -95,38 +89,46 @@ class CacheBackAddPage(
         val addForm = selectAsState(addForm)
         val errors = addForm.map { it?.errors }
 
-        Column {
+        Column(modifier = Modifier.padding(Theme.sizes.padding8)) {
             BankSelect(
                 bankState = bank,
                 onSelect = { forward(BankSelectPage<CacheBackReducer>(bank.value)) },
                 error = runIf(errors.value?.bank.isTrue()) { stringResource(R.string.bank_error) },
                 modifier = Modifier.fillMaxWidth(),
             )
+            Spacer(modifier = Modifier.height(Theme.sizes.padding4))
             NameEditText(
                 nameState = name,
                 onChange = { name.value = it },
+                error = runIf(errors.value?.name.isTrue()) { stringResource(R.string.name_error) },
                 modifier = Modifier.fillMaxWidth(),
             )
+            Spacer(modifier = Modifier.height(Theme.sizes.padding4))
             InfoEditText(
                 infoState = info,
                 onChange = { info.value = it },
+                error = runIf(errors.value?.info.isTrue()) { stringResource(R.string.name_error) },
                 modifier = Modifier.fillMaxWidth(),
             )
+            Spacer(modifier = Modifier.height(Theme.sizes.padding4))
             IconSelect(
                 iconState = icon,
                 onSelect = { forward(IconSelectPage<CacheBackReducer>(icon.value)) },
                 modifier = Modifier.fillMaxWidth(),
             )
+            Spacer(modifier = Modifier.height(Theme.sizes.padding4))
             SizeSelect(
                 sizeState = size,
                 onChange = { size.value = it },
                 modifier = Modifier.fillMaxWidth(),
             )
+            Spacer(modifier = Modifier.height(Theme.sizes.padding4))
             CodesSelect(
                 codesState = codes,
                 onSelect = { forward(CodesSelectPage<CacheBackReducer>(codes.value)) },
                 modifier = Modifier.fillMaxWidth(),
             )
+            Spacer(modifier = Modifier.height(Theme.sizes.padding4))
             SaveButton {
                 addForm.value?.let { dispatch(addCacheBackUseCase(it)) }
             }
@@ -142,3 +144,4 @@ private val addForm = Selector<CacheBackState, AddFormState?> { addForm }
 private val bank = Selector<CacheBackState, BankPreset?> { addForm.bank }
 private val icon = Selector<CacheBackState, IconPreset?> { addForm.icon }
 private val codes = Selector<CacheBackState, PersistentList<CacheBackCode>?> { addForm.codes }
+private const val DEFAULT_PERCENT = 5

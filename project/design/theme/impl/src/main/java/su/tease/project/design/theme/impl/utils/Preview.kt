@@ -15,7 +15,7 @@ fun Preview(content: @Composable ColumnScope.() -> Unit) {
     Theme {
         Column(
             modifier = Modifier
-                .background(Theme.colors.background)
+                .background(Theme.colors.background1)
                 .fillMaxSize()
         ) {
             content()

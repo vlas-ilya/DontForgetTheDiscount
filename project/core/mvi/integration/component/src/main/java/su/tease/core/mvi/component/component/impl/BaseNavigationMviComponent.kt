@@ -6,6 +6,7 @@ import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.navigation.action.NavigationAction
 
+@Suppress("TooManyFunctions")
 abstract class BaseNavigationMviComponent(
     store: Store<*>
 ) : BaseMviComponent(store) {

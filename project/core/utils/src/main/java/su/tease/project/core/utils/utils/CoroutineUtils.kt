@@ -1,3 +1,5 @@
+@file:Suppress("TooGenericExceptionCaught", "InstanceOfCheckForException")
+
 package su.tease.project.core.utils.utils
 
 import kotlinx.coroutines.CancellationException

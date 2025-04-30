@@ -1,7 +1,6 @@
 package su.tease.project.feature.main.presentation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.parcelize.Parcelize
@@ -15,7 +14,7 @@ import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.navigation.selector.feature
 import su.tease.project.design.icons.R
 
-class MainApp2(store: Store<*>) : BaseAppComponent(store) {
+class MainApp2(store: Store<*>) : BaseAppComponent(store,) {
 
     @Composable
     override fun ComposeNavigationBar() {

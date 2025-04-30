@@ -84,7 +84,7 @@ class CacheBackReducer : Reducer<CacheBackState> {
             is Add.OnSave -> copy(status = Loading)
             is Add.OnSaveSuccess -> AddFormState()
             is Add.OnSaveFail -> copy(status = Failed)
-            is AddCacheBackAction.OnValidationFail -> copy(errors = action.errors)
+            is AddCacheBackAction.OnValidationFail -> copy(status = Init, errors = action.errors)
         }
     }
 

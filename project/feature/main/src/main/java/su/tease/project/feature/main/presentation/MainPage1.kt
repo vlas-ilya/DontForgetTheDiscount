@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -12,6 +13,7 @@ import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.project.core.mvi.api.store.Store
 
+@Suppress("UnusedPrivateProperty")
 class MainPage1(
     store: Store<*>,
     private val target: Target,
@@ -38,19 +40,21 @@ class MainPage1(
 }
 
 @Composable
+@Suppress("ModifierMissing")
 fun Test1() {
-    val value = remember { mutableStateOf(0) }
+    val value = remember { mutableIntStateOf(0) }
     Text(
-        text = value.value.toString(),
-        modifier = Modifier.clickable { value.value += 1 }
+        text = value.intValue.toString(),
+        modifier = Modifier.clickable { value.intValue += 1 }
     )
 }
 
 @Composable
+@Suppress("ModifierMissing")
 fun Test2() {
-    val value = remember { mutableStateOf(0) }
+    val value = remember { mutableIntStateOf(0) }
     Text(
-        text = value.value.toString(),
-        modifier = Modifier.clickable { value.value += 1 }
+        text = value.intValue.toString(),
+        modifier = Modifier.clickable { value.intValue += 1 }
     )
 }

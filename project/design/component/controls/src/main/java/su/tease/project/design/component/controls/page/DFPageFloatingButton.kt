@@ -11,6 +11,7 @@ import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.utils.utils.Callback
 import su.tease.project.design.component.controls.icon.DFIcon
@@ -23,9 +24,10 @@ fun DFPageFloatingButton(
 ) {
     Box(
         modifier = modifier
+            .shadow(elevation = Theme.sizes.elevation10, shape = CircleShape)
             .clip(CircleShape)
-            .size(Theme.sizes.size40)
-            .background(Theme.colors.header)
+            .size(Theme.sizes.size50)
+            .background(Theme.colors.background0)
             .clickable { data.onClick() }
     ) {
         DFIcon(

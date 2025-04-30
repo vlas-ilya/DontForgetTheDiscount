@@ -73,4 +73,6 @@ dependencies {
     implementation(project(":project:core:mvi:integration:navigation"))
     implementation(project(":project:core:navigation"))
     implementation(project(":project:core:utils"))
+    implementation(project(":project:design:theme:api"))
+    implementation(project(":project:design:component:controls"))
 }

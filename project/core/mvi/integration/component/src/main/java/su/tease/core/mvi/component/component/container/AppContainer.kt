@@ -1,10 +1,15 @@
 package su.tease.core.mvi.component.component.container
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
@@ -12,62 +17,136 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import su.tease.core.mvi.component.resolver.NavigationTargetResolver
-import su.tease.core.mvi.component.utils.AppContainerConfiguration
-import su.tease.core.mvi.component.utils.RootContainerConfiguration
+import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.selector.select
 import su.tease.project.core.mvi.api.store.Store
+import su.tease.project.core.mvi.navigation.action.NavigationAction
 import su.tease.project.core.mvi.navigation.selector.appIdName
+import su.tease.project.core.utils.ext.runIf
+import su.tease.project.core.utils.ext.unit
+import su.tease.project.core.utils.utils.Callback
+import su.tease.project.design.component.controls.page.DFPage
+import su.tease.project.design.component.controls.page.DFPageFloatingButton
+
+@Immutable
+data class AppAction(
+    @DrawableRes val icon: Int,
+    val onClick: Callback,
+)
+
+private val emptyAppAction = AppAction(icon = 0, onClick = {})
+
+@Immutable
+data class AppFloatingButton(
+    @DrawableRes val icon: Int,
+    val onClick: Callback,
+)
+
+private val emptyAppFloatingButton = AppFloatingButton(icon = 0, onClick = {})
+
+@Immutable
+data class AppConfig(
+    val hasNavigationBar: Boolean = true,
+    val hasBackButton: Boolean = true,
+    val title: String = "",
+    @StringRes val titleRes: Int? = null,
+    val action: AppAction? = null,
+    val floatingButton: AppFloatingButton? = null,
+)
+
+private val actualAppConfigState = mutableStateOf(AppConfig())
+fun commitAppConfig(config: AppConfig) {
+    actualAppConfigState.value = config
+}
 
 @Immutable
 class AppContainer(
     private val store: Store<*>,
     private val navigationTargetResolver: NavigationTargetResolver,
-    private val root: RootContainerConfiguration,
-) : AppContainerConfiguration {
-
-    private val _hasNavigationBar = mutableStateOf(true)
-
+) {
     @Composable
-    fun ComposeAppContainer() {
+    @Suppress("LongMethod", "ModifierMissing")
+    fun ComposeAppContainer(rootConfig: RootConfig) {
         val (id, name) = store.select(appIdName()).collectAsState(null).value ?: return
+        val app = remember(id, name) { navigationTargetResolver.resolve(id, name) }
 
-        val appComponent = remember(id, name) { navigationTargetResolver.resolve(id, name) }
+        val rootConfigState = remember(app, rootConfig) { mutableStateOf(rootConfig) }
+        val appConfigState = remember(app) { mutableStateOf(AppConfig()) }
 
-        LaunchedEffect(id, name) {
-            appComponent.run {
-                root.configure()
-            }
+        LaunchedEffect(app, rootConfigState, appConfigState) {
+            app.setRootConfigState(rootConfigState)
+            app.setAppConfigState(appConfigState)
         }
 
+        val (
+            hasNavigationBar,
+            hasBackButton,
+            title,
+            titleRes,
+            action,
+            floatingButton
+        ) = actualAppConfigState.value
+
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .background(Theme.colors.background0)
+                .fillMaxSize(),
             verticalArrangement = Arrangement.SpaceBetween,
         ) {
-            Box(modifier = Modifier.weight(1F)) {
-                val featureContainer = remember {
-                    FeatureContainer(
-                        store = store,
-                        navigationTargetResolver = navigationTargetResolver,
-                        root = root,
-                        app = this@AppContainer,
+            val featureContainer = remember {
+                FeatureContainer(
+                    store = store,
+                    navigationTargetResolver = navigationTargetResolver,
+                )
+            }
+
+            if (!app.inPage) {
+                app {
+                    featureContainer.ComposeFeatureContainer(
+                        rootConfig = rootConfigState.value,
+                        appConfig = appConfigState.value,
                     )
                 }
-                appComponent {
-                    featureContainer.ComposeFeatureContainer()
+            } else {
+                DFPage(
+                    title = title.takeIf { it.isNotBlank() }
+                        ?: titleRes?.takeIf { it != 0 }?.let { stringResource(it) }
+                        ?: "",
+                    modifier = Modifier
+                        .padding(Theme.sizes.padding2)
+                        .clip(RoundedCornerShape(Theme.sizes.round10))
+                        .background(Theme.colors.background1)
+                        .weight(1F),
+                    onBackPressed = runIf(hasBackButton) {
+                        {
+                            store.dispatcher.dispatch(NavigationAction.Back).unit()
+                        }
+                    },
+                    actionIcon = action?.takeIf { it != emptyAppAction }?.icon,
+                    onActionPressed = action?.takeIf { it != emptyAppAction }?.onClick,
+                    floatingButton = floatingButton?.takeIf { it != emptyAppFloatingButton }?.let {
+                        DFPageFloatingButton(
+                            icon = it.icon,
+                            onClick = it.onClick,
+                        )
+                    }
+                ) {
+                    app {
+                        featureContainer.ComposeFeatureContainer(
+                            rootConfig = rootConfigState.value,
+                            appConfig = appConfigState.value,
+                        )
+                    }
                 }
-            }
-            if (_hasNavigationBar.value) {
-                Box(modifier = Modifier.fillMaxWidth()) {
-                    appComponent.ComposeNavigationBar()
+                if (hasNavigationBar) {
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        app.ComposeNavigationBar()
+                    }
                 }
             }
         }
     }
-
-    override var hasNavigationBar: Boolean
-        get() = _hasNavigationBar.value
-        set(value) {
-            _hasNavigationBar.value = value
-        }
 }

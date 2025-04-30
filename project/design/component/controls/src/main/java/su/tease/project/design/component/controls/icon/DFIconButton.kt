@@ -19,10 +19,10 @@ import su.tease.project.core.utils.utils.Callback
 @Composable
 fun DFIconButton(
     @DrawableRes icon: Int,
+    onClick: Callback,
     modifier: Modifier = Modifier,
     background: Color? = null,
     tint: Color = LocalContentColor.current,
-    onClick: Callback,
 ) {
     Box(
         modifier = modifier

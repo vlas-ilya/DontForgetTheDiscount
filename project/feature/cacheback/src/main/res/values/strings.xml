@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="choose_bank">Выберите банк…</string>
-    <string name="bank">Банк:</string>
-    <string name="icon">Иконка:</string>
+    <string name="bank">Банк</string>
+    <string name="icon">Иконка</string>
     <string name="bank_content_description">Логотип банка "%s"</string>
     <string name="choose_bank_page">Выбор банка</string>
+    <string name="choose_code_page">MCC коды для кэшбэка</string>
     <string name="choose_cache_back_icon">Выбор иконки для кэшбэка</string>
     <string name="cache_back_page_title">Кэшбэк</string>
     <string name="add_cache_back_page_title">Добавить Кэшбэк</string>
@@ -14,4 +15,9 @@
     <string name="codes">MCC коды</string>
     <string name="save">Сохранить</string>
     <string name="bank_error">Укажите банк</string>
+    <string name="name_edit">Название кэшбека</string>
+    <string name="info_edit">Информация о кэшбеке</string>
+    <string name="name_error">Введите название кэшбека</string>
+    <string name="info_error">Введите информацию о кэшбека</string>
+    <string name="name_placeholder">Введите название кэшбека</string>
 </resources>
