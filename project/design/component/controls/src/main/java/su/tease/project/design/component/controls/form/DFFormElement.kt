@@ -61,9 +61,7 @@ fun DFFormElement(
             text = label.uppercase(),
             style = Theme.fonts.smallTitle,
             color = Theme.colors.text,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = Theme.sizes.padding4),
+            modifier = Modifier.padding(start = Theme.sizes.padding4),
         )
 
         Spacer(modifier = Modifier.height(Theme.sizes.padding2))
@@ -90,7 +88,7 @@ fun DFFormElement(
                     text = it,
                     style = Theme.fonts.smallInfo,
                     color = Theme.colors.info,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier,
                 )
             }
         }
@@ -111,10 +109,10 @@ fun DFFormElement(
                     text = it,
                     style = Theme.fonts.smallInfo,
                     color = Theme.colors.error,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier,
                 )
             }
-        } ?: Spacer(modifier = Modifier.size(Theme.sizes.size12))
+        } ?: Spacer(modifier = Modifier.size(Theme.sizes.size16))
     }
 }
 
@@ -125,7 +123,6 @@ private fun DFFormElementPreview() = Preview {
     DFFormElement(
         label = "Поле ввода:",
         error = "Заполнено некорректно!",
-        info = "Нужно заполнять корректно",
         modifier = Modifier
             .padding(4.dp)
             .fillMaxWidth(),

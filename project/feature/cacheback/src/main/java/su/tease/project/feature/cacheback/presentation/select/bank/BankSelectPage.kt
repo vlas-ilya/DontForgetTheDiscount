@@ -29,7 +29,7 @@ class BankSelectPage(
     @Composable
     override operator fun invoke() {
         LaunchedEffect(Unit) { rootConfig { copy(isFullscreen = true) } }
-        LaunchedEffect(Unit) { appConfig { copy(titleRes = R.string.choose_bank_page) } }
+        LaunchedEffect(Unit) { appConfig { copy(titleRes = R.string.page_select_cache_back_bank_title) } }
 
         val banks by memoize { dictionaryInterceptor.banks() }
 

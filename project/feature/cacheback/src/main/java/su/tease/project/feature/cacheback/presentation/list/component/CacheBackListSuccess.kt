@@ -24,7 +24,7 @@ fun CacheBackListSuccess(
     Box(modifier = modifier) {
         if (list.value.isEmpty()) {
             DFTextH1(
-                text = stringResource(R.string.no_cache_back_result),
+                text = stringResource(R.string.page_cache_back_list_placeholder_empty_result),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = Theme.sizes.padding20)

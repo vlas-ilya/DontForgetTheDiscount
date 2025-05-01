@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 import su.tease.dontforgetthediscount.component.DontForgetTheDiscountComponent
 import su.tease.project.core.mvi.api.selector.select
 import su.tease.project.core.mvi.api.store.Store
@@ -18,10 +19,15 @@ import su.tease.project.design.theme.impl.switchTheme
 
 class DontForgetTheDiscountActivity : AppCompatActivity() {
 
-    private val dontForgetTheDiscountComponent: DontForgetTheDiscountComponent by inject()
+    private val dontForgetTheDiscountComponent: DontForgetTheDiscountComponent by inject {
+        val windowProvider = { window }
+        parametersOf(windowProvider)
+    }
+
     private val store: Store<*> by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        window
         super.onCreate(savedInstanceState)
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
 

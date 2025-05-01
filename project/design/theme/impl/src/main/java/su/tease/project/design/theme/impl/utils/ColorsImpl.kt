@@ -18,6 +18,9 @@ internal data class ColorsImpl(
     override val transparent: Color,
     override val iconTint: Color,
 
+    override val buttonBackground: Color,
+    override val buttonText: Color,
+
     override val inputBorder: Color,
     override val inputFocusedBorder: Color,
     override val inputBackground: Color,
@@ -55,6 +58,9 @@ private fun makeLightColors(): Colors = ColorsImpl(
     error = Color(0xFFD22038),
     transparent = Color.Transparent,
     iconTint = accent4,
+
+    buttonBackground = accent4,
+    buttonText = Color(0xFFFFF5FA),
 
     inputBorder = Color.Transparent,
     inputFocusedBorder = accent1,

@@ -13,7 +13,7 @@ fun Modifier.thenIf(
     }
 }
 
-fun Modifier.thenIf(
+inline fun Modifier.thenIf(
     condition: Boolean,
     modify: () -> Modifier,
 ): Modifier {
@@ -24,7 +24,7 @@ fun Modifier.thenIf(
     }
 }
 
-fun <T> Modifier.thenIfNotNull(value: T?, modify: (T) -> Modifier): Modifier {
+inline fun <T> Modifier.thenIfNotNull(value: T?, modify: (T) -> Modifier): Modifier {
     return if (value != null) {
         then(modify(value))
     } else {

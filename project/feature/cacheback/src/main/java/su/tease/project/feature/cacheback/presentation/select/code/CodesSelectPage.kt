@@ -44,7 +44,7 @@ class CodesSelectPage(
     @Composable
     override operator fun invoke() {
         LaunchedEffect(Unit) { rootConfig { copy(isFullscreen = true) } }
-        LaunchedEffect(Unit) { appConfig { copy(titleRes = R.string.choose_code_page) } }
+        LaunchedEffect(Unit) { appConfig { copy(titleRes = R.string.page_select_cache_back_codes_title) } }
 
         val code = remember { mutableStateOf("") }
         val codePresets = remember { mutableStateListOf<String>() }
@@ -75,7 +75,7 @@ class CodesSelectPage(
             )
 
             DFButton(
-                label = stringResource(R.string.select_code),
+                label = stringResource(R.string.page_select_cache_back_codes_button_save),
                 onClick = {
                     val value = code.value
                     if (value !in selectedCodes) selectedCodes.add(value)
@@ -103,7 +103,7 @@ class CodesSelectPage(
             }
 
             DFButton(
-                label = stringResource(R.string.add_codes),
+                label = stringResource(R.string.page_add_codes_button_save),
                 onClick = {
                     scope.launch {
                         dispatch(addCodeUseCase(target.target, selectedCodes.toList())).join()

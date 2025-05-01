@@ -1,14 +1,19 @@
 package su.tease.project.feature.cacheback.presentation.add.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import su.tease.design.theme.api.Theme
@@ -28,21 +33,29 @@ fun BankSelect(
     modifier: Modifier = Modifier,
 ) {
     DFFormElement(
-        label = stringResource(R.string.bank),
+        label = stringResource(R.string.item_select_cache_back_bank_title),
         error = error,
-        modifier = modifier
-            .clickable { onSelect() }
-            .padding(vertical = Theme.sizes.padding2)
+        modifier = modifier.fillMaxWidth()
     ) {
         Row(
-            modifier = Modifier,
+            modifier = Modifier
+                .clip(RoundedCornerShape(Theme.sizes.roundInfinity))
+                .clickable { onSelect() }
+                .background(Theme.colors.inputBackground)
+                .fillMaxWidth()
+                .height(Theme.sizes.size48)
+                .padding(horizontal = Theme.sizes.padding10),
             verticalAlignment = Alignment.CenterVertically
         ) {
             bankState.value?.let {
-                BankPresetPreview(it)
+                BankPresetPreview(it, roundedIcon = true)
             } ?: run {
                 DFPlaceholder(
-                    text = stringResource(R.string.choose_bank),
+                    text = stringResource(R.string.item_select_cache_back_bank_placeholder),
+                    modifier = Modifier.padding(
+                        horizontal = Theme.sizes.padding6,
+                        vertical = Theme.sizes.padding6,
+                    )
                 )
             }
         }
@@ -57,7 +70,7 @@ private fun BankSelectPreview() = Preview {
     BankSelect(
         bankState = emptyBank,
         onSelect = {},
-        error = null,
+        error = "Test",
         modifier = Modifier
     )
 

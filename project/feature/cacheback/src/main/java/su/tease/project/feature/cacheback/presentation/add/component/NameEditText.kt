@@ -1,5 +1,6 @@
 package su.tease.project.feature.cacheback.presentation.add.component
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
@@ -18,14 +19,15 @@ fun NameEditText(
     modifier: Modifier = Modifier,
 ) {
     DFFormElement(
-        label = stringResource(R.string.name_edit),
+        label = stringResource(R.string.item_cache_back_name_title),
         error = error,
+        modifier = modifier,
     ) {
         DFTextField(
             text = nameState.map { it?.value.orEmpty() },
-            placeholder = stringResource(R.string.name_placeholder),
+            placeholder = stringResource(R.string.item_cache_back_name_placeholder),
             onChange = { onChange(CacheBackName(it)) },
-            modifier = modifier,
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }

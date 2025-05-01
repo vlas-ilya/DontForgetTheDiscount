@@ -22,5 +22,8 @@ interface Colors {
     val inputText: Color
     val inputPlaceholder: Color
 
+    val buttonBackground: Color
+    val buttonText: Color
+
     val tmpFiller: Color
 }

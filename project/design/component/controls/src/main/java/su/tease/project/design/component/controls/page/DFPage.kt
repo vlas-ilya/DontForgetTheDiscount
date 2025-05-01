@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import su.tease.design.theme.api.Theme
+import su.tease.project.core.utils.ext.choose
 import su.tease.project.core.utils.utils.Callback
 import su.tease.project.core.utils.utils.ComposableContent
 
@@ -20,6 +21,7 @@ import su.tease.project.core.utils.utils.ComposableContent
 fun DFPage(
     title: String,
     modifier: Modifier = Modifier,
+    hasSystemNavigationBar: Boolean = true,
     onBackPressed: Callback? = null,
     @DrawableRes actionIcon: Int? = null,
     onActionPressed: Callback? = null,
@@ -40,7 +42,20 @@ fun DFPage(
             )
             Box(
                 modifier = Modifier
-                    .clip(RoundedCornerShape(Theme.sizes.round10))
+                    .clip(
+                        RoundedCornerShape(
+                            topStart = Theme.sizes.round16,
+                            topEnd = Theme.sizes.round16,
+                            bottomStart = hasSystemNavigationBar.choose(
+                                Theme.sizes.round16,
+                                Theme.sizes.size0,
+                            ),
+                            bottomEnd = hasSystemNavigationBar.choose(
+                                Theme.sizes.round16,
+                                Theme.sizes.size0,
+                            ),
+                        )
+                    )
                     .background(Theme.colors.background1)
                     .fillMaxSize()
             ) {

@@ -18,6 +18,11 @@ class AddCacheBackFeature(
     @Composable
     override operator fun invoke(child: ComposableContent) {
         LaunchedEffect(Unit) {
+            rootConfig {
+                copy(
+                    isFullscreen = true
+                )
+            }
             appConfig {
                 copy(
                     hasNavigationBar = false,

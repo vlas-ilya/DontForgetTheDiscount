@@ -13,10 +13,11 @@ import su.tease.project.core.utils.uuid.impl.UuidProviderImpl
 
 val dontForgetTheDiscountModule = module {
 
-    factory {
+    factory { params ->
         DontForgetTheDiscountComponent(
             store = get<Store<*>>(),
             navigationTargetResolver = get(),
+            windowProvider = params.get(),
         )
     }
 

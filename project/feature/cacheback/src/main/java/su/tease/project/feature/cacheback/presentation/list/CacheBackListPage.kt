@@ -33,7 +33,7 @@ class CacheBackListPage(
         LaunchedEffect(Unit) {
             appConfig {
                 copy(
-                    titleRes = R.string.cache_back_page_title,
+                    titleRes = R.string.page_cache_back_list_title,
                     floatingButton = AppFloatingButton(
                         icon = RIcons.drawable.plus,
                         onClick = ::onAddCacheBack,

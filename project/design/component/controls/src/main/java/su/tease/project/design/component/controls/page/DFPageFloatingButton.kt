@@ -27,12 +27,12 @@ fun DFPageFloatingButton(
             .shadow(elevation = Theme.sizes.elevation10, shape = CircleShape)
             .clip(CircleShape)
             .size(Theme.sizes.size50)
-            .background(Theme.colors.background0)
+            .background(Theme.colors.buttonBackground)
             .clickable { data.onClick() }
     ) {
         DFIcon(
             icon = data.icon,
-            tint = Theme.colors.headerText,
+            tint = Theme.colors.buttonText,
             modifier = Modifier
                 .size(Theme.sizes.size20)
                 .align(Alignment.Center)

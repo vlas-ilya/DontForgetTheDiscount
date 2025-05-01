@@ -1,13 +1,19 @@
 package su.tease.project.feature.cacheback.presentation.add
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.PersistentList
@@ -63,7 +69,7 @@ class CacheBackAddPage(
     override operator fun invoke() {
         LaunchedEffect(Unit) {
             appConfig {
-                copy(titleRes = R.string.add_cache_back_page_title)
+                copy(titleRes = R.string.page_add_cache_back_title)
             }
         }
 
@@ -89,49 +95,63 @@ class CacheBackAddPage(
         val addForm = selectAsState(addForm)
         val errors = addForm.map { it?.errors }
 
-        Column(modifier = Modifier.padding(Theme.sizes.padding8)) {
+        Column(
+            modifier = Modifier
+                .padding(Theme.sizes.padding8)
+                .padding(top = Theme.sizes.padding6)
+        ) {
             BankSelect(
                 bankState = bank,
                 onSelect = { forward(BankSelectPage<CacheBackReducer>(bank.value)) },
-                error = runIf(errors.value?.bank.isTrue()) { stringResource(R.string.bank_error) },
+                error = runIf(errors.value?.bank.isTrue()) { stringResource(R.string.item_select_cache_back_bank_error) },
                 modifier = Modifier.fillMaxWidth(),
             )
             Spacer(modifier = Modifier.height(Theme.sizes.padding4))
             NameEditText(
                 nameState = name,
                 onChange = { name.value = it },
-                error = runIf(errors.value?.name.isTrue()) { stringResource(R.string.name_error) },
+                error = runIf(errors.value?.name.isTrue()) { stringResource(R.string.item_cache_back_name_error) },
                 modifier = Modifier.fillMaxWidth(),
             )
             Spacer(modifier = Modifier.height(Theme.sizes.padding4))
             InfoEditText(
                 infoState = info,
                 onChange = { info.value = it },
-                error = runIf(errors.value?.info.isTrue()) { stringResource(R.string.name_error) },
+                error = runIf(errors.value?.info.isTrue()) { stringResource(R.string.item_cache_back_info_error) },
                 modifier = Modifier.fillMaxWidth(),
             )
             Spacer(modifier = Modifier.height(Theme.sizes.padding4))
-            IconSelect(
-                iconState = icon,
-                onSelect = { forward(IconSelectPage<CacheBackReducer>(icon.value)) },
+            Row(
                 modifier = Modifier.fillMaxWidth(),
-            )
-            Spacer(modifier = Modifier.height(Theme.sizes.padding4))
-            SizeSelect(
-                sizeState = size,
-                onChange = { size.value = it },
-                modifier = Modifier.fillMaxWidth(),
-            )
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start,
+            ) {
+                IconSelect(
+                    iconState = icon,
+                    onSelect = { forward(IconSelectPage<CacheBackReducer>(icon.value)) },
+                    error = errors.value?.icon.isTrue(),
+                    modifier = Modifier.wrapContentWidth(),
+                )
+                Spacer(modifier = Modifier.width(Theme.sizes.padding12))
+                SizeSelect(
+                    sizeState = size,
+                    onChange = { size.value = it },
+                    error = runIf(errors.value?.icon.isTrue()) { stringResource(R.string.item_cache_back_size_error) },
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
             Spacer(modifier = Modifier.height(Theme.sizes.padding4))
             CodesSelect(
                 codesState = codes,
                 onSelect = { forward(CodesSelectPage<CacheBackReducer>(codes.value)) },
+                error = runIf(errors.value?.icon.isTrue()) { stringResource(R.string.item_select_cache_back_codes_error) },
                 modifier = Modifier.fillMaxWidth(),
             )
-            Spacer(modifier = Modifier.height(Theme.sizes.padding4))
-            SaveButton {
-                addForm.value?.let { dispatch(addCacheBackUseCase(it)) }
-            }
+            Spacer(modifier = Modifier.weight(1F))
+            SaveButton(
+                modifier = Modifier.wrapContentHeight(),
+                onSubmit = { addForm.value?.let { dispatch(addCacheBackUseCase(it)) } }
+            )
         }
     }
 

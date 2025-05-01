@@ -3,6 +3,7 @@ package su.tease.project.design.component.controls.edit
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -65,6 +66,7 @@ fun DFNumberField(
             color = Theme.colors.text,
         ),
         modifier = modifier
+            .height(Theme.sizes.size48)
             .border(
                 width = isFocused.value.choose(
                     Theme.sizes.size2,

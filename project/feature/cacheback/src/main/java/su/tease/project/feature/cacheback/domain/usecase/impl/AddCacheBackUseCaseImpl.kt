@@ -19,13 +19,13 @@ class AddCacheBackUseCaseImpl(
 ) : AddCacheBackUseCase {
 
     override fun run(request: AddFormState) = suspendAction {
+        val validationErrors = request.validate()
+        if (validationErrors != null) {
+            dispatch(AddCacheBackAction.OnValidationFail(validationErrors))
+            return@suspendAction
+        }
         dispatch(AddCacheBackAction.OnSave)
         try {
-            val validationErrors = request.validate()
-            if (validationErrors != null) {
-                dispatch(AddCacheBackAction.OnValidationFail(validationErrors))
-                return@suspendAction
-            }
             val persisted = repository.get(request.bankId)
             val bank = persisted.copy(cacheBacks = persisted.cacheBacks.add(request.cacheBack))
             repository.save(bank)

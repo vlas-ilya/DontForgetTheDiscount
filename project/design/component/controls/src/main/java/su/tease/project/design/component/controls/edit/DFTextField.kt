@@ -1,8 +1,10 @@
 package su.tease.project.design.component.controls.edit
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -21,6 +23,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.utils.ext.choose
+import su.tease.project.core.utils.ext.thenIf
+import su.tease.project.core.utils.ext.thenIfNotNull
 import su.tease.project.design.component.controls.text.DFText
 import su.tease.project.design.theme.impl.utils.Preview
 
@@ -31,6 +35,8 @@ fun DFTextField(
     text: State<String>,
     onChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
+    enabled: Boolean = true,
     placeholder: String = "",
 ) {
     val isFocused = remember { mutableStateOf(false) }
@@ -46,7 +52,9 @@ fun DFTextField(
             color = Theme.colors.text,
         ),
         onValueChange = { onChange(it) },
+        enabled = enabled,
         modifier = modifier
+            .height(Theme.sizes.size48)
             .border(
                 width = isFocused.value.choose(
                     Theme.sizes.size2,
@@ -61,6 +69,9 @@ fun DFTextField(
             .clip(RoundedCornerShape(Theme.sizes.roundInfinity))
             .onFocusChanged {
                 isFocused.value = it.isFocused
+            }
+            .thenIfNotNull(onClick) {
+                Modifier.clickable { it() }
             },
         interactionSource = interactionSource,
         visualTransformation = VisualTransformation.None,

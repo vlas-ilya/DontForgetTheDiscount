@@ -25,6 +25,7 @@ import su.tease.project.core.mvi.api.selector.select
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.navigation.action.NavigationAction
 import su.tease.project.core.mvi.navigation.selector.appIdName
+import su.tease.project.core.utils.ext.choose
 import su.tease.project.core.utils.ext.runIf
 import su.tease.project.core.utils.ext.unit
 import su.tease.project.core.utils.utils.Callback
@@ -69,7 +70,7 @@ class AppContainer(
 ) {
     @Composable
     @Suppress("LongMethod", "ModifierMissing")
-    fun ComposeAppContainer(rootConfig: RootConfig) {
+    fun ComposeAppContainer(rootConfig: RootConfig, hasSystemNavigationBar: Boolean) {
         val (id, name) = store.select(appIdName()).collectAsState(null).value ?: return
         val app = remember(id, name) { navigationTargetResolver.resolve(id, name) }
 
@@ -115,15 +116,21 @@ class AppContainer(
                     title = title.takeIf { it.isNotBlank() }
                         ?: titleRes?.takeIf { it != 0 }?.let { stringResource(it) }
                         ?: "",
+                    hasSystemNavigationBar = hasSystemNavigationBar,
                     modifier = Modifier
-                        .padding(Theme.sizes.padding2)
-                        .clip(RoundedCornerShape(Theme.sizes.round10))
+                        .padding(
+                            top = Theme.sizes.padding2,
+                            bottom = hasSystemNavigationBar.choose(
+                                Theme.sizes.padding4,
+                                Theme.sizes.size0,
+                            ),
+                            start = Theme.sizes.padding4,
+                            end = Theme.sizes.padding4,
+                        )
                         .background(Theme.colors.background1)
                         .weight(1F),
                     onBackPressed = runIf(hasBackButton) {
-                        {
-                            store.dispatcher.dispatch(NavigationAction.Back).unit()
-                        }
+                        { store.dispatcher.dispatch(NavigationAction.Back).unit() }
                     },
                     actionIcon = action?.takeIf { it != emptyAppAction }?.icon,
                     onActionPressed = action?.takeIf { it != emptyAppAction }?.onClick,

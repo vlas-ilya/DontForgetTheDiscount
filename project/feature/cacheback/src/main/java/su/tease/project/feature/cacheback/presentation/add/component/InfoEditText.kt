@@ -1,5 +1,6 @@
 package su.tease.project.feature.cacheback.presentation.add.component
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
@@ -18,13 +19,15 @@ fun InfoEditText(
     modifier: Modifier = Modifier,
 ) {
     DFFormElement(
-        label = stringResource(R.string.info_edit),
+        label = stringResource(R.string.item_cache_back_info_title),
         error = error,
+        modifier = modifier,
     ) {
         DFTextField(
             text = infoState.map { it?.value.orEmpty() },
+            placeholder = stringResource(R.string.item_cache_back_info_placeholder),
             onChange = { onChange(CacheBackInfo(it)) },
-            modifier = modifier,
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }

@@ -19,6 +19,8 @@ interface Sizes {
     val size28: Dp
     val size32: Dp
     val size40: Dp
+    val size46: Dp
+    val size48: Dp
     val size50: Dp
     val padding1: Dp
     val padding2: Dp
@@ -27,6 +29,8 @@ interface Sizes {
     val padding8: Dp
     val padding10: Dp
     val padding12: Dp
+    val padding14: Dp
+    val padding16: Dp
     val padding20: Dp
     val round1: Dp
     val round2: Dp
@@ -35,6 +39,7 @@ interface Sizes {
     val round8: Dp
     val round10: Dp
     val round12: Dp
+    val round16: Dp
     val roundInfinity: Dp
     val elevation10: Dp
 }

@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -12,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import su.tease.design.theme.api.Theme
+import su.tease.project.core.utils.ext.choose
 import su.tease.project.core.utils.ext.thenIfNotNull
 import su.tease.project.core.utils.utils.Callback
 import su.tease.project.design.component.controls.image.DFImage
@@ -23,6 +25,7 @@ import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
 fun BankPresetPreview(
     bank: BankPreset,
     modifier: Modifier = Modifier,
+    roundedIcon: Boolean = false,
     onClick: Callback? = null,
 ) = bank.run {
     Row(
@@ -33,15 +36,19 @@ fun BankPresetPreview(
         DFImage(
             url = icon.url,
             modifier = Modifier
-                .clip(RoundedCornerShape(Theme.sizes.round4))
-                .size(Theme.sizes.size28)
+                .clip(roundedIcon.choose(CircleShape, RoundedCornerShape(Theme.sizes.round4)))
+                .size(Theme.sizes.size32)
                 .background(Theme.colors.tmpFiller),
-            contentDescription = stringResource(R.string.bank_content_description, name)
+            contentDescription = stringResource(
+                R.string.item_bank_preview_content_description_bank_logo,
+                name,
+            )
         )
         DFText(
             text = name,
+            style = Theme.fonts.placeholder,
             modifier = Modifier
-                .padding(horizontal = Theme.sizes.padding4)
+                .padding(horizontal = Theme.sizes.padding6)
         )
     }
 }

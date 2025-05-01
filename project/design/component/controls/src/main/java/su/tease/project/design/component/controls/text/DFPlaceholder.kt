@@ -17,6 +17,6 @@ fun DFPlaceholder(
         fontStyle = Theme.fonts.placeholder.fontStyle,
         fontWeight = Theme.fonts.placeholder.fontWeight,
         fontFamily = Theme.fonts.placeholder.fontFamily,
-        color = Theme.colors.placeholder
+        color = Theme.colors.inputPlaceholder
     )
 }

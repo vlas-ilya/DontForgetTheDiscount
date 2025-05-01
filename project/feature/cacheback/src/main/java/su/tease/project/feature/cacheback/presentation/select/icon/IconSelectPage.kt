@@ -32,7 +32,7 @@ class IconSelectPage(
     @Composable
     override operator fun invoke() {
         LaunchedEffect(Unit) { rootConfig { copy(isFullscreen = true) } }
-        LaunchedEffect(Unit) { appConfig { copy(titleRes = R.string.choose_cache_back_icon) } }
+        LaunchedEffect(Unit) { appConfig { copy(titleRes = R.string.page_select_cache_back_icon_title) } }
 
         val icons by memoize { dictionaryInterceptor.cacheBacksIcons() }
         LazyVerticalGrid(

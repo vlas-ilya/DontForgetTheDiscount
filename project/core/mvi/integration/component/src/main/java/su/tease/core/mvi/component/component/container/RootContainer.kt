@@ -2,6 +2,7 @@
 
 package su.tease.core.mvi.component.component.container
 
+import android.view.Window
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
@@ -19,6 +20,9 @@ import androidx.compose.ui.Modifier
 import su.tease.core.mvi.component.resolver.impl.AppNavigationTargetResolver
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.store.Store
+import su.tease.project.core.utils.ext.hideSystemUI
+import su.tease.project.core.utils.ext.isNavigationBarVisible
+import su.tease.project.core.utils.ext.showSystemUI
 
 @Immutable
 data class RootConfig(
@@ -33,6 +37,7 @@ fun commitConfigRoot(config: RootConfig) {
 class RootContainer(
     private val store: Store<*>,
     private val navigationTargetResolver: AppNavigationTargetResolver,
+    private val windowProvider: () -> Window,
 ) {
     @Composable
     @Suppress("ModifierMissing")
@@ -41,7 +46,11 @@ class RootContainer(
 
         val isFullscreen = actualRootConfigState.value.isFullscreen
         LaunchedEffect(isFullscreen) {
-            println(isFullscreen) // TODO: handle isFullscreen
+            if (isFullscreen) {
+                windowProvider().hideSystemUI()
+            } else {
+                windowProvider().showSystemUI()
+            }
         }
 
         Box(
@@ -58,7 +67,15 @@ class RootContainer(
                 )
             }
 
-            appContainer.ComposeAppContainer(rootConfig = rootConfigState.value)
+            windowProvider().isNavigationBarVisible()
+
+            val hasSystemNavigationBar =
+                !actualRootConfigState.value.isFullscreen && windowProvider().isNavigationBarVisible()
+
+            appContainer.ComposeAppContainer(
+                rootConfig = rootConfigState.value,
+                hasSystemNavigationBar = hasSystemNavigationBar,
+            )
         }
     }
 }

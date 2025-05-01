@@ -20,7 +20,6 @@ class MainApp1(store: Store<*>) : BaseAppComponent(store,) {
 
     @Composable
     override fun ComposeNavigationBar() {
-        LaunchedEffect(Unit) { rootConfig { copy(isFullscreen = true) } }
         val feature = selectAsState(feature()).value ?: return
 
         NavigationBar(
