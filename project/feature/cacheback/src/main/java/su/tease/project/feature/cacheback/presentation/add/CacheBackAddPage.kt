@@ -59,7 +59,7 @@ class CacheBackAddPage(
 
     private val name = mutableStateOf(CacheBackName(""))
     private val info = mutableStateOf(CacheBackInfo(""))
-    private val size = mutableStateOf(CacheBackSize(DEFAULT_PERCENT))
+    private val size = mutableStateOf(CacheBackSize(0))
 
     init {
         dispatch(Add.OnInit)
@@ -132,7 +132,7 @@ class CacheBackAddPage(
                     error = errors.value?.icon.isTrue(),
                     modifier = Modifier.wrapContentWidth(),
                 )
-                Spacer(modifier = Modifier.width(Theme.sizes.padding12))
+                Spacer(modifier = Modifier.width(Theme.sizes.padding8))
                 SizeSelect(
                     sizeState = size,
                     onChange = { size.value = it },
@@ -164,4 +164,3 @@ private val addForm = Selector<CacheBackState, AddFormState?> { addForm }
 private val bank = Selector<CacheBackState, BankPreset?> { addForm.bank }
 private val icon = Selector<CacheBackState, IconPreset?> { addForm.icon }
 private val codes = Selector<CacheBackState, PersistentList<CacheBackCode>?> { addForm.codes }
-private const val DEFAULT_PERCENT = 5

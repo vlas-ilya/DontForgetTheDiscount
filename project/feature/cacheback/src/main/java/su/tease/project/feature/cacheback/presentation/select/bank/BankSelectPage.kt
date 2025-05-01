@@ -1,7 +1,9 @@
 package su.tease.project.feature.cacheback.presentation.select.bank
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
@@ -18,7 +20,7 @@ import su.tease.project.core.utils.utils.memoize
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
 import su.tease.project.feature.cacheback.domain.interceptor.DictionaryInterceptor
-import su.tease.project.feature.cacheback.presentation.add.component.BankPresetPreview
+import su.tease.project.feature.cacheback.presentation.select.bank.component.SelectBankPresetPreview
 
 class BankSelectPage(
     store: Store<*>,
@@ -35,21 +37,21 @@ class BankSelectPage(
 
         LazyColumn(
             contentPadding = PaddingValues(
-                vertical = Theme.sizes.padding8,
-                horizontal = Theme.sizes.padding8,
+                horizontal = Theme.sizes.padding4,
             ),
         ) {
+            item {
+                Spacer(modifier = Modifier.height(Theme.sizes.padding4))
+            }
             banks?.forEach {
                 item(key = it.id) {
-                    BankPresetPreview(
+                    SelectBankPresetPreview(
                         bank = it,
                         onClick = {
                             dispatch(OnSelectAction(target.target, it))
                             back()
                         },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = Theme.sizes.padding1),
+                        modifier = Modifier.fillMaxWidth(),
                     )
                 }
             }

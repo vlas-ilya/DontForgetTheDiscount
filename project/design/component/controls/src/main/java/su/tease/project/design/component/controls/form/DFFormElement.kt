@@ -34,6 +34,7 @@ fun DFFormElement(
     info: State<String?>,
     error: State<String?>,
     modifier: Modifier = Modifier,
+    noError: Boolean = false,
     content: ComposableContent,
 ) {
     DFFormElement(
@@ -41,6 +42,7 @@ fun DFFormElement(
         modifier = modifier,
         info = info.value,
         error = error.value,
+        noError = noError,
         content = content,
     )
 }
@@ -52,6 +54,7 @@ fun DFFormElement(
     modifier: Modifier = Modifier,
     info: String? = null,
     error: String? = null,
+    noError: Boolean = false,
     content: ComposableContent,
 ) {
     Column(
@@ -112,7 +115,9 @@ fun DFFormElement(
                     modifier = Modifier,
                 )
             }
-        } ?: Spacer(modifier = Modifier.size(Theme.sizes.size16))
+        } ?: runIf(!noError) {
+            Spacer(modifier = Modifier.size(Theme.sizes.size16))
+        }
     }
 }
 

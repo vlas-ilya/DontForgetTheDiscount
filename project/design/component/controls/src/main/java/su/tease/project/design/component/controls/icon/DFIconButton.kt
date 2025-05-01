@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import su.tease.design.theme.api.Theme
-import su.tease.project.core.utils.ext.thenIf
+import su.tease.project.core.utils.ext.thenIfNotNull
 import su.tease.project.core.utils.utils.Callback
 
 @Composable
@@ -28,7 +28,7 @@ fun DFIconButton(
         modifier = modifier
             .clip(CircleShape)
             .size(Theme.sizes.size32)
-            .thenIf(background != null) { Modifier.background(background!!) }
+            .thenIfNotNull(background) { Modifier.background(it) }
             .clickable { onClick() }
     ) {
         DFIcon(

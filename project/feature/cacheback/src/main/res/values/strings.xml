@@ -8,10 +8,10 @@
     <string name="item_cache_back_name_placeholder">Укажите название кэшбэка</string>
     <string name="item_cache_back_name_title">Название</string>
     <string name="item_select_cache_back_bank_error">Поле должно быть заполнено</string>
-    <string name="item_select_cache_back_bank_placeholder">Кликнете для выбора банка</string>
+    <string name="item_select_cache_back_bank_placeholder">Кликните для выбора банка</string>
     <string name="item_select_cache_back_bank_title">Банк</string>
     <string name="item_select_cache_back_codes_error">Поле должно быть заполнено</string>
-    <string name="item_select_cache_back_codes_placeholder">Кликнете для выбора МСС кодов</string>
+    <string name="item_select_cache_back_codes_placeholder">Кликните для выбора МСС кодов</string>
     <string name="item_select_cache_back_codes_title">MCC коды</string>
     <string name="item_select_cache_back_icon_title">Иконка</string>
     <string name="item_cache_back_size_placeholder">Укажите размер кэшбэка</string>
@@ -25,5 +25,10 @@
     <string name="page_select_cache_back_bank_title">Выбор банка</string>
     <string name="page_select_cache_back_codes_button_save">Добавить</string>
     <string name="page_select_cache_back_codes_title">MCC коды для кэшбэка</string>
+    <string name="page_select_cache_back_codes_label_input">MCC коды</string>
+    <string name="page_select_cache_back_codes_label_selected">Выбранные MCC коды</string>
+    <string name="page_select_cache_back_codes_label_other">MCC коды</string>
+    <string name="page_select_cache_back_codes_error_selected">Поле должно быть заполнено</string>
+    <string name="page_select_cache_back_codes_placeholder_selected">Ничего не выбрано</string>
     <string name="page_select_cache_back_icon_title">Выбор иконки для кэшбэка</string>
 </resources>

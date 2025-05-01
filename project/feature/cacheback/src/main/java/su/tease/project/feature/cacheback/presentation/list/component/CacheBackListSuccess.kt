@@ -30,7 +30,7 @@ fun CacheBackListSuccess(
                     .padding(vertical = Theme.sizes.padding20)
                     .padding(horizontal = Theme.sizes.padding8)
                     .align(Alignment.Center),
-                color = Theme.colors.placeholder,
+                color = Theme.colors.accent,
                 textAlign = TextAlign.Center,
             )
             return

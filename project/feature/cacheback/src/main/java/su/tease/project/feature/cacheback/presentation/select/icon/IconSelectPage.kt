@@ -1,6 +1,7 @@
 package su.tease.project.feature.cacheback.presentation.select.icon
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -37,10 +38,7 @@ class IconSelectPage(
         val icons by memoize { dictionaryInterceptor.cacheBacksIcons() }
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = Theme.sizes.size40),
-            modifier = Modifier.padding(
-                horizontal = Theme.sizes.padding6,
-                vertical = Theme.sizes.padding8
-            )
+            contentPadding = PaddingValues(Theme.sizes.padding2)
         ) {
             icons?.forEach {
                 item(key = it.url) {
@@ -52,7 +50,7 @@ class IconSelectPage(
                                 back()
                             }
                             .padding(Theme.sizes.padding4)
-                            .size(Theme.sizes.size32),
+                            .size(Theme.sizes.size46),
                         url = it.url,
                         contentDescription = "",
                         tint = Theme.colors.iconTint,

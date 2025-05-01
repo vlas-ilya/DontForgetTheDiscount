@@ -1,19 +1,24 @@
 package su.tease.project.design.component.controls.edit
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
@@ -23,10 +28,17 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.utils.ext.choose
-import su.tease.project.core.utils.ext.thenIf
 import su.tease.project.core.utils.ext.thenIfNotNull
+import su.tease.project.core.utils.utils.Callback
+import su.tease.project.design.component.controls.icon.DFIconButton
 import su.tease.project.design.component.controls.text.DFText
+import su.tease.project.design.icons.R
 import su.tease.project.design.theme.impl.utils.Preview
+
+data class DFTextFieldAction(
+    @DrawableRes val icon: Int,
+    val onClick: Callback,
+)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,82 +49,108 @@ fun DFTextField(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
     enabled: Boolean = true,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     placeholder: String = "",
+    action: DFTextFieldAction? = null,
 ) {
     val isFocused = remember { mutableStateOf(false) }
     val interactionSource = remember { MutableInteractionSource() }
 
-    BasicTextField(
-        value = text.value,
-        textStyle = TextStyle(
-            fontSize = Theme.fonts.placeholder.fontSize,
-            fontStyle = Theme.fonts.placeholder.fontStyle,
-            fontWeight = Theme.fonts.placeholder.fontWeight,
-            fontFamily = Theme.fonts.placeholder.fontFamily,
-            color = Theme.colors.text,
-        ),
-        onValueChange = { onChange(it) },
-        enabled = enabled,
-        modifier = modifier
-            .height(Theme.sizes.size48)
-            .border(
-                width = isFocused.value.choose(
-                    Theme.sizes.size2,
-                    Theme.sizes.size0,
-                ),
-                color = isFocused.value.choose(
-                    Theme.colors.accent,
-                    Theme.colors.transparent,
-                ),
-                shape = RoundedCornerShape(Theme.sizes.roundInfinity)
-            )
-            .clip(RoundedCornerShape(Theme.sizes.roundInfinity))
-            .onFocusChanged {
-                isFocused.value = it.isFocused
-            }
-            .thenIfNotNull(onClick) {
-                Modifier.clickable { it() }
-            },
-        interactionSource = interactionSource,
-        visualTransformation = VisualTransformation.None,
-        decorationBox = {
-            TextFieldDefaults.DecorationBox(
-                value = text.value,
-                shape = RoundedCornerShape(Theme.sizes.roundInfinity),
-                contentPadding = TextFieldDefaults.contentPaddingWithLabel(
-                    top = Theme.sizes.padding12,
-                    bottom = Theme.sizes.padding12,
-                ),
-                colors = TextFieldDefaults.colors().copy(
-                    cursorColor = Theme.colors.text,
-
-                    focusedContainerColor = Theme.colors.inputBackground,
-                    unfocusedContainerColor = Theme.colors.inputBackground,
-
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-
-                    focusedTextColor = Theme.colors.text,
-                    unfocusedTextColor = Theme.colors.text,
-
-                    focusedPlaceholderColor = Theme.colors.inputPlaceholder,
-                    unfocusedPlaceholderColor = Theme.colors.inputPlaceholder,
-                ),
-                innerTextField = it,
-                enabled = true,
-                singleLine = true,
-                visualTransformation = VisualTransformation.None,
-                interactionSource = interactionSource,
-                placeholder = {
-                    DFText(
-                        text = placeholder,
-                        style = Theme.fonts.placeholder,
-                        color = Theme.colors.inputPlaceholder,
-                    )
+    Box(modifier = modifier) {
+        BasicTextField(
+            keyboardOptions = keyboardOptions,
+            value = text.value,
+            singleLine = true,
+            textStyle = TextStyle(
+                fontSize = Theme.fonts.placeholder.fontSize,
+                fontStyle = Theme.fonts.placeholder.fontStyle,
+                fontWeight = Theme.fonts.placeholder.fontWeight,
+                fontFamily = Theme.fonts.placeholder.fontFamily,
+                color = Theme.colors.text,
+            ),
+            onValueChange = { onChange(it) },
+            enabled = enabled,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(Theme.sizes.size48)
+                .border(
+                    width = isFocused.value.choose(
+                        Theme.sizes.size2,
+                        Theme.sizes.size0,
+                    ),
+                    color = isFocused.value.choose(
+                        Theme.colors.accent,
+                        Theme.colors.transparent,
+                    ),
+                    shape = RoundedCornerShape(Theme.sizes.roundInfinity)
+                )
+                .clip(RoundedCornerShape(Theme.sizes.roundInfinity))
+                .onFocusChanged {
+                    isFocused.value = it.isFocused
+                }
+                .thenIfNotNull(onClick) {
+                    Modifier.clickable { it() }
                 },
+            interactionSource = interactionSource,
+            visualTransformation = VisualTransformation.None,
+            decorationBox = {
+                TextFieldDefaults.DecorationBox(
+                    value = text.value,
+                    shape = RoundedCornerShape(Theme.sizes.roundInfinity),
+                    contentPadding = TextFieldDefaults.contentPaddingWithLabel(
+                        top = Theme.sizes.padding12,
+                        bottom = Theme.sizes.padding12,
+                        end = (action != null).choose(
+                            Theme.sizes.size50,
+                            Theme.sizes.padding8,
+                        )
+                    ),
+                    colors = TextFieldDefaults.colors().copy(
+                        cursorColor = Theme.colors.text,
+
+                        focusedContainerColor = Theme.colors.inputBackground,
+                        unfocusedContainerColor = Theme.colors.inputBackground,
+
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+
+                        focusedTextColor = Theme.colors.text,
+                        unfocusedTextColor = Theme.colors.text,
+
+                        focusedPlaceholderColor = Theme.colors.inputPlaceholder,
+                        unfocusedPlaceholderColor = Theme.colors.inputPlaceholder,
+                    ),
+                    innerTextField = it,
+                    enabled = true,
+                    singleLine = true,
+                    visualTransformation = VisualTransformation.None,
+                    interactionSource = interactionSource,
+                    placeholder = {
+                        DFText(
+                            text = placeholder,
+                            style = Theme.fonts.placeholder,
+                            color = Theme.colors.inputPlaceholder,
+                        )
+                    },
+                )
+            }
+        )
+
+        action?.let {
+            DFIconButton(
+                icon = it.icon,
+                onClick = { it.onClick() },
+                modifier = Modifier
+                    .padding(end = Theme.sizes.padding4)
+                    .align(Alignment.CenterEnd)
+                    .size(Theme.sizes.size40),
+                background = Theme.colors.inputFocusedBorder,
+                tint = Theme.colors.buttonText,
             )
         }
-    )
+
+    }
+
 }
 
 @Composable
@@ -134,5 +172,18 @@ private fun DFTextFieldPreview() = Preview {
         modifier = Modifier
             .fillMaxWidth()
             .padding(Theme.sizes.padding4)
+    )
+
+    DFTextField(
+        text = text,
+        onChange = { text.value = it },
+        placeholder = "Test ",
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(Theme.sizes.padding4),
+        action = DFTextFieldAction(
+            R.drawable.plus,
+            onClick = {},
+        )
     )
 }
