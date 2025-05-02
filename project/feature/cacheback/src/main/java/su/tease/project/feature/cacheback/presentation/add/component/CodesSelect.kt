@@ -1,6 +1,5 @@
 package su.tease.project.feature.cacheback.presentation.add.component
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -18,12 +17,10 @@ import su.tease.project.feature.cacheback.domain.entity.CacheBackCode
 fun CodesSelect(
     codesState: State<PersistentList<CacheBackCode>?>,
     onSelect: Callback,
-    error: String?,
     modifier: Modifier = Modifier,
 ) {
     DFFormElement(
         label = stringResource(R.string.item_select_cache_back_codes_title),
-        error = error,
         modifier = modifier,
     ) {
         val selectedCodesText = codesState

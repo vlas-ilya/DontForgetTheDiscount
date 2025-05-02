@@ -15,7 +15,7 @@
     <string name="item_select_cache_back_codes_title">MCC коды</string>
     <string name="item_select_cache_back_icon_title">Иконка</string>
     <string name="item_cache_back_size_placeholder">Укажите размер кэшбэка</string>
-    <string name="item_cache_back_size_error">Поле должно быть заполнено</string>
+    <string name="item_cache_back_size_error">Некорректное значение</string>
     <string name="item_cache_back_size_title">Размер кэшбэка (%)</string>
     <string name="page_add_cache_back_button_save">Сохранить</string>
     <string name="page_add_cache_back_title">Добавить Кэшбэк</string>
@@ -28,7 +28,6 @@
     <string name="page_select_cache_back_codes_label_input">MCC коды</string>
     <string name="page_select_cache_back_codes_label_selected">Выбранные MCC коды</string>
     <string name="page_select_cache_back_codes_label_other">MCC коды</string>
-    <string name="page_select_cache_back_codes_error_selected">Поле должно быть заполнено</string>
     <string name="page_select_cache_back_codes_placeholder_selected">Ничего не выбрано</string>
     <string name="page_select_cache_back_icon_title">Выбор иконки для кэшбэка</string>
 </resources>

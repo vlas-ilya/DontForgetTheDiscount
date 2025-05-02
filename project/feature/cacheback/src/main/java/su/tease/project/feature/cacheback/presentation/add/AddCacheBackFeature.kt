@@ -42,7 +42,7 @@ class AddCacheBackFeature(
     companion object {
         operator fun invoke() = feature(
             Target,
-            CacheBackAddPage.Target,
+            AddCacheBackPage.Target,
         )
     }
 

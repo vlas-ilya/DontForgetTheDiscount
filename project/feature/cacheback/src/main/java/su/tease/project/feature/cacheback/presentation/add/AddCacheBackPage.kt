@@ -12,11 +12,10 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.parcelize.Parcelize
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
@@ -24,18 +23,12 @@ import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.selector.Selector
 import su.tease.project.core.mvi.api.state.LoadingStatus
 import su.tease.project.core.mvi.api.store.Store
-import su.tease.project.core.utils.ext.isTrue
-import su.tease.project.core.utils.ext.map
-import su.tease.project.core.utils.ext.runIf
+import su.tease.project.core.utils.ext.RedirectState
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.CacheBackCode
-import su.tease.project.feature.cacheback.domain.entity.CacheBackInfo
-import su.tease.project.feature.cacheback.domain.entity.CacheBackName
-import su.tease.project.feature.cacheback.domain.entity.CacheBackSize
 import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
 import su.tease.project.feature.cacheback.domain.entity.preset.IconPreset
 import su.tease.project.feature.cacheback.domain.usecase.AddCacheBackUseCase
-import su.tease.project.feature.cacheback.presentation.AddFormState
 import su.tease.project.feature.cacheback.presentation.CacheBackReducer
 import su.tease.project.feature.cacheback.presentation.CacheBackState
 import su.tease.project.feature.cacheback.presentation.add.component.BankSelect
@@ -47,19 +40,18 @@ import su.tease.project.feature.cacheback.presentation.add.component.SaveButton
 import su.tease.project.feature.cacheback.presentation.add.component.SizeSelect
 import su.tease.project.feature.cacheback.presentation.add.page.CacheBackAddPageFailed
 import su.tease.project.feature.cacheback.presentation.add.page.CacheBackAddPageLoading
+import su.tease.project.feature.cacheback.presentation.add.utls.AddCacheBackForm
 import su.tease.project.feature.cacheback.presentation.select.bank.BankSelectPage
 import su.tease.project.feature.cacheback.presentation.select.code.CodesSelectPage
 import su.tease.project.feature.cacheback.presentation.select.icon.IconSelectPage
 import su.tease.project.feature.cacheback.domain.usecase.AddCacheBackAction as Add
 
-class CacheBackAddPage(
+class AddCacheBackPage(
     store: Store<*>,
     private val addCacheBackUseCase: AddCacheBackUseCase,
 ) : BasePageComponent(store) {
 
-    private val name = mutableStateOf(CacheBackName(""))
-    private val info = mutableStateOf(CacheBackInfo(""))
-    private val size = mutableStateOf(CacheBackSize(0))
+    private val form = AddCacheBackForm()
 
     init {
         dispatch(Add.OnInit)
@@ -89,11 +81,9 @@ class CacheBackAddPage(
 
     @Composable
     private fun CacheBackAddPageForm() {
-        val bank = selectAsState(bank)
-        val icon = selectAsState(icon)
-        val codes = selectAsState(codes)
-        val addForm = selectAsState(addForm)
-        val errors = addForm.map { it?.errors }
+        RedirectState(selectAsState(bank), form.bank)
+        RedirectState(selectAsState(icon), form.icon)
+        RedirectState(selectAsState(codes, persistentListOf()), form.codes)
 
         Column(
             modifier = Modifier
@@ -101,23 +91,22 @@ class CacheBackAddPage(
                 .padding(top = Theme.sizes.padding6)
         ) {
             BankSelect(
-                bankState = bank,
-                onSelect = { forward(BankSelectPage<CacheBackReducer>(bank.value)) },
-                error = runIf(errors.value?.bank.isTrue()) { stringResource(R.string.item_select_cache_back_bank_error) },
+                bankState = form.bank,
+                onSelect = { forward(BankSelectPage<CacheBackReducer>(form.bank.value)) },
+                error = form.ui { bankError },
                 modifier = Modifier.fillMaxWidth(),
             )
             Spacer(modifier = Modifier.height(Theme.sizes.padding4))
             NameEditText(
-                nameState = name,
-                onChange = { name.value = it },
-                error = runIf(errors.value?.name.isTrue()) { stringResource(R.string.item_cache_back_name_error) },
+                nameState = form.name,
+                onChange = { form.name.value = it },
+                error = form.ui { nameError },
                 modifier = Modifier.fillMaxWidth(),
             )
             Spacer(modifier = Modifier.height(Theme.sizes.padding4))
             InfoEditText(
-                infoState = info,
-                onChange = { info.value = it },
-                error = runIf(errors.value?.info.isTrue()) { stringResource(R.string.item_cache_back_info_error) },
+                infoState = form.info,
+                onChange = { form.info.value = it },
                 modifier = Modifier.fillMaxWidth(),
             )
             Spacer(modifier = Modifier.height(Theme.sizes.padding4))
@@ -127,30 +116,29 @@ class CacheBackAddPage(
                 horizontalArrangement = Arrangement.Start,
             ) {
                 IconSelect(
-                    iconState = icon,
-                    onSelect = { forward(IconSelectPage<CacheBackReducer>(icon.value)) },
-                    error = errors.value?.icon.isTrue(),
+                    iconState = form.icon,
+                    onSelect = { forward(IconSelectPage<CacheBackReducer>(form.icon.value)) },
+                    error = form.ui { iconError },
                     modifier = Modifier.wrapContentWidth(),
                 )
                 Spacer(modifier = Modifier.width(Theme.sizes.padding8))
                 SizeSelect(
-                    sizeState = size,
-                    onChange = { size.value = it },
-                    error = runIf(errors.value?.icon.isTrue()) { stringResource(R.string.item_cache_back_size_error) },
+                    sizeState = form.size,
+                    onChange = { form.size.value = it },
+                    error = form.ui { sizeError },
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
             Spacer(modifier = Modifier.height(Theme.sizes.padding4))
             CodesSelect(
-                codesState = codes,
-                onSelect = { forward(CodesSelectPage<CacheBackReducer>(codes.value)) },
-                error = runIf(errors.value?.icon.isTrue()) { stringResource(R.string.item_select_cache_back_codes_error) },
+                codesState = form.codes,
+                onSelect = { forward(CodesSelectPage<CacheBackReducer>(form.codes.value)) },
                 modifier = Modifier.fillMaxWidth(),
             )
             Spacer(modifier = Modifier.weight(1F))
             SaveButton(
                 modifier = Modifier.wrapContentHeight(),
-                onSubmit = { addForm.value?.let { dispatch(addCacheBackUseCase(it)) } }
+                onSubmit = { form.makeResult()?.let { dispatch(addCacheBackUseCase(it)) } }
             )
         }
     }
@@ -160,7 +148,6 @@ class CacheBackAddPage(
 }
 
 private val status = Selector<CacheBackState, LoadingStatus?> { addForm.status }
-private val addForm = Selector<CacheBackState, AddFormState?> { addForm }
 private val bank = Selector<CacheBackState, BankPreset?> { addForm.bank }
 private val icon = Selector<CacheBackState, IconPreset?> { addForm.icon }
-private val codes = Selector<CacheBackState, PersistentList<CacheBackCode>?> { addForm.codes }
+private val codes = Selector<CacheBackState, PersistentList<CacheBackCode>> { addForm.codes }

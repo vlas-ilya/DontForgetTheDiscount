@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import su.tease.design.theme.api.Theme
+import su.tease.project.core.utils.ext.runIf
 import su.tease.project.core.utils.utils.Callback
 import su.tease.project.design.component.controls.form.DFFormElement
 import su.tease.project.design.component.controls.text.DFPlaceholder
@@ -24,17 +25,20 @@ import su.tease.project.design.theme.impl.utils.Preview
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
 import su.tease.project.feature.cacheback.domain.entity.preset.IconPreset
+import su.tease.project.feature.cacheback.presentation.add.utls.FormFieldError
 
 @Composable
 fun BankSelect(
     bankState: State<BankPreset?>,
     onSelect: Callback,
-    error: String?,
+    error: State<FormFieldError?>,
     modifier: Modifier = Modifier,
 ) {
     DFFormElement(
         label = stringResource(R.string.item_select_cache_back_bank_title),
-        error = error,
+        error = runIf(error.value == FormFieldError.REQUIRED_BUT_EMPTY) {
+            stringResource(R.string.item_select_cache_back_bank_error)
+        },
         modifier = modifier.fillMaxWidth()
     ) {
         Row(
@@ -70,7 +74,7 @@ private fun BankSelectPreview() = Preview {
     BankSelect(
         bankState = emptyBank,
         onSelect = {},
-        error = "Test",
+        error = remember { mutableStateOf(FormFieldError.REQUIRED_BUT_EMPTY) },
         modifier = Modifier
     )
 
@@ -86,7 +90,7 @@ private fun BankSelectPreview() = Preview {
 
     BankSelect(
         bankState = someBank,
-        error = "Test",
+        error = remember { mutableStateOf(FormFieldError.REQUIRED_BUT_EMPTY) },
         onSelect = {},
         modifier = Modifier
     )

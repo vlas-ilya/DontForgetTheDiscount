@@ -4,10 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
@@ -22,13 +20,13 @@ import su.tease.project.design.component.controls.form.DFFormElement
 import su.tease.project.design.component.controls.image.DFImage
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.preset.IconPreset
-import java.lang.Error
+import su.tease.project.feature.cacheback.presentation.add.utls.FormFieldError
 
 @Composable
 fun IconSelect(
     iconState: State<IconPreset?>,
     onSelect: Callback,
-    error: Boolean,
+    error: State<FormFieldError?>,
     modifier: Modifier = Modifier,
 ) {
     DFFormElement(
@@ -37,7 +35,7 @@ fun IconSelect(
     ) {
         Box(
             modifier = Modifier
-                .thenIf(error) {
+                .thenIf(error.value == FormFieldError.REQUIRED_BUT_EMPTY) {
                     Modifier.border(
                         width = Theme.sizes.size2,
                         color = Theme.colors.error,

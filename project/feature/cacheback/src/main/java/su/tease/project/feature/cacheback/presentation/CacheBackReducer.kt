@@ -20,7 +20,6 @@ import su.tease.project.feature.cacheback.domain.entity.CacheBackName
 import su.tease.project.feature.cacheback.domain.entity.CacheBackSize
 import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
 import su.tease.project.feature.cacheback.domain.entity.preset.IconPreset
-import su.tease.project.feature.cacheback.domain.usecase.AddCacheBackAction
 import su.tease.project.feature.cacheback.presentation.select.bank.BankSelectPage
 import su.tease.project.feature.cacheback.presentation.select.code.CodesSelectPage
 import su.tease.project.feature.cacheback.presentation.select.icon.IconSelectPage
@@ -44,15 +43,7 @@ data class AddFormState(
     val icon: IconPreset? = null,
     val size: CacheBackSize? = null,
     val codes: PersistentList<CacheBackCode> = persistentListOf(),
-    val errors: AddFormStateValidationErrors = AddFormStateValidationErrors(),
-) : Parcelable
-
-@Parcelize
-data class AddFormStateValidationErrors(
-    val bank: Boolean = false,
-    val name: Boolean = false,
-    val info: Boolean = false,
-    val icon: Boolean = false,
+    val wasValidation: Boolean = false,
 ) : Parcelable
 
 class CacheBackReducer : Reducer<CacheBackState> {
@@ -60,13 +51,26 @@ class CacheBackReducer : Reducer<CacheBackState> {
     override val initState = CacheBackState()
 
     override fun CacheBackState.onAction(action: PlainAction) = when (action) {
-        is LoadList -> onLoadList(action)
         is Add -> onAdd(action)
+        is LoadList -> onLoadList(action)
         is BankSelectPage.OnSelectAction -> onBankSelect(action)
         is IconSelectPage.OnSelectAction -> onIconSelect(action)
         is CodesSelectPage.OnSelectAction -> onCodesSelect(action)
         else -> this
     }
+
+    private fun CacheBackState.onAdd(action: Add) = changeAddForm {
+        when (action) {
+            is Add.OnInit -> AddFormState()
+            is Add.OnSave -> copy(status = Loading)
+            is Add.OnSaveSuccess -> AddFormState(status = Success)
+            is Add.OnSaveFail -> copy(status = Failed)
+        }
+    }
+
+    private inline fun CacheBackState.changeAddForm(
+        transformation: AddFormState.() -> AddFormState
+    ) = copy(addForm = transformation(addForm))
 
     private fun CacheBackState.onLoadList(action: LoadList) =
         when (action) {
@@ -74,23 +78,6 @@ class CacheBackReducer : Reducer<CacheBackState> {
             is LoadList.OnSuccess -> copy(status = Success, list = action.list, error = false)
             is LoadList.OnFail -> copy(status = Failed, error = true)
         }
-
-    private fun CacheBackState.onAdd(action: Add) = changeAddForm {
-        when (action) {
-            is Add.OnInit -> AddFormState()
-            is Add.OnNameChange -> copy(name = action.name)
-            is Add.OnInfoChange -> copy(info = action.info)
-            is Add.OnSizeChange -> copy(size = action.size)
-            is Add.OnSave -> copy(status = Loading)
-            is Add.OnSaveSuccess -> AddFormState()
-            is Add.OnSaveFail -> copy(status = Failed)
-            is AddCacheBackAction.OnValidationFail -> copy(status = Init, errors = action.errors)
-        }
-    }
-
-    private inline fun CacheBackState.changeAddForm(
-        transformation: AddFormState.() -> AddFormState
-    ) = copy(addForm = transformation(addForm))
 
     private fun CacheBackState.onBankSelect(action: BankSelectPage.OnSelectAction) =
         changeAddForm {

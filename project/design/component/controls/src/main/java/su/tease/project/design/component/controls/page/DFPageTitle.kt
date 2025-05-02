@@ -31,7 +31,7 @@ fun DFPageTitle(
         modifier = modifier
             .background(Theme.colors.background0)
             .fillMaxWidth()
-            .height(Theme.sizes.size40),
+            .height(Theme.sizes.size46),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

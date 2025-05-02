@@ -19,14 +19,13 @@ import su.tease.project.feature.cacheback.domain.usecase.impl.AddCodeUseCaseImpl
 import su.tease.project.feature.cacheback.domain.usecase.impl.LoadBankListUseCaseImpl
 import su.tease.project.feature.cacheback.presentation.CacheBackFeature
 import su.tease.project.feature.cacheback.presentation.add.AddCacheBackFeature
-import su.tease.project.feature.cacheback.presentation.add.CacheBackAddPage
+import su.tease.project.feature.cacheback.presentation.add.AddCacheBackPage
 import su.tease.project.feature.cacheback.presentation.list.CacheBackListPage
 import su.tease.project.feature.cacheback.presentation.select.bank.BankSelectPage
 import su.tease.project.feature.cacheback.presentation.select.code.CodesSelectPage
 import su.tease.project.feature.cacheback.presentation.select.icon.IconSelectPage
 
 val cacheBackModule = module {
-
     api<DictionaryDataSource>()
 
     factory<DictionaryRepository> { DictionaryRepositoryImpl(get(), get(), get()) }
@@ -40,7 +39,7 @@ val cacheBackModule = module {
     feature<AddCacheBackFeature.Target> { AddCacheBackFeature(it.store) }
 
     page<CacheBackListPage.Target> { CacheBackListPage(it.store, get()) }
-    page<CacheBackAddPage.Target> { CacheBackAddPage(it.store, get()) }
+    page<AddCacheBackPage.Target> { AddCacheBackPage(it.store, get()) }
     page<BankSelectPage.Target> { BankSelectPage(it.store, it.target, get()) }
     page<CodesSelectPage.Target> { CodesSelectPage(it.store, it.target, get(), get()) }
     page<IconSelectPage.Target> { IconSelectPage(it.store, it.target, get()) }

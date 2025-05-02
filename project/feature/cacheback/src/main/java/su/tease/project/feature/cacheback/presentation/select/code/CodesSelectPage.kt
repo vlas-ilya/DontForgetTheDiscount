@@ -52,7 +52,6 @@ class CodesSelectPage(
         val codePresets = remember { mutableStateListOf<String>() }
         val selectedCodes = remember { selected.toMutableStateList() }
         val focusRequester = remember { FocusRequester() }
-        val hasError = remember { mutableStateOf(false) }
         val scope = rememberCoroutineScope()
 
         LaunchedEffect(Unit) {
@@ -78,7 +77,6 @@ class CodesSelectPage(
                         if (value !in selectedCodes) selectedCodes.add(value)
                         if (value !in codePresets) codePresets.add(value)
                         code.value = ""
-                        hasError.value = false
                         focusRequester.requestFocus()
                     }
                 }
@@ -87,7 +85,6 @@ class CodesSelectPage(
             Spacer(modifier = Modifier.height(Theme.sizes.padding4))
 
             CodeSelectPageSelectedCodes(
-                hasError = hasError,
                 selectedCodes = selectedCodes,
             )
 
@@ -102,7 +99,6 @@ class CodesSelectPage(
                     .weight(1F),
                 onItemClick = {
                     if (it !in selectedCodes) {
-                        hasError.value = false
                         code.value = ""
                         selectedCodes.add(it)
                     }
@@ -113,10 +109,6 @@ class CodesSelectPage(
 
             CodeSelectPateSaveButton(
                 onClick = {
-                    if (selectedCodes.isEmpty()) {
-                        hasError.value = true
-                        return@CodeSelectPateSaveButton
-                    }
                     scope.launch {
                         dispatch(addCodeUseCase(target.target, selectedCodes.toList())).join()
                         back()

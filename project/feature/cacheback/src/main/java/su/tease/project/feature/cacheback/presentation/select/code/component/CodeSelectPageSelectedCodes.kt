@@ -8,26 +8,22 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import su.tease.design.theme.api.Theme
-import su.tease.project.core.utils.ext.runIf
 import su.tease.project.design.component.controls.form.DFFormElement
 import su.tease.project.design.component.controls.text.DFText
 import su.tease.project.feature.cacheback.R
 
 @Composable
 fun CodeSelectPageSelectedCodes(
-    hasError: MutableState<Boolean>,
     selectedCodes: SnapshotStateList<String>,
     modifier: Modifier = Modifier,
 ) {
     DFFormElement(
         modifier = modifier,
         label = stringResource(R.string.page_select_cache_back_codes_label_selected),
-        error = runIf(hasError.value) { stringResource(R.string.page_select_cache_back_codes_error_selected) },
         noError = selectedCodes.isNotEmpty(),
     ) {
         if (selectedCodes.isNotEmpty()) {
@@ -42,10 +38,7 @@ fun CodeSelectPageSelectedCodes(
                     CodeItem(
                         code = it,
                         hasClose = true,
-                        onClick = {
-                            hasError.value = false
-                            selectedCodes.remove(it)
-                        }
+                        onClick = { selectedCodes.remove(it) }
                     )
                 }
             }
