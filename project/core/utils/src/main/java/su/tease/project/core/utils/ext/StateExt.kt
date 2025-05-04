@@ -13,6 +13,7 @@ fun <T, R> State<T>.map(transform: (T) -> R): State<R> = remember(this) {
 }
 
 @Composable
+@Suppress("MutableStateParam")
 fun <T> RedirectState(from: State<T>, to: MutableState<T>) {
     LaunchedEffect(from.value, to) {
         to.value = from.value

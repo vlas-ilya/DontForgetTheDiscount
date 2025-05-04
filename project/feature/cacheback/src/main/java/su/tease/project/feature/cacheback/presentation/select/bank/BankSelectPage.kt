@@ -1,10 +1,10 @@
 package su.tease.project.feature.cacheback.presentation.select.bank
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -17,7 +17,6 @@ import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.utils.memoize
-import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
 import su.tease.project.feature.cacheback.domain.interceptor.DictionaryInterceptor
 import su.tease.project.feature.cacheback.presentation.select.bank.component.SelectBankPresetPreview
@@ -31,7 +30,7 @@ class BankSelectPage(
     @Composable
     override operator fun invoke() {
         LaunchedEffect(Unit) { rootConfig { copy(isFullscreen = true) } }
-        LaunchedEffect(Unit) { appConfig { copy(titleRes = R.string.page_select_cache_back_bank_title) } }
+        LaunchedEffect(Unit) { appConfig { copy(titleRes = target.pageTitle) } }
 
         val banks by memoize { dictionaryInterceptor.banks() }
 
@@ -61,6 +60,7 @@ class BankSelectPage(
     @Parcelize
     data class Target(
         val target: String,
+        @StringRes val pageTitle: Int,
         val selected: BankPreset?
     ) : NavigationTarget.Page
 
@@ -72,7 +72,8 @@ class BankSelectPage(
 
     companion object {
         inline operator fun <reified T> invoke(
+            @StringRes pageTitle: Int,
             selected: BankPreset?,
-        ) = Target(T::class.java.name, selected)
+        ) = Target(T::class.java.name, pageTitle, selected)
     }
 }

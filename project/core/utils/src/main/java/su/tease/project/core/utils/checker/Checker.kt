@@ -12,7 +12,7 @@ inline fun <T, Error> check(
         try {
             checker(context, value.value)
             null
-        } catch (e: CheckContextException) {
+        } catch (_: CheckContextException) {
             context.error
         }
     }

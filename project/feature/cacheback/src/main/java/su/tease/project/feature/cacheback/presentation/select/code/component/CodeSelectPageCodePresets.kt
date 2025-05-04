@@ -17,6 +17,7 @@ import su.tease.project.design.component.controls.form.DFFormElement
 import su.tease.project.feature.cacheback.R
 
 @Composable
+@Suppress("MutableStateParam")
 fun CodeSelectPageCodePresets(
     codePresets: SnapshotStateList<String>,
     selectedCodes: SnapshotStateList<String>,

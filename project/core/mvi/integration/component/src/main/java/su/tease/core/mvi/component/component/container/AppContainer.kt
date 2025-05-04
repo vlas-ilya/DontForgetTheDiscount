@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
@@ -17,7 +16,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import su.tease.core.mvi.component.resolver.NavigationTargetResolver
 import su.tease.design.theme.api.Theme
@@ -28,14 +26,13 @@ import su.tease.project.core.mvi.navigation.selector.appIdName
 import su.tease.project.core.utils.ext.choose
 import su.tease.project.core.utils.ext.runIf
 import su.tease.project.core.utils.ext.unit
-import su.tease.project.core.utils.utils.Callback
 import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.design.component.controls.page.DFPageFloatingButton
 
 @Immutable
 data class AppAction(
     @DrawableRes val icon: Int,
-    val onClick: Callback,
+    val onClick: () -> Unit,
 )
 
 private val emptyAppAction = AppAction(icon = 0, onClick = {})
@@ -43,7 +40,7 @@ private val emptyAppAction = AppAction(icon = 0, onClick = {})
 @Immutable
 data class AppFloatingButton(
     @DrawableRes val icon: Int,
-    val onClick: Callback,
+    val onClick: () -> Unit,
 )
 
 private val emptyAppFloatingButton = AppFloatingButton(icon = 0, onClick = {})
@@ -129,11 +126,13 @@ class AppContainer(
                         )
                         .background(Theme.colors.background1)
                         .weight(1F),
-                    onBackPressed = runIf(hasBackButton) {
-                        { store.dispatcher.dispatch(NavigationAction.Back).unit() }
+                    onBackPress = runIf(hasBackButton) {
+                        {
+                            store.dispatcher.dispatch(NavigationAction.Back).unit()
+                        }
                     },
                     actionIcon = action?.takeIf { it != emptyAppAction }?.icon,
-                    onActionPressed = action?.takeIf { it != emptyAppAction }?.onClick,
+                    onActionPress = action?.takeIf { it != emptyAppAction }?.onClick,
                     floatingButton = floatingButton?.takeIf { it != emptyAppFloatingButton }?.let {
                         DFPageFloatingButton(
                             icon = it.icon,

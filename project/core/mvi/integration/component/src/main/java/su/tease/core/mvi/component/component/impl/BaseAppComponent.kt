@@ -5,7 +5,6 @@ import androidx.compose.runtime.MutableState
 import su.tease.core.mvi.component.component.container.AppConfig
 import su.tease.core.mvi.component.component.container.RootConfig
 import su.tease.project.core.mvi.api.store.Store
-import su.tease.project.core.utils.utils.ComposableContent
 
 abstract class BaseAppComponent(
     store: Store<*>,
@@ -30,7 +29,7 @@ abstract class BaseAppComponent(
     }
 
     @Composable
-    open operator fun invoke(child: ComposableContent) = child()
+    open operator fun invoke(child: @Composable () -> Unit) = child()
 
     internal fun setRootConfigState(rootConfigState: MutableState<RootConfig>) {
         this.rootConfigState = rootConfigState

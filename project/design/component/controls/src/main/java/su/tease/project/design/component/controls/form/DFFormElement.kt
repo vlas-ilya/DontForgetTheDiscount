@@ -19,7 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.utils.ext.runIf
-import su.tease.project.core.utils.utils.ComposableContent
 import su.tease.project.design.component.controls.R
 import su.tease.project.design.component.controls.edit.DFTextField
 import su.tease.project.design.component.controls.icon.DFIcon
@@ -28,14 +27,14 @@ import su.tease.project.design.theme.impl.utils.Preview
 
 @Composable
 @NonSkippableComposable
-@Suppress("ComposableParamOrder")
+@Suppress("LongParameterList")
 fun DFFormElement(
     label: String,
     info: State<String?>,
     error: State<String?>,
     modifier: Modifier = Modifier,
     noError: Boolean = false,
-    content: ComposableContent,
+    content: @Composable () -> Unit,
 ) {
     DFFormElement(
         label = label,
@@ -48,14 +47,14 @@ fun DFFormElement(
 }
 
 @Composable
-@Suppress("ComposableParamOrder")
+@Suppress("LongParameterList")
 fun DFFormElement(
     label: String,
     modifier: Modifier = Modifier,
     info: String? = null,
     error: String? = null,
     noError: Boolean = false,
-    content: ComposableContent,
+    content: @Composable () -> Unit,
 ) {
     Column(
         modifier = modifier

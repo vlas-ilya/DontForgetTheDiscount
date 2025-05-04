@@ -27,6 +27,8 @@ internal data class ColorsImpl(
     override val inputText: Color,
     override val inputPlaceholder: Color,
 
+    override val link: Color,
+
     override val tmpFiller: Color,
 ) : Colors {
     companion object {
@@ -67,6 +69,9 @@ private fun makeLightColors(): Colors = ColorsImpl(
     inputBackground = Color(0xFFEEEEEE),
     inputText = text,
     inputPlaceholder = Color(0xFFBBBBBB),
+
+    link = Color(0xFF6C8FF6),
+
     tmpFiller = black,
 )
 

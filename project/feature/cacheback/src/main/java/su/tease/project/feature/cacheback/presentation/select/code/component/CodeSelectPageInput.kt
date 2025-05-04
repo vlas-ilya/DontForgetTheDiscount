@@ -10,18 +10,18 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import su.tease.project.core.utils.ext.map
 import su.tease.project.core.utils.ext.toIntSafe
-import su.tease.project.core.utils.utils.Callback
 import su.tease.project.design.component.controls.edit.DFNumberField
 import su.tease.project.design.component.controls.edit.DFTextFieldAction
 import su.tease.project.design.component.controls.form.DFFormElement
 import su.tease.project.feature.cacheback.R
 
 @Composable
+@Suppress("MutableStateParam")
 fun CodeSelectPageInput(
     code: MutableState<String>,
     focusRequester: FocusRequester,
     maxMccCode: Int,
-    onActionClick: Callback,
+    onActionClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     DFFormElement(

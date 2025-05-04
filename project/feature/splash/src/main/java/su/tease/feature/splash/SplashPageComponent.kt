@@ -17,7 +17,7 @@ class SplashPageComponent(store: Store<*>) : BasePageComponent(store) {
 
         LaunchedEffect(Unit) {
             delay(SPLASH_DELAY)
-            replace(MainApp1("From Splash"))
+            replace(MainApp1())
         }
     }
 }

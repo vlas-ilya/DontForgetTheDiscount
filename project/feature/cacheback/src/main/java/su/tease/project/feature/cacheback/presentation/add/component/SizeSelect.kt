@@ -32,7 +32,6 @@ fun SizeSelect(
             placeholder = stringResource(R.string.item_cache_back_size_placeholder),
             minValue = MIN_PERCENT,
             maxValue = MAX_PERCENT,
-            modifier = modifier,
         )
     }
 }

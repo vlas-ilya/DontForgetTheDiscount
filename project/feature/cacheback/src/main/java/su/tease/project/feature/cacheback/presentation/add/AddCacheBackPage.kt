@@ -29,6 +29,7 @@ import su.tease.project.feature.cacheback.domain.entity.CacheBackCode
 import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
 import su.tease.project.feature.cacheback.domain.entity.preset.IconPreset
 import su.tease.project.feature.cacheback.domain.usecase.AddCacheBackUseCase
+import su.tease.project.feature.cacheback.presentation.AddFormState
 import su.tease.project.feature.cacheback.presentation.CacheBackReducer
 import su.tease.project.feature.cacheback.presentation.CacheBackState
 import su.tease.project.feature.cacheback.presentation.add.component.BankSelect
@@ -48,13 +49,14 @@ import su.tease.project.feature.cacheback.domain.usecase.AddCacheBackAction as A
 
 class AddCacheBackPage(
     store: Store<*>,
+    target: Target,
     private val addCacheBackUseCase: AddCacheBackUseCase,
 ) : BasePageComponent(store) {
 
     private val form = AddCacheBackForm()
 
     init {
-        dispatch(Add.OnInit)
+        dispatch(Add.OnInit(target.addFormState))
     }
 
     @Composable
@@ -92,7 +94,14 @@ class AddCacheBackPage(
         ) {
             BankSelect(
                 bankState = form.bank,
-                onSelect = { forward(BankSelectPage<CacheBackReducer>(form.bank.value)) },
+                onSelect = {
+                    forward(
+                        BankSelectPage<CacheBackReducer>(
+                            pageTitle = R.string.page_select_cache_back_bank_title,
+                            selected = form.bank.value
+                        )
+                    )
+                },
                 error = form.ui { bankError },
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -117,7 +126,14 @@ class AddCacheBackPage(
             ) {
                 IconSelect(
                     iconState = form.icon,
-                    onSelect = { forward(IconSelectPage<CacheBackReducer>(form.icon.value)) },
+                    onSelect = {
+                        forward(
+                            IconSelectPage<CacheBackReducer>(
+                                pageTitle = R.string.page_select_cache_back_icon_title,
+                                selected = form.icon.value
+                            )
+                        )
+                    },
                     error = form.ui { iconError },
                     modifier = Modifier.wrapContentWidth(),
                 )
@@ -144,7 +160,7 @@ class AddCacheBackPage(
     }
 
     @Parcelize
-    data object Target : NavigationTarget.Page
+    data class Target(val addFormState: AddFormState = AddFormState()) : NavigationTarget.Page
 }
 
 private val status = Selector<CacheBackState, LoadingStatus?> { addForm.status }

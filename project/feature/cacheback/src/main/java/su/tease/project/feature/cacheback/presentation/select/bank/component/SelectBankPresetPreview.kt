@@ -13,9 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import su.tease.design.theme.api.Theme
-import su.tease.project.core.utils.ext.choose
 import su.tease.project.core.utils.ext.thenIfNotNull
-import su.tease.project.core.utils.utils.Callback
 import su.tease.project.design.component.controls.image.DFImage
 import su.tease.project.design.component.controls.text.DFText
 import su.tease.project.feature.cacheback.R
@@ -25,7 +23,7 @@ import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
 fun SelectBankPresetPreview(
     bank: BankPreset,
     modifier: Modifier = Modifier,
-    onClick: Callback? = null,
+    onClick: (() -> Unit)? = null,
 ) = bank.run {
     Row(
         modifier = modifier

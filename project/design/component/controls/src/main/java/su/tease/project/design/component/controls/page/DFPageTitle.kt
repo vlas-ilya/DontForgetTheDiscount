@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.utils.ext.letInNotNull
-import su.tease.project.core.utils.utils.Callback
 import su.tease.project.design.component.controls.icon.DFIconButton
 import su.tease.project.design.component.controls.text.DFText
 import su.tease.project.design.icons.R
@@ -23,9 +22,9 @@ import su.tease.project.design.icons.R
 fun DFPageTitle(
     title: String,
     modifier: Modifier = Modifier,
-    onBackPressed: Callback? = null,
     @DrawableRes actionIcon: Int? = null,
-    onActionPressed: Callback? = null,
+    onBackPress: (() -> Unit)? = null,
+    onActionPress: (() -> Unit)? = null,
 ) {
     Row(
         modifier = modifier
@@ -35,7 +34,7 @@ fun DFPageTitle(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        letInNotNull(onBackPressed) { onBackPressed ->
+        letInNotNull(onBackPress) { onBackPressed ->
             DFIconButton(
                 icon = R.drawable.arrow_small_left,
                 modifier = Modifier.padding(start = Theme.sizes.padding4),
@@ -52,7 +51,7 @@ fun DFPageTitle(
             modifier = Modifier.padding(horizontal = Theme.sizes.padding4)
         )
 
-        letInNotNull(onActionPressed, actionIcon) { onActionPressed, actionIcon ->
+        letInNotNull(onActionPress, actionIcon) { onActionPressed, actionIcon ->
             DFIconButton(
                 icon = actionIcon,
                 modifier = Modifier.padding(start = Theme.sizes.padding4),

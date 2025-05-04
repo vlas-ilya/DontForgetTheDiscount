@@ -13,20 +13,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.utils.ext.choose
-import su.tease.project.core.utils.utils.Callback
-import su.tease.project.core.utils.utils.ComposableContent
 
 @Composable
-@Suppress("LongParameterList", "ComposableParamOrder")
+@Suppress("LongParameterList")
 fun DFPage(
     title: String,
     modifier: Modifier = Modifier,
     hasSystemNavigationBar: Boolean = true,
-    onBackPressed: Callback? = null,
     @DrawableRes actionIcon: Int? = null,
-    onActionPressed: Callback? = null,
     floatingButton: DFPageFloatingButton? = null,
-    content: ComposableContent,
+    onBackPress: (() -> Unit)? = null,
+    onActionPress: (() -> Unit)? = null,
+    content: @Composable () -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -36,8 +34,8 @@ fun DFPage(
         Column(modifier = Modifier.fillMaxSize()) {
             DFPageTitle(
                 title = title,
-                onBackPressed = onBackPressed,
-                onActionPressed = onActionPressed,
+                onBackPress = onBackPress,
+                onActionPress = onActionPress,
                 actionIcon = actionIcon,
             )
             Box(

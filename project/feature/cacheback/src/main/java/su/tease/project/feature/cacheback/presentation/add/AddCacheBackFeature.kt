@@ -8,7 +8,7 @@ import su.tease.core.mvi.component.component.impl.BaseFeatureComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.core.mvi.navigation.feature
 import su.tease.project.core.mvi.api.store.Store
-import su.tease.project.core.utils.utils.ComposableContent
+import su.tease.project.feature.cacheback.presentation.AddFormState
 import su.tease.project.design.icons.R as RIcons
 
 class AddCacheBackFeature(
@@ -16,7 +16,7 @@ class AddCacheBackFeature(
 ) : BaseFeatureComponent(store) {
 
     @Composable
-    override operator fun invoke(child: ComposableContent) {
+    override operator fun invoke(child: @Composable () -> Unit) {
         LaunchedEffect(Unit) {
             rootConfig {
                 copy(
@@ -40,9 +40,9 @@ class AddCacheBackFeature(
     private fun onClosePressed() = finish(AddCacheBackFeature())
 
     companion object {
-        operator fun invoke() = feature(
+        operator fun invoke(addFormState: AddFormState = AddFormState()) = feature(
             Target,
-            AddCacheBackPage.Target,
+            AddCacheBackPage.Target(addFormState),
         )
     }
 

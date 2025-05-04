@@ -15,7 +15,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.utils.ext.thenIf
-import su.tease.project.core.utils.utils.Callback
 import su.tease.project.design.component.controls.form.DFFormElement
 import su.tease.project.design.component.controls.image.DFImage
 import su.tease.project.feature.cacheback.R
@@ -25,7 +24,7 @@ import su.tease.project.feature.cacheback.presentation.add.utls.FormFieldError
 @Composable
 fun IconSelect(
     iconState: State<IconPreset?>,
-    onSelect: Callback,
+    onSelect: () -> Unit,
     error: State<FormFieldError?>,
     modifier: Modifier = Modifier,
 ) {

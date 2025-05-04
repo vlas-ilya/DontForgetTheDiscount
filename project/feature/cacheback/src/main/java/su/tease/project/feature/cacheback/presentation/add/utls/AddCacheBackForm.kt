@@ -18,7 +18,6 @@ import su.tease.project.feature.cacheback.domain.usecase.AddCacheBackRequest
 enum class FormFieldError {
     REQUIRED_BUT_EMPTY,
     INCORRECT_VALUE,
-    ;
 }
 
 @Stable
@@ -35,7 +34,7 @@ class AddCacheBackForm {
     val bankError = check(bank) { require(it == null, FormFieldError.REQUIRED_BUT_EMPTY) }
     val nameError = check(name) { require(it.value.isBlank(), FormFieldError.REQUIRED_BUT_EMPTY) }
     val iconError = check(icon) { require(it == null, FormFieldError.REQUIRED_BUT_EMPTY) }
-    val sizeError = check(size) { require(it.percent !in 1..100, FormFieldError.INCORRECT_VALUE) }
+    val sizeError = check(size) { require(it.percent !in INTERVAL, FormFieldError.INCORRECT_VALUE) }
 
     fun makeResult(): AddCacheBackRequest? =
         listOf(bankError.value, nameError.value, iconError.value, sizeError.value)
@@ -56,3 +55,6 @@ class AddCacheBackForm {
     fun ui(block: AddCacheBackForm.() -> State<FormFieldError?>): State<FormFieldError?> =
         derivedStateOf { runIf(wasValidation.value) { block().value } }
 }
+
+@Suppress("MagicNumber")
+private val INTERVAL = 1..100

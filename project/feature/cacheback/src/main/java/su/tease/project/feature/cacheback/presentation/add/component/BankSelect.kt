@@ -18,7 +18,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.utils.ext.runIf
-import su.tease.project.core.utils.utils.Callback
 import su.tease.project.design.component.controls.form.DFFormElement
 import su.tease.project.design.component.controls.text.DFPlaceholder
 import su.tease.project.design.theme.impl.utils.Preview
@@ -30,7 +29,7 @@ import su.tease.project.feature.cacheback.presentation.add.utls.FormFieldError
 @Composable
 fun BankSelect(
     bankState: State<BankPreset?>,
-    onSelect: Callback,
+    onSelect: () -> Unit,
     error: State<FormFieldError?>,
     modifier: Modifier = Modifier,
 ) {

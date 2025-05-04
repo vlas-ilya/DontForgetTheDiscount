@@ -6,7 +6,6 @@ import su.tease.core.mvi.component.component.container.AppConfig
 import su.tease.core.mvi.component.component.container.FeatureConfig
 import su.tease.core.mvi.component.component.container.RootConfig
 import su.tease.project.core.mvi.api.store.Store
-import su.tease.project.core.utils.utils.ComposableContent
 
 abstract class BaseFeatureComponent(store: Store<*>) : BaseNavigationMviComponent(store) {
 
@@ -25,7 +24,7 @@ abstract class BaseFeatureComponent(store: Store<*>) : BaseNavigationMviComponen
     }
 
     @Composable
-    open operator fun invoke(child: ComposableContent) = child()
+    open operator fun invoke(child: @Composable () -> Unit) = child()
 
     internal fun setRootConfigState(rootConfigState: MutableState<RootConfig>) {
         this.rootConfigState = rootConfigState

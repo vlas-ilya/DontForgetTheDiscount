@@ -1,5 +1,6 @@
 package su.tease.project.feature.cacheback.presentation.select.icon
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -20,7 +21,6 @@ import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.utils.memoize
 import su.tease.project.design.component.controls.image.DFImage
-import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.preset.IconPreset
 import su.tease.project.feature.cacheback.domain.interceptor.DictionaryInterceptor
 
@@ -33,7 +33,7 @@ class IconSelectPage(
     @Composable
     override operator fun invoke() {
         LaunchedEffect(Unit) { rootConfig { copy(isFullscreen = true) } }
-        LaunchedEffect(Unit) { appConfig { copy(titleRes = R.string.page_select_cache_back_icon_title) } }
+        LaunchedEffect(Unit) { appConfig { copy(titleRes = target.pageTitle) } }
 
         val icons by memoize { dictionaryInterceptor.cacheBacksIcons() }
         LazyVerticalGrid(
@@ -63,6 +63,7 @@ class IconSelectPage(
     @Parcelize
     data class Target(
         val target: String,
+        @StringRes val pageTitle: Int,
         val selected: IconPreset?
     ) : NavigationTarget.Page
 
@@ -74,7 +75,8 @@ class IconSelectPage(
 
     companion object {
         inline operator fun <reified T> invoke(
+            @StringRes pageTitle: Int,
             selected: IconPreset?,
-        ) = Target(T::class.java.name, selected)
+        ) = Target(T::class.java.name, pageTitle, selected)
     }
 }

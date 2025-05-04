@@ -7,13 +7,12 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import su.tease.design.theme.api.Theme
-import su.tease.project.core.utils.utils.Callback
 import su.tease.project.design.component.controls.text.DFText
 
 @Composable
 fun DFButton(
     label: String,
-    onClick: Callback,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Button(

@@ -61,7 +61,7 @@ class CacheBackReducer : Reducer<CacheBackState> {
 
     private fun CacheBackState.onAdd(action: Add) = changeAddForm {
         when (action) {
-            is Add.OnInit -> AddFormState()
+            is Add.OnInit -> action.addFormState
             is Add.OnSave -> copy(status = Loading)
             is Add.OnSaveSuccess -> AddFormState(status = Success)
             is Add.OnSaveFail -> copy(status = Failed)
@@ -72,32 +72,20 @@ class CacheBackReducer : Reducer<CacheBackState> {
         transformation: AddFormState.() -> AddFormState
     ) = copy(addForm = transformation(addForm))
 
+    private fun CacheBackState.onBankSelect(action: BankSelectPage.OnSelectAction) =
+        changeAddForm { transformIf(action.target.current()) { copy(bank = action.selected) } }
+
+    private fun CacheBackState.onIconSelect(action: IconSelectPage.OnSelectAction) =
+        changeAddForm { transformIf(action.target.current()) { copy(icon = action.selected) } }
+
+    private fun CacheBackState.onCodesSelect(action: CodesSelectPage.OnSelectAction) =
+        changeAddForm { transformIf(action.target.current()) { copy(codes = action.selected) } }
+
     private fun CacheBackState.onLoadList(action: LoadList) =
         when (action) {
             is LoadList.OnLoad -> copy(status = Loading, list = persistentListOf(), error = false)
             is LoadList.OnSuccess -> copy(status = Success, list = action.list, error = false)
             is LoadList.OnFail -> copy(status = Failed, error = true)
-        }
-
-    private fun CacheBackState.onBankSelect(action: BankSelectPage.OnSelectAction) =
-        changeAddForm {
-            transformIf(action.target.current()) {
-                addForm.copy(bank = action.selected)
-            }
-        }
-
-    private fun CacheBackState.onIconSelect(action: IconSelectPage.OnSelectAction) =
-        changeAddForm {
-            transformIf(action.target.current()) {
-                addForm.copy(icon = action.selected)
-            }
-        }
-
-    private fun CacheBackState.onCodesSelect(action: CodesSelectPage.OnSelectAction) =
-        changeAddForm {
-            transformIf(action.target.current()) {
-                addForm.copy(codes = action.selected)
-            }
         }
 
     companion object {

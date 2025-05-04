@@ -8,3 +8,6 @@ fun <T> List<T>.halves(): Pair<List<T>, List<T>> = (size / 2)
 
 inline fun <T, R> Iterable<T>.mapPersistent(transform: (T) -> R): PersistentList<R> =
     map(transform).toPersistentList()
+
+inline fun <T, R> Iterable<T>.flatMapPersistent(transform: (T) -> List<R>): PersistentList<R> =
+    flatMap(transform).toPersistentList()

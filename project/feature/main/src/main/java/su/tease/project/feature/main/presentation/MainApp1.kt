@@ -1,7 +1,6 @@
 package su.tease.project.feature.main.presentation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.res.painterResource
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.parcelize.Parcelize
@@ -26,6 +25,11 @@ class MainApp1(store: Store<*>) : BaseAppComponent(store,) {
             selected = feature,
             items = persistentListOf(
                 NavigationBarItemData(
+                    value = CacheBackFeature(),
+                    name = "Cache Back",
+                    image = painterResource(R.drawable.dollar),
+                ),
+                NavigationBarItemData(
                     value = MainFeature1("From App 1"),
                     name = "Feature 1",
                     image = painterResource(R.drawable.antenna),
@@ -35,11 +39,6 @@ class MainApp1(store: Store<*>) : BaseAppComponent(store,) {
                     name = "Feature 2",
                     image = painterResource(R.drawable.alarm_clock),
                 ),
-                NavigationBarItemData(
-                    value = CacheBackFeature(),
-                    name = "Cache Back",
-                    image = painterResource(R.drawable.dollar),
-                ),
             ),
             onSelect = { switch(it) },
             compare = FeatureNavigation::some,
@@ -47,9 +46,9 @@ class MainApp1(store: Store<*>) : BaseAppComponent(store,) {
     }
 
     companion object {
-        operator fun invoke(text: String) = app(
+        operator fun invoke() = app(
             Target,
-            MainFeature1(text),
+            CacheBackFeature(),
         )
     }
 

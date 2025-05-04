@@ -13,4 +13,5 @@ interface Fonts {
     val smallTitle: FontSetting
     val smallInfo: FontSetting
     val button: FontSetting
+    val link: FontSetting
 }

@@ -26,4 +26,6 @@ interface Colors {
     val buttonText: Color
 
     val tmpFiller: Color
+
+    val link: Color
 }

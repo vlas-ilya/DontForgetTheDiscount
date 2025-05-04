@@ -11,6 +11,7 @@ import su.tease.project.feature.cacheback.domain.entity.CacheBackName
 import su.tease.project.feature.cacheback.domain.entity.CacheBackSize
 import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
 import su.tease.project.feature.cacheback.domain.entity.preset.IconPreset
+import su.tease.project.feature.cacheback.presentation.AddFormState
 
 data class AddCacheBackRequest(
     val bank: BankPreset,
@@ -25,7 +26,7 @@ interface AddCacheBackUseCase : MviUseCase<AddCacheBackRequest>
 
 @Parcelize
 sealed class AddCacheBackAction : PlainAction {
-    data object OnInit : AddCacheBackAction()
+    data class OnInit(val addFormState: AddFormState) : AddCacheBackAction()
     data object OnSave : AddCacheBackAction()
     data class OnSaveSuccess(val cacheBack: CacheBack) : AddCacheBackAction()
     data object OnSaveFail : AddCacheBackAction()

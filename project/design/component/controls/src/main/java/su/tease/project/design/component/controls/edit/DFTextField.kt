@@ -29,20 +29,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.utils.ext.choose
 import su.tease.project.core.utils.ext.thenIfNotNull
-import su.tease.project.core.utils.utils.Callback
 import su.tease.project.design.component.controls.icon.DFIconButton
 import su.tease.project.design.component.controls.text.DFText
 import su.tease.project.design.icons.R
 import su.tease.project.design.theme.impl.utils.Preview
 
-data class DFTextFieldAction(
-    @DrawableRes val icon: Int,
-    val onClick: Callback,
-)
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Suppress("LongMethod")
+@Suppress("LongMethod", "LongParameterList")
 fun DFTextField(
     text: State<String>,
     onChange: (String) -> Unit,
@@ -148,10 +142,13 @@ fun DFTextField(
                 tint = Theme.colors.buttonText,
             )
         }
-
     }
-
 }
+
+data class DFTextFieldAction(
+    @DrawableRes val icon: Int,
+    val onClick: () -> Unit,
+)
 
 @Composable
 @Preview

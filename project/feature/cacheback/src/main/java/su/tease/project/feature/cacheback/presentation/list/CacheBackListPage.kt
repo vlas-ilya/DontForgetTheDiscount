@@ -9,14 +9,16 @@ import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.project.core.mvi.api.state.LoadingStatus
 import su.tease.project.core.mvi.api.store.Store
+import su.tease.project.design.component.controls.list.LazyListItems
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.usecase.LoadBankListUseCase
 import su.tease.project.feature.cacheback.presentation.CacheBackState
 import su.tease.project.feature.cacheback.presentation.add.AddCacheBackFeature
-import su.tease.project.feature.cacheback.presentation.list.component.CacheBackListFailed
-import su.tease.project.feature.cacheback.presentation.list.component.CacheBackListInit
-import su.tease.project.feature.cacheback.presentation.list.component.CacheBackListLoading
-import su.tease.project.feature.cacheback.presentation.list.component.CacheBackListSuccess
+import su.tease.project.feature.cacheback.presentation.list.mapper.toUi
+import su.tease.project.feature.cacheback.presentation.list.page.CacheBackListFailed
+import su.tease.project.feature.cacheback.presentation.list.page.CacheBackListInit
+import su.tease.project.feature.cacheback.presentation.list.page.CacheBackListLoading
+import su.tease.project.feature.cacheback.presentation.list.page.CacheBackListSuccess
 import su.tease.project.design.icons.R as RIcons
 
 class CacheBackListPage(
@@ -43,7 +45,10 @@ class CacheBackListPage(
         }
 
         val status = selectAsState(CacheBackState::status, LoadingStatus.Init)
-        val list = selectAsState(CacheBackState::list, persistentListOf())
+        val list = selectAsState<CacheBackState, LazyListItems>(
+            initial = persistentListOf(),
+            selector = { list.toUi(store) },
+        )
         val error = selectAsState(CacheBackState::error)
 
         when (status.value) {

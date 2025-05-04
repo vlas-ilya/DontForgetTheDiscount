@@ -12,11 +12,11 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 
 @Composable
-@Suppress("IMPLICIT_CAST_TO_ANY", "ComposableParamOrder")
+@Suppress("IMPLICIT_CAST_TO_ANY")
 fun DFImage(
     url: String,
-    modifier: Modifier = Modifier,
     contentDescription: String,
+    modifier: Modifier = Modifier,
     tint: Color? = null,
 ) {
     val model = if (url.endsWith(".svg")) {

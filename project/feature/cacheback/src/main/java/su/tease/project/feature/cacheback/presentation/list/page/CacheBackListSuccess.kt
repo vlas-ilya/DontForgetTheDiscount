@@ -1,9 +1,10 @@
-package su.tease.project.feature.cacheback.presentation.list.component
+package su.tease.project.feature.cacheback.presentation.list.page
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
@@ -12,13 +13,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import kotlinx.collections.immutable.PersistentList
 import su.tease.design.theme.api.Theme
+import su.tease.project.design.component.controls.list.LazyList
+import su.tease.project.design.component.controls.list.LazyListItem
 import su.tease.project.design.component.controls.text.DFTextH1
 import su.tease.project.feature.cacheback.R
-import su.tease.project.feature.cacheback.domain.entity.Bank
 
 @Composable
 fun CacheBackListSuccess(
-    list: State<PersistentList<Bank>>,
+    list: State<PersistentList<LazyListItem>>,
     modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier) {
@@ -35,11 +37,12 @@ fun CacheBackListSuccess(
             )
             return
         }
-        LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            list.value.forEach {
-                item(key = it.id) {
-                }
-            }
-        }
+        LazyList(
+            count = list.value.size,
+            modifier = Modifier.fillMaxWidth(),
+            itemContent = list.value::get,
+            verticalArrangement = Arrangement.spacedBy(Theme.sizes.padding4),
+            contentPadding = PaddingValues(Theme.sizes.padding8),
+        )
     }
 }
