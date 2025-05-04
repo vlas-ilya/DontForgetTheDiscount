@@ -58,6 +58,7 @@ dependencies {
     androidTestImplementation(libs.compose.ui.test)
 
     // core
+    implementation(libs.kotlin.collections.immutable)
     implementation(libs.kotlin.coroutines.core)
     testImplementation(libs.junit)
     testImplementation(libs.kotlin.coroutines.test)

@@ -70,7 +70,8 @@ class RootContainer(
             windowProvider().isNavigationBarVisible()
 
             val hasSystemNavigationBar =
-                !actualRootConfigState.value.isFullscreen && windowProvider().isNavigationBarVisible()
+                actualRootConfigState.value.isFullscreen.not() ||
+                    windowProvider().isNavigationBarVisible()
 
             appContainer.ComposeAppContainer(
                 rootConfig = rootConfigState.value,

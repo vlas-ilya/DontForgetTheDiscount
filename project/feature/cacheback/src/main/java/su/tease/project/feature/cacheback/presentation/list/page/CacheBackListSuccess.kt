@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
@@ -21,6 +22,7 @@ import su.tease.project.feature.cacheback.R
 @Composable
 fun CacheBackListSuccess(
     list: State<PersistentList<LazyListItem>>,
+    lazyListState: LazyListState,
     modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier) {
@@ -43,6 +45,7 @@ fun CacheBackListSuccess(
             itemContent = list.value::get,
             verticalArrangement = Arrangement.spacedBy(Theme.sizes.padding4),
             contentPadding = PaddingValues(Theme.sizes.padding8),
+            lazyListState = lazyListState,
         )
     }
 }

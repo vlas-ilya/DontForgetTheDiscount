@@ -17,6 +17,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.persistentListOf
 import su.tease.core.mvi.component.resolver.NavigationTargetResolver
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.selector.select
@@ -24,6 +26,7 @@ import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.navigation.action.NavigationAction
 import su.tease.project.core.mvi.navigation.selector.appIdName
 import su.tease.project.core.utils.ext.choose
+import su.tease.project.core.utils.ext.mapPersistent
 import su.tease.project.core.utils.ext.runIf
 import su.tease.project.core.utils.ext.unit
 import su.tease.project.design.component.controls.page.DFPage
@@ -41,6 +44,7 @@ private val emptyAppAction = AppAction(icon = 0, onClick = {})
 data class AppFloatingButton(
     @DrawableRes val icon: Int,
     val onClick: () -> Unit,
+    val type: DFPageFloatingButton.Type = DFPageFloatingButton.Type.ACCENT,
 )
 
 private val emptyAppFloatingButton = AppFloatingButton(icon = 0, onClick = {})
@@ -52,7 +56,8 @@ data class AppConfig(
     val title: String = "",
     @StringRes val titleRes: Int? = null,
     val action: AppAction? = null,
-    val floatingButton: AppFloatingButton? = null,
+    val floatingButtons: PersistentList<AppFloatingButton> = persistentListOf(),
+    val additionalTitleContent: (@Composable () -> Unit)? = null,
 )
 
 private val actualAppConfigState = mutableStateOf(AppConfig())
@@ -85,7 +90,8 @@ class AppContainer(
             title,
             titleRes,
             action,
-            floatingButton
+            floatingButtons,
+            additionalTitleContent,
         ) = actualAppConfigState.value
 
         Column(
@@ -113,6 +119,7 @@ class AppContainer(
                     title = title.takeIf { it.isNotBlank() }
                         ?: titleRes?.takeIf { it != 0 }?.let { stringResource(it) }
                         ?: "",
+                    additionalTitleContent = additionalTitleContent,
                     hasSystemNavigationBar = hasSystemNavigationBar,
                     modifier = Modifier
                         .padding(
@@ -133,12 +140,15 @@ class AppContainer(
                     },
                     actionIcon = action?.takeIf { it != emptyAppAction }?.icon,
                     onActionPress = action?.takeIf { it != emptyAppAction }?.onClick,
-                    floatingButton = floatingButton?.takeIf { it != emptyAppFloatingButton }?.let {
-                        DFPageFloatingButton(
-                            icon = it.icon,
-                            onClick = it.onClick,
-                        )
-                    }
+                    floatingButtons = floatingButtons
+                        .filter { it != emptyAppFloatingButton }
+                        .mapPersistent {
+                            DFPageFloatingButton(
+                                icon = it.icon,
+                                onClick = it.onClick,
+                                type = it.type,
+                            )
+                        }
                 ) {
                     app {
                         featureContainer.ComposeFeatureContainer(

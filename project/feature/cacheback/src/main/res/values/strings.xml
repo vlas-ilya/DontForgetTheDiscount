@@ -31,6 +31,6 @@
     <string name="page_select_cache_back_codes_placeholder_selected">Ничего не выбрано</string>
     <string name="page_select_cache_back_icon_title">Выбор иконки для кэшбэка</string>
     <string name="page_select_text_title">Укажите %s</string>
-    <string name="item_cache_back_in_list_label_percent">%s\%% </string>
+    <string name="item_cache_back_in_list_label_percent">%s\%%</string>
     <string name="item_cache_back_in_list_button_add_more">Добавить еще кэшбэк</string>
 </resources>

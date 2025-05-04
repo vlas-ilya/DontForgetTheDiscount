@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import su.tease.design.theme.api.Theme
 import su.tease.project.design.component.controls.icon.DFIcon
 
@@ -26,12 +27,12 @@ fun DFPageFloatingButton(
             .shadow(elevation = Theme.sizes.elevation10, shape = CircleShape)
             .clip(CircleShape)
             .size(Theme.sizes.size50)
-            .background(Theme.colors.buttonBackground)
+            .background(data.type.background())
             .clickable { data.onClick() }
     ) {
         DFIcon(
             icon = data.icon,
-            tint = Theme.colors.buttonText,
+            tint = data.type.tint(),
             modifier = Modifier
                 .size(Theme.sizes.size20)
                 .align(Alignment.Center)
@@ -42,4 +43,19 @@ fun DFPageFloatingButton(
 data class DFPageFloatingButton(
     @DrawableRes val icon: Int,
     val onClick: () -> Unit,
-)
+    val type: Type = Type.ACCENT,
+) {
+    enum class Type(
+        val background: @Composable () -> Color,
+        val tint: @Composable () -> Color,
+    ) {
+        ACCENT(
+            { Theme.colors.buttonBackground },
+            { Theme.colors.buttonText },
+        ),
+        GRAY(
+            { Theme.colors.inputBackground },
+            { Theme.colors.inputText },
+        ),
+    }
+}

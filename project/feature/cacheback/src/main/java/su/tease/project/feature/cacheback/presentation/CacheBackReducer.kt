@@ -83,7 +83,7 @@ class CacheBackReducer : Reducer<CacheBackState> {
 
     private fun CacheBackState.onLoadList(action: LoadList) =
         when (action) {
-            is LoadList.OnLoad -> copy(status = Loading, list = persistentListOf(), error = false)
+            is LoadList.OnLoad -> copy(status = Loading, error = false)
             is LoadList.OnSuccess -> copy(status = Success, list = action.list, error = false)
             is LoadList.OnFail -> copy(status = Failed, error = true)
         }
