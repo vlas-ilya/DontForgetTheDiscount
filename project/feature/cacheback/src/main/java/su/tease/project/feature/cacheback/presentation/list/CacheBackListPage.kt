@@ -5,6 +5,9 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,6 +22,7 @@ import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
+import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.state.LoadingStatus
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.resource.ResourceProvider
@@ -105,7 +109,8 @@ class CacheBackListPage(
                             val text = remember { mutableStateOf("Май 2025") }
                             DFTextField(
                                 text = text,
-                                onChange = {}
+                                onChange = {},
+                                modifier = Modifier.padding(bottom = Theme.sizes.padding4)
                             )
                         }
                     }

@@ -31,7 +31,7 @@ fun DFPage(
     hasSystemNavigationBar: Boolean = true,
     @DrawableRes actionIcon: Int? = null,
     floatingButtons: PersistentList<DFPageFloatingButton> = persistentListOf(),
-    additionalTitleContent: (@Composable () -> Unit)? = null,
+    additionalTitleContent: @Composable () -> Unit = {},
     onBackPress: (() -> Unit)? = null,
     onActionPress: (() -> Unit)? = null,
     content: @Composable () -> Unit,

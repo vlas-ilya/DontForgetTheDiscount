@@ -56,7 +56,7 @@ data class AppConfig(
     @StringRes val titleRes: Int? = null,
     val action: AppAction? = null,
     val floatingButtons: PersistentList<DFPageFloatingButton> = persistentListOf(),
-    val additionalTitleContent: (@Composable () -> Unit)? = null,
+    val additionalTitleContent: @Composable () -> Unit = {},
 )
 
 private val actualAppConfigState = mutableStateOf(AppConfig())

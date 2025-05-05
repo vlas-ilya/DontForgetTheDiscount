@@ -24,7 +24,7 @@ fun DFPageTitle(
     title: String,
     modifier: Modifier = Modifier,
     @DrawableRes actionIcon: Int? = null,
-    additionalTitleContent: (@Composable () -> Unit)? = null,
+    additionalTitleContent: @Composable () -> Unit = {},
     onBackPress: (() -> Unit)? = null,
     onActionPress: (() -> Unit)? = null,
 ) {
@@ -66,9 +66,6 @@ fun DFPageTitle(
                 )
             } ?: Spacer(Modifier.size(Theme.sizes.size32))
         }
-        additionalTitleContent?.let {
-            it()
-            Spacer(Modifier.height(Theme.sizes.padding4))
-        }
+        additionalTitleContent()
     }
 }
