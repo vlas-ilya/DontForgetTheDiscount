@@ -75,9 +75,7 @@ fun DFPage(
             ) {
                 floatingButtons.forEach {
                     Spacer(Modifier.height(Theme.sizes.padding6))
-                    DFPageFloatingButton(
-                        data = it,
-                    )
+                    DFPageFloatingButton(data = it)
                 }
             }
         }

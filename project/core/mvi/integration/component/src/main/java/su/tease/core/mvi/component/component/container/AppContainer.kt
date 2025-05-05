@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import su.tease.core.mvi.component.resolver.NavigationTargetResolver
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.selector.select
@@ -26,7 +27,6 @@ import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.navigation.action.NavigationAction
 import su.tease.project.core.mvi.navigation.selector.appIdName
 import su.tease.project.core.utils.ext.choose
-import su.tease.project.core.utils.ext.mapPersistent
 import su.tease.project.core.utils.ext.runIf
 import su.tease.project.core.utils.ext.unit
 import su.tease.project.design.component.controls.page.DFPage
@@ -40,14 +40,7 @@ data class AppAction(
 
 private val emptyAppAction = AppAction(icon = 0, onClick = {})
 
-@Immutable
-data class AppFloatingButton(
-    @DrawableRes val icon: Int,
-    val onClick: () -> Unit,
-    val type: DFPageFloatingButton.Type = DFPageFloatingButton.Type.ACCENT,
-)
-
-private val emptyAppFloatingButton = AppFloatingButton(icon = 0, onClick = {})
+private val emptyPageFloatingButton = DFPageFloatingButton(icon = 0, onClick = {})
 
 @Immutable
 data class AppConfig(
@@ -56,7 +49,7 @@ data class AppConfig(
     val title: String = "",
     @StringRes val titleRes: Int? = null,
     val action: AppAction? = null,
-    val floatingButtons: PersistentList<AppFloatingButton> = persistentListOf(),
+    val floatingButtons: PersistentList<DFPageFloatingButton> = persistentListOf(),
     val additionalTitleContent: (@Composable () -> Unit)? = null,
 )
 
@@ -141,14 +134,8 @@ class AppContainer(
                     actionIcon = action?.takeIf { it != emptyAppAction }?.icon,
                     onActionPress = action?.takeIf { it != emptyAppAction }?.onClick,
                     floatingButtons = floatingButtons
-                        .filter { it != emptyAppFloatingButton }
-                        .mapPersistent {
-                            DFPageFloatingButton(
-                                icon = it.icon,
-                                onClick = it.onClick,
-                                type = it.type,
-                            )
-                        }
+                        .filter { it != emptyPageFloatingButton }
+                        .toPersistentList()
                 ) {
                     app {
                         featureContainer.ComposeFeatureContainer(

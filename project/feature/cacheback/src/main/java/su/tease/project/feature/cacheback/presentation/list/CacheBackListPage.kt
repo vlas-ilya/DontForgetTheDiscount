@@ -12,15 +12,18 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
-import su.tease.core.mvi.component.component.container.AppFloatingButton
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.project.core.mvi.api.state.LoadingStatus
 import su.tease.project.core.mvi.api.store.Store
+import su.tease.project.core.utils.utils.ScrollDirection
 import su.tease.project.core.utils.utils.buildPersistentList
+import su.tease.project.core.utils.utils.rememberScrollDirection
 import su.tease.project.design.component.controls.edit.DFTextField
 import su.tease.project.design.component.controls.list.LazyListItems
 import su.tease.project.design.component.controls.page.DFPageFloatingButton
@@ -54,45 +57,44 @@ class CacheBackListPage(
         val isScrollTopButtonVisible = remember {
             derivedStateOf {
                 status.value == LoadingStatus.Success &&
-                    lazyListState.firstVisibleItemIndex >= SCROLL_ITEMS_FOR_SHOW_BUTTON
+                        lazyListState.firstVisibleItemIndex >= SCROLL_ITEMS_FOR_SHOW_BUTTON
             }
         }
 
-        val isPeriodSelectorVisible = remember {
-            derivedStateOf {
-                status.value == LoadingStatus.Success &&
-                    lazyListState.firstVisibleItemIndex == 0
-            }
-        }
+        val (scrollDirection, nestedScrollConnection, reset) = rememberScrollDirection()
 
         LaunchedEffect(Unit) {
             dispatch(loadBankListUseCase())
         }
 
-        LaunchedEffect(isScrollTopButtonVisible.value, isPeriodSelectorVisible.value) {
+        LaunchedEffect(isScrollTopButtonVisible.value, scrollDirection.value) {
             appConfig {
                 copy(
                     titleRes = R.string.page_cache_back_list_title,
                     floatingButtons = buildPersistentList {
                         add(
-                            AppFloatingButton(
+                            DFPageFloatingButton(
                                 icon = RIcons.drawable.plus,
                                 onClick = ::onAddCacheBack
                             )
                         )
-                        if (isScrollTopButtonVisible.value) {
-                            add(
-                                AppFloatingButton(
-                                    icon = RIcons.drawable.angle_up,
-                                    onClick = { scope.launch { lazyListState.animateScrollToItem(0) } },
-                                    type = DFPageFloatingButton.Type.GRAY,
-                                )
+                        add(
+                            DFPageFloatingButton(
+                                icon = RIcons.drawable.angle_up,
+                                onClick = {
+                                    scope.launch {
+                                        reset()
+                                        lazyListState.animateScrollToItem(0)
+                                    }
+                                },
+                                type = DFPageFloatingButton.Type.GRAY,
+                                isVisible = isScrollTopButtonVisible.value
                             )
-                        }
+                        )
                     },
                     additionalTitleContent = {
                         AnimatedVisibility(
-                            visible = isPeriodSelectorVisible.value,
+                            visible = scrollDirection.value == ScrollDirection.BOTTOM,
                             enter = fadeIn() + expandVertically(),
                             exit = fadeOut() + shrinkVertically(),
                         ) {
@@ -120,7 +122,8 @@ class CacheBackListPage(
             LoadingStatus.Failed -> CacheBackListFailed(::onRefresh)
             LoadingStatus.Success -> CacheBackListSuccess(
                 list = list,
-                lazyListState = lazyListState
+                lazyListState = lazyListState,
+                modifier = Modifier.nestedScroll(nestedScrollConnection)
             )
         }
     }
@@ -132,4 +135,4 @@ class CacheBackListPage(
     data object Target : NavigationTarget.Page
 }
 
-private const val SCROLL_ITEMS_FOR_SHOW_BUTTON = 5
+private const val SCROLL_ITEMS_FOR_SHOW_BUTTON = 3
