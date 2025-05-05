@@ -30,6 +30,7 @@ class AddCacheBackForm {
     val icon = mutableStateOf<IconPreset?>(null)
     val size = mutableStateOf(CacheBackSize(0))
     val codes = mutableStateOf(persistentListOf<CacheBackCode>())
+    val addMore = mutableStateOf(false)
 
     val bankError = check(bank) { require(it == null, FormFieldError.REQUIRED_BUT_EMPTY) }
     val nameError = check(name) { require(it.value.isBlank(), FormFieldError.REQUIRED_BUT_EMPTY) }
@@ -54,6 +55,15 @@ class AddCacheBackForm {
 
     fun ui(block: AddCacheBackForm.() -> State<FormFieldError?>): State<FormFieldError?> =
         derivedStateOf { runIf(wasValidation.value) { block().value } }
+
+    fun clean() {
+        bank.value = null
+        name.value = CacheBackName("")
+        info.value = CacheBackInfo("")
+        icon.value = null
+        size.value = CacheBackSize(0)
+        codes.value = persistentListOf()
+    }
 }
 
 @Suppress("MagicNumber")

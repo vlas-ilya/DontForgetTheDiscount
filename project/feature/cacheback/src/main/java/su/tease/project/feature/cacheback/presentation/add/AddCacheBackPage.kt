@@ -37,6 +37,7 @@ import su.tease.project.feature.cacheback.presentation.add.component.CodesSelect
 import su.tease.project.feature.cacheback.presentation.add.component.IconSelect
 import su.tease.project.feature.cacheback.presentation.add.component.InfoEditText
 import su.tease.project.feature.cacheback.presentation.add.component.NameEditText
+import su.tease.project.feature.cacheback.presentation.add.component.SaveAndAddMoreButton
 import su.tease.project.feature.cacheback.presentation.add.component.SaveButton
 import su.tease.project.feature.cacheback.presentation.add.component.SizeSelect
 import su.tease.project.feature.cacheback.presentation.add.page.CacheBackAddPageFailed
@@ -69,7 +70,17 @@ class AddCacheBackPage(
 
         val status = selectAsState(status).value
 
-        LaunchedEffect(status) { if (status == LoadingStatus.Success) back() }
+        LaunchedEffect(status) {
+            if (status != LoadingStatus.Success) return@LaunchedEffect
+
+            if (form.addMore.value.not()) {
+                back()
+            } else {
+                val bank = form.bank.value
+                form.clean()
+                dispatch(Add.OnInit(AddFormState(bank = bank)))
+            }
+        }
 
         when (status) {
             null,
@@ -154,7 +165,22 @@ class AddCacheBackPage(
             Spacer(modifier = Modifier.weight(1F))
             SaveButton(
                 modifier = Modifier.wrapContentHeight(),
-                onSubmit = { form.makeResult()?.let { dispatch(addCacheBackUseCase(it)) } }
+                onSubmit = {
+                    form.makeResult()?.let {
+                        form.addMore.value = false
+                        dispatch(addCacheBackUseCase(it))
+                    }
+                }
+            )
+            Spacer(modifier = Modifier.height(Theme.sizes.padding4))
+            SaveAndAddMoreButton(
+                modifier = Modifier.wrapContentHeight(),
+                onSubmit = {
+                    form.makeResult()?.let {
+                        form.addMore.value = true
+                        dispatch(addCacheBackUseCase(it))
+                    }
+                }
             )
         }
     }

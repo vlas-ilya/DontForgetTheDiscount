@@ -6,6 +6,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import su.tease.design.theme.api.Theme
 import su.tease.project.design.component.controls.text.DFText
 
@@ -14,6 +15,7 @@ fun DFButton(
     label: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    type: DFButtonType = DFButtonType.ACCENT,
 ) {
     Button(
         onClick = onClick,
@@ -21,16 +23,30 @@ fun DFButton(
             .fillMaxWidth()
             .height(Theme.sizes.size48),
         colors = ButtonColors(
-            containerColor = Theme.colors.buttonBackground,
-            contentColor = Theme.colors.buttonText,
-            disabledContainerColor = Theme.colors.buttonBackground,
-            disabledContentColor = Theme.colors.buttonText,
+            containerColor = type.background(),
+            contentColor = type.text(),
+            disabledContainerColor = type.background(),
+            disabledContentColor = type.text(),
         )
     ) {
         DFText(
             text = label.uppercase(),
-            color = Theme.colors.buttonText,
+            color = type.text(),
             style = Theme.fonts.button,
         )
     }
+}
+
+enum class DFButtonType(
+    val background: @Composable () -> Color,
+    val text: @Composable () -> Color,
+) {
+    ACCENT(
+        { Theme.colors.buttonBackground },
+        { Theme.colors.buttonText },
+    ),
+    GRAY(
+        { Theme.colors.inputBackground },
+        { Theme.colors.inputText },
+    ),
 }
