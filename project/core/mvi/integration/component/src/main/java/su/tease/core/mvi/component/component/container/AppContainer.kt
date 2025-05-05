@@ -2,6 +2,12 @@ package su.tease.core.mvi.component.component.container
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -144,7 +150,12 @@ class AppContainer(
                         )
                     }
                 }
-                if (hasNavigationBar) {
+
+                AnimatedVisibility(
+                    visible = hasNavigationBar,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically(),
+                ) {
                     Box(modifier = Modifier.fillMaxWidth()) {
                         app.ComposeNavigationBar()
                     }

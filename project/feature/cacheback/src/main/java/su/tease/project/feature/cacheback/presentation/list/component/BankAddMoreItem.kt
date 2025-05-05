@@ -31,7 +31,7 @@ data class BankAddMoreItem(
         ) {
             DFLinkButton(
                 label = stringResource(R.string.item_cache_back_in_list_button_add_more),
-                modifier = Modifier.padding(start = Theme.sizes.padding20),
+                modifier = Modifier.padding(start = Theme.sizes.padding14),
                 onClick = {
                     store.dispatcher.dispatch(
                         NavigationAction.ForwardToFeature(

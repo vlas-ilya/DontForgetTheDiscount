@@ -21,9 +21,10 @@ import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.project.core.mvi.api.state.LoadingStatus
 import su.tease.project.core.mvi.api.store.Store
+import su.tease.project.core.utils.resource.ResourceProvider
 import su.tease.project.core.utils.utils.ScrollDirection
 import su.tease.project.core.utils.utils.buildPersistentList
-import su.tease.project.core.utils.utils.rememberScrollDirection
+import su.tease.project.core.utils.utils.scrollDirectionState
 import su.tease.project.design.component.controls.edit.DFTextField
 import su.tease.project.design.component.controls.list.LazyListItems
 import su.tease.project.design.component.controls.page.DFPageFloatingButton
@@ -41,12 +42,15 @@ import su.tease.project.design.icons.R as RIcons
 class CacheBackListPage(
     store: Store<*>,
     private val loadBankListUseCase: LoadBankListUseCase,
+    private val resourceProvider: ResourceProvider,
 ) : BasePageComponent(store) {
 
     private val lazyListState = LazyListState(
         firstVisibleItemIndex = 0,
         firstVisibleItemScrollOffset = 0,
     )
+
+    private val scrollDirectionState = scrollDirectionState { resourceProvider.dpToPx(it) }
 
     @Composable
     override operator fun invoke() {
@@ -61,7 +65,7 @@ class CacheBackListPage(
             }
         }
 
-        val (scrollDirection, nestedScrollConnection, reset) = rememberScrollDirection()
+        val (scrollDirection, nestedScrollConnection, reset) = scrollDirectionState
 
         LaunchedEffect(Unit) {
             dispatch(loadBankListUseCase())

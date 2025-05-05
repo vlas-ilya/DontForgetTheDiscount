@@ -22,6 +22,9 @@ fun DFLinkButton(
         modifier = modifier
             .clip(RoundedCornerShape(Theme.sizes.roundInfinity))
             .clickable { onClick() }
-            .padding(Theme.sizes.padding8)
+            .padding(
+                vertical = Theme.sizes.padding6,
+                horizontal = Theme.sizes.padding10
+            )
     )
 }

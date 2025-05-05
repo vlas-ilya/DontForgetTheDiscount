@@ -38,7 +38,7 @@ val cacheBackModule = module {
     feature<CacheBackFeature.Target> { CacheBackFeature(it.store) }
     feature<AddCacheBackFeature.Target> { AddCacheBackFeature(it.store) }
 
-    page<CacheBackListPage.Target> { CacheBackListPage(it.store, get()) }
+    page<CacheBackListPage.Target> { CacheBackListPage(it.store, get(), get()) }
     page<AddCacheBackPage.Target> { AddCacheBackPage(it.store, it.target, get()) }
     page<BankSelectPage.Target> { BankSelectPage(it.store, it.target, get()) }
     page<CodesSelectPage.Target> { CodesSelectPage(it.store, it.target, get(), get()) }

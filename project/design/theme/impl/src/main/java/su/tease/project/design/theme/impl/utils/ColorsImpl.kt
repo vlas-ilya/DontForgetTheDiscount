@@ -70,7 +70,7 @@ private fun makeLightColors(): Colors = ColorsImpl(
     inputText = text,
     inputPlaceholder = Color(0xFFBBBBBB),
 
-    link = Color(0xFF6C8FF6),
+    link = accent4,
 
     tmpFiller = black,
 )

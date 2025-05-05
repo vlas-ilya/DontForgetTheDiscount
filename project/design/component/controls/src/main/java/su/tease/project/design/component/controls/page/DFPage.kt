@@ -1,6 +1,9 @@
 package su.tease.project.design.component.controls.page
 
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.core.AnimationConstants.DefaultDurationMillis
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.keyframes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,9 +13,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.Dp
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import su.tease.design.theme.api.Theme
@@ -31,6 +36,29 @@ fun DFPage(
     onActionPress: (() -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
+    val targetValueMax = Theme.sizes.round16.value
+    val targetValueMin = 0F
+    val targetValue =  if (hasSystemNavigationBar) targetValueMax else targetValueMin
+
+    val bottomRound by animateFloatAsState(
+        targetValue = targetValue,
+        label = "bottomRound",
+        animationSpec = keyframes {
+            when (targetValue) {
+                targetValueMin -> {
+                    targetValueMax at 0
+                    targetValueMax at (DefaultDurationMillis * 0.9).toInt()
+                    0f at DefaultDurationMillis
+                }
+                targetValueMax -> {
+                    0f at 0
+                    targetValueMax at (DefaultDurationMillis * 0.1).toInt()
+                    targetValueMax at DefaultDurationMillis
+                }
+            }
+        }
+    )
+
     Box(
         modifier = modifier
             .background(Theme.colors.background0)
@@ -50,14 +78,8 @@ fun DFPage(
                         RoundedCornerShape(
                             topStart = Theme.sizes.round16,
                             topEnd = Theme.sizes.round16,
-                            bottomStart = hasSystemNavigationBar.choose(
-                                Theme.sizes.round16,
-                                Theme.sizes.size0,
-                            ),
-                            bottomEnd = hasSystemNavigationBar.choose(
-                                Theme.sizes.round16,
-                                Theme.sizes.size0,
-                            ),
+                            bottomStart = Dp(bottomRound),
+                            bottomEnd = Dp(bottomRound),
                         )
                     )
                     .background(Theme.colors.background1)

@@ -51,6 +51,6 @@ fun Window.isNavigationBarVisible(): Boolean {
             "dimen",
             "android"
         )
-        id > 0 && resources.getDimensionPixelSize(id) > 0
+        id > 0 && resources.getDimensionPixelSize(id) > 100
     }
 }
