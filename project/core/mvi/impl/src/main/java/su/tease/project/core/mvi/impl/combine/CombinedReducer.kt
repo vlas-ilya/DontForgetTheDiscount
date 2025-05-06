@@ -19,8 +19,8 @@ internal class CombinedReducer<S1 : State, S2 : State>(
         val newState2 = reducer2.run { state2.onAction(action) }
         return when {
             state1 === newState1 && state2 === newState2 -> this
-            state1 != newState1 -> copy(state1 = newState1)
-            state2 != newState2 -> copy(state2 = newState2)
+            state1 === newState1 -> copy(state2 = newState2)
+            state2 === newState2 -> copy(state1 = newState1)
             else -> copy(state1 = newState1, state2 = newState2)
         }
     }

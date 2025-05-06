@@ -22,6 +22,7 @@ import su.tease.project.design.component.controls.page.DFPageFloatingButton
 import su.tease.project.design.icons.R
 import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
 import su.tease.project.feature.cacheback.domain.interceptor.DictionaryInterceptor
+import su.tease.project.feature.cacheback.presentation.reducer.SelectBankState
 import su.tease.project.feature.cacheback.presentation.select.bank.component.SelectBankPresetPreview
 
 class BankSelectPage(
@@ -48,6 +49,14 @@ class BankSelectPage(
         }
 
         val banks by memoize { dictionaryInterceptor.banks() }
+        val addedBankPreset = selectAsState(SelectBankState::addedBankPreset).value
+
+        LaunchedEffect(addedBankPreset) {
+            if (addedBankPreset != null) {
+                dispatch(OnSelectAction(target.target, addedBankPreset))
+                back()
+            }
+        }
 
         LazyColumn(
             contentPadding = PaddingValues(
