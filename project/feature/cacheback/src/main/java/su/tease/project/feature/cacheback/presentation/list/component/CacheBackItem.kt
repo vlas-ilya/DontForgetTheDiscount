@@ -97,7 +97,7 @@ data class CacheBackItem(
                     style = Theme.fonts.text,
                 )
             }
-            runIf(cacheBack.info.value.isNotBlank() && cacheBack.codes.isNotEmpty()) {
+            runIf(cacheBack.info.value.isNotBlank() || cacheBack.codes.isNotEmpty()) {
                 Spacer(modifier = Modifier.width(Theme.sizes.padding4))
                 DFIconButton(
                     icon = RIcons.drawable.comment_info,

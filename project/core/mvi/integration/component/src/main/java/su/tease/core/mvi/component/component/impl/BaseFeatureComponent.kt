@@ -2,7 +2,6 @@ package su.tease.core.mvi.component.component.impl
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import su.tease.core.mvi.component.component.container.AppConfig
 import su.tease.core.mvi.component.component.container.FeatureConfig
