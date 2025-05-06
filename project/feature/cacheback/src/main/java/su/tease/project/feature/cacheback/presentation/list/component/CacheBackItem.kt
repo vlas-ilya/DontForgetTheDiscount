@@ -1,6 +1,7 @@
 package su.tease.project.feature.cacheback.presentation.list.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.store.Store
+import su.tease.project.core.mvi.navigation.action.NavigationAction
 import su.tease.project.core.utils.ext.runIf
 import su.tease.project.design.component.controls.icon.DFIconButton
 import su.tease.project.design.component.controls.icon.DFIconButtonSize
@@ -23,10 +25,15 @@ import su.tease.project.design.component.controls.image.DFImage
 import su.tease.project.design.component.controls.list.LazyListItem
 import su.tease.project.design.component.controls.text.DFText
 import su.tease.project.feature.cacheback.R
+import su.tease.project.feature.cacheback.domain.entity.Bank
 import su.tease.project.feature.cacheback.domain.entity.CacheBack
+import su.tease.project.feature.cacheback.domain.entity.preset.mapper.toPreset
+import su.tease.project.feature.cacheback.presentation.reducer.SaveCacheBackState
+import su.tease.project.feature.cacheback.presentation.save.SaveCacheBackFeature
 import su.tease.project.design.icons.R as RIcons
 
 data class CacheBackItem(
+    private val bankItem: Bank,
     private val cacheBack: CacheBack,
     private val store: Store<*>,
 ) : LazyListItem {
@@ -38,6 +45,25 @@ data class CacheBackItem(
         Row(
             Modifier
                 .fillParentMaxWidth()
+                .clickable {
+                    store.dispatcher.dispatch(
+                        NavigationAction.ForwardToFeature(
+                            SaveCacheBackFeature(
+                                SaveCacheBackState(
+                                    id = cacheBack.id,
+                                    date = cacheBack.date,
+                                    bank = bankItem.toPreset(),
+                                    name = cacheBack.name,
+                                    info = cacheBack.info,
+                                    icon = cacheBack.icon.toPreset(),
+                                    size = cacheBack.size,
+                                    codes = cacheBack.codes,
+                                )
+                            )
+                        )
+                    )
+                }
+                .padding(horizontal = Theme.sizes.padding8)
                 .padding(start = Theme.sizes.padding20),
             verticalAlignment = Alignment.CenterVertically,
         ) {

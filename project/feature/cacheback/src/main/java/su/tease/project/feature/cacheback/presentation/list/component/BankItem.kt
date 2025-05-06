@@ -35,6 +35,7 @@ data class BankItem(
             DFImage(
                 url = bankItem.icon.url,
                 modifier = Modifier
+                    .padding(horizontal = Theme.sizes.padding8)
                     .clip(CircleShape)
                     .size(Theme.sizes.size32)
                     .background(Theme.colors.tmpFiller),

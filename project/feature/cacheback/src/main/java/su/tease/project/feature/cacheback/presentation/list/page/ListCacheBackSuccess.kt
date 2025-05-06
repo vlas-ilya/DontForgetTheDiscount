@@ -49,7 +49,7 @@ fun ListCacheBackSuccess(
             modifier = Modifier.fillMaxWidth(),
             itemContent = list.value::get,
             verticalArrangement = Arrangement.spacedBy(Theme.sizes.padding4),
-            contentPadding = PaddingValues(Theme.sizes.padding8),
+            contentPadding = PaddingValues(vertical = Theme.sizes.padding8),
             lazyListState = lazyListState,
         )
     }

@@ -1,4 +1,4 @@
-package su.tease.project.feature.cacheback.presentation.add.component
+package su.tease.project.feature.cacheback.presentation.save.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
@@ -11,7 +11,7 @@ import su.tease.project.design.component.controls.edit.DFTextField
 import su.tease.project.design.component.controls.form.DFFormElement
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.CacheBackName
-import su.tease.project.feature.cacheback.presentation.add.utls.FormFieldError
+import su.tease.project.feature.cacheback.presentation.save.utls.FormFieldError
 
 @Composable
 fun NameEditText(

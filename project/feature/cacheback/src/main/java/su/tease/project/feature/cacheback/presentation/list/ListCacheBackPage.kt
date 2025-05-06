@@ -35,13 +35,13 @@ import su.tease.project.feature.cacheback.domain.mapper.toCacheBackDate
 import su.tease.project.feature.cacheback.domain.mapper.toMonthYear
 import su.tease.project.feature.cacheback.domain.usecase.LoadBankListAction
 import su.tease.project.feature.cacheback.domain.usecase.LoadBankListUseCase
-import su.tease.project.feature.cacheback.presentation.add.AddCacheBackFeature
 import su.tease.project.feature.cacheback.presentation.list.page.ListCacheBackFailed
 import su.tease.project.feature.cacheback.presentation.list.page.ListCacheBackInit
 import su.tease.project.feature.cacheback.presentation.list.page.ListCacheBackSuccess
 import su.tease.project.feature.cacheback.presentation.mapper.toUi
-import su.tease.project.feature.cacheback.presentation.reducer.AddCacheBackState
 import su.tease.project.feature.cacheback.presentation.reducer.ListCacheBackState
+import su.tease.project.feature.cacheback.presentation.reducer.SaveCacheBackState
+import su.tease.project.feature.cacheback.presentation.save.SaveCacheBackFeature
 import su.tease.project.design.icons.R as RIcons
 
 class ListCacheBackPage(
@@ -95,8 +95,8 @@ class ListCacheBackPage(
                                 icon = RIcons.drawable.plus,
                                 onClick = {
                                     forward(
-                                        AddCacheBackFeature(
-                                            addFormState = AddCacheBackState(
+                                        SaveCacheBackFeature(
+                                            addFormState = SaveCacheBackState(
                                                 date = date.value
                                             )
                                         )

@@ -1,4 +1,4 @@
-package su.tease.project.feature.cacheback.presentation.add.component
+package su.tease.project.feature.cacheback.presentation.save.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable

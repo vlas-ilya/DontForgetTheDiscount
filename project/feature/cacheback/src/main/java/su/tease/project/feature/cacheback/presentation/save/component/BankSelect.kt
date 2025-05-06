@@ -1,4 +1,4 @@
-package su.tease.project.feature.cacheback.presentation.add.component
+package su.tease.project.feature.cacheback.presentation.save.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,7 +24,7 @@ import su.tease.project.design.theme.impl.utils.Preview
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
 import su.tease.project.feature.cacheback.domain.entity.preset.IconPreset
-import su.tease.project.feature.cacheback.presentation.add.utls.FormFieldError
+import su.tease.project.feature.cacheback.presentation.save.utls.FormFieldError
 
 @Composable
 fun BankSelect(

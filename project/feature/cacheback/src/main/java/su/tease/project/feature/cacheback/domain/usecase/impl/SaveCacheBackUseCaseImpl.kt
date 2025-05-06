@@ -1,6 +1,7 @@
 package su.tease.project.feature.cacheback.domain.usecase.impl
 
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import su.tease.core.clean.domain.repository.RepositoryException
 import su.tease.project.core.mvi.middleware.suspend.suspendAction
 import su.tease.project.core.utils.ext.mapPersistent
@@ -15,26 +16,27 @@ import su.tease.project.feature.cacheback.domain.entity.CacheBackIcon
 import su.tease.project.feature.cacheback.domain.entity.CacheBackId
 import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
 import su.tease.project.feature.cacheback.domain.repository.BankRepository
-import su.tease.project.feature.cacheback.domain.usecase.AddCacheBackAction
-import su.tease.project.feature.cacheback.domain.usecase.AddCacheBackRequest
-import su.tease.project.feature.cacheback.domain.usecase.AddCacheBackUseCase
+import su.tease.project.feature.cacheback.domain.usecase.SaveCacheBackAction
+import su.tease.project.feature.cacheback.domain.usecase.SaveCacheBackRequest
+import su.tease.project.feature.cacheback.domain.usecase.SaveCacheBackUseCase
 
-class AddCacheBackUseCaseImpl(
+class SaveCacheBackUseCaseImpl(
     private val repository: BankRepository,
     private val uuidProvider: UuidProvider,
-) : AddCacheBackUseCase {
+) : SaveCacheBackUseCase {
 
-    override fun run(request: AddCacheBackRequest) = suspendAction {
-        dispatch(AddCacheBackAction.OnSave)
+    override fun run(request: SaveCacheBackRequest) = suspendAction {
+        dispatch(SaveCacheBackAction.OnSave)
         try {
             val persisted = repository.find(BankId(request.bank.id)) ?: request.bank.makeNew()
             val cacheBack = request.toDomain()
-            val bank = persisted.copy(cacheBacks = persisted.cacheBacks.add(cacheBack))
+            val cacheBacks = persisted.cacheBacks.filter { it.id.value != cacheBack.id.value }
+            val bank = persisted.copy(cacheBacks = (cacheBacks + cacheBack).toPersistentList())
             repository.save(bank)
-            dispatch(AddCacheBackAction.OnSaveSuccess(cacheBack))
+            dispatch(SaveCacheBackAction.OnSaveSuccess(cacheBack))
         } catch (e: RepositoryException) {
             println(e)
-            dispatch(AddCacheBackAction.OnSaveFail)
+            dispatch(SaveCacheBackAction.OnSaveFail)
         }
     }
 
@@ -45,8 +47,8 @@ class AddCacheBackUseCaseImpl(
         cacheBacks = persistentListOf()
     )
 
-    private fun AddCacheBackRequest.toDomain() = CacheBack(
-        id = CacheBackId(uuidProvider.uuid()),
+    private fun SaveCacheBackRequest.toDomain() = CacheBack(
+        id = id ?: CacheBackId(uuidProvider.uuid()),
         name = name,
         info = info,
         icon = CacheBackIcon(icon.url),

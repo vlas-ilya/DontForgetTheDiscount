@@ -7,13 +7,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import su.tease.design.theme.api.Theme
+import su.tease.project.core.utils.ext.thenIfNotNull
 import su.tease.project.design.component.controls.text.DFText
 
 @Composable
 fun DFLinkButton(
     label: String,
-    onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
 ) {
     DFText(
         text = label.uppercase(),
@@ -21,7 +22,7 @@ fun DFLinkButton(
         style = Theme.fonts.link,
         modifier = modifier
             .clip(RoundedCornerShape(Theme.sizes.roundInfinity))
-            .clickable { onClick() }
+            .thenIfNotNull(onClick) { Modifier.clickable { it() } }
             .padding(
                 vertical = Theme.sizes.padding6,
                 horizontal = Theme.sizes.padding10

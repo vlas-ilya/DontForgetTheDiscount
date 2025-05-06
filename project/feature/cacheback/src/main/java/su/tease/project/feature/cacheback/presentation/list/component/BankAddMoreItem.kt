@@ -1,5 +1,6 @@
 package su.tease.project.feature.cacheback.presentation.list.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyItemScope
@@ -15,8 +16,8 @@ import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.Bank
 import su.tease.project.feature.cacheback.domain.entity.CacheBackDate
 import su.tease.project.feature.cacheback.domain.entity.preset.mapper.toPreset
-import su.tease.project.feature.cacheback.presentation.add.AddCacheBackFeature
-import su.tease.project.feature.cacheback.presentation.reducer.AddCacheBackState
+import su.tease.project.feature.cacheback.presentation.reducer.SaveCacheBackState
+import su.tease.project.feature.cacheback.presentation.save.SaveCacheBackFeature
 
 data class BankAddMoreItem(
     private val date: CacheBackDate,
@@ -29,16 +30,13 @@ data class BankAddMoreItem(
     @Composable
     override fun LazyItemScope.Compose() {
         Row(
-            Modifier.fillParentMaxWidth()
-        ) {
-            DFLinkButton(
-                label = stringResource(R.string.item_cache_back_in_list_button_add_more),
-                modifier = Modifier.padding(start = Theme.sizes.padding14),
-                onClick = {
+            Modifier
+                .fillParentMaxWidth()
+                .clickable {
                     store.dispatcher.dispatch(
                         NavigationAction.ForwardToFeature(
-                            AddCacheBackFeature(
-                                AddCacheBackState(
+                            SaveCacheBackFeature(
+                                SaveCacheBackState(
                                     date = date,
                                     bank = bankItem.toPreset(),
                                 )
@@ -46,6 +44,12 @@ data class BankAddMoreItem(
                         )
                     )
                 }
+        ) {
+            DFLinkButton(
+                label = stringResource(R.string.item_cache_back_in_list_button_add_more),
+                modifier = Modifier
+                    .padding(horizontal = Theme.sizes.padding8)
+                    .padding(start = Theme.sizes.padding14),
             )
         }
     }

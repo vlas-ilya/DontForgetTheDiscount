@@ -1,4 +1,4 @@
-package su.tease.project.feature.cacheback.presentation.add
+package su.tease.project.feature.cacheback.presentation.save
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -8,10 +8,10 @@ import su.tease.core.mvi.component.component.impl.BaseFeatureComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.core.mvi.navigation.feature
 import su.tease.project.core.mvi.api.store.Store
-import su.tease.project.feature.cacheback.presentation.reducer.AddCacheBackState
+import su.tease.project.feature.cacheback.presentation.reducer.SaveCacheBackState
 import su.tease.project.design.icons.R as RIcons
 
-class AddCacheBackFeature(
+class SaveCacheBackFeature(
     store: Store<*>,
 ) : BaseFeatureComponent(store) {
 
@@ -37,12 +37,12 @@ class AddCacheBackFeature(
         child()
     }
 
-    private fun onClosePressed() = finish(AddCacheBackFeature())
+    private fun onClosePressed() = finish(SaveCacheBackFeature())
 
     companion object {
-        operator fun invoke(addFormState: AddCacheBackState = AddCacheBackState()) = feature(
+        operator fun invoke(addFormState: SaveCacheBackState = SaveCacheBackState()) = feature(
             Target,
-            AddCacheBackPage.Target(addFormState),
+            SaveCacheBackPage.Target(addFormState),
         )
     }
 

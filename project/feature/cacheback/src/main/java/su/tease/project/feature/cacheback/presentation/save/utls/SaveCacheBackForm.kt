@@ -1,20 +1,22 @@
-package su.tease.project.feature.cacheback.presentation.add.utls
+package su.tease.project.feature.cacheback.presentation.save.utls
 
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
+import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import su.tease.project.core.utils.checker.check
 import su.tease.project.core.utils.ext.runIf
 import su.tease.project.feature.cacheback.domain.entity.CacheBackCode
 import su.tease.project.feature.cacheback.domain.entity.CacheBackDate
+import su.tease.project.feature.cacheback.domain.entity.CacheBackId
 import su.tease.project.feature.cacheback.domain.entity.CacheBackInfo
 import su.tease.project.feature.cacheback.domain.entity.CacheBackName
 import su.tease.project.feature.cacheback.domain.entity.CacheBackSize
 import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
 import su.tease.project.feature.cacheback.domain.entity.preset.IconPreset
-import su.tease.project.feature.cacheback.domain.usecase.AddCacheBackRequest
+import su.tease.project.feature.cacheback.domain.usecase.SaveCacheBackRequest
 
 enum class FormFieldError {
     REQUIRED_BUT_EMPTY,
@@ -22,15 +24,23 @@ enum class FormFieldError {
 }
 
 @Stable
-class AddCacheBackForm(private val dateValue: CacheBackDate) {
+class SaveCacheBackForm(
+    bankValue: BankPreset?,
+    nameValue: CacheBackName,
+    infoValue: CacheBackInfo,
+    iconValue: IconPreset?,
+    sizeValue: CacheBackSize,
+    codesValue: PersistentList<CacheBackCode>,
+    private val dateValue: CacheBackDate
+) {
     private val wasValidation = mutableStateOf(false)
 
-    val bank = mutableStateOf<BankPreset?>(null)
-    val name = mutableStateOf(CacheBackName(""))
-    val info = mutableStateOf(CacheBackInfo(""))
-    val icon = mutableStateOf<IconPreset?>(null)
-    val size = mutableStateOf(CacheBackSize(0))
-    val codes = mutableStateOf(persistentListOf<CacheBackCode>())
+    val bank = mutableStateOf(bankValue)
+    val name = mutableStateOf(nameValue)
+    val info = mutableStateOf(infoValue)
+    val icon = mutableStateOf(iconValue)
+    val size = mutableStateOf(sizeValue)
+    val codes = mutableStateOf(codesValue)
     val date = mutableStateOf(dateValue)
     val addMore = mutableStateOf(false)
 
@@ -39,13 +49,14 @@ class AddCacheBackForm(private val dateValue: CacheBackDate) {
     val iconError = check(icon) { require(it == null, FormFieldError.REQUIRED_BUT_EMPTY) }
     val sizeError = check(size) { require(it.percent !in INTERVAL, FormFieldError.INCORRECT_VALUE) }
 
-    fun makeResult(): AddCacheBackRequest? =
+    fun makeResult(id: CacheBackId? = null): SaveCacheBackRequest? =
         listOf(bankError.value, nameError.value, iconError.value, sizeError.value)
             .all { it == null }
             .also { wasValidation.value = !it }
             .takeIf { it }
             ?.let {
-                AddCacheBackRequest(
+                SaveCacheBackRequest(
+                    id = id,
                     bank = bank.value!!,
                     name = name.value,
                     info = info.value,
@@ -56,7 +67,7 @@ class AddCacheBackForm(private val dateValue: CacheBackDate) {
                 )
             }
 
-    fun ui(block: AddCacheBackForm.() -> State<FormFieldError?>): State<FormFieldError?> =
+    fun ui(block: SaveCacheBackForm.() -> State<FormFieldError?>): State<FormFieldError?> =
         derivedStateOf { runIf(wasValidation.value) { block().value } }
 
     fun clean() {

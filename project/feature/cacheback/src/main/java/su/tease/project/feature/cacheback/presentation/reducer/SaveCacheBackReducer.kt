@@ -14,21 +14,23 @@ import su.tease.project.core.mvi.api.state.State
 import su.tease.project.core.utils.ext.transformIf
 import su.tease.project.feature.cacheback.domain.entity.CacheBackCode
 import su.tease.project.feature.cacheback.domain.entity.CacheBackDate
+import su.tease.project.feature.cacheback.domain.entity.CacheBackId
 import su.tease.project.feature.cacheback.domain.entity.CacheBackInfo
 import su.tease.project.feature.cacheback.domain.entity.CacheBackName
 import su.tease.project.feature.cacheback.domain.entity.CacheBackSize
 import su.tease.project.feature.cacheback.domain.entity.defaultCacheBackDate
 import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
 import su.tease.project.feature.cacheback.domain.entity.preset.IconPreset
-import su.tease.project.feature.cacheback.domain.usecase.AddCacheBackAction
+import su.tease.project.feature.cacheback.domain.usecase.SaveCacheBackAction
 import su.tease.project.feature.cacheback.presentation.select.bank.BankSelectPage
 import su.tease.project.feature.cacheback.presentation.select.code.CodesSelectPage
 import su.tease.project.feature.cacheback.presentation.select.icon.IconSelectPage
-import su.tease.project.feature.cacheback.domain.usecase.AddCacheBackAction as Add
+import su.tease.project.feature.cacheback.domain.usecase.SaveCacheBackAction as Save
 
 @Parcelize
-data class AddCacheBackState(
+data class SaveCacheBackState(
     val status: LoadingStatus = Init,
+    val id: CacheBackId? = null,
     val date: CacheBackDate = defaultCacheBackDate,
     val bank: BankPreset? = null,
     val name: CacheBackName? = null,
@@ -39,36 +41,36 @@ data class AddCacheBackState(
     val wasValidation: Boolean = false,
 ) : State
 
-class AddCacheBackReducer : Reducer<AddCacheBackState> {
+class SaveCacheBackReducer : Reducer<SaveCacheBackState> {
 
-    override val initState = AddCacheBackState()
+    override val initState = SaveCacheBackState()
 
-    override fun AddCacheBackState.onAction(action: PlainAction) = when (action) {
-        is Add -> onAdd(action)
+    override fun SaveCacheBackState.onAction(action: PlainAction) = when (action) {
+        is Save -> onSave(action)
         is BankSelectPage.OnSelectAction -> onBankSelect(action)
         is IconSelectPage.OnSelectAction -> onIconSelect(action)
         is CodesSelectPage.OnSelectAction -> onCodesSelect(action)
         else -> this
     }
 
-    private fun AddCacheBackState.onAdd(action: Add) = when (action) {
-        is Add.OnInit -> action.addFormState
-        is Add.OnSave -> copy(status = Loading)
-        is Add.OnSaveSuccess -> AddCacheBackState(status = Success)
-        is Add.OnSaveFail -> copy(status = Failed)
-        is AddCacheBackAction.OnSetDate -> copy(date = action.date)
+    private fun SaveCacheBackState.onSave(action: Save) = when (action) {
+        is Save.OnInit -> action.saveFormState
+        is Save.OnSave -> copy(status = Loading)
+        is Save.OnSaveSuccess -> SaveCacheBackState(status = Success)
+        is Save.OnSaveFail -> copy(status = Failed)
+        is SaveCacheBackAction.OnSetDate -> copy(date = action.date)
     }
 
-    private fun AddCacheBackState.onBankSelect(action: BankSelectPage.OnSelectAction) =
+    private fun SaveCacheBackState.onBankSelect(action: BankSelectPage.OnSelectAction) =
         transformIf(action.target.current()) { copy(bank = action.selected) }
 
-    private fun AddCacheBackState.onIconSelect(action: IconSelectPage.OnSelectAction) =
+    private fun SaveCacheBackState.onIconSelect(action: IconSelectPage.OnSelectAction) =
         transformIf(action.target.current()) { copy(icon = action.selected) }
 
-    private fun AddCacheBackState.onCodesSelect(action: CodesSelectPage.OnSelectAction) =
+    private fun SaveCacheBackState.onCodesSelect(action: CodesSelectPage.OnSelectAction) =
         transformIf(action.target.current()) { copy(codes = action.selected) }
 
     companion object {
-        private fun String.current() = this == AddCacheBackReducer::class.java.name
+        private fun String.current() = this == SaveCacheBackReducer::class.java.name
     }
 }

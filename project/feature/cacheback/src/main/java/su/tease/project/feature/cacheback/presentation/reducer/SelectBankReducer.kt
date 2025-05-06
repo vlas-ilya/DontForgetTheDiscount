@@ -17,7 +17,7 @@ class SelectBankReducer : Reducer<SelectBankState> {
 
     override val initState = SelectBankState()
 
-    override fun SelectBankState.onAction(action: PlainAction) = when(action)  {
+    override fun SelectBankState.onAction(action: PlainAction) = when (action) {
         is OnSelectAction -> copy(addedBankPreset = null)
         is AddBankAction.OnSaveSuccess -> copy(addedBankPreset = action.bank)
         else -> this

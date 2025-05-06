@@ -1,4 +1,4 @@
-package su.tease.project.feature.cacheback.presentation.add.component
+package su.tease.project.feature.cacheback.presentation.save.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -10,7 +10,7 @@ import su.tease.project.design.component.controls.edit.DFNumberField
 import su.tease.project.design.component.controls.form.DFFormElement
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.CacheBackSize
-import su.tease.project.feature.cacheback.presentation.add.utls.FormFieldError
+import su.tease.project.feature.cacheback.presentation.save.utls.FormFieldError
 
 @Composable
 fun SizeSelect(

@@ -13,7 +13,7 @@ import su.tease.project.feature.cacheback.presentation.list.component.CacheBackI
 fun Bank.toUi(date: CacheBackDate, store: Store<*>): LazyListItems = buildPersistentList {
     val bank = this@toUi
     add(BankItem(bank, store))
-    cacheBacks.forEach { add(CacheBackItem(it, store)) }
+    cacheBacks.forEach { add(CacheBackItem(bank, it, store)) }
     add(BankAddMoreItem(date, bank, store))
 }
 
