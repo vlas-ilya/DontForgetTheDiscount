@@ -5,15 +5,20 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import kotlinx.parcelize.Parcelize
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
@@ -53,6 +58,12 @@ class AddBankPage(
 
         val status = selectAsState(AddBankState::status).value
 
+        val focusRequester = remember { FocusRequester() }
+
+        LaunchedEffect(Unit) {
+            focusRequester.requestFocus()
+        }
+
         LaunchedEffect(status) {
             if (status == LoadingStatus.Success) {
                 dispatch(AddBankAction.OnInit)
@@ -64,6 +75,7 @@ class AddBankPage(
             modifier = Modifier
                 .padding(Theme.sizes.padding8)
                 .padding(top = Theme.sizes.padding6)
+                .padding(WindowInsets.ime.asPaddingValues())
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -79,6 +91,7 @@ class AddBankPage(
                 Spacer(modifier = Modifier.width(Theme.sizes.padding8))
                 NameEditText(
                     nameState = form.name,
+                    focusRequester = focusRequester,
                     onChange = { form.setName(it) },
                     error = form.ui { nameError },
                     modifier = Modifier.fillMaxWidth(),

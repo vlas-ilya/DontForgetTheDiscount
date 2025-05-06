@@ -5,12 +5,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -25,7 +31,6 @@ import su.tease.project.core.utils.date.DateProvider
 import su.tease.project.core.utils.ext.RedirectState
 import su.tease.project.core.utils.ext.mapPersistent
 import su.tease.project.feature.cacheback.R
-import su.tease.project.feature.cacheback.domain.entity.CacheBackDate
 import su.tease.project.feature.cacheback.domain.entity.defaultCacheBackDate
 import su.tease.project.feature.cacheback.domain.mapper.toCacheBackDate
 import su.tease.project.feature.cacheback.domain.usecase.AddCacheBackAction
@@ -107,6 +112,9 @@ class AddCacheBackPage(
             modifier = Modifier
                 .padding(Theme.sizes.padding8)
                 .padding(top = Theme.sizes.padding6)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(WindowInsets.ime.asPaddingValues())
         ) {
             DateSelect(
                 dateState = form.date,

@@ -2,9 +2,14 @@ package su.tease.project.feature.cacheback.presentation.select.code
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
@@ -66,6 +71,8 @@ class CodesSelectPage(
                 .padding(Theme.sizes.padding8)
                 .padding(top = Theme.sizes.padding6)
                 .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(WindowInsets.ime.asPaddingValues())
         ) {
             CodeSelectPageInput(
                 code = code,

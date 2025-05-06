@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import su.tease.project.core.utils.ext.map
 import su.tease.project.design.component.controls.edit.DFTextField
@@ -14,6 +16,7 @@ import su.tease.project.feature.cacheback.presentation.select.bank.utils.FormFie
 @Composable
 fun NameEditText(
     nameState: State<String>,
+    focusRequester: FocusRequester,
     onChange: (String) -> Unit,
     error: State<FormFieldError?>,
     modifier: Modifier = Modifier,
@@ -31,7 +34,9 @@ fun NameEditText(
             text = nameState.map { it },
             placeholder = stringResource(R.string.item_add_bank_name_placeholder),
             onChange = { onChange(it) },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .focusRequester(focusRequester),
         )
     }
 }
