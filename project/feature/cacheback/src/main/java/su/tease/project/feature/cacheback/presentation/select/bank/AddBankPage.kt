@@ -22,6 +22,7 @@ import su.tease.project.core.mvi.api.state.LoadingStatus
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.ext.RedirectState
 import su.tease.project.feature.cacheback.R
+import su.tease.project.feature.cacheback.domain.usecase.AddBankAction
 import su.tease.project.feature.cacheback.domain.usecase.AddBankUseCase
 import su.tease.project.feature.cacheback.presentation.reducer.AddBankReducer
 import su.tease.project.feature.cacheback.presentation.reducer.AddBankState
@@ -38,6 +39,10 @@ class AddBankPage(
 
     private val form = AddBankForm()
 
+    init {
+        dispatch(AddBankAction.OnInit)
+    }
+
     @Composable
     override operator fun invoke() {
         LaunchedEffect(Unit) { rootConfig { copy(isFullscreen = true) } }
@@ -49,7 +54,10 @@ class AddBankPage(
         val status = selectAsState(AddBankState::status).value
 
         LaunchedEffect(status) {
-            if (status == LoadingStatus.Success) back()
+            if (status == LoadingStatus.Success) {
+                dispatch(AddBankAction.OnInit)
+                back()
+            }
         }
 
         Column(

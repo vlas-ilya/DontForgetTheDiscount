@@ -49,7 +49,7 @@ import su.tease.project.feature.cacheback.domain.usecase.AddCacheBackAction as A
 
 class AddCacheBackPage(
     store: Store<*>,
-    target: Target,
+    private val target: Target,
     private val dateProvider: DateProvider,
     private val addCacheBackUseCase: AddCacheBackUseCase,
 ) : BasePageComponent(store) {
@@ -76,6 +76,7 @@ class AddCacheBackPage(
             if (status != LoadingStatus.Success) return@LaunchedEffect
 
             if (form.addMore.value.not()) {
+                dispatch(Add.OnInit(target.addCacheBackState))
                 back()
             } else {
                 val bank = form.bank.value
