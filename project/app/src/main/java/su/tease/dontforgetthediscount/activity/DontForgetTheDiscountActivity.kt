@@ -38,9 +38,9 @@ class DontForgetTheDiscountActivity : AppCompatActivity() {
         switchTheme(ThemeValue.LIGHT)
 
         setContent {
-            val scope = rememberCoroutineScope()
-            val finished = remember { store.select<NavigationState, Boolean>(scope) { finished } }
-                .collectAsState().value
+            val finished = remember { store.select<NavigationState, Boolean> { finished } }
+                .collectAsState()
+                .value
 
             LaunchedEffect(finished) {
                 if (finished) finish()

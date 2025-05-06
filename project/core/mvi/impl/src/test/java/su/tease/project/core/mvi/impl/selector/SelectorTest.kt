@@ -2,8 +2,8 @@
 
 package su.tease.project.core.mvi.impl.selector
 
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestScope
@@ -18,6 +18,7 @@ import su.tease.project.core.mvi.impl.stub.stub2.StubState2
 import su.tease.project.core.mvi.impl.stub.stub2.StubState2VO
 import su.tease.project.core.mvi.impl.stub.stub2.toVO
 
+@ExperimentalCoroutinesApi
 class SelectorTest {
 
     @Test
@@ -28,31 +29,24 @@ class SelectorTest {
             val expectedListStringValue = listOf("42")
 
             val store = createStubStore()
-            val data = store.select(this, StubState2::intValue).stateIn(TestScope())
+            val dispatch = store.dispatcher::dispatch
+            val data = store.select(StubState2::intValue)
 
             val stateUpdates = mutableListOf<Int>()
             val job = launch { data.toList(stateUpdates) }
 
             delay(100)
-            store.dispatcher.dispatch(StubAction2.OnUpdateIntValue(expectedIntValue)).join()
+            dispatch(StubAction2.OnUpdateIntValue(expectedIntValue)).join()
             delay(100)
-            store.dispatcher.dispatch(StubAction2.OnUpdateStringValue(expectedStringValue)).join()
+            dispatch(StubAction2.OnUpdateStringValue(expectedStringValue)).join()
             delay(100)
-            store.dispatcher.dispatch(StubAction2.OnUpdateListStringValue(expectedListStringValue))
-                .join()
+            dispatch(StubAction2.OnUpdateListStringValue(expectedListStringValue)).join()
             delay(100)
-            store.dispatcher.dispatch(StubAction2.OnAddToListStringValue(expectedStringValue))
-                .join()
+            dispatch(StubAction2.OnAddToListStringValue(expectedStringValue)).join()
             delay(100)
 
-            assertEquals(
-                0,
-                stateUpdates[0],
-            )
-            assertEquals(
-                expectedIntValue,
-                stateUpdates[1],
-            )
+            assertEquals(0, stateUpdates[0])
+            assertEquals(expectedIntValue, stateUpdates[1])
             job.cancel()
         }
 
@@ -64,21 +58,20 @@ class SelectorTest {
             val expectedListStringValue = listOf("42")
 
             val store = createStubStore()
-            val data = store.select<StubState2>(this).stateIn(TestScope())
+            val dispatch = store.dispatcher::dispatch
+            val data = store.select<StubState2>()
 
             val stateUpdates = mutableListOf<StubState2>()
             val job = launch { data.toList(stateUpdates) }
 
             delay(100)
-            store.dispatcher.dispatch(StubAction2.OnUpdateIntValue(expectedIntValue)).join()
+            dispatch(StubAction2.OnUpdateIntValue(expectedIntValue)).join()
             delay(100)
-            store.dispatcher.dispatch(StubAction2.OnUpdateStringValue(expectedStringValue)).join()
+            dispatch(StubAction2.OnUpdateStringValue(expectedStringValue)).join()
             delay(100)
-            store.dispatcher.dispatch(StubAction2.OnUpdateListStringValue(expectedListStringValue))
-                .join()
+            dispatch(StubAction2.OnUpdateListStringValue(expectedListStringValue)).join()
             delay(100)
-            store.dispatcher.dispatch(StubAction2.OnAddToListStringValue(expectedStringValue))
-                .join()
+            dispatch(StubAction2.OnAddToListStringValue(expectedStringValue)).join()
             delay(100)
 
             assertEquals(
@@ -132,22 +125,21 @@ class SelectorTest {
             val expectedListStringValue = listOf("42")
 
             val store = createStubStore()
+            val dispatch = store.dispatcher::dispatch
             val stubSelector2 = Selector<StubState2, StubState2VO> { toVO() }
-            val data = store.select(this, stubSelector2).stateIn(TestScope())
+            val data = store.select(stubSelector2)
 
             val stateUpdates = mutableListOf<StubState2VO>()
             val job = launch { data.toList(stateUpdates) }
 
             delay(100)
-            store.dispatcher.dispatch(StubAction2.OnUpdateIntValue(expectedIntValue)).join()
+            dispatch(StubAction2.OnUpdateIntValue(expectedIntValue)).join()
             delay(100)
-            store.dispatcher.dispatch(StubAction2.OnUpdateStringValue(expectedStringValue)).join()
+            dispatch(StubAction2.OnUpdateStringValue(expectedStringValue)).join()
             delay(100)
-            store.dispatcher.dispatch(StubAction2.OnUpdateListStringValue(expectedListStringValue))
-                .join()
+            dispatch(StubAction2.OnUpdateListStringValue(expectedListStringValue)).join()
             delay(100)
-            store.dispatcher.dispatch(StubAction2.OnAddToListStringValue(expectedStringValue))
-                .join()
+            dispatch(StubAction2.OnAddToListStringValue(expectedStringValue)).join()
             delay(100)
 
             assertEquals(
@@ -201,21 +193,20 @@ class SelectorTest {
             val expectedListStringValue = listOf("42")
 
             val store = createStubStore()
-            val data = store.select<StubState2, StubState2VO>(this) { toVO() }.stateIn(TestScope())
+            val dispatch = store.dispatcher::dispatch
+            val data = store.select<StubState2, StubState2VO>() { toVO() }
 
             val stateUpdates = mutableListOf<StubState2VO>()
             val job = launch { data.toList(stateUpdates) }
 
             delay(100)
-            store.dispatcher.dispatch(StubAction2.OnUpdateIntValue(expectedIntValue)).join()
+            dispatch(StubAction2.OnUpdateIntValue(expectedIntValue)).join()
             delay(100)
-            store.dispatcher.dispatch(StubAction2.OnUpdateStringValue(expectedStringValue)).join()
+            dispatch(StubAction2.OnUpdateStringValue(expectedStringValue)).join()
             delay(100)
-            store.dispatcher.dispatch(StubAction2.OnUpdateListStringValue(expectedListStringValue))
-                .join()
+            dispatch(StubAction2.OnUpdateListStringValue(expectedListStringValue)).join()
             delay(100)
-            store.dispatcher.dispatch(StubAction2.OnAddToListStringValue(expectedStringValue))
-                .join()
+            dispatch(StubAction2.OnAddToListStringValue(expectedStringValue)).join()
             delay(100)
 
             assertEquals(

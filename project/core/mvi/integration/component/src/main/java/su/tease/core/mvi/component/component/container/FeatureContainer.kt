@@ -38,8 +38,7 @@ class FeatureContainer(
         rootConfig: RootConfig,
         appConfig: AppConfig,
     ) {
-        val scope = rememberCoroutineScope()
-        val (id, name) = remember { store.select(scope, featureIdName()) }.collectAsState().value
+        val (id, name) = remember { store.select(featureIdName()) }.collectAsState().value
         val feature = remember(id, name) { navigationTargetResolver.resolve(id, name) }
 
         val rootConfigState = remember(feature, rootConfig) { mutableStateOf(rootConfig) }

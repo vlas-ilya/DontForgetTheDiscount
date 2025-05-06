@@ -72,8 +72,7 @@ class AppContainer(
     @Composable
     @Suppress("LongMethod", "ModifierMissing")
     fun ComposeAppContainer(rootConfig: RootConfig, hasSystemNavigationBar: Boolean) {
-        val scope = rememberCoroutineScope()
-        val (id, name) = remember { store.select(scope, appIdName()) }.collectAsState().value
+        val (id, name) = remember { store.select(appIdName()) }.collectAsState().value
         val app = remember(id, name) { navigationTargetResolver.resolve(id, name) }
 
         val rootConfigState = remember(app, rootConfig) { mutableStateOf(rootConfig) }
