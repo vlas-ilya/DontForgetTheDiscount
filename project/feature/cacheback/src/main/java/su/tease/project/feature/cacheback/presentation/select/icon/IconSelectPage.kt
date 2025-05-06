@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,8 +38,8 @@ class IconSelectPage(
 
     @Composable
     override operator fun invoke() {
-        LaunchedEffect(Unit) { rootConfig { copy(isFullscreen = true) } }
-        LaunchedEffect(Unit) { appConfig { copy(titleRes = target.pageTitle) } }
+        RootConfig { copy(isFullscreen = true) }
+        AppConfig { copy(titleRes = target.pageTitle) }
 
         val icons by memoize { target.iconType.getIcons(dictionaryInterceptor) }
 

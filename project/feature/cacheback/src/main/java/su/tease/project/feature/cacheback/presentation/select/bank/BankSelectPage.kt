@@ -33,19 +33,17 @@ class BankSelectPage(
 
     @Composable
     override operator fun invoke() {
-        LaunchedEffect(Unit) { rootConfig { copy(isFullscreen = true) } }
-        LaunchedEffect(Unit) {
-            appConfig {
-                copy(
-                    titleRes = target.pageTitle,
-                    floatingButtons = persistentListOf(
-                        DFPageFloatingButton(
-                            icon = R.drawable.plus,
-                            onClick = { forward(AddBankPage()) }
-                        )
+        RootConfig { copy(isFullscreen = true) }
+        AppConfig {
+            copy(
+                titleRes = target.pageTitle,
+                floatingButtons = persistentListOf(
+                    DFPageFloatingButton(
+                        icon = R.drawable.plus,
+                        onClick = { forward(AddBankPage()) }
                     )
                 )
-            }
+            )
         }
 
         val banks by memoize { dictionaryInterceptor.banks() }

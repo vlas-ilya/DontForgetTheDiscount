@@ -50,8 +50,8 @@ class AddBankPage(
 
     @Composable
     override operator fun invoke() {
-        LaunchedEffect(Unit) { rootConfig { copy(isFullscreen = true) } }
-        LaunchedEffect(Unit) { appConfig { copy(titleRes = R.string.page_add_bank_title) } }
+        RootConfig { copy(isFullscreen = true) }
+        AppConfig { copy(titleRes = R.string.page_add_bank_title) }
 
         RedirectState(selectAsState(AddBankState::icon), form.icon)
         RedirectState(selectAsState(AddBankState::error), form.error)

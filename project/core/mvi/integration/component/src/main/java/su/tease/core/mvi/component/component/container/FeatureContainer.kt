@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,6 +17,8 @@ import su.tease.core.mvi.component.resolver.NavigationTargetResolver
 import su.tease.project.core.mvi.api.selector.select
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.navigation.selector.featureIdName
+import su.tease.project.core.utils.ext.map
+import su.tease.project.core.utils.function.Supplier
 
 @Immutable
 data class FeatureConfig(
@@ -35,22 +38,12 @@ class FeatureContainer(
     @Composable
     @Suppress("ModifierMissing")
     fun ComposeFeatureContainer(
-        rootConfig: RootConfig,
-        appConfig: AppConfig,
+        rootConfig: State<Supplier<RootConfig>>,
+        appConfig: State<Supplier<AppConfig>>,
     ) {
         val scope = rememberCoroutineScope()
         val (id, name) = remember { store.select(scope, featureIdName()) }.collectAsState().value
         val feature = remember(id, name) { navigationTargetResolver.resolve(id, name) }
-
-        val rootConfigState = remember(feature, rootConfig) { mutableStateOf(rootConfig) }
-        val appConfigState = remember(feature, appConfig) { mutableStateOf(appConfig) }
-        val featureConfigState = remember(feature) { mutableStateOf(FeatureConfig()) }
-
-        LaunchedEffect(feature, rootConfigState, appConfigState, featureConfigState) {
-            feature.setRootConfigState(rootConfigState)
-            feature.setAppConfigState(appConfigState)
-            feature.setFeatureConfigState(featureConfigState)
-        }
 
         val (tmp) = actualFeatureConfigState.value
         LaunchedEffect(tmp) {
@@ -66,9 +59,9 @@ class FeatureContainer(
             }
             feature {
                 pageContainer.ComposePageContainer(
-                    rootConfig = rootConfigState.value,
-                    appConfig = appConfigState.value,
-                    featureConfig = featureConfigState.value,
+                    rootConfig = feature.rootConfig.map { Supplier { it(rootConfig.value()) } },
+                    appConfig = feature.appConfig.map { Supplier { it(appConfig.value()) } },
+                    featureConfig = feature.featureConfig.map { Supplier { it(FeatureConfig()) } },
                 )
             }
         }

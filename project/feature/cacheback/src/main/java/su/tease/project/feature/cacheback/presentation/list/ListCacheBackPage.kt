@@ -85,57 +85,55 @@ class ListCacheBackPage(
             }
         }
 
-        LaunchedEffect(isScrollTopButtonVisible.value, scrollDirection.value) {
-            appConfig {
-                copy(
-                    titleRes = R.string.page_cache_back_list_title,
-                    floatingButtons = buildPersistentList {
-                        add(
-                            DFPageFloatingButton(
-                                icon = RIcons.drawable.plus,
-                                onClick = {
-                                    forward(
-                                        SaveCacheBackFeature(
-                                            addFormState = SaveCacheBackState(
-                                                date = date.value
-                                            )
+        AppConfig(isScrollTopButtonVisible.value, scrollDirection.value) {
+            copy(
+                titleRes = R.string.page_cache_back_list_title,
+                floatingButtons = buildPersistentList {
+                    add(
+                        DFPageFloatingButton(
+                            icon = RIcons.drawable.plus,
+                            onClick = {
+                                forward(
+                                    SaveCacheBackFeature(
+                                        addFormState = SaveCacheBackState(
+                                            date = date.value
                                         )
                                     )
+                                )
+                            }
+                        )
+                    )
+                    add(
+                        DFPageFloatingButton(
+                            icon = RIcons.drawable.angle_up,
+                            onClick = {
+                                scope.launch {
+                                    resetScroll()
+                                    lazyListState.animateScrollToItem(0)
                                 }
-                            )
+                            },
+                            type = DFPageFloatingButton.Type.GRAY,
+                            isVisible = isScrollTopButtonVisible.value
                         )
-                        add(
-                            DFPageFloatingButton(
-                                icon = RIcons.drawable.angle_up,
-                                onClick = {
-                                    scope.launch {
-                                        resetScroll()
-                                        lazyListState.animateScrollToItem(0)
-                                    }
-                                },
-                                type = DFPageFloatingButton.Type.GRAY,
-                                isVisible = isScrollTopButtonVisible.value
-                            )
+                    )
+                },
+                additionalTitleContent = {
+                    AnimatedVisibility(
+                        visible = scrollDirection.value == ScrollDirection.BOTTOM,
+                        enter = fadeIn() + expandVertically(),
+                        exit = fadeOut() + shrinkVertically(),
+                    ) {
+                        DFDropdownMenu(
+                            selected = date.value,
+                            items = dates.value,
+                            onItemClick = { dispatch(LoadBankListAction.OnDateSelect(it)) },
+                            text = { dateProvider.toText(it.toMonthYear()) },
+                            modifier = Modifier.padding(bottom = Theme.sizes.padding4),
+                            background = Theme.colors.background1,
                         )
-                    },
-                    additionalTitleContent = {
-                        AnimatedVisibility(
-                            visible = scrollDirection.value == ScrollDirection.BOTTOM,
-                            enter = fadeIn() + expandVertically(),
-                            exit = fadeOut() + shrinkVertically(),
-                        ) {
-                            DFDropdownMenu(
-                                selected = date.value,
-                                items = dates.value,
-                                onItemClick = { dispatch(LoadBankListAction.OnDateSelect(it)) },
-                                text = { dateProvider.toText(it.toMonthYear()) },
-                                modifier = Modifier.padding(bottom = Theme.sizes.padding4),
-                                background = Theme.colors.background1,
-                            )
-                        }
                     }
-                )
-            }
+                }
+            )
         }
 
         val list = selectAsState<ListCacheBackState, LazyListItems> { list.toUi(date.value, store) }

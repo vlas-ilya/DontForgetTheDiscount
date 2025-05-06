@@ -1,17 +1,20 @@
 package su.tease.core.mvi.component.component.impl
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import su.tease.core.mvi.component.component.container.AppConfig
 import su.tease.core.mvi.component.component.container.FeatureConfig
 import su.tease.core.mvi.component.component.container.RootConfig
 import su.tease.project.core.mvi.api.store.Store
+import su.tease.project.core.utils.function.Transformer
 
 abstract class BaseFeatureComponent(store: Store<*>) : BaseNavigationMviComponent(store) {
 
-    private lateinit var rootConfigState: MutableState<RootConfig>
-    private lateinit var appConfigState: MutableState<AppConfig>
-    private lateinit var featureConfigState: MutableState<FeatureConfig>
+    internal val rootConfig = mutableStateOf<Transformer<RootConfig>>(Transformer { it })
+    internal val appConfig = mutableStateOf<Transformer<AppConfig>>(Transformer { it })
+    internal val featureConfig = mutableStateOf<Transformer<FeatureConfig>>(Transformer { it })
 
     @Composable
     @Deprecated(
@@ -26,27 +29,24 @@ abstract class BaseFeatureComponent(store: Store<*>) : BaseNavigationMviComponen
     @Composable
     open operator fun invoke(child: @Composable () -> Unit) = child()
 
-    internal fun setRootConfigState(rootConfigState: MutableState<RootConfig>) {
-        this.rootConfigState = rootConfigState
+    @Composable
+    fun RootConfig(vararg key: Any, builder: RootConfig.() -> RootConfig) {
+        LaunchedEffect(*key, builder) {
+            rootConfig.value = Transformer { builder(it) }
+        }
     }
 
-    internal fun setAppConfigState(appConfigState: MutableState<AppConfig>) {
-        this.appConfigState = appConfigState
+    @Composable
+    fun AppConfig(vararg key: Any, builder: AppConfig.() -> AppConfig) {
+        LaunchedEffect(*key, builder) {
+            appConfig.value = Transformer { builder(it) }
+        }
     }
 
-    internal fun setFeatureConfigState(featureConfigState: MutableState<FeatureConfig>) {
-        this.featureConfigState = featureConfigState
-    }
-
-    fun rootConfig(builder: RootConfig.() -> RootConfig) {
-        rootConfigState.value = builder(rootConfigState.value)
-    }
-
-    fun appConfig(builder: AppConfig.() -> AppConfig) {
-        appConfigState.value = builder(appConfigState.value)
-    }
-
-    fun featureConfig(builder: FeatureConfig.() -> FeatureConfig) {
-        featureConfigState.value = builder(featureConfigState.value)
+    @Composable
+    fun FeatureConfig(vararg key: Any, builder: FeatureConfig.() -> FeatureConfig) {
+        LaunchedEffect(*key, builder) {
+            featureConfig.value = Transformer { builder(it) }
+        }
     }
 }

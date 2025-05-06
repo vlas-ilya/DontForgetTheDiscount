@@ -23,6 +23,7 @@ import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.ext.hideSystemUI
 import su.tease.project.core.utils.ext.isNavigationBarVisible
 import su.tease.project.core.utils.ext.showSystemUI
+import su.tease.project.core.utils.function.Supplier
 
 @Immutable
 data class RootConfig(
@@ -30,7 +31,7 @@ data class RootConfig(
 )
 
 private val actualRootConfigState = mutableStateOf(RootConfig())
-fun commitConfigRoot(config: RootConfig) {
+fun commitRootConfig(config: RootConfig) {
     actualRootConfigState.value = config
 }
 
@@ -42,7 +43,7 @@ class RootContainer(
     @Composable
     @Suppress("ModifierMissing")
     fun ComposeRootContainer() {
-        val rootConfigState = remember { mutableStateOf(RootConfig()) }
+        val rootConfig = remember { mutableStateOf(Supplier { RootConfig() }) }
 
         val isFullscreen = actualRootConfigState.value.isFullscreen
         LaunchedEffect(isFullscreen) {
@@ -71,10 +72,10 @@ class RootContainer(
 
             val hasSystemNavigationBar =
                 actualRootConfigState.value.isFullscreen.not() ||
-                    windowProvider().isNavigationBarVisible()
+                        windowProvider().isNavigationBarVisible()
 
             appContainer.ComposeAppContainer(
-                rootConfig = rootConfigState.value,
+                rootConfig = rootConfig,
                 hasSystemNavigationBar = hasSystemNavigationBar,
             )
         }

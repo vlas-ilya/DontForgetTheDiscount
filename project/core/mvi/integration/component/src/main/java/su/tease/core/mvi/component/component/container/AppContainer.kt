@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,8 +34,10 @@ import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.navigation.action.NavigationAction
 import su.tease.project.core.mvi.navigation.selector.appIdName
 import su.tease.project.core.utils.ext.choose
+import su.tease.project.core.utils.ext.map
 import su.tease.project.core.utils.ext.runIf
 import su.tease.project.core.utils.ext.unit
+import su.tease.project.core.utils.function.Supplier
 import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.design.component.controls.page.DFPageFloatingButton
 
@@ -71,18 +74,13 @@ class AppContainer(
 ) {
     @Composable
     @Suppress("LongMethod", "ModifierMissing")
-    fun ComposeAppContainer(rootConfig: RootConfig, hasSystemNavigationBar: Boolean) {
+    fun ComposeAppContainer(
+        rootConfig: State<Supplier<RootConfig>>,
+        hasSystemNavigationBar: Boolean
+    ) {
         val scope = rememberCoroutineScope()
         val (id, name) = remember { store.select(scope, appIdName()) }.collectAsState().value
         val app = remember(id, name) { navigationTargetResolver.resolve(id, name) }
-
-        val rootConfigState = remember(app, rootConfig) { mutableStateOf(rootConfig) }
-        val appConfigState = remember(app) { mutableStateOf(AppConfig()) }
-
-        LaunchedEffect(app, rootConfigState, appConfigState) {
-            app.setRootConfigState(rootConfigState)
-            app.setAppConfigState(appConfigState)
-        }
 
         val (
             hasNavigationBar,
@@ -110,8 +108,8 @@ class AppContainer(
             if (!app.inPage) {
                 app {
                     featureContainer.ComposeFeatureContainer(
-                        rootConfig = rootConfigState.value,
-                        appConfig = appConfigState.value,
+                        rootConfig = app.rootConfig.map { Supplier { it(rootConfig.value()) } },
+                        appConfig = app.appConfig.map { Supplier { it(AppConfig()) } },
                     )
                 }
             } else {
@@ -146,8 +144,8 @@ class AppContainer(
                 ) {
                     app {
                         featureContainer.ComposeFeatureContainer(
-                            rootConfig = rootConfigState.value,
-                            appConfig = appConfigState.value,
+                            rootConfig = app.rootConfig.map { Supplier { it(rootConfig.value()) } },
+                            appConfig = app.appConfig.map { Supplier { it(AppConfig()) } },
                         )
                     }
                 }

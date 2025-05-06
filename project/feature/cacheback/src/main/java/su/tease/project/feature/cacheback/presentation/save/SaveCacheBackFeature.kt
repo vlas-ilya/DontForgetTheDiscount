@@ -1,7 +1,6 @@
 package su.tease.project.feature.cacheback.presentation.save
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import kotlinx.parcelize.Parcelize
 import su.tease.core.mvi.component.component.container.AppAction
 import su.tease.core.mvi.component.component.impl.BaseFeatureComponent
@@ -17,21 +16,15 @@ class SaveCacheBackFeature(
 
     @Composable
     override operator fun invoke(child: @Composable () -> Unit) {
-        LaunchedEffect(Unit) {
-            rootConfig {
-                copy(
-                    isFullscreen = true
+        RootConfig { copy(isFullscreen = true) }
+        AppConfig {
+            copy(
+                hasNavigationBar = false,
+                action = AppAction(
+                    icon = RIcons.drawable.cross_small,
+                    onClick = ::onClosePressed,
                 )
-            }
-            appConfig {
-                copy(
-                    hasNavigationBar = false,
-                    action = AppAction(
-                        icon = RIcons.drawable.cross_small,
-                        onClick = ::onClosePressed,
-                    )
-                )
-            }
+            )
         }
 
         child()

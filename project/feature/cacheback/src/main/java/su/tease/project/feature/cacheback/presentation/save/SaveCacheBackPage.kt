@@ -89,13 +89,13 @@ class SaveCacheBackPage(
 
     @Composable
     override operator fun invoke() {
-        LaunchedEffect(Unit) {
-            appConfig {
-                (target.saveCacheBackState.id == null).choose(
-                    copy(titleRes = R.string.page_save_cache_back_title_add),
-                    copy(titleRes = R.string.page_save_cache_back_title_edit)
+        AppConfig {
+            copy(
+                titleRes = (target.saveCacheBackState.id == null).choose(
+                    R.string.page_save_cache_back_title_add,
+                    R.string.page_save_cache_back_title_edit,
                 )
-            }
+            )
         }
 
         val status = selectAsState(SaveCacheBackState::status).value

@@ -1,7 +1,6 @@
 package su.tease.project.feature.cacheback.presentation.select.text
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import kotlinx.parcelize.Parcelize
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
@@ -15,8 +14,8 @@ class TextSelectPage(
 
     @Composable
     override operator fun invoke() {
-        LaunchedEffect(Unit) { rootConfig { copy(isFullscreen = true) } }
-        LaunchedEffect(Unit) { appConfig { copy(title = target.pageTitle) } }
+        RootConfig { copy(isFullscreen = true) }
+        AppConfig { copy(title = target.pageTitle) }
     }
 
     @Parcelize
