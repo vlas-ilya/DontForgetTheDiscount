@@ -25,8 +25,10 @@ import su.tease.project.core.utils.date.DateProvider
 import su.tease.project.core.utils.ext.RedirectState
 import su.tease.project.core.utils.ext.mapPersistent
 import su.tease.project.feature.cacheback.R
+import su.tease.project.feature.cacheback.domain.entity.CacheBackDate
 import su.tease.project.feature.cacheback.domain.entity.defaultCacheBackDate
 import su.tease.project.feature.cacheback.domain.mapper.toCacheBackDate
+import su.tease.project.feature.cacheback.domain.usecase.AddCacheBackAction
 import su.tease.project.feature.cacheback.domain.usecase.AddCacheBackUseCase
 import su.tease.project.feature.cacheback.presentation.add.component.BankSelect
 import su.tease.project.feature.cacheback.presentation.add.component.CodesSelect
@@ -109,7 +111,7 @@ class AddCacheBackPage(
             DateSelect(
                 dateState = form.date,
                 dates = dates,
-                onSelect = { form.date.value = it },
+                onSelect = { dispatch(AddCacheBackAction.OnSetDate(it)) },
                 modifier = Modifier.fillMaxWidth(),
                 dateProvider = dateProvider,
             )

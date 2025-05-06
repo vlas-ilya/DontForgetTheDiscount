@@ -29,6 +29,7 @@ interface AddCacheBackUseCase : MviUseCase<AddCacheBackRequest>
 @Parcelize
 sealed class AddCacheBackAction : PlainAction {
     data class OnInit(val addFormState: AddCacheBackState) : AddCacheBackAction()
+    data class OnSetDate(val date: CacheBackDate) : AddCacheBackAction()
     data object OnSave : AddCacheBackAction()
     data class OnSaveSuccess(val cacheBack: CacheBack) : AddCacheBackAction()
     data object OnSaveFail : AddCacheBackAction()

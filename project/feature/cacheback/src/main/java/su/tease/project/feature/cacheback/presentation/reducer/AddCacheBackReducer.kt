@@ -20,6 +20,7 @@ import su.tease.project.feature.cacheback.domain.entity.CacheBackSize
 import su.tease.project.feature.cacheback.domain.entity.defaultCacheBackDate
 import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
 import su.tease.project.feature.cacheback.domain.entity.preset.IconPreset
+import su.tease.project.feature.cacheback.domain.usecase.AddCacheBackAction
 import su.tease.project.feature.cacheback.presentation.select.bank.BankSelectPage
 import su.tease.project.feature.cacheback.presentation.select.code.CodesSelectPage
 import su.tease.project.feature.cacheback.presentation.select.icon.IconSelectPage
@@ -55,6 +56,7 @@ class AddCacheBackReducer : Reducer<AddCacheBackState> {
         is Add.OnSave -> copy(status = Loading)
         is Add.OnSaveSuccess -> AddCacheBackState(status = Success)
         is Add.OnSaveFail -> copy(status = Failed)
+        is AddCacheBackAction.OnSetDate -> copy(date = action.date)
     }
 
     private fun AddCacheBackState.onBankSelect(action: BankSelectPage.OnSelectAction) =

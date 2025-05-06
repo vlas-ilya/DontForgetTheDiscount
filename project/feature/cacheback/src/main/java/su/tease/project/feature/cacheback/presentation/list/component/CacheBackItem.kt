@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.store.Store
+import su.tease.project.core.utils.ext.runIf
 import su.tease.project.design.component.controls.icon.DFIconButton
 import su.tease.project.design.component.controls.icon.DFIconButtonSize
 import su.tease.project.design.component.controls.image.DFImage
@@ -70,12 +71,14 @@ data class CacheBackItem(
                     style = Theme.fonts.text,
                 )
             }
-            Spacer(modifier = Modifier.width(Theme.sizes.padding4))
-            DFIconButton(
-                icon = RIcons.drawable.comment_info,
-                size = DFIconButtonSize.S,
-                onClick = {}
-            )
+            runIf(cacheBack.info.value.isNotBlank() && cacheBack.codes.isNotEmpty()) {
+                Spacer(modifier = Modifier.width(Theme.sizes.padding4))
+                DFIconButton(
+                    icon = RIcons.drawable.comment_info,
+                    size = DFIconButtonSize.S,
+                    onClick = {}
+                )
+            }
         }
     }
 }
