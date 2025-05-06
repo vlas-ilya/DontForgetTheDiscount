@@ -6,6 +6,7 @@ import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.clean.doman.usecase.MviUseCase
 import su.tease.project.feature.cacheback.domain.entity.CacheBack
 import su.tease.project.feature.cacheback.domain.entity.CacheBackCode
+import su.tease.project.feature.cacheback.domain.entity.CacheBackDate
 import su.tease.project.feature.cacheback.domain.entity.CacheBackInfo
 import su.tease.project.feature.cacheback.domain.entity.CacheBackName
 import su.tease.project.feature.cacheback.domain.entity.CacheBackSize
@@ -20,6 +21,7 @@ data class AddCacheBackRequest(
     val icon: IconPreset,
     val size: CacheBackSize,
     val codes: PersistentList<CacheBackCode>,
+    val date: CacheBackDate,
 )
 
 interface AddCacheBackUseCase : MviUseCase<AddCacheBackRequest>

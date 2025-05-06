@@ -28,7 +28,7 @@ class SelectorTest {
             val expectedListStringValue = listOf("42")
 
             val store = createStubStore()
-            val data = store.select(StubState2::intValue).stateIn(TestScope())
+            val data = store.select(this, StubState2::intValue).stateIn(TestScope())
 
             val stateUpdates = mutableListOf<Int>()
             val job = launch { data.toList(stateUpdates) }
@@ -64,7 +64,7 @@ class SelectorTest {
             val expectedListStringValue = listOf("42")
 
             val store = createStubStore()
-            val data = store.select<StubState2>().stateIn(TestScope())
+            val data = store.select<StubState2>(this).stateIn(TestScope())
 
             val stateUpdates = mutableListOf<StubState2>()
             val job = launch { data.toList(stateUpdates) }
@@ -133,7 +133,7 @@ class SelectorTest {
 
             val store = createStubStore()
             val stubSelector2 = Selector<StubState2, StubState2VO> { toVO() }
-            val data = store.select(stubSelector2).stateIn(TestScope())
+            val data = store.select(this, stubSelector2).stateIn(TestScope())
 
             val stateUpdates = mutableListOf<StubState2VO>()
             val job = launch { data.toList(stateUpdates) }
@@ -201,7 +201,7 @@ class SelectorTest {
             val expectedListStringValue = listOf("42")
 
             val store = createStubStore()
-            val data = store.select<StubState2, StubState2VO> { toVO() }.stateIn(TestScope())
+            val data = store.select<StubState2, StubState2VO>(this) { toVO() }.stateIn(TestScope())
 
             val stateUpdates = mutableListOf<StubState2VO>()
             val job = launch { data.toList(stateUpdates) }

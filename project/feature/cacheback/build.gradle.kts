@@ -55,6 +55,7 @@ dependencies {
     // core
     implementation(libs.kotlin.collections.immutable)
     implementation(libs.kotlin.coroutines.core)
+    implementation(libs.timber)
     testImplementation(libs.junit)
     testImplementation(libs.kotlin.coroutines.test)
 

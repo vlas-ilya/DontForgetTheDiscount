@@ -5,7 +5,7 @@ import su.tease.core.mvi.component.component.impl.BaseFeatureComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.core.mvi.navigation.feature
 import su.tease.project.core.mvi.api.store.Store
-import su.tease.project.feature.cacheback.presentation.list.CacheBackListPage
+import su.tease.project.feature.cacheback.presentation.list.ListCacheBackPage
 
 class CacheBackFeature(
     store: Store<*>,
@@ -14,7 +14,7 @@ class CacheBackFeature(
     companion object {
         operator fun invoke() = feature(
             Target,
-            CacheBackListPage.Target,
+            ListCacheBackPage.Target,
         )
     }
 

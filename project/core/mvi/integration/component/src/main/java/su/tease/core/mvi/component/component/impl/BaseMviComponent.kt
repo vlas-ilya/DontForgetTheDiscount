@@ -5,6 +5,7 @@ package su.tease.core.mvi.component.component.impl
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.coroutines.Job
 import su.tease.core.mvi.component.component.Component
 import su.tease.project.core.mvi.api.action.Action
@@ -21,45 +22,24 @@ abstract class BaseMviComponent(
     @Composable
     protected inline fun <reified S : State, T> selectAsState(
         noinline selector: S.() -> T
-    ): ComposeState<T?> =
-        remember(store, selector) { store.select(selector) }.collectAsState(null)
+    ): ComposeState<T> {
+        val scope = rememberCoroutineScope()
+        return remember(store, selector) { store.select(scope, selector) }.collectAsState()
+    }
 
     @Composable
     protected inline fun <reified S : State, T> selectAsState(
         selector: Selector<S, T>,
-    ): ComposeState<T?> =
-        remember(store, selector) { store.select(selector) }.collectAsState(null)
+    ): ComposeState<T> {
+        val scope = rememberCoroutineScope()
+        return remember(store, selector) { store.select(scope, selector) }.collectAsState()
+    }
 
     @Composable
-    protected inline fun <reified S : State> selectAsState(): ComposeState<S?> =
-        remember(store, S::class) { store.select<S>() }.collectAsState(null)
-
-    @Composable
-    protected inline fun <reified S : State, T> selectAsState(
-        noinline selector: S.() -> T,
-        initial: T,
-    ): ComposeState<T> =
-        remember(store, selector) { store.select(selector) }.collectAsState(initial)
-
-    @Composable
-    protected inline fun <reified S : State, T> selectAsState(
-        selector: Selector<S, T>,
-        initial: T,
-    ): ComposeState<T> =
-        remember(store, selector) { store.select(selector) }.collectAsState(initial)
-
-    @Composable
-    protected inline fun <reified S : State, T> selectAsState(
-        initial: T,
-        selector: Selector<S, T>,
-    ): ComposeState<T> =
-        remember(store, selector) { store.select(selector) }.collectAsState(initial)
-
-    @Composable
-    protected inline fun <reified S : State> selectAsState(
-        initial: S,
-    ): ComposeState<S> =
-        remember(store, S::class) { store.select<S>() }.collectAsState(initial)
+    protected inline fun <reified S : State> selectAsState(): ComposeState<S> {
+        val scope = rememberCoroutineScope()
+        return remember(store, S::class) { store.select<S>(scope) }.collectAsState()
+    }
 
     protected fun dispatch(action: Action): Job = store.dispatcher.dispatch(action)
 }

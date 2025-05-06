@@ -13,11 +13,13 @@ import su.tease.project.design.component.controls.button.DFLinkButton
 import su.tease.project.design.component.controls.list.LazyListItem
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.Bank
+import su.tease.project.feature.cacheback.domain.entity.CacheBackDate
 import su.tease.project.feature.cacheback.domain.entity.preset.mapper.toPreset
 import su.tease.project.feature.cacheback.presentation.AddFormState
 import su.tease.project.feature.cacheback.presentation.add.AddCacheBackFeature
 
 data class BankAddMoreItem(
+    private val date: CacheBackDate,
     private val bankItem: Bank,
     private val store: Store<*>,
 ) : LazyListItem {
@@ -37,6 +39,7 @@ data class BankAddMoreItem(
                         NavigationAction.ForwardToFeature(
                             AddCacheBackFeature(
                                 AddFormState(
+                                    date = date,
                                     bank = bankItem.toPreset(),
                                 )
                             )

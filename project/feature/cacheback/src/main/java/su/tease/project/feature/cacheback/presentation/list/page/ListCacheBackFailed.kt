@@ -3,9 +3,11 @@
 package su.tease.project.feature.cacheback.presentation.list.page
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 
 @Composable
-fun CacheBackListFailed(
+fun ListCacheBackFailed(
+    error: State<Boolean>,
     onTryAgain: () -> Unit,
 ) {
 }

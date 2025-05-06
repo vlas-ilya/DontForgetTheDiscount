@@ -4,7 +4,7 @@ package su.tease.dontforgetthediscount.database.migration
 
 import su.tease.dontforgetthediscount.database.migration
 
-val migration3to4Init = migration(3, 4) {
+val migration3to4Codes = migration(3, 4) {
     execSQL(CREATE_TABLE_CODE_PRESET_ENTITY.trimIndent())
 }
 

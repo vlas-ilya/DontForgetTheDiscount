@@ -50,5 +50,6 @@ class AddCacheBackUseCaseImpl(
         icon = CacheBackIcon(icon.url),
         size = size,
         codes = codes,
+        date = date,
     )
 }

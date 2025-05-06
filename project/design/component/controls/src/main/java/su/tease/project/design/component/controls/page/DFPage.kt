@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.Dp
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import su.tease.design.theme.api.Theme
-import su.tease.project.core.utils.ext.choose
 
 @Composable
 @Suppress("LongParameterList")
@@ -38,8 +37,9 @@ fun DFPage(
 ) {
     val targetValueMax = Theme.sizes.round16.value
     val targetValueMin = 0F
-    val targetValue =  if (hasSystemNavigationBar) targetValueMax else targetValueMin
+    val targetValue = if (hasSystemNavigationBar) targetValueMax else targetValueMin
 
+    @Suppress("MagicNumber")
     val bottomRound by animateFloatAsState(
         targetValue = targetValue,
         label = "bottomRound",

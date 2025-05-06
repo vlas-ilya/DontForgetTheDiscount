@@ -20,7 +20,7 @@ import su.tease.project.feature.cacheback.domain.usecase.impl.LoadBankListUseCas
 import su.tease.project.feature.cacheback.presentation.CacheBackFeature
 import su.tease.project.feature.cacheback.presentation.add.AddCacheBackFeature
 import su.tease.project.feature.cacheback.presentation.add.AddCacheBackPage
-import su.tease.project.feature.cacheback.presentation.list.CacheBackListPage
+import su.tease.project.feature.cacheback.presentation.list.ListCacheBackPage
 import su.tease.project.feature.cacheback.presentation.select.bank.BankSelectPage
 import su.tease.project.feature.cacheback.presentation.select.code.CodesSelectPage
 import su.tease.project.feature.cacheback.presentation.select.icon.IconSelectPage
@@ -31,15 +31,15 @@ val cacheBackModule = module {
     factory<DictionaryRepository> { DictionaryRepositoryImpl(get(), get(), get()) }
     factory<DictionaryInterceptor> { DictionaryInterceptorImpl(get()) }
     factory<BankRepository> { BankRepositoryImpl(get(), get(), get()) }
-    factory<LoadBankListUseCase> { LoadBankListUseCaseImpl(get()) }
+    factory<LoadBankListUseCase> { LoadBankListUseCaseImpl(get(), get()) }
     factory<AddCacheBackUseCase> { AddCacheBackUseCaseImpl(get(), get()) }
     factory<AddCodeUseCase> { AddCodeUseCaseImpl(get(), get()) }
 
     feature<CacheBackFeature.Target> { CacheBackFeature(it.store) }
     feature<AddCacheBackFeature.Target> { AddCacheBackFeature(it.store) }
 
-    page<CacheBackListPage.Target> { CacheBackListPage(it.store, get(), get()) }
-    page<AddCacheBackPage.Target> { AddCacheBackPage(it.store, it.target, get()) }
+    page<ListCacheBackPage.Target> { ListCacheBackPage(it.store, get(), get(), get()) }
+    page<AddCacheBackPage.Target> { AddCacheBackPage(it.store, it.target, get(), get()) }
     page<BankSelectPage.Target> { BankSelectPage(it.store, it.target, get()) }
     page<CodesSelectPage.Target> { CodesSelectPage(it.store, it.target, get(), get()) }
     page<IconSelectPage.Target> { IconSelectPage(it.store, it.target, get()) }

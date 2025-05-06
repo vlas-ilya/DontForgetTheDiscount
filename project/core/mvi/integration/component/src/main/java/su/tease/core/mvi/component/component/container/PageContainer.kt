@@ -8,6 +8,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import su.tease.core.mvi.component.resolver.NavigationTargetResolver
 import su.tease.project.core.mvi.api.selector.select
@@ -26,7 +27,8 @@ class PageContainer(
         appConfig: AppConfig,
         featureConfig: FeatureConfig,
     ) {
-        val (id, name) = store.select(pageIdName()).collectAsState(null).value ?: return
+        val scope = rememberCoroutineScope()
+        val (id, name) = remember { store.select(scope, pageIdName()) }.collectAsState().value
         val page = remember(id, name) { navigationTargetResolver.resolve(id, name) }
 
         val rootConfigState = remember(page, rootConfig) { mutableStateOf(rootConfig) }

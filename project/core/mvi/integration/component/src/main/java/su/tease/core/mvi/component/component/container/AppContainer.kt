@@ -3,7 +3,6 @@ package su.tease.core.mvi.component.component.container
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -21,6 +20,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.PersistentList
@@ -72,7 +72,8 @@ class AppContainer(
     @Composable
     @Suppress("LongMethod", "ModifierMissing")
     fun ComposeAppContainer(rootConfig: RootConfig, hasSystemNavigationBar: Boolean) {
-        val (id, name) = store.select(appIdName()).collectAsState(null).value ?: return
+        val scope = rememberCoroutineScope()
+        val (id, name) = remember { store.select(scope, appIdName()) }.collectAsState().value
         val app = remember(id, name) { navigationTargetResolver.resolve(id, name) }
 
         val rootConfigState = remember(app, rootConfig) { mutableStateOf(rootConfig) }

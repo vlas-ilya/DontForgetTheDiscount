@@ -15,9 +15,11 @@ import su.tease.project.core.mvi.api.state.State
 import su.tease.project.core.utils.ext.transformIf
 import su.tease.project.feature.cacheback.domain.entity.Bank
 import su.tease.project.feature.cacheback.domain.entity.CacheBackCode
+import su.tease.project.feature.cacheback.domain.entity.CacheBackDate
 import su.tease.project.feature.cacheback.domain.entity.CacheBackInfo
 import su.tease.project.feature.cacheback.domain.entity.CacheBackName
 import su.tease.project.feature.cacheback.domain.entity.CacheBackSize
+import su.tease.project.feature.cacheback.domain.entity.defaultCacheBackDate
 import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
 import su.tease.project.feature.cacheback.domain.entity.preset.IconPreset
 import su.tease.project.feature.cacheback.presentation.select.bank.BankSelectPage
@@ -29,6 +31,8 @@ import su.tease.project.feature.cacheback.domain.usecase.LoadBankListAction as L
 @Parcelize
 data class CacheBackState(
     val status: LoadingStatus = Init,
+    val date: CacheBackDate = defaultCacheBackDate,
+    val dates: PersistentList<CacheBackDate> = persistentListOf(),
     val list: PersistentList<Bank> = persistentListOf(),
     val addForm: AddFormState = AddFormState(),
     val error: Boolean = false,
@@ -37,6 +41,7 @@ data class CacheBackState(
 @Parcelize
 data class AddFormState(
     val status: LoadingStatus = Init,
+    val date: CacheBackDate = defaultCacheBackDate,
     val bank: BankPreset? = null,
     val name: CacheBackName? = null,
     val info: CacheBackInfo? = null,
@@ -84,8 +89,15 @@ class CacheBackReducer : Reducer<CacheBackState> {
     private fun CacheBackState.onLoadList(action: LoadList) =
         when (action) {
             is LoadList.OnLoad -> copy(status = Loading, error = false)
-            is LoadList.OnSuccess -> copy(status = Success, list = action.list, error = false)
             is LoadList.OnFail -> copy(status = Failed, error = true)
+            is LoadList.OnDateSelect -> copy(date = action.date)
+            is LoadList.OnSuccess -> copy(
+                status = Success,
+                date = action.date,
+                dates = action.dates,
+                list = action.list,
+                error = false
+            )
         }
 
     companion object {

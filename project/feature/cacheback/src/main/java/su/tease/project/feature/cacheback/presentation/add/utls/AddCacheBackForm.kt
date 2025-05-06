@@ -8,6 +8,7 @@ import kotlinx.collections.immutable.persistentListOf
 import su.tease.project.core.utils.checker.check
 import su.tease.project.core.utils.ext.runIf
 import su.tease.project.feature.cacheback.domain.entity.CacheBackCode
+import su.tease.project.feature.cacheback.domain.entity.CacheBackDate
 import su.tease.project.feature.cacheback.domain.entity.CacheBackInfo
 import su.tease.project.feature.cacheback.domain.entity.CacheBackName
 import su.tease.project.feature.cacheback.domain.entity.CacheBackSize
@@ -21,7 +22,7 @@ enum class FormFieldError {
 }
 
 @Stable
-class AddCacheBackForm {
+class AddCacheBackForm(private val dateValue: CacheBackDate) {
     private val wasValidation = mutableStateOf(false)
 
     val bank = mutableStateOf<BankPreset?>(null)
@@ -30,6 +31,7 @@ class AddCacheBackForm {
     val icon = mutableStateOf<IconPreset?>(null)
     val size = mutableStateOf(CacheBackSize(0))
     val codes = mutableStateOf(persistentListOf<CacheBackCode>())
+    val date = mutableStateOf(dateValue)
     val addMore = mutableStateOf(false)
 
     val bankError = check(bank) { require(it == null, FormFieldError.REQUIRED_BUT_EMPTY) }
@@ -50,6 +52,7 @@ class AddCacheBackForm {
                     icon = icon.value!!,
                     size = size.value,
                     codes = codes.value,
+                    date = date.value,
                 )
             }
 
@@ -58,6 +61,7 @@ class AddCacheBackForm {
 
     fun clean() {
         bank.value = null
+        date.value = dateValue
         name.value = CacheBackName("")
         info.value = CacheBackInfo("")
         icon.value = null

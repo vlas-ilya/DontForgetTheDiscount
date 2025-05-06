@@ -51,6 +51,8 @@ fun Window.isNavigationBarVisible(): Boolean {
             "dimen",
             "android"
         )
-        id > 0 && resources.getDimensionPixelSize(id) > 100
+        id > 0 && resources.getDimensionPixelSize(id) > MIN_NAVIGATION_BAR_SIZE
     }
 }
+
+private const val MIN_NAVIGATION_BAR_SIZE = 100

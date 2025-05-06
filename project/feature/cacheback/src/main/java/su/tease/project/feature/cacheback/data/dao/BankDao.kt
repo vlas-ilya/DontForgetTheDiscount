@@ -15,6 +15,16 @@ interface BankDao {
     @Query("SELECT * FROM BankEntity")
     suspend fun list(): List<BankEntity>
 
+    @Query(
+        """
+        SELECT DISTINCT be.* 
+        FROM BankEntity AS be
+        INNER JOIN CacheBackEntity AS cbe ON cbe.bankId = be.id
+        WHERE cbe.cacheBackMonth = :month AND cbe.cacheBackYear = :year
+    """
+    )
+    suspend fun filterBy(month: Int, year: Int): List<BankEntity>
+
     @Upsert
     suspend fun save(cacheBackBank: BankEntity)
 

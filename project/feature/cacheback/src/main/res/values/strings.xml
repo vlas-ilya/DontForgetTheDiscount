@@ -10,6 +10,8 @@
     <string name="item_select_cache_back_bank_error">Поле должно быть заполнено</string>
     <string name="item_select_cache_back_bank_placeholder">Кликните для выбора банка</string>
     <string name="item_select_cache_back_bank_title">Банк</string>
+    <string name="item_select_cache_back_date_title">Дата</string>
+    <string name="item_select_cache_back_date_placeholder">Поле должно быть заполнено</string>
     <string name="item_select_cache_back_codes_error">Поле должно быть заполнено</string>
     <string name="item_select_cache_back_codes_placeholder">Кликните для выбора МСС кодов</string>
     <string name="item_select_cache_back_codes_title">MCC коды</string>

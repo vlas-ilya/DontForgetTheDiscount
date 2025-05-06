@@ -22,6 +22,12 @@ data class CacheBackEntity(
     @ColumnInfo(name = "size")
     val size: Int,
 
-    @ColumnInfo(name = "cacheBackBankId")
-    val cacheBackBankId: String
+    @ColumnInfo(name = "bankId")
+    val bankId: String,
+
+    @ColumnInfo(name = "cacheBackMonth")
+    val cacheBackMonth: Int,
+
+    @ColumnInfo(name = "cacheBackYear")
+    val cacheBackYear: Int,
 )

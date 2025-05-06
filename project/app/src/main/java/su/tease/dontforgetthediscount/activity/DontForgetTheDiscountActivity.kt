@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 import su.tease.dontforgetthediscount.component.DontForgetTheDiscountComponent
@@ -36,10 +38,9 @@ class DontForgetTheDiscountActivity : AppCompatActivity() {
         switchTheme(ThemeValue.LIGHT)
 
         setContent {
-            val finished = store
-                .select<NavigationState, Boolean> { finished }
-                .collectAsState(false)
-                .value
+            val scope = rememberCoroutineScope()
+            val finished = remember { store.select<NavigationState, Boolean>(scope) { finished } }
+                .collectAsState().value
 
             LaunchedEffect(finished) {
                 if (finished) finish()

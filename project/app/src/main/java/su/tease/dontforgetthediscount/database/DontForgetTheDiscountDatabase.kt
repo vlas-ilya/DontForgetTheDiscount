@@ -18,7 +18,7 @@ import su.tease.project.feature.cacheback.data.dao.entity.CacheBackPresetEntity
         CacheBackEntity::class, BankEntity::class, CacheBackCodeEntity::class,
         BankPresetEntity::class, CacheBackPresetEntity::class, CacheBackCodePresetEntity::class,
     ],
-    version = 4,
+    version = 5,
 )
 abstract class DontForgetTheDiscountDatabase : RoomDatabase() {
     abstract fun bankDao(): BankDao
