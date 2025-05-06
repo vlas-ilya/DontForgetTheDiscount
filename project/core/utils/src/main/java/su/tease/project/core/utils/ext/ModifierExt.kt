@@ -24,6 +24,12 @@ inline fun Modifier.thenIf(
     }
 }
 
+inline fun Modifier.then(
+    modify: () -> Modifier,
+): Modifier {
+    return then(modify())
+}
+
 inline fun <T> Modifier.thenIfNotNull(value: T?, modify: (T) -> Modifier): Modifier {
     return if (value != null) {
         then(modify(value))

@@ -6,7 +6,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -30,7 +29,7 @@ class SelectorTest {
 
             val store = createStubStore()
             val dispatch = store.dispatcher::dispatch
-            val data = store.select(StubState2::intValue)
+            val data = store.select(selector = StubState2::intValue)
 
             val stateUpdates = mutableListOf<Int>()
             val job = launch { data.toList(stateUpdates) }
@@ -127,7 +126,7 @@ class SelectorTest {
             val store = createStubStore()
             val dispatch = store.dispatcher::dispatch
             val stubSelector2 = Selector<StubState2, StubState2VO> { toVO() }
-            val data = store.select(stubSelector2)
+            val data = store.select(selector = stubSelector2)
 
             val stateUpdates = mutableListOf<StubState2VO>()
             val job = launch { data.toList(stateUpdates) }
@@ -194,7 +193,7 @@ class SelectorTest {
 
             val store = createStubStore()
             val dispatch = store.dispatcher::dispatch
-            val data = store.select<StubState2, StubState2VO>() { toVO() }
+            val data = store.select<StubState2, StubState2VO> { toVO() }
 
             val stateUpdates = mutableListOf<StubState2VO>()
             val job = launch { data.toList(stateUpdates) }

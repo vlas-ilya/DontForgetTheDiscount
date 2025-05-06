@@ -25,6 +25,10 @@ class DictionaryInterceptorImpl(
         repository.cacheBacksIcons()
     }
 
+    override suspend fun bankIcons() = withDefault {
+        repository.bankIcons()
+    }
+
     override suspend fun cacheBacksCodes(): PersistentList<CacheBackCodePreset> = withDefault {
         repository.cacheBacksCodes()
     }

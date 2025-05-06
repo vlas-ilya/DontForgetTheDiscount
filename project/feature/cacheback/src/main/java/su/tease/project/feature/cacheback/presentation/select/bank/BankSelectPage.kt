@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.parcelize.Parcelize
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
@@ -17,6 +18,8 @@ import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.utils.memoize
+import su.tease.project.design.component.controls.page.DFPageFloatingButton
+import su.tease.project.design.icons.R
 import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
 import su.tease.project.feature.cacheback.domain.interceptor.DictionaryInterceptor
 import su.tease.project.feature.cacheback.presentation.select.bank.component.SelectBankPresetPreview
@@ -30,7 +33,19 @@ class BankSelectPage(
     @Composable
     override operator fun invoke() {
         LaunchedEffect(Unit) { rootConfig { copy(isFullscreen = true) } }
-        LaunchedEffect(Unit) { appConfig { copy(titleRes = target.pageTitle) } }
+        LaunchedEffect(Unit) {
+            appConfig {
+                copy(
+                    titleRes = target.pageTitle,
+                    floatingButtons = persistentListOf(
+                        DFPageFloatingButton(
+                            icon = R.drawable.plus,
+                            onClick = { forward(AddBankPage()) }
+                        )
+                    )
+                )
+            }
+        }
 
         val banks by memoize { dictionaryInterceptor.banks() }
 

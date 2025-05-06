@@ -14,6 +14,8 @@ interface DictionaryRepository {
 
     suspend fun cacheBacksIcons(): PersistentList<IconPreset>
 
+    suspend fun bankIcons(): PersistentList<IconPreset>
+
     suspend fun cacheBacksCodes(): PersistentList<CacheBackCodePreset>
 
     suspend fun add(bank: BankPreset)
@@ -21,4 +23,6 @@ interface DictionaryRepository {
     suspend fun add(cacheBank: CacheBackPreset)
 
     suspend fun save(code: CacheBackCodePreset)
+
+    suspend fun save(bank: BankPreset)
 }

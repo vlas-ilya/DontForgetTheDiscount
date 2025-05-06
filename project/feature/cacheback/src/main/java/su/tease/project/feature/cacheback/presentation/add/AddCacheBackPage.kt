@@ -15,28 +15,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import kotlinx.collections.immutable.PersistentList
 import kotlinx.parcelize.Parcelize
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.design.theme.api.Theme
-import su.tease.project.core.mvi.api.selector.Selector
 import su.tease.project.core.mvi.api.state.LoadingStatus
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.date.DateProvider
 import su.tease.project.core.utils.ext.RedirectState
 import su.tease.project.core.utils.ext.mapPersistent
 import su.tease.project.feature.cacheback.R
-import su.tease.project.feature.cacheback.domain.entity.CacheBackCode
-import su.tease.project.feature.cacheback.domain.entity.CacheBackDate
 import su.tease.project.feature.cacheback.domain.entity.defaultCacheBackDate
-import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
-import su.tease.project.feature.cacheback.domain.entity.preset.IconPreset
 import su.tease.project.feature.cacheback.domain.mapper.toCacheBackDate
 import su.tease.project.feature.cacheback.domain.usecase.AddCacheBackUseCase
-import su.tease.project.feature.cacheback.presentation.AddFormState
-import su.tease.project.feature.cacheback.presentation.CacheBackReducer
-import su.tease.project.feature.cacheback.presentation.CacheBackState
 import su.tease.project.feature.cacheback.presentation.add.component.BankSelect
 import su.tease.project.feature.cacheback.presentation.add.component.CodesSelect
 import su.tease.project.feature.cacheback.presentation.add.component.DateSelect
@@ -49,6 +40,8 @@ import su.tease.project.feature.cacheback.presentation.add.component.SizeSelect
 import su.tease.project.feature.cacheback.presentation.add.page.CacheBackAddPageFailed
 import su.tease.project.feature.cacheback.presentation.add.page.CacheBackAddPageLoading
 import su.tease.project.feature.cacheback.presentation.add.utls.AddCacheBackForm
+import su.tease.project.feature.cacheback.presentation.reducer.AddCacheBackReducer
+import su.tease.project.feature.cacheback.presentation.reducer.AddCacheBackState
 import su.tease.project.feature.cacheback.presentation.select.bank.BankSelectPage
 import su.tease.project.feature.cacheback.presentation.select.code.CodesSelectPage
 import su.tease.project.feature.cacheback.presentation.select.icon.IconSelectPage
@@ -61,7 +54,7 @@ class AddCacheBackPage(
     private val addCacheBackUseCase: AddCacheBackUseCase,
 ) : BasePageComponent(store) {
 
-    private val dateValue = target.addFormState.date
+    private val dateValue = target.addCacheBackState.date
         .takeIf { it !== defaultCacheBackDate }
         ?: dateProvider.current().toCacheBackDate()
 
@@ -69,13 +62,15 @@ class AddCacheBackPage(
 
     private val form = AddCacheBackForm(dateValue)
 
-    init { dispatch(Add.OnInit(target.addFormState)) }
+    init {
+        dispatch(Add.OnInit(target.addCacheBackState))
+    }
 
     @Composable
     override operator fun invoke() {
         LaunchedEffect(Unit) { appConfig { copy(titleRes = R.string.page_add_cache_back_title) } }
 
-        val status = selectAsState(status).value
+        val status = selectAsState(AddCacheBackState::status).value
 
         LaunchedEffect(status) {
             if (status != LoadingStatus.Success) return@LaunchedEffect
@@ -86,12 +81,11 @@ class AddCacheBackPage(
                 val bank = form.bank.value
                 val date = form.date.value
                 form.clean()
-                dispatch(Add.OnInit(AddFormState(bank = bank, date = date)))
+                dispatch(Add.OnInit(AddCacheBackState(bank = bank, date = date)))
             }
         }
 
         when (status) {
-            null -> return
             LoadingStatus.Success -> return
             LoadingStatus.Init -> CacheBackAddPageForm()
             LoadingStatus.Loading -> CacheBackAddPageLoading()
@@ -101,10 +95,10 @@ class AddCacheBackPage(
 
     @Composable
     private fun CacheBackAddPageForm() {
-        RedirectState(selectAsState(date), form.date)
-        RedirectState(selectAsState(bank), form.bank)
-        RedirectState(selectAsState(icon), form.icon)
-        RedirectState(selectAsState(codes), form.codes)
+        RedirectState(selectAsState(AddCacheBackState::date), form.date)
+        RedirectState(selectAsState(AddCacheBackState::bank), form.bank)
+        RedirectState(selectAsState(AddCacheBackState::icon), form.icon)
+        RedirectState(selectAsState(AddCacheBackState::codes), form.codes)
 
         Column(
             modifier = Modifier
@@ -161,7 +155,7 @@ class AddCacheBackPage(
             Spacer(modifier = Modifier.height(Theme.sizes.padding4))
             CodesSelect(
                 codesState = form.codes,
-                onSelect = { forward(CodesSelectPage<CacheBackReducer>(form.codes.value)) },
+                onSelect = { forward(CodesSelectPage<AddCacheBackReducer>(form.codes.value)) },
                 modifier = Modifier.fillMaxWidth(),
             )
             Spacer(modifier = Modifier.weight(1F))
@@ -179,7 +173,7 @@ class AddCacheBackPage(
 
     private fun selectBank(@StringRes title: Int) {
         forward(
-            BankSelectPage<CacheBackReducer>(
+            BankSelectPage<AddCacheBackReducer>(
                 pageTitle = title,
                 selected = form.bank.value
             )
@@ -188,7 +182,8 @@ class AddCacheBackPage(
 
     private fun selectIcon(@StringRes title: Int) {
         forward(
-            IconSelectPage<CacheBackReducer>(
+            IconSelectPage<AddCacheBackReducer>(
+                iconType = IconSelectPage.IconType.CACHE_BACK_ICON,
                 pageTitle = title,
                 selected = form.icon.value
             )
@@ -210,11 +205,7 @@ class AddCacheBackPage(
     }
 
     @Parcelize
-    data class Target(val addFormState: AddFormState = AddFormState()) : NavigationTarget.Page
+    data class Target(
+        val addCacheBackState: AddCacheBackState = AddCacheBackState()
+    ) : NavigationTarget.Page
 }
-
-private val status = Selector<CacheBackState, LoadingStatus?> { addForm.status }
-private val bank = Selector<CacheBackState, BankPreset?> { addForm.bank }
-private val date = Selector<CacheBackState, CacheBackDate> { addForm.date }
-private val icon = Selector<CacheBackState, IconPreset?> { addForm.icon }
-private val codes = Selector<CacheBackState, PersistentList<CacheBackCode>> { addForm.codes }

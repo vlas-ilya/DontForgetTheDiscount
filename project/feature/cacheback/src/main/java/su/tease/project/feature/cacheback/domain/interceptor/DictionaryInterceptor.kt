@@ -14,6 +14,8 @@ interface DictionaryInterceptor {
 
     suspend fun cacheBacksIcons(): PersistentList<IconPreset>
 
+    suspend fun bankIcons(): PersistentList<IconPreset>
+
     suspend fun cacheBacksCodes(): PersistentList<CacheBackCodePreset>
 
     suspend fun add(bank: BankPreset)

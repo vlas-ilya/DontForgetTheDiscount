@@ -8,7 +8,7 @@ import su.tease.core.mvi.component.component.impl.BaseFeatureComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.core.mvi.navigation.feature
 import su.tease.project.core.mvi.api.store.Store
-import su.tease.project.feature.cacheback.presentation.AddFormState
+import su.tease.project.feature.cacheback.presentation.reducer.AddCacheBackState
 import su.tease.project.design.icons.R as RIcons
 
 class AddCacheBackFeature(
@@ -40,7 +40,7 @@ class AddCacheBackFeature(
     private fun onClosePressed() = finish(AddCacheBackFeature())
 
     companion object {
-        operator fun invoke(addFormState: AddFormState = AddFormState()) = feature(
+        operator fun invoke(addFormState: AddCacheBackState = AddCacheBackState()) = feature(
             Target,
             AddCacheBackPage.Target(addFormState),
         )

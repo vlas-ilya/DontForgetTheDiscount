@@ -38,7 +38,7 @@ class AppNavigationTargetResolver(
 
     init {
         coroutineScope.launch {
-            store.select(root()).collect { root ->
+            store.select(this, root()).collect { root ->
                 val pageIdSet = root.pageIdList.toSet()
                 pageCache.removeIf { it !in pageIdSet }
 

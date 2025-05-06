@@ -1,0 +1,109 @@
+package su.tease.project.feature.cacheback.presentation.select.bank
+
+import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import kotlinx.parcelize.Parcelize
+import su.tease.core.mvi.component.component.impl.BasePageComponent
+import su.tease.core.mvi.navigation.NavigationTarget
+import su.tease.design.theme.api.Theme
+import su.tease.project.core.mvi.api.state.LoadingStatus
+import su.tease.project.core.mvi.api.store.Store
+import su.tease.project.core.utils.ext.RedirectState
+import su.tease.project.feature.cacheback.R
+import su.tease.project.feature.cacheback.domain.usecase.AddBankUseCase
+import su.tease.project.feature.cacheback.presentation.reducer.AddBankReducer
+import su.tease.project.feature.cacheback.presentation.reducer.AddBankState
+import su.tease.project.feature.cacheback.presentation.select.bank.component.IconSelect
+import su.tease.project.feature.cacheback.presentation.select.bank.component.NameEditText
+import su.tease.project.feature.cacheback.presentation.select.bank.component.SaveButton
+import su.tease.project.feature.cacheback.presentation.select.bank.utils.AddBankForm
+import su.tease.project.feature.cacheback.presentation.select.icon.IconSelectPage
+
+class AddBankPage(
+    store: Store<*>,
+    private val addBankUseCase: AddBankUseCase,
+) : BasePageComponent(store) {
+
+    private val form = AddBankForm()
+
+    @Composable
+    override operator fun invoke() {
+        LaunchedEffect(Unit) { rootConfig { copy(isFullscreen = true) } }
+        LaunchedEffect(Unit) { appConfig { copy(titleRes = R.string.page_add_bank_title) } }
+
+        RedirectState(selectAsState(AddBankState::icon), form.icon)
+        RedirectState(selectAsState(AddBankState::error), form.error)
+
+        val status = selectAsState(AddBankState::status).value
+
+        LaunchedEffect(status) {
+            if (status == LoadingStatus.Success) back()
+        }
+
+        Column(
+            modifier = Modifier
+                .padding(Theme.sizes.padding8)
+                .padding(top = Theme.sizes.padding6)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start,
+            ) {
+                IconSelect(
+                    iconState = form.icon,
+                    onSelect = { selectIcon(R.string.page_add_bank_icon_title) },
+                    error = form.ui { iconError },
+                    modifier = Modifier.wrapContentWidth(),
+                )
+                Spacer(modifier = Modifier.width(Theme.sizes.padding8))
+                NameEditText(
+                    nameState = form.name,
+                    onChange = { form.setName(it) },
+                    error = form.ui { nameError },
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+            Spacer(modifier = Modifier.weight(1F))
+            SaveButton(
+                modifier = Modifier.wrapContentHeight(),
+                onSubmit = { save() }
+            )
+        }
+    }
+
+    private fun selectIcon(@StringRes title: Int) {
+        forward(
+            IconSelectPage<AddBankReducer>(
+                iconType = IconSelectPage.IconType.BANK_ICON,
+                pageTitle = title,
+                selected = form.icon.value
+            )
+        )
+    }
+
+    private fun save() {
+        form.makeResult()?.let {
+            dispatch(addBankUseCase(it))
+        }
+    }
+
+    @Parcelize
+    data object Target : NavigationTarget.Page
+
+    companion object {
+        operator fun invoke() = Target
+    }
+}

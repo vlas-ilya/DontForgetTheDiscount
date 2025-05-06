@@ -60,6 +60,14 @@ class DictionaryRepositoryImpl(
         }
     }
 
+    override suspend fun bankIcons(): PersistentList<IconPreset> = withDefault {
+        tryOrDefault(returnOnError = persistentListOf()) {
+            cache.getOrPut(BANK_ICONS_CACHE_REMOTE) {
+                dataSource.bankIcons().map { it.toDomain() }
+            }.sortedBy { it.url }.toPersistentList()
+        }
+    }
+
     override suspend fun cacheBacksCodes(): PersistentList<CacheBackCodePreset> = withDefault {
         val remote = async(returnOnError = emptyList()) {
             cache.getOrPut(CACHE_BACK_CODES_CACHE_REMOTE) {
@@ -89,6 +97,11 @@ class DictionaryRepositoryImpl(
         cache.clear(CACHE_BACK_CODES_CACHE_LOCAL)
     }
 
+    override suspend fun save(bank: BankPreset) {
+        dao.add(bank.toEntity())
+        cache.clear(BANKS_CACHE_LOCAL)
+    }
+
     companion object {
         private const val BANKS_CACHE_REMOTE = "BANKS_CACHE_REMOTE"
         private const val CACHE_BACKS_CACHE_REMOTE = "CACHE_BACKS_CACHE_REMOTE"
@@ -96,6 +109,7 @@ class DictionaryRepositoryImpl(
         private const val BANKS_CACHE_LOCAL = "BANKS_CACHE_LOCAL"
         private const val CACHE_BACKS_CACHE_LOCAL = "CACHE_BACKS_CACHE_LOCAL"
         private const val CACHE_BACKS_ICONS_CACHE_REMOTE = "CACHE_BACKS_ICONS_CACHE_REMOTE"
+        private const val BANK_ICONS_CACHE_REMOTE = "BANK_ICONS_CACHE_REMOTE"
         private const val CACHE_BACK_CODES_CACHE_LOCAL = "CACHE_BACK_CODES_CACHE_LOCAL"
     }
 }

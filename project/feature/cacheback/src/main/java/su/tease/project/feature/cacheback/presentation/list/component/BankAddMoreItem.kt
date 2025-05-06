@@ -15,8 +15,8 @@ import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.Bank
 import su.tease.project.feature.cacheback.domain.entity.CacheBackDate
 import su.tease.project.feature.cacheback.domain.entity.preset.mapper.toPreset
-import su.tease.project.feature.cacheback.presentation.AddFormState
 import su.tease.project.feature.cacheback.presentation.add.AddCacheBackFeature
+import su.tease.project.feature.cacheback.presentation.reducer.AddCacheBackState
 
 data class BankAddMoreItem(
     private val date: CacheBackDate,
@@ -38,7 +38,7 @@ data class BankAddMoreItem(
                     store.dispatcher.dispatch(
                         NavigationAction.ForwardToFeature(
                             AddCacheBackFeature(
-                                AddFormState(
+                                AddCacheBackState(
                                     date = date,
                                     bank = bankItem.toPreset(),
                                 )

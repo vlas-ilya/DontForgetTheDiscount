@@ -17,6 +17,9 @@ interface DictionaryDataSource {
     @GET("api/dictionary/icon/cacheBack")
     suspend fun cacheBacksIcons(): List<IconPresetDto>
 
+    @GET("api/dictionary/icon/bank")
+    suspend fun bankIcons(): List<IconPresetDto>
+
     @GET("api/dictionary/cacheBack/code/list")
     fun cacheBackCodes(): List<CacheBackCodePresetDto>
 }

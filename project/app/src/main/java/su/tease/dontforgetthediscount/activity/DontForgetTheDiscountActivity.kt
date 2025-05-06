@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 import su.tease.dontforgetthediscount.component.DontForgetTheDiscountComponent

@@ -5,6 +5,7 @@ package su.tease.core.mvi.component.component.impl
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.coroutines.Job
 import su.tease.core.mvi.component.component.Component
 import su.tease.project.core.mvi.api.action.Action
@@ -22,19 +23,22 @@ abstract class BaseMviComponent(
     protected inline fun <reified S : State, T> selectAsState(
         noinline selector: S.() -> T
     ): ComposeState<T> {
-        return remember(store, selector) { store.select(selector) }.collectAsState()
+        val scope = rememberCoroutineScope()
+        return remember(store, selector) { store.select(scope, selector) }.collectAsState()
     }
 
     @Composable
     protected inline fun <reified S : State, T> selectAsState(
         selector: Selector<S, T>,
     ): ComposeState<T> {
-        return remember(store, selector) { store.select(selector) }.collectAsState()
+        val scope = rememberCoroutineScope()
+        return remember(store, selector) { store.select(scope, selector) }.collectAsState()
     }
 
     @Composable
     protected inline fun <reified S : State> selectAsState(): ComposeState<S> {
-        return remember(store, S::class) { store.select<S>() }.collectAsState()
+        val scope = rememberCoroutineScope()
+        return remember(store, S::class) { store.select<S>(scope) }.collectAsState()
     }
 
     protected fun dispatch(action: Action): Job = store.dispatcher.dispatch(action)

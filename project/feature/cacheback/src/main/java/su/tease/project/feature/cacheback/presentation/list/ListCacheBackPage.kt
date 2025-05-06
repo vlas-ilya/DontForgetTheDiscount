@@ -35,13 +35,13 @@ import su.tease.project.feature.cacheback.domain.mapper.toCacheBackDate
 import su.tease.project.feature.cacheback.domain.mapper.toMonthYear
 import su.tease.project.feature.cacheback.domain.usecase.LoadBankListAction
 import su.tease.project.feature.cacheback.domain.usecase.LoadBankListUseCase
-import su.tease.project.feature.cacheback.presentation.AddFormState
-import su.tease.project.feature.cacheback.presentation.CacheBackState
 import su.tease.project.feature.cacheback.presentation.add.AddCacheBackFeature
 import su.tease.project.feature.cacheback.presentation.list.page.ListCacheBackFailed
 import su.tease.project.feature.cacheback.presentation.list.page.ListCacheBackInit
 import su.tease.project.feature.cacheback.presentation.list.page.ListCacheBackSuccess
 import su.tease.project.feature.cacheback.presentation.mapper.toUi
+import su.tease.project.feature.cacheback.presentation.reducer.AddCacheBackState
+import su.tease.project.feature.cacheback.presentation.reducer.ListCacheBackState
 import su.tease.project.design.icons.R as RIcons
 
 class ListCacheBackPage(
@@ -66,9 +66,9 @@ class ListCacheBackPage(
     override operator fun invoke() {
         val scope = rememberCoroutineScope()
 
-        val status = selectAsState(CacheBackState::status)
-        val date = selectAsState(CacheBackState::date)
-        val dates = selectAsState(CacheBackState::dates)
+        val status = selectAsState(ListCacheBackState::status)
+        val date = selectAsState(ListCacheBackState::date)
+        val dates = selectAsState(ListCacheBackState::dates)
 
         val isScrollTopButtonVisible = remember {
             derivedStateOf {
@@ -96,7 +96,7 @@ class ListCacheBackPage(
                                 onClick = {
                                     forward(
                                         AddCacheBackFeature(
-                                            addFormState = AddFormState(
+                                            addFormState = AddCacheBackState(
                                                 date = date.value
                                             )
                                         )
@@ -138,9 +138,9 @@ class ListCacheBackPage(
             }
         }
 
-        val list = selectAsState<CacheBackState, LazyListItems> { list.toUi(date.value, store) }
+        val list = selectAsState<ListCacheBackState, LazyListItems> { list.toUi(date.value, store) }
 
-        val error = selectAsState(CacheBackState::error)
+        val error = selectAsState(ListCacheBackState::error)
 
         when (status.value) {
             LoadingStatus.Init -> ListCacheBackInit()
