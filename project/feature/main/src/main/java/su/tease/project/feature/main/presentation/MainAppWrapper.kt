@@ -120,6 +120,7 @@ fun MainAppWrapper(
         NotificationContainer(
             notificationsState = notifications,
             modifier = Modifier
+                .padding(top = Theme.sizes.padding48)
                 .align(Alignment.TopCenter)
                 .fillMaxWidth(),
             onCloseNotification = {
