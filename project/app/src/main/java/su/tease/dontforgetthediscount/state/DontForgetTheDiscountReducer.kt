@@ -6,6 +6,7 @@ import su.tease.project.feature.cacheback.presentation.reducer.AddBankReducer
 import su.tease.project.feature.cacheback.presentation.reducer.ListCacheBackReducer
 import su.tease.project.feature.cacheback.presentation.reducer.SaveCacheBackReducer
 import su.tease.project.feature.cacheback.presentation.reducer.SelectBankReducer
+import su.tease.project.feature.notification.impl.presentation.reducer.NotificationReducer
 
 val dontForgetTheDiscountReducer = combine(
     NavigationReducer(),
@@ -13,4 +14,5 @@ val dontForgetTheDiscountReducer = combine(
     SaveCacheBackReducer(),
     SelectBankReducer(),
     AddBankReducer(),
+    NotificationReducer(),
 )

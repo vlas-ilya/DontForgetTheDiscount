@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.PersistentList
 import su.tease.design.theme.api.Theme
@@ -32,12 +33,13 @@ fun <T> DFDropdownMenu(
     modifier: Modifier = Modifier,
     @StringRes placeholder: Int? = null,
     background: Color = Theme.colors.inputBackground,
+    clip: Shape = RoundedCornerShape(Theme.sizes.roundInfinity),
 ) {
     val expanded = remember { mutableStateOf(false) }
 
     Row(
         modifier = modifier
-            .clip(RoundedCornerShape(Theme.sizes.roundInfinity))
+            .clip(clip)
             .clickable { expanded.value = !expanded.value }
             .background(background)
             .fillMaxWidth()

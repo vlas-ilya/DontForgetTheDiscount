@@ -14,4 +14,6 @@ class ResourceProviderImpl(
         dp.value,
         context.resources.displayMetrics
     )
+
+    override fun string(id: Int) = context.getString(id)
 }

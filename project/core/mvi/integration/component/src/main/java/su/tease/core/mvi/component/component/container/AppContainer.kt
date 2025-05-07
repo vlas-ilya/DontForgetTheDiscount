@@ -2,18 +2,6 @@ package su.tease.core.mvi.component.component.container
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.State
@@ -21,23 +9,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toPersistentList
+import su.tease.core.mvi.component.component.impl.BaseAppComponent
 import su.tease.core.mvi.component.resolver.NavigationTargetResolver
-import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.selector.select
 import su.tease.project.core.mvi.api.store.Store
-import su.tease.project.core.mvi.navigation.action.NavigationAction
 import su.tease.project.core.mvi.navigation.selector.appIdName
-import su.tease.project.core.utils.ext.choose
 import su.tease.project.core.utils.ext.map
-import su.tease.project.core.utils.ext.runIf
-import su.tease.project.core.utils.ext.unit
 import su.tease.project.core.utils.function.Supplier
-import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.design.component.controls.page.DFPageFloatingButton
 
 @Immutable
@@ -46,9 +26,9 @@ data class AppAction(
     val onClick: () -> Unit,
 )
 
-private val emptyAppAction = AppAction(icon = 0, onClick = {})
+val emptyAppAction = AppAction(icon = 0, onClick = {})
 
-private val emptyPageFloatingButton = DFPageFloatingButton(icon = 0, onClick = {})
+val emptyPageFloatingButton = DFPageFloatingButton(icon = 0, onClick = {})
 
 @Immutable
 data class AppConfig(
@@ -67,9 +47,23 @@ fun commitAppConfig(config: AppConfig) {
 }
 
 @Immutable
+fun interface AppWrapper {
+
+    @Composable
+    fun ComposeAppWrapper(
+        app: BaseAppComponent,
+        appConfig: State<AppConfig>,
+        hasSystemNavigationBar: Boolean,
+        composeFeatureContainer: @Composable () -> Unit,
+        composeNavigationBar: @Composable () -> Unit,
+    )
+}
+
+@Immutable
 class AppContainer(
     private val store: Store<*>,
     private val navigationTargetResolver: NavigationTargetResolver,
+    private val appWrapper: AppWrapper,
 ) {
     @Composable
     @Suppress("LongMethod", "ModifierMissing")
@@ -81,84 +75,24 @@ class AppContainer(
         val (id, name) = remember { store.select(scope, appIdName()) }.collectAsState().value
         val app = remember(id, name) { navigationTargetResolver.resolve(id, name) }
 
-        val (
-            hasNavigationBar,
-            hasBackButton,
-            title,
-            titleRes,
-            action,
-            floatingButtons,
-            additionalTitleContent,
-        ) = actualAppConfigState.value
-
-        Column(
-            modifier = Modifier
-                .background(Theme.colors.background0)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceBetween,
-        ) {
-            val featureContainer = remember {
-                FeatureContainer(
-                    store = store,
-                    navigationTargetResolver = navigationTargetResolver,
-                )
-            }
-
-            if (!app.inPage) {
-                app {
-                    featureContainer.ComposeFeatureContainer(
-                        rootConfig = app.rootConfig.map { Supplier { it(rootConfig.value()) } },
-                        appConfig = app.appConfig.map { Supplier { it(AppConfig()) } },
-                    )
-                }
-            } else {
-                DFPage(
-                    title = title.takeIf { it.isNotBlank() }
-                        ?: titleRes?.takeIf { it != 0 }?.let { stringResource(it) }
-                        ?: "",
-                    additionalTitleContent = additionalTitleContent,
-                    hasSystemNavigationBar = hasSystemNavigationBar,
-                    modifier = Modifier
-                        .padding(
-                            top = Theme.sizes.padding2,
-                            bottom = hasSystemNavigationBar.choose(
-                                Theme.sizes.padding4,
-                                Theme.sizes.size0,
-                            ),
-                            start = Theme.sizes.padding4,
-                            end = Theme.sizes.padding4,
-                        )
-                        .background(Theme.colors.background1)
-                        .weight(1F),
-                    onBackPress = runIf(hasBackButton) {
-                        {
-                            store.dispatcher.dispatch(NavigationAction.Back).unit()
-                        }
-                    },
-                    actionIcon = action?.takeIf { it != emptyAppAction }?.icon,
-                    onActionPress = action?.takeIf { it != emptyAppAction }?.onClick,
-                    floatingButtons = floatingButtons
-                        .filter { it != emptyPageFloatingButton }
-                        .toPersistentList()
-                ) {
-                    app {
-                        featureContainer.ComposeFeatureContainer(
-                            rootConfig = app.rootConfig.map { Supplier { it(rootConfig.value()) } },
-                            appConfig = app.appConfig.map { Supplier { it(AppConfig()) } },
-                        )
-                    }
-                }
-
-                AnimatedVisibility(
-                    visible = hasNavigationBar,
-                    enter = fadeIn() + expandVertically(),
-                    exit = fadeOut() + shrinkVertically(),
-                ) {
-                    Box(modifier = Modifier.fillMaxWidth()) {
-                        app.ComposeNavigationBar()
-                    }
-                }
-            }
+        val featureContainer = remember {
+            FeatureContainer(
+                store = store,
+                navigationTargetResolver = navigationTargetResolver,
+            )
         }
+
+        appWrapper.ComposeAppWrapper(
+            app = app,
+            appConfig = actualAppConfigState,
+            hasSystemNavigationBar = hasSystemNavigationBar,
+            composeFeatureContainer = {
+                featureContainer.ComposeFeatureContainer(
+                    rootConfig = app.rootConfig.map { Supplier { it(rootConfig.value()) } },
+                    appConfig = app.appConfig.map { Supplier { it(AppConfig()) } },
+                )
+            },
+            composeNavigationBar = { app.ComposeNavigationBar() }
+        )
     }
 }

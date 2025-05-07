@@ -4,8 +4,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import su.tease.design.theme.api.Theme
 import su.tease.design.theme.api.utils.FontSetting
+import su.tease.project.core.utils.ext.choose
 
 @Composable
 fun DFText(
@@ -24,5 +26,6 @@ fun DFText(
         fontFamily = style.fontFamily,
         color = color,
         maxLines = maxLines,
+        overflow = (maxLines == 1).choose(TextOverflow.Ellipsis, TextOverflow.Clip)
     )
 }

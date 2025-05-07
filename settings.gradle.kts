@@ -23,6 +23,8 @@ rootProject.name = "Don't Forget The Discount"
 include(":project:app")
 include(":project:feature:main")
 include(":project:feature:cacheback")
+include(":project:feature:notification:api")
+include(":project:feature:notification:impl")
 include(":project:feature:splash")
 include(":project:design:component:navigation_bar")
 include(":project:design:component:controls")

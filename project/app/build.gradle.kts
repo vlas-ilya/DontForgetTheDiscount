@@ -83,6 +83,7 @@ dependencies {
 
     // core
     implementation(libs.kotlin.coroutines.core)
+    implementation(libs.kotlin.collections.immutable)
     implementation(libs.timber)
     testImplementation(libs.junit)
     testImplementation(libs.kotlin.coroutines.test)
@@ -103,6 +104,8 @@ dependencies {
     implementation(project(":project:feature:main"))
     implementation(project(":project:feature:splash"))
     implementation(project(":project:feature:cacheback"))
+    implementation(project(":project:feature:notification:api"))
+    implementation(project(":project:feature:notification:impl"))
     implementation(project(":project:design:icons"))
     implementation(project(":project:design:component:navigation_bar"))
     implementation(project(":project:design:component:controls"))

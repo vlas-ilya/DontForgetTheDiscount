@@ -25,7 +25,16 @@ interface Colors {
     val buttonBackground: Color
     val buttonText: Color
 
-    val tmpFiller: Color
+    val notificationSuccessBackground: Color
+    val notificationSuccessText: Color
+
+    val notificationInfoBackground: Color
+    val notificationInfoText: Color
+
+    val notificationErrorBackground: Color
+    val notificationErrorText: Color
 
     val link: Color
+
+    val tmpFiller: Color
 }

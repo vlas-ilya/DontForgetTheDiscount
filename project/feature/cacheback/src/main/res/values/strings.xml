@@ -25,6 +25,8 @@
     <string name="item_cache_back_size_error">Некорректное значение</string>
     <string name="item_cache_back_size_title">Размер кэшбэка (%)</string>
     <string name="page_save_cache_back_button_save">Сохранить</string>
+    <string name="page_add_cache_back_notification_title">Кэшбэк успешно добавлен</string>
+    <string name="page_save_cache_back_notification_title">Кэшбэк успешно сохранен</string>
     <string name="page_add_bank_button_save">Сохранить</string>
     <string name="page_save_cache_back_button_save_add_more">Сохранить и добавить еще</string>
     <string name="page_save_cache_back_title_add">Добавить Кэшбэк</string>

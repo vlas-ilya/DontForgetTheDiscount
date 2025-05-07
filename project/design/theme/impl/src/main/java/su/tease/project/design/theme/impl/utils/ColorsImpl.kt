@@ -29,6 +29,15 @@ internal data class ColorsImpl(
 
     override val link: Color,
 
+    override val notificationSuccessBackground: Color,
+    override val notificationSuccessText: Color,
+
+    override val notificationInfoBackground: Color,
+    override val notificationInfoText: Color,
+
+    override val notificationErrorBackground: Color,
+    override val notificationErrorText: Color,
+
     override val tmpFiller: Color,
 ) : Colors {
     companion object {
@@ -71,6 +80,15 @@ private fun makeLightColors(): Colors = ColorsImpl(
     inputPlaceholder = Color(0xFFBBBBBB),
 
     link = accent4,
+
+    notificationSuccessBackground =  accent4,
+    notificationSuccessText =  Color(0xFFFFF5FA),
+
+    notificationInfoBackground =  accent3,
+    notificationInfoText =  accent4,
+
+    notificationErrorBackground =  Color(0xFFD22038),
+    notificationErrorText =  Color(0xFFFFF5FA),
 
     tmpFiller = black,
 )

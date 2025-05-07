@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "su.tease.project.feature.main"
+    namespace = "su.tease.project.feature.notification.api"
     compileSdk = 35
 
     defaultConfig {
@@ -59,17 +59,7 @@ dependencies {
     androidTestImplementation(libs.compose.ui.test)
 
     // project
-    implementation(project(":project:design:icons"))
-    implementation(project(":project:design:component:controls"))
-    implementation(project(":project:design:component:navigation_bar"))
-    implementation(project(":project:design:theme:impl"))
-    implementation(project(":project:design:theme:api"))
     implementation(project(":project:core:mvi:api"))
-    implementation(project(":project:core:mvi:integration:component"))
-    implementation(project(":project:core:mvi:integration:navigation"))
-    implementation(project(":project:core:navigation"))
+    implementation(project(":project:design:theme:api"))
     implementation(project(":project:core:utils"))
-    implementation(project(":project:feature:cacheback"))
-    implementation(project(":project:feature:notification:api"))
-    implementation(project(":project:feature:notification:impl"))
 }

@@ -7,6 +7,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -130,6 +131,7 @@ class ListCacheBackPage(
                             text = { dateProvider.toText(it.toMonthYear()) },
                             modifier = Modifier.padding(bottom = Theme.sizes.padding4),
                             background = Theme.colors.background1,
+                            clip = RoundedCornerShape(Theme.sizes.round16)
                         )
                     }
                 }

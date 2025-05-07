@@ -39,6 +39,7 @@ class RootContainer(
     private val store: Store<*>,
     private val navigationTargetResolver: AppNavigationTargetResolver,
     private val windowProvider: () -> Window,
+    private val appWrapper: AppWrapper,
 ) {
     @Composable
     @Suppress("ModifierMissing")
@@ -65,10 +66,9 @@ class RootContainer(
                 AppContainer(
                     store = store,
                     navigationTargetResolver = navigationTargetResolver,
+                    appWrapper = appWrapper,
                 )
             }
-
-            windowProvider().isNavigationBarVisible()
 
             val hasSystemNavigationBar =
                 actualRootConfigState.value.isFullscreen.not() ||

@@ -35,7 +35,7 @@ val cacheBackModule = module {
     factory<DictionaryInterceptor> { DictionaryInterceptorImpl(get()) }
     factory<BankRepository> { BankRepositoryImpl(get(), get(), get()) }
     factory<LoadBankListUseCase> { LoadBankListUseCaseImpl(get(), get()) }
-    factory<SaveCacheBackUseCase> { SaveCacheBackUseCaseImpl(get(), get()) }
+    factory<SaveCacheBackUseCase> { SaveCacheBackUseCaseImpl(get(), get(), get()) }
     factory<AddBankUseCase> { AddBankUseCaseImpl(get(), get()) }
     factory<AddCodeUseCase> { AddCodeUseCaseImpl(get(), get()) }
 
