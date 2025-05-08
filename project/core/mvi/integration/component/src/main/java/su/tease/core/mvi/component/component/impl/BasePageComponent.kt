@@ -37,4 +37,7 @@ abstract class BasePageComponent(
             featureConfig.value = Transformer { builder(it) }
         }
     }
+
+    @Composable
+    abstract operator fun invoke()
 }

@@ -15,8 +15,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
+import su.tease.core.mvi.component.component.container.LocalFeatureConfig
+import su.tease.core.mvi.component.component.container.LocalRootConfig
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.design.theme.api.Theme
@@ -25,10 +29,13 @@ import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.date.DateProvider
 import su.tease.project.core.utils.resource.ResourceProvider
 import su.tease.project.core.utils.utils.ScrollDirection
-import su.tease.project.core.utils.utils.buildPersistentList
+import su.tease.project.core.utils.utils.and
+import su.tease.project.core.utils.utils.or
+import su.tease.project.core.utils.utils.rememberCallback
 import su.tease.project.core.utils.utils.scrollDirectionState
 import su.tease.project.design.component.controls.dropdown.DFDropdownMenu
 import su.tease.project.design.component.controls.list.LazyListItems
+import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.design.component.controls.page.DFPageFloatingButton
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.defaultCacheBackDate
@@ -56,106 +63,108 @@ class ListCacheBackPage(
         dispatch(LoadBankListAction.OnDateSelect(dateProvider.current().toCacheBackDate()))
     }
 
-    private val lazyListState = LazyListState(
-        firstVisibleItemIndex = 0,
-        firstVisibleItemScrollOffset = 0,
-    )
-
+    private val lazyListState = LazyListState(0, 0)
     private val scrollDirectionState = scrollDirectionState { resourceProvider.dpToPx(it) }
 
     @Composable
     override operator fun invoke() {
-        val scope = rememberCoroutineScope()
-
         val status = selectAsState(ListCacheBackState::status)
         val date = selectAsState(ListCacheBackState::date)
         val dates = selectAsState(ListCacheBackState::dates)
+        val list = selectAsState<ListCacheBackState, LazyListItems> { list.toUi(date.value, store) }
+        val error = selectAsState(ListCacheBackState::error)
 
         val isScrollTopButtonVisible = remember {
             derivedStateOf {
-                status.value == LoadingStatus.Success &&
+                and(
+                    or(
+                        status.value == LoadingStatus.Success,
+                        status.value == LoadingStatus.Loading,
+                    ),
                     lazyListState.firstVisibleItemIndex >= SCROLL_ITEMS_FOR_SHOW_BUTTON
+                )
             }
         }
 
         val (scrollDirection, nestedScrollConnection, resetScroll) = scrollDirectionState
 
         LaunchedEffect(date.value) {
-            if (date.value !== defaultCacheBackDate) {
-                dispatch(loadBankListUseCase(date.value))
+            if (date.value === defaultCacheBackDate) return@LaunchedEffect
+            dispatch(loadBankListUseCase(date.value))
+        }
+
+        val scope = rememberCoroutineScope()
+        val scrollUp = rememberCallback(resetScroll, lazyListState) {
+            scope.launch {
+                resetScroll()
+                lazyListState.animateScrollToItem(0)
             }
         }
 
-        AppConfig(isScrollTopButtonVisible.value, scrollDirection.value) {
-            copy(
-                titleRes = R.string.page_cache_back_list_title,
-                floatingButtons = buildPersistentList {
-                    add(
-                        DFPageFloatingButton(
-                            icon = RIcons.drawable.plus,
-                            onClick = {
-                                forward(
-                                    SaveCacheBackFeature(
-                                        addFormState = SaveCacheBackState(
-                                            date = date.value
-                                        )
+        val floatingButtons = remember {
+            derivedStateOf {
+                persistentListOf(
+                    DFPageFloatingButton(
+                        icon = RIcons.drawable.plus,
+                        onClick = {
+                            forward(
+                                SaveCacheBackFeature(
+                                    addFormState = SaveCacheBackState(
+                                        date = date.value
                                     )
                                 )
-                            }
-                        )
+                            )
+                        }
+                    ),
+                    DFPageFloatingButton(
+                        icon = RIcons.drawable.angle_up,
+                        onClick = { scrollUp() },
+                        type = DFPageFloatingButton.Type.GRAY,
+                        isVisible = isScrollTopButtonVisible.value
                     )
-                    add(
-                        DFPageFloatingButton(
-                            icon = RIcons.drawable.angle_up,
-                            onClick = {
-                                scope.launch {
-                                    resetScroll()
-                                    lazyListState.animateScrollToItem(0)
-                                }
-                            },
-                            type = DFPageFloatingButton.Type.GRAY,
-                            isVisible = isScrollTopButtonVisible.value
-                        )
-                    )
-                },
-                additionalTitleContent = {
-                    AnimatedVisibility(
-                        visible = scrollDirection.value == ScrollDirection.BOTTOM,
-                        enter = fadeIn() + expandVertically(),
-                        exit = fadeOut() + shrinkVertically(),
-                    ) {
-                        DFDropdownMenu(
-                            selected = date.value,
-                            items = dates.value,
-                            onItemClick = { dispatch(LoadBankListAction.OnDateSelect(it)) },
-                            text = { dateProvider.toText(it.toMonthYear()) },
-                            modifier = Modifier.padding(bottom = Theme.sizes.padding4),
-                            background = Theme.colors.background1,
-                            clip = RoundedCornerShape(Theme.sizes.round16)
-                        )
-                    }
-                }
-            )
+                )
+            }
         }
 
-        val list = selectAsState<ListCacheBackState, LazyListItems> { list.toUi(date.value, store) }
-
-        val error = selectAsState(ListCacheBackState::error)
-
-        when (status.value) {
-            LoadingStatus.Init -> ListCacheBackInit()
-
-            LoadingStatus.Failed -> ListCacheBackFailed(error) {
-                dispatch(loadBankListUseCase(date.value))
+        DFPage(
+            title = stringResource(R.string.page_cache_back_list_title),
+            floatingButtons = floatingButtons.value,
+            actionIcon = LocalFeatureConfig.current.action?.icon,
+            onActionPress = LocalFeatureConfig.current.action?.onClick,
+            hasSystemNavigationBar = LocalRootConfig.current.hasSystemNavigationBar,
+            additionalTitleContent = {
+                AnimatedVisibility(
+                    visible = scrollDirection.value == ScrollDirection.BOTTOM,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically(),
+                ) {
+                    DFDropdownMenu(
+                        selected = date.value,
+                        items = dates.value,
+                        onItemClick = { dispatch(LoadBankListAction.OnDateSelect(it)) },
+                        text = { dateProvider.toText(it.toMonthYear()) },
+                        modifier = Modifier.padding(bottom = Theme.sizes.padding4),
+                        background = Theme.colors.background1,
+                        clip = RoundedCornerShape(Theme.sizes.round16)
+                    )
+                }
             }
+        ) {
+            when (status.value) {
+                LoadingStatus.Init -> ListCacheBackInit()
 
-            LoadingStatus.Loading,
-            LoadingStatus.Success -> ListCacheBackSuccess(
-                isLoading = status.value == LoadingStatus.Loading,
-                list = list,
-                lazyListState = lazyListState,
-                modifier = Modifier.nestedScroll(nestedScrollConnection)
-            )
+                LoadingStatus.Failed -> ListCacheBackFailed(error) {
+                    dispatch(loadBankListUseCase(date.value))
+                }
+
+                LoadingStatus.Loading,
+                LoadingStatus.Success -> ListCacheBackSuccess(
+                    isLoading = status.value == LoadingStatus.Loading,
+                    list = list,
+                    lazyListState = lazyListState,
+                    modifier = Modifier.nestedScroll(nestedScrollConnection)
+                )
+            }
         }
     }
 

@@ -8,30 +8,16 @@ import su.tease.core.mvi.component.component.container.RootConfig
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.function.Transformer
 
-abstract class BaseAppComponent(
-    store: Store<*>,
-) : BaseNavigationMviComponent(store) {
-
-    open val inPage: Boolean = true
+abstract class BaseAppComponent(store: Store<*>) : BaseNavigationMviComponent(store) {
 
     internal val rootConfig = mutableStateOf<Transformer<RootConfig>>(Transformer { it })
     internal val appConfig = mutableStateOf<Transformer<AppConfig>>(Transformer { it })
 
     @Composable
-    open fun ComposeNavigationBar() = Unit
-
-    @Composable
-    @Deprecated(
-        message = "Use Compose(child)",
-        replaceWith = ReplaceWith("Compose(child)"),
-        level = DeprecationLevel.ERROR,
-    )
-    override operator fun invoke() {
-        error("Not supported")
-    }
-
-    @Composable
     open operator fun invoke(child: @Composable () -> Unit) = child()
+
+    @Composable
+    open fun ComposeNavigationBar() = Unit
 
     @Composable
     fun RootConfig(vararg key: Any, builder: RootConfig.() -> RootConfig) {

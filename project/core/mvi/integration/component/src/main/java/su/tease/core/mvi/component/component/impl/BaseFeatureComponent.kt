@@ -16,16 +16,6 @@ abstract class BaseFeatureComponent(store: Store<*>) : BaseNavigationMviComponen
     internal val featureConfig = mutableStateOf<Transformer<FeatureConfig>>(Transformer { it })
 
     @Composable
-    @Deprecated(
-        message = "Use Compose(child)",
-        replaceWith = ReplaceWith("Compose(child)"),
-        level = DeprecationLevel.ERROR,
-    )
-    override operator fun invoke() {
-        error("Not supported")
-    }
-
-    @Composable
     open operator fun invoke(child: @Composable () -> Unit) = child()
 
     @Composable

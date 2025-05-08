@@ -24,7 +24,6 @@ class NotificationReducer : Reducer<NotificationState> {
     }
 
     private fun NotificationState.onNotificationAction(action: NotificationAction) = when (action) {
-
         is NotificationAction.ShowNotification -> copy(
             notifications = (notifications + action.notification).toPersistentList()
         )

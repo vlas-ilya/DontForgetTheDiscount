@@ -34,7 +34,7 @@ interface Sizes {
     val padding14: Dp
     val padding16: Dp
     val padding20: Dp
-    val padding48: Dp
+    val padding46: Dp
     val round1: Dp
     val round2: Dp
     val round4: Dp

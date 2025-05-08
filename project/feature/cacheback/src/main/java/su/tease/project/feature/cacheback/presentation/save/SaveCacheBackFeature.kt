@@ -2,7 +2,7 @@ package su.tease.project.feature.cacheback.presentation.save
 
 import androidx.compose.runtime.Composable
 import kotlinx.parcelize.Parcelize
-import su.tease.core.mvi.component.component.container.AppAction
+import su.tease.core.mvi.component.component.container.FeatureConfig
 import su.tease.core.mvi.component.component.impl.BaseFeatureComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.core.mvi.navigation.feature
@@ -17,10 +17,10 @@ class SaveCacheBackFeature(
     @Composable
     override operator fun invoke(child: @Composable () -> Unit) {
         RootConfig { copy(isFullscreen = true) }
-        AppConfig {
+        AppConfig { copy(hasNavigationBar = false) }
+        FeatureConfig {
             copy(
-                hasNavigationBar = false,
-                action = AppAction(
+                action = FeatureConfig.AppAction(
                     icon = RIcons.drawable.cross_small,
                     onClick = ::onClosePressed,
                 )

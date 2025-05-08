@@ -19,13 +19,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.res.stringResource
 import kotlinx.parcelize.Parcelize
+import su.tease.core.mvi.component.component.container.LocalFeatureConfig
+import su.tease.core.mvi.component.component.container.LocalRootConfig
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.state.LoadingStatus
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.ext.RedirectState
+import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.usecase.AddBankAction
 import su.tease.project.feature.cacheback.domain.usecase.AddBankUseCase
@@ -51,7 +55,6 @@ class AddBankPage(
     @Composable
     override operator fun invoke() {
         RootConfig { copy(isFullscreen = true) }
-        AppConfig { copy(titleRes = R.string.page_add_bank_title) }
 
         RedirectState(selectAsState(AddBankState::icon), form.icon)
         RedirectState(selectAsState(AddBankState::error), form.error)
@@ -71,37 +74,44 @@ class AddBankPage(
             }
         }
 
-        Column(
-            modifier = Modifier
-                .padding(Theme.sizes.padding8)
-                .padding(top = Theme.sizes.padding6)
-                .padding(WindowInsets.ime.asPaddingValues())
+        DFPage(
+            title = stringResource(R.string.page_add_bank_title),
+            actionIcon = LocalFeatureConfig.current.action?.icon,
+            onActionPress = LocalFeatureConfig.current.action?.onClick,
+            hasSystemNavigationBar = LocalRootConfig.current.hasSystemNavigationBar,
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start,
+            Column(
+                modifier = Modifier
+                    .padding(Theme.sizes.padding8)
+                    .padding(top = Theme.sizes.padding6)
+                    .padding(WindowInsets.ime.asPaddingValues())
             ) {
-                IconSelect(
-                    iconState = form.icon,
-                    onSelect = { selectIcon(R.string.page_add_bank_icon_title) },
-                    error = form.ui { iconError },
-                    modifier = Modifier.wrapContentWidth(),
-                )
-                Spacer(modifier = Modifier.width(Theme.sizes.padding8))
-                NameEditText(
-                    nameState = form.name,
-                    focusRequester = focusRequester,
-                    onChange = { form.setName(it) },
-                    error = form.ui { nameError },
+                Row(
                     modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start,
+                ) {
+                    IconSelect(
+                        iconState = form.icon,
+                        onSelect = { selectIcon(R.string.page_add_bank_icon_title) },
+                        error = form.ui { iconError },
+                        modifier = Modifier.wrapContentWidth(),
+                    )
+                    Spacer(modifier = Modifier.width(Theme.sizes.padding8))
+                    NameEditText(
+                        nameState = form.name,
+                        focusRequester = focusRequester,
+                        onChange = { form.setName(it) },
+                        error = form.ui { nameError },
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
+                Spacer(modifier = Modifier.weight(1F))
+                SaveButton(
+                    modifier = Modifier.wrapContentHeight(),
+                    onSubmit = { save() }
                 )
             }
-            Spacer(modifier = Modifier.weight(1F))
-            SaveButton(
-                modifier = Modifier.wrapContentHeight(),
-                onSubmit = { save() }
-            )
         }
     }
 

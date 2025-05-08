@@ -2,7 +2,6 @@ package su.tease.design.component.navigationbar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,17 +21,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.Layout
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Constraints
 import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toPersistentList
 import su.tease.design.component.navigationbar.data.NavigationBarItemData
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.utils.ext.choose
-import su.tease.project.design.icons.R
-import su.tease.project.design.theme.impl.Theme
 
 private fun <T> indexOf(
     selected: T,
@@ -156,45 +149,6 @@ private fun EqualWidthRow(
                 placeable.placeRelative(x, 0)
                 x += maxChildWidth + spacing
             }
-        }
-    }
-}
-
-@Composable
-@Preview
-private fun NavigationBarPreview() {
-    val items = persistentListOf(
-        NavigationBarItemData(
-            value = 1,
-            name = "Tab1",
-            image = painterResource(R.drawable.alarm_clock),
-        ),
-        NavigationBarItemData(
-            value = 2,
-            name = "Tab2",
-            image = painterResource(R.drawable.apartment),
-        ),
-        NavigationBarItemData(
-            value = 3,
-            name = "Tab3 Tab3",
-            image = painterResource(R.drawable.antenna),
-        ),
-    )
-
-    val data = items.map { it.value }.toPersistentList()
-
-    Theme {
-        var selected by remember { mutableIntStateOf(data.first()) }
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth(),
-        ) {
-            NavigationBar(
-                selected = selected,
-                items = items,
-                onSelect = { selected = it }
-            )
         }
     }
 }

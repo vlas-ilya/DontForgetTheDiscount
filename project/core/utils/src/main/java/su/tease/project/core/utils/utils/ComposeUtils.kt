@@ -93,5 +93,11 @@ fun rememberScrollDirection(
     }
 }
 
+@Composable
+fun rememberCallback(
+    vararg keys: Any?,
+    callback: () -> Unit
+): () -> Unit = remember(*keys) { callback }
+
 @PublishedApi
 internal const val THRESHOLD = 50

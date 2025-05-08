@@ -24,14 +24,14 @@ import su.tease.design.theme.api.Theme
 
 @Composable
 @Suppress("LongParameterList")
-fun DFPage(
+fun DFPageContext.DFPage(
     title: String,
     modifier: Modifier = Modifier,
     hasSystemNavigationBar: Boolean = true,
     @DrawableRes actionIcon: Int? = null,
     floatingButtons: PersistentList<DFPageFloatingButton> = persistentListOf(),
     additionalTitleContent: @Composable () -> Unit = {},
-    onBackPress: (() -> Unit)? = null,
+    showBackButton: Boolean = true,
     onActionPress: (() -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
@@ -68,12 +68,13 @@ fun DFPage(
             DFPageTitle(
                 title = title,
                 additionalTitleContent = additionalTitleContent,
-                onBackPress = onBackPress,
+                onBackPress = ::onBackPress.takeIf { showBackButton },
                 onActionPress = onActionPress,
                 actionIcon = actionIcon,
             )
             Box(
                 modifier = Modifier
+                    .padding(horizontal = Theme.sizes.padding4)
                     .clip(
                         RoundedCornerShape(
                             topStart = Theme.sizes.round16,
@@ -94,6 +95,7 @@ fun DFPage(
                     .align(Alignment.BottomEnd)
                     .padding(end = Theme.sizes.padding20)
                     .padding(bottom = Theme.sizes.padding20)
+                    .padding(end = Theme.sizes.padding4)
             ) {
                 floatingButtons.forEach {
                     Spacer(Modifier.height(Theme.sizes.padding6))
@@ -102,4 +104,8 @@ fun DFPage(
             }
         }
     }
+}
+
+interface DFPageContext {
+    fun onBackPress()
 }

@@ -81,14 +81,14 @@ private fun makeLightColors(): Colors = ColorsImpl(
 
     link = accent4,
 
-    notificationSuccessBackground =  accent4,
-    notificationSuccessText =  Color(0xFFFFF5FA),
+    notificationSuccessBackground = accent4,
+    notificationSuccessText = Color(0xFFFFF5FA),
 
-    notificationInfoBackground =  accent3,
-    notificationInfoText =  accent4,
+    notificationInfoBackground = accent3,
+    notificationInfoText = accent4,
 
-    notificationErrorBackground =  Color(0xFFD22038),
-    notificationErrorText =  Color(0xFFFFF5FA),
+    notificationErrorBackground = Color(0xFFD22038),
+    notificationErrorText = Color(0xFFFFF5FA),
 
     tmpFiller = black,
 )

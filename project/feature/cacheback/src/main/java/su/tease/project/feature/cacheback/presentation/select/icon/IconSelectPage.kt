@@ -16,10 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.parcelize.Parcelize
+import su.tease.core.mvi.component.component.container.LocalFeatureConfig
+import su.tease.core.mvi.component.component.container.LocalRootConfig
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.design.theme.api.Theme
@@ -27,6 +30,7 @@ import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.utils.memoize
 import su.tease.project.design.component.controls.image.DFImage
+import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.feature.cacheback.domain.entity.preset.IconPreset
 import su.tease.project.feature.cacheback.domain.interceptor.DictionaryInterceptor
 
@@ -39,31 +43,37 @@ class IconSelectPage(
     @Composable
     override operator fun invoke() {
         RootConfig { copy(isFullscreen = true) }
-        AppConfig { copy(titleRes = target.pageTitle) }
 
         val icons by memoize { target.iconType.getIcons(dictionaryInterceptor) }
 
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = Theme.sizes.size40),
-            contentPadding = PaddingValues(Theme.sizes.padding6),
-            verticalArrangement = Arrangement.spacedBy(Theme.sizes.padding4),
-            horizontalArrangement = Arrangement.spacedBy(Theme.sizes.padding4),
+        DFPage(
+            title = stringResource(target.pageTitle),
+            actionIcon = LocalFeatureConfig.current.action?.icon,
+            onActionPress = LocalFeatureConfig.current.action?.onClick,
+            hasSystemNavigationBar = LocalRootConfig.current.hasSystemNavigationBar,
         ) {
-            icons?.forEach {
-                item(key = it.url) {
-                    DFImage(
-                        modifier = Modifier
-                            .clip(target.iconType.clip())
-                            .clickable {
-                                dispatch(OnSelectAction(target.target, it))
-                                back()
-                            }
-                            .padding(target.iconType.padding())
-                            .size(target.iconType.size()),
-                        url = it.url,
-                        contentDescription = "",
-                        tint = target.iconType.tint(),
-                    )
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(minSize = Theme.sizes.size40),
+                contentPadding = PaddingValues(Theme.sizes.padding6),
+                verticalArrangement = Arrangement.spacedBy(Theme.sizes.padding4),
+                horizontalArrangement = Arrangement.spacedBy(Theme.sizes.padding4),
+            ) {
+                icons?.forEach {
+                    item(key = it.url) {
+                        DFImage(
+                            modifier = Modifier
+                                .clip(target.iconType.clip())
+                                .clickable {
+                                    dispatch(OnSelectAction(target.target, it))
+                                    back()
+                                }
+                                .padding(target.iconType.padding())
+                                .size(target.iconType.size()),
+                            url = it.url,
+                            contentDescription = "",
+                            tint = target.iconType.tint(),
+                        )
+                    }
                 }
             }
         }

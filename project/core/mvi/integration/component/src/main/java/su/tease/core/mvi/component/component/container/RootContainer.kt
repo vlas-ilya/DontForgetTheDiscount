@@ -3,51 +3,113 @@
 package su.tease.core.mvi.component.component.container
 
 import android.view.Window
-import androidx.compose.foundation.background
+import androidx.annotation.DrawableRes
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import su.tease.core.mvi.component.component.impl.BaseMviComponent
 import su.tease.core.mvi.component.resolver.impl.AppNavigationTargetResolver
-import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.store.Store
+import su.tease.project.core.mvi.navigation.selector.appIdName
+import su.tease.project.core.mvi.navigation.selector.featureIdName
+import su.tease.project.core.mvi.navigation.selector.pageIdName
 import su.tease.project.core.utils.ext.hideSystemUI
 import su.tease.project.core.utils.ext.isNavigationBarVisible
+import su.tease.project.core.utils.ext.map
 import su.tease.project.core.utils.ext.showSystemUI
-import su.tease.project.core.utils.function.Supplier
+import su.tease.project.core.utils.function.pipe
 
 @Immutable
 data class RootConfig(
-    val isFullscreen: Boolean = false
-)
-
-private val actualRootConfigState = mutableStateOf(RootConfig())
-fun commitRootConfig(config: RootConfig) {
-    actualRootConfigState.value = config
+    val isFullscreen: Boolean = false,
+    val isNavigationBarVisible: Boolean = true,
+) {
+    val hasSystemNavigationBar: Boolean = isFullscreen.not() || isNavigationBarVisible
 }
 
+@Immutable
+data class AppConfig(
+    val hasNavigationBar: Boolean = true,
+)
+
+@Immutable
+data class FeatureConfig(
+    val action: AppAction? = null,
+) {
+    @Immutable
+    data class AppAction(
+        @DrawableRes val icon: Int,
+        val onClick: () -> Unit,
+    )
+}
+
+val LocalRootConfig = compositionLocalOf { RootConfig() }
+val LocalAppConfig = compositionLocalOf { AppConfig() }
+val LocalFeatureConfig = compositionLocalOf { FeatureConfig() }
+
 class RootContainer(
-    private val store: Store<*>,
+    store: Store<*>,
     private val navigationTargetResolver: AppNavigationTargetResolver,
     private val windowProvider: () -> Window,
-    private val appWrapper: AppWrapper,
-) {
+) : BaseMviComponent(store) {
+
     @Composable
     @Suppress("ModifierMissing")
     fun ComposeRootContainer() {
-        val rootConfig = remember { mutableStateOf(Supplier { RootConfig() }) }
+        val app = selectAsState(appIdName())
+            .map { navigationTargetResolver.resolve(it.first, it.second) }
+            .value
 
-        val isFullscreen = actualRootConfigState.value.isFullscreen
-        LaunchedEffect(isFullscreen) {
+        val feature = selectAsState(featureIdName())
+            .map { navigationTargetResolver.resolve(it.first, it.second) }
+            .value
+
+        val page = selectAsState(pageIdName())
+            .map { navigationTargetResolver.resolve(it.first, it.second) }
+            .value
+
+        val rootConfig =
+            remember(app.rootConfig.value, feature.rootConfig.value, page.rootConfig.value) {
+                RootConfig()
+                    .pipe(app.rootConfig.value)
+                    .pipe(feature.rootConfig.value)
+                    .pipe(page.rootConfig.value)
+                    .invoke()
+                    .copy(isNavigationBarVisible = windowProvider().isNavigationBarVisible())
+            }
+
+        val appConfig =
+            remember(app.appConfig.value, feature.appConfig.value, page.appConfig.value) {
+                AppConfig()
+                    .pipe(app.appConfig.value)
+                    .pipe(feature.appConfig.value)
+                    .pipe(page.appConfig.value)
+                    .invoke()
+            }
+
+        val featureConfig = remember(feature.featureConfig.value, page.featureConfig.value) {
+            FeatureConfig()
+                .pipe(feature.featureConfig.value)
+                .pipe(page.featureConfig.value)
+                .invoke()
+        }
+
+        LaunchedEffect(rootConfig) {
+            val isFullscreen = rootConfig.isFullscreen
             if (isFullscreen) {
                 windowProvider().hideSystemUI()
             } else {
@@ -55,29 +117,35 @@ class RootContainer(
             }
         }
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(WindowInsets.statusBars.asPaddingValues())
-                .padding(WindowInsets.navigationBars.asPaddingValues())
-                .background(Theme.colors.background1),
+        CompositionLocalProvider(
+            LocalRootConfig provides rootConfig,
+            LocalAppConfig provides appConfig,
+            LocalFeatureConfig provides featureConfig,
         ) {
-            val appContainer = remember {
-                AppContainer(
-                    store = store,
-                    navigationTargetResolver = navigationTargetResolver,
-                    appWrapper = appWrapper,
-                )
+            app {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    Box(
+                        Modifier.weight(1F)
+                    ) {
+                        feature {
+                            page()
+                        }
+                    }
+
+                    AnimatedVisibility(
+                        visible = appConfig.hasNavigationBar,
+                        enter = fadeIn() + expandVertically(),
+                        exit = fadeOut() + shrinkVertically(),
+                    ) {
+                        Box(modifier = Modifier.fillMaxWidth()) {
+                            app.ComposeNavigationBar()
+                        }
+                    }
+                }
             }
-
-            val hasSystemNavigationBar =
-                actualRootConfigState.value.isFullscreen.not() ||
-                    windowProvider().isNavigationBarVisible()
-
-            appContainer.ComposeAppContainer(
-                rootConfig = rootConfig,
-                hasSystemNavigationBar = hasSystemNavigationBar,
-            )
         }
     }
 }

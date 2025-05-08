@@ -9,15 +9,20 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.parcelize.Parcelize
+import su.tease.core.mvi.component.component.container.LocalFeatureConfig
+import su.tease.core.mvi.component.component.container.LocalRootConfig
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.utils.memoize
+import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.design.component.controls.page.DFPageFloatingButton
 import su.tease.project.design.icons.R
 import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
@@ -34,17 +39,6 @@ class BankSelectPage(
     @Composable
     override operator fun invoke() {
         RootConfig { copy(isFullscreen = true) }
-        AppConfig {
-            copy(
-                titleRes = target.pageTitle,
-                floatingButtons = persistentListOf(
-                    DFPageFloatingButton(
-                        icon = R.drawable.plus,
-                        onClick = { forward(AddBankPage()) }
-                    )
-                )
-            )
-        }
 
         val banks by memoize { dictionaryInterceptor.banks() }
         val addedBankPreset = selectAsState(SelectBankState::addedBankPreset).value
@@ -56,24 +50,35 @@ class BankSelectPage(
             }
         }
 
-        LazyColumn(
-            contentPadding = PaddingValues(
-                horizontal = Theme.sizes.padding4,
-            ),
+        val floatingButtons = remember {
+            persistentListOf(
+                DFPageFloatingButton(
+                    icon = R.drawable.plus,
+                    onClick = { forward(AddBankPage()) }
+                )
+            )
+        }
+
+        DFPage(
+            title = stringResource(target.pageTitle),
+            floatingButtons = floatingButtons,
+            actionIcon = LocalFeatureConfig.current.action?.icon,
+            onActionPress = LocalFeatureConfig.current.action?.onClick,
+            hasSystemNavigationBar = LocalRootConfig.current.hasSystemNavigationBar,
         ) {
-            item {
-                Spacer(modifier = Modifier.height(Theme.sizes.padding4))
-            }
-            banks?.forEach {
-                item(key = it.id) {
-                    SelectBankPresetPreview(
-                        bank = it,
-                        onClick = {
-                            dispatch(OnSelectAction(target.target, it))
-                            back()
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                    )
+            LazyColumn(contentPadding = PaddingValues(horizontal = Theme.sizes.padding4)) {
+                item { Spacer(modifier = Modifier.height(Theme.sizes.padding4)) }
+                banks?.forEach {
+                    item(key = it.id) {
+                        SelectBankPresetPreview(
+                            bank = it,
+                            onClick = {
+                                dispatch(OnSelectAction(target.target, it))
+                                back()
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
                 }
             }
         }

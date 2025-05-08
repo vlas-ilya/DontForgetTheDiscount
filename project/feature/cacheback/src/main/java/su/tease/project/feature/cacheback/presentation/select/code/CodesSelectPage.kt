@@ -17,15 +17,19 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
+import su.tease.core.mvi.component.component.container.LocalFeatureConfig
+import su.tease.core.mvi.component.component.container.LocalRootConfig
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.ext.toIntSafe
+import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.CacheBackCode
 import su.tease.project.feature.cacheback.domain.interceptor.DictionaryInterceptor
@@ -47,7 +51,6 @@ class CodesSelectPage(
     @Composable
     override operator fun invoke() {
         RootConfig { copy(isFullscreen = true) }
-        AppConfig { copy(titleRes = R.string.page_select_cache_back_codes_title) }
 
         val code = remember { mutableStateOf("") }
         val codePresets = remember { mutableStateListOf<String>() }
@@ -62,61 +65,68 @@ class CodesSelectPage(
                 .let { codePresets.addAll(it) }
         }
 
-        Column(
-            modifier = Modifier
-                .padding(Theme.sizes.padding8)
-                .padding(top = Theme.sizes.padding6)
-                .fillMaxSize()
-                .padding(WindowInsets.ime.asPaddingValues())
+        DFPage(
+            title = stringResource(R.string.page_select_cache_back_codes_title),
+            actionIcon = LocalFeatureConfig.current.action?.icon,
+            onActionPress = LocalFeatureConfig.current.action?.onClick,
+            hasSystemNavigationBar = LocalRootConfig.current.hasSystemNavigationBar,
         ) {
-            CodeSelectPageInput(
-                code = code,
-                focusRequester = focusRequester,
-                maxMccCode = MAX_MCC_CODE,
-                onActionClick = {
-                    if (code.value.toIntSafe() in MIN_MCC_CODE..MAX_MCC_CODE) {
-                        val value = code.value
-                        if (value !in selectedCodes) selectedCodes.add(value)
-                        if (value !in codePresets) codePresets.add(value)
-                        code.value = ""
-                        focusRequester.requestFocus()
-                    }
-                }
-            )
-
-            Spacer(modifier = Modifier.height(Theme.sizes.padding4))
-
-            CodeSelectPageSelectedCodes(
-                selectedCodes = selectedCodes,
-            )
-
-            Spacer(modifier = Modifier.height(Theme.sizes.padding4))
-
-            CodeSelectPageCodePresets(
-                codePresets = codePresets,
-                selectedCodes = selectedCodes,
-                code = code,
+            Column(
                 modifier = Modifier
+                    .padding(Theme.sizes.padding8)
+                    .padding(top = Theme.sizes.padding6)
                     .fillMaxSize()
-                    .weight(1F),
-                onItemClick = {
-                    if (it !in selectedCodes) {
-                        code.value = ""
-                        selectedCodes.add(it)
+                    .padding(WindowInsets.ime.asPaddingValues())
+            ) {
+                CodeSelectPageInput(
+                    code = code,
+                    focusRequester = focusRequester,
+                    maxMccCode = MAX_MCC_CODE,
+                    onActionClick = {
+                        if (code.value.toIntSafe() in MIN_MCC_CODE..MAX_MCC_CODE) {
+                            val value = code.value
+                            if (value !in selectedCodes) selectedCodes.add(value)
+                            if (value !in codePresets) codePresets.add(value)
+                            code.value = ""
+                            focusRequester.requestFocus()
+                        }
                     }
-                }
-            )
+                )
 
-            Spacer(modifier = Modifier.height(Theme.sizes.padding4))
+                Spacer(modifier = Modifier.height(Theme.sizes.padding4))
 
-            CodeSelectPateSaveButton(
-                onClick = {
-                    scope.launch {
-                        dispatch(addCodeUseCase(target.target, selectedCodes.toList())).join()
-                        back()
+                CodeSelectPageSelectedCodes(
+                    selectedCodes = selectedCodes,
+                )
+
+                Spacer(modifier = Modifier.height(Theme.sizes.padding4))
+
+                CodeSelectPageCodePresets(
+                    codePresets = codePresets,
+                    selectedCodes = selectedCodes,
+                    code = code,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .weight(1F),
+                    onItemClick = {
+                        if (it !in selectedCodes) {
+                            code.value = ""
+                            selectedCodes.add(it)
+                        }
                     }
-                }
-            )
+                )
+
+                Spacer(modifier = Modifier.height(Theme.sizes.padding4))
+
+                CodeSelectPateSaveButton(
+                    onClick = {
+                        scope.launch {
+                            dispatch(addCodeUseCase(target.target, selectedCodes.toList())).join()
+                            back()
+                        }
+                    }
+                )
+            }
         }
     }
 

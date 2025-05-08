@@ -13,25 +13,21 @@ import su.tease.design.component.navigationbar.data.NavigationBarItemData
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.navigation.selector.feature
 import su.tease.project.design.icons.R
+import su.tease.project.feature.cacheback.presentation.CacheBackFeature
 
-class MainApp2(store: Store<*>) : BaseAppComponent(store,) {
+class MainApp(store: Store<*>) : BaseAppComponent(store) {
 
     @Composable
     override fun ComposeNavigationBar() {
-        val feature = selectAsState(feature()).value ?: return
+        val feature = selectAsState(feature()).value
 
         NavigationBar(
             selected = feature,
             items = persistentListOf(
                 NavigationBarItemData(
-                    value = MainFeature2(),
-                    name = "Feature 2",
-                    image = painterResource(R.drawable.alarm_clock),
-                ),
-                NavigationBarItemData(
-                    value = MainFeature3(),
-                    name = "Feature 3",
-                    image = painterResource(R.drawable.shopping_bag),
+                    value = CacheBackFeature(),
+                    name = "Cache Back",
+                    image = painterResource(R.drawable.dollar),
                 ),
             ),
             onSelect = { switch(it) },
@@ -42,7 +38,7 @@ class MainApp2(store: Store<*>) : BaseAppComponent(store,) {
     companion object {
         operator fun invoke() = app(
             Target,
-            MainFeature2(),
+            CacheBackFeature(),
         )
     }
 

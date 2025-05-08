@@ -5,11 +5,16 @@ import su.tease.core.mvi.navigation.FeatureNavigation
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.navigation.action.NavigationAction
+import su.tease.project.design.component.controls.page.DFPageContext
 
 @Suppress("TooManyFunctions")
 abstract class BaseNavigationMviComponent(
     store: Store<*>
-) : BaseMviComponent(store) {
+) : BaseMviComponent(store), DFPageContext {
+
+    override fun onBackPress() {
+        back()
+    }
 
     protected fun forward(
         page: NavigationTarget.Page,

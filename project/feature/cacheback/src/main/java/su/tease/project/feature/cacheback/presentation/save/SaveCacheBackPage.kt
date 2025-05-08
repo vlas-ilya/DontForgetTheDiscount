@@ -21,7 +21,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import kotlinx.parcelize.Parcelize
+import su.tease.core.mvi.component.component.container.LocalFeatureConfig
+import su.tease.core.mvi.component.component.container.LocalRootConfig
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.design.theme.api.Theme
@@ -32,6 +35,7 @@ import su.tease.project.core.utils.ext.RedirectState
 import su.tease.project.core.utils.ext.choose
 import su.tease.project.core.utils.ext.mapPersistent
 import su.tease.project.core.utils.ext.runIf
+import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.CacheBackId
 import su.tease.project.feature.cacheback.domain.entity.CacheBackInfo
@@ -89,15 +93,6 @@ class SaveCacheBackPage(
 
     @Composable
     override operator fun invoke() {
-        AppConfig {
-            copy(
-                titleRes = (target.saveCacheBackState.id == null).choose(
-                    R.string.page_save_cache_back_title_add,
-                    R.string.page_save_cache_back_title_edit,
-                )
-            )
-        }
-
         val status = selectAsState(SaveCacheBackState::status).value
 
         LaunchedEffect(status) {
@@ -114,11 +109,23 @@ class SaveCacheBackPage(
             }
         }
 
-        when (status) {
-            LoadingStatus.Success -> return
-            LoadingStatus.Init -> CacheBackAddPageForm()
-            LoadingStatus.Loading -> CacheBackAddPageLoading()
-            LoadingStatus.Failed -> CacheBackAddPageFailed()
+        DFPage(
+            title = stringResource(
+                (target.saveCacheBackState.id == null).choose(
+                    R.string.page_save_cache_back_title_add,
+                    R.string.page_save_cache_back_title_edit,
+                )
+            ),
+            actionIcon = LocalFeatureConfig.current.action?.icon,
+            onActionPress = LocalFeatureConfig.current.action?.onClick,
+            hasSystemNavigationBar = LocalRootConfig.current.hasSystemNavigationBar,
+        ) {
+            when (status) {
+                LoadingStatus.Success -> return@DFPage
+                LoadingStatus.Init -> CacheBackAddPageForm()
+                LoadingStatus.Loading -> CacheBackAddPageLoading()
+                LoadingStatus.Failed -> CacheBackAddPageFailed()
+            }
         }
     }
 

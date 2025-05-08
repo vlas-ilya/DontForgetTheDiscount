@@ -59,6 +59,7 @@ dependencies {
 
     // project
     implementation(project(":project:feature:main"))
+    implementation(project(":project:design:component:controls"))
     implementation(project(":project:design:theme:impl"))
     implementation(project(":project:design:theme:api"))
     implementation(project(":project:core:mvi:api"))

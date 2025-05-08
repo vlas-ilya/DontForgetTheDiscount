@@ -2,10 +2,13 @@ package su.tease.project.feature.cacheback.presentation.select.text
 
 import androidx.compose.runtime.Composable
 import kotlinx.parcelize.Parcelize
+import su.tease.core.mvi.component.component.container.LocalFeatureConfig
+import su.tease.core.mvi.component.component.container.LocalRootConfig
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.store.Store
+import su.tease.project.design.component.controls.page.DFPage
 
 class TextSelectPage(
     store: Store<*>,
@@ -15,7 +18,12 @@ class TextSelectPage(
     @Composable
     override operator fun invoke() {
         RootConfig { copy(isFullscreen = true) }
-        AppConfig { copy(title = target.pageTitle) }
+        DFPage(
+            title = target.pageTitle,
+            actionIcon = LocalFeatureConfig.current.action?.icon,
+            onActionPress = LocalFeatureConfig.current.action?.onClick,
+            hasSystemNavigationBar = LocalRootConfig.current.hasSystemNavigationBar,
+        ) { }
     }
 
     @Parcelize
