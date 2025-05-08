@@ -20,11 +20,11 @@ import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.Bank
 
 data class BankItem(
-    private val bankItem: Bank,
+    private val bank: Bank,
     private val store: Store<*>,
 ) : LazyListItem {
 
-    override val key = bankItem.id.value
+    override val key = bank.id.value
 
     @Composable
     override fun LazyItemScope.Compose() {
@@ -33,7 +33,7 @@ data class BankItem(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             DFImage(
-                url = bankItem.icon.url,
+                url = bank.icon.url,
                 modifier = Modifier
                     .padding(horizontal = Theme.sizes.padding8)
                     .clip(CircleShape)
@@ -41,11 +41,11 @@ data class BankItem(
                     .background(Theme.colors.tmpFiller),
                 contentDescription = stringResource(
                     R.string.item_bank_preview_content_description_bank_logo,
-                    bankItem.name.value,
+                    bank.name.value,
                 )
             )
             DFText(
-                text = bankItem.name.value,
+                text = bank.name.value,
                 style = Theme.fonts.placeholder,
                 modifier = Modifier.padding(horizontal = Theme.sizes.padding6)
             )

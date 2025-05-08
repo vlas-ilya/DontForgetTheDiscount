@@ -12,9 +12,11 @@ import su.tease.project.core.mvi.api.state.LoadingStatus.Loading
 import su.tease.project.core.mvi.api.state.LoadingStatus.Success
 import su.tease.project.core.mvi.api.state.State
 import su.tease.project.feature.cacheback.domain.entity.Bank
+import su.tease.project.feature.cacheback.domain.entity.CacheBack
 import su.tease.project.feature.cacheback.domain.entity.CacheBackDate
 import su.tease.project.feature.cacheback.domain.entity.defaultCacheBackDate
 import su.tease.project.feature.cacheback.domain.usecase.LoadBankListAction as LoadList
+import su.tease.project.feature.cacheback.presentation.reducer.CacheBackInfoDialogAction as Dialog
 
 @Parcelize
 data class ListCacheBackState(
@@ -22,29 +24,43 @@ data class ListCacheBackState(
     val date: CacheBackDate = defaultCacheBackDate,
     val dates: PersistentList<CacheBackDate> = persistentListOf(),
     val list: PersistentList<Bank> = persistentListOf(),
+    val shownCacheBack: Pair<Bank, CacheBack>? = null,
     val error: Boolean = false,
 ) : State
 
-class ListCacheBackReducer : Reducer<ListCacheBackState> {
+typealias S = ListCacheBackState
 
-    override val initState = ListCacheBackState()
+class ListCacheBackReducer : Reducer<S> {
 
-    override fun ListCacheBackState.onAction(action: PlainAction) = when (action) {
+    override val initState = S()
+
+    override fun S.onAction(action: PlainAction) = when (action) {
         is LoadList -> onLoadList(action)
+        is Dialog -> anCacheBackInfoDialog(action)
         else -> this
     }
 
-    private fun ListCacheBackState.onLoadList(action: LoadList) =
-        when (action) {
-            is LoadList.OnLoad -> copy(status = Loading, error = false)
-            is LoadList.OnFail -> copy(status = Failed, error = true)
-            is LoadList.OnDateSelect -> copy(date = action.date)
-            is LoadList.OnSuccess -> copy(
-                status = Success,
-                date = action.date,
-                dates = action.dates,
-                list = action.list,
-                error = false
-            )
-        }
+    private fun S.onLoadList(action: LoadList) = when (action) {
+        is LoadList.OnLoad -> copy(status = Loading, error = false)
+        is LoadList.OnFail -> copy(status = Failed, error = true)
+        is LoadList.OnDateSelect -> copy(date = action.date)
+        is LoadList.OnSuccess -> copy(
+            status = Success,
+            date = action.date,
+            dates = action.dates,
+            list = action.list,
+            error = false
+        )
+    }
+
+    private fun S.anCacheBackInfoDialog(action: Dialog) = when (action) {
+        is Dialog.OnShow -> copy(shownCacheBack = action.data)
+        is Dialog.OnHide -> copy(shownCacheBack = null)
+    }
+}
+
+@Parcelize
+sealed class CacheBackInfoDialogAction : PlainAction {
+    data class OnShow(val data: Pair<Bank, CacheBack>?) : Dialog()
+    data object OnHide : Dialog()
 }

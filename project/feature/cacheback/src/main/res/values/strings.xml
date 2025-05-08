@@ -34,6 +34,9 @@
     <string name="page_add_codes_button_save">Сохранить</string>
     <string name="page_cache_back_list_placeholder_empty_result">Здесь пока ничего нет</string>
     <string name="page_cache_back_list_title">Кэшбэк</string>
+    <string name="page_cache_back_list_dialog_cache_back_content_description_icon">Иконка кэшбэка "%s"</string>
+    <string name="page_cache_back_list_dialog_cache_back_content_description_bank_icon">Логотип банка "%s"</string>
+    <string name="page_cache_back_list_dialog_button_close">Закрыть</string>
     <string name="page_add_bank_title">Добавить банк</string>
     <string name="page_add_bank_icon_title">Выбор иконки для банка</string>
     <string name="page_select_cache_back_bank_title">Выбор банка</string>

@@ -8,6 +8,7 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -33,6 +34,7 @@ import su.tease.project.core.utils.utils.and
 import su.tease.project.core.utils.utils.or
 import su.tease.project.core.utils.utils.rememberCallback
 import su.tease.project.core.utils.utils.scrollDirectionState
+import su.tease.project.design.component.controls.dialog.DFBottomSheet
 import su.tease.project.design.component.controls.dropdown.DFDropdownMenu
 import su.tease.project.design.component.controls.list.LazyListItems
 import su.tease.project.design.component.controls.page.DFPage
@@ -43,10 +45,12 @@ import su.tease.project.feature.cacheback.domain.mapper.toCacheBackDate
 import su.tease.project.feature.cacheback.domain.mapper.toMonthYear
 import su.tease.project.feature.cacheback.domain.usecase.LoadBankListAction
 import su.tease.project.feature.cacheback.domain.usecase.LoadBankListUseCase
+import su.tease.project.feature.cacheback.presentation.list.component.CacheBackDialogContent
 import su.tease.project.feature.cacheback.presentation.list.page.ListCacheBackFailed
 import su.tease.project.feature.cacheback.presentation.list.page.ListCacheBackInit
 import su.tease.project.feature.cacheback.presentation.list.page.ListCacheBackSuccess
 import su.tease.project.feature.cacheback.presentation.mapper.toUi
+import su.tease.project.feature.cacheback.presentation.reducer.CacheBackInfoDialogAction
 import su.tease.project.feature.cacheback.presentation.reducer.ListCacheBackState
 import su.tease.project.feature.cacheback.presentation.reducer.SaveCacheBackState
 import su.tease.project.feature.cacheback.presentation.save.SaveCacheBackFeature
@@ -166,6 +170,11 @@ class ListCacheBackPage(
                 )
             }
         }
+
+        DFBottomSheet(
+            data = selectAsState(ListCacheBackState::shownCacheBack).value,
+            onHide = { dispatch(CacheBackInfoDialogAction.OnHide) }
+        ) { CacheBackDialogContent(data, ::dismiss, dateProvider) }
     }
 
     @Parcelize

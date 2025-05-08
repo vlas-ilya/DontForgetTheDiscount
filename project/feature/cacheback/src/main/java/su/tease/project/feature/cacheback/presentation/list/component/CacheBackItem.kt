@@ -28,12 +28,13 @@ import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.Bank
 import su.tease.project.feature.cacheback.domain.entity.CacheBack
 import su.tease.project.feature.cacheback.domain.entity.preset.mapper.toPreset
+import su.tease.project.feature.cacheback.presentation.reducer.CacheBackInfoDialogAction
 import su.tease.project.feature.cacheback.presentation.reducer.SaveCacheBackState
 import su.tease.project.feature.cacheback.presentation.save.SaveCacheBackFeature
 import su.tease.project.design.icons.R as RIcons
 
 data class CacheBackItem(
-    private val bankItem: Bank,
+    private val bank: Bank,
     private val cacheBack: CacheBack,
     private val store: Store<*>,
 ) : LazyListItem {
@@ -52,7 +53,7 @@ data class CacheBackItem(
                                 SaveCacheBackState(
                                     id = cacheBack.id,
                                     date = cacheBack.date,
-                                    bank = bankItem.toPreset(),
+                                    bank = bank.toPreset(),
                                     name = cacheBack.name,
                                     info = cacheBack.info,
                                     icon = cacheBack.icon.toPreset(),
@@ -102,7 +103,11 @@ data class CacheBackItem(
                 DFIconButton(
                     icon = RIcons.drawable.comment_info,
                     size = DFIconButtonSize.S,
-                    onClick = {}
+                    onClick = {
+                        store.dispatcher.dispatch(
+                            CacheBackInfoDialogAction.OnShow(bank to cacheBack)
+                        )
+                    }
                 )
             }
         }
