@@ -6,10 +6,11 @@ import androidx.compose.runtime.mutableStateOf
 import su.tease.core.mvi.component.component.container.AppConfig
 import su.tease.core.mvi.component.component.container.FeatureConfig
 import su.tease.core.mvi.component.component.container.RootConfig
+import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.function.Transformer
 
-abstract class BasePageComponent(
+abstract class BasePageComponent<T : NavigationTarget.Page>(
     store: Store<*>
 ) : BaseNavigationMviComponent(store) {
 

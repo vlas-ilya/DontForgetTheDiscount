@@ -20,6 +20,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,7 +39,9 @@ fun NotificationItem(
     onClick: () -> Unit,
     onDismiss: () -> Unit,
     shouldBeDismissed: Boolean,
+    modifier: Modifier = Modifier,
 ) {
+    val rememberOnDismiss = rememberUpdatedState(onDismiss)
     val isVisible = remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
@@ -51,7 +54,7 @@ fun NotificationItem(
         if (!isVisible.value) return@LaunchedEffect
         isVisible.value = false
         delay(HIDE_NOTIFICATION_ANIMATION)
-        onDismiss()
+        rememberOnDismiss.value()
     }
 
     LaunchedEffect(shouldBeDismissed) {
@@ -59,14 +62,15 @@ fun NotificationItem(
             if (!isVisible.value) return@LaunchedEffect
             isVisible.value = false
             delay(HIDE_NOTIFICATION_ANIMATION)
-            onDismiss()
+            rememberOnDismiss.value()
         }
     }
 
     AnimatedVisibility(
         visible = isVisible.value,
         enter = expandVertically() + fadeIn(),
-        exit = shrinkVertically(shrinkTowards = Alignment.Top) + fadeOut()
+        exit = shrinkVertically(shrinkTowards = Alignment.Top) + fadeOut(),
+        modifier = modifier,
     ) {
         Row(
             modifier = Modifier
@@ -108,7 +112,7 @@ fun NotificationItem(
                             if (!isVisible.value) return@launch
                             isVisible.value = false
                             delay(HIDE_NOTIFICATION_ANIMATION)
-                            onDismiss()
+                            rememberOnDismiss.value()
                         }
                     },
                 )

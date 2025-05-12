@@ -8,8 +8,8 @@ import su.tease.core.mvi.component.component.impl.BaseFeatureComponent
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.component.component.provider.AppProvider
 import su.tease.core.mvi.component.component.provider.FeatureProvider
+import su.tease.core.mvi.component.component.provider.NavigationScope
 import su.tease.core.mvi.component.component.provider.PageProvider
-import su.tease.core.mvi.component.component.provider.StoreTargetProvider
 import su.tease.core.mvi.component.resolver.NavigationTargetResolver
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.project.core.mvi.api.selector.select
@@ -32,9 +32,9 @@ class AppNavigationTargetResolver(
     private val mapFeatures = features.associateBy { it.target }
     private val mapApps = apps.associateBy { it.target }
 
-    private val pageCache = mutableMapOf<String, BasePageComponent>()
-    private val featureCache = mutableMapOf<String, BaseFeatureComponent>()
-    private val appCache = mutableMapOf<String, BaseAppComponent>()
+    private val pageCache = mutableMapOf<String, BasePageComponent<*>>()
+    private val featureCache = mutableMapOf<String, BaseFeatureComponent<*>>()
+    private val appCache = mutableMapOf<String, BaseAppComponent<*>>()
 
     init {
         coroutineScope.launch {
@@ -55,7 +55,7 @@ class AppNavigationTargetResolver(
         pageCache.getOrPut(pageId) {
             mapPage[page::class.java]
                 ?.let { it as? PageProvider<T> }
-                ?.run { scope.component(StoreTargetProvider(page, store)) }
+                ?.run { NavigationScope<T>(scope, store, page).component() }
                 ?: error("There are no page component")
         }
 
@@ -63,7 +63,7 @@ class AppNavigationTargetResolver(
         featureCache.getOrPut(featureId) {
             mapFeatures[feature::class.java]
                 ?.let { it as? FeatureProvider<T> }
-                ?.run { scope.component(StoreTargetProvider(feature, store)) }
+                ?.run { NavigationScope<T>(scope, store, feature).component() }
                 ?: error("There are no feature component")
         }
 
@@ -71,7 +71,7 @@ class AppNavigationTargetResolver(
         appCache.getOrPut(appId) {
             mapApps[app::class.java]
                 ?.let { it as? AppProvider<T> }
-                ?.run { scope.component(StoreTargetProvider(app, store)) }
+                ?.run { NavigationScope<T>(scope, store, app).component() }
                 ?: error("There are no app component")
         }
 }

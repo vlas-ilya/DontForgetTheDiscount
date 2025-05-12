@@ -6,6 +6,8 @@ import kotlinx.coroutines.SupervisorJob
 import org.koin.dsl.module
 import su.tease.core.mvi.component.resolver.impl.AppNavigationTargetResolver
 import su.tease.dontforgetthediscount.component.DontForgetTheDiscountComponent
+import su.tease.dontforgetthediscount.init.AppInitializationOnSplashUseCaseImpl
+import su.tease.feature.splash.AppInitializationOnSplashUseCase
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.cache.SimpleCache
 import su.tease.project.core.utils.date.DateProvider
@@ -43,4 +45,6 @@ val dontForgetTheDiscountModule = module {
     factory<ResourceProvider> { ResourceProviderImpl(get()) }
 
     factory<DateProvider> { DateProviderImpl(get(), Calendar.getInstance()) }
+
+    factory<AppInitializationOnSplashUseCase> { AppInitializationOnSplashUseCaseImpl(get()) }
 }

@@ -7,12 +7,13 @@ import su.tease.core.mvi.component.component.impl.BaseFeatureComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.core.mvi.navigation.feature
 import su.tease.project.core.mvi.api.store.Store
-import su.tease.project.feature.cacheback.presentation.reducer.SaveCacheBackState
+import su.tease.project.feature.cacheback.presentation.save.cacheback.SaveCacheBackPage
+import su.tease.project.feature.cacheback.presentation.save.cacheback.action.SaveCacheBackRequest
 import su.tease.project.design.icons.R as RIcons
 
 class SaveCacheBackFeature(
     store: Store<*>,
-) : BaseFeatureComponent(store) {
+) : BaseFeatureComponent<SaveCacheBackFeature.Target>(store) {
 
     @Composable
     override operator fun invoke(child: @Composable () -> Unit) {
@@ -26,17 +27,17 @@ class SaveCacheBackFeature(
                 )
             )
         }
-
         child()
     }
 
-    private fun onClosePressed() = finish(SaveCacheBackFeature())
+    private fun onClosePressed() = SaveCacheBackFeature().finish()
 
     companion object {
-        operator fun invoke(addFormState: SaveCacheBackState = SaveCacheBackState()) = feature(
-            Target,
-            SaveCacheBackPage.Target(addFormState),
-        )
+        operator fun invoke(saveCacheBackRequest: SaveCacheBackRequest = SaveCacheBackRequest()) =
+            feature(
+                Target,
+                SaveCacheBackPage(saveCacheBackRequest),
+            )
     }
 
     @Parcelize

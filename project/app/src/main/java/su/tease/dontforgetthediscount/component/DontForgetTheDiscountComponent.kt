@@ -28,7 +28,9 @@ class DontForgetTheDiscountComponent(
     private val navigationTargetResolver: AppNavigationTargetResolver,
     private val windowProvider: () -> Window,
 ) : BaseMviComponent(store) {
+
     @Composable
+    @Suppress("ModifierMissing")
     fun ComposeDontForgetTheDiscountComponent() {
         val rootContainer = remember {
             RootContainer(

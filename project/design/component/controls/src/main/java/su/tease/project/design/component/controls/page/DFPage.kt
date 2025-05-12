@@ -1,3 +1,5 @@
+@file:Suppress("Filename")
+
 package su.tease.project.design.component.controls.page
 
 import androidx.annotation.DrawableRes
@@ -20,7 +22,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.Dp
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.Job
 import su.tease.design.theme.api.Theme
+import su.tease.project.core.utils.ext.runIf
 
 @Composable
 @Suppress("LongParameterList")
@@ -68,7 +72,7 @@ fun DFPageContext.DFPage(
             DFPageTitle(
                 title = title,
                 additionalTitleContent = additionalTitleContent,
-                onBackPress = ::onBackPress.takeIf { showBackButton },
+                onBackPress = runIf(showBackButton) { { onBackPress() } },
                 onActionPress = onActionPress,
                 actionIcon = actionIcon,
             )
@@ -107,5 +111,5 @@ fun DFPageContext.DFPage(
 }
 
 interface DFPageContext {
-    fun onBackPress()
+    fun onBackPress(): Job
 }

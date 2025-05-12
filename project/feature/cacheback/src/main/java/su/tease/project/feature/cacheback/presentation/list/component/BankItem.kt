@@ -17,14 +17,14 @@ import su.tease.project.design.component.controls.image.DFImage
 import su.tease.project.design.component.controls.list.LazyListItem
 import su.tease.project.design.component.controls.text.DFText
 import su.tease.project.feature.cacheback.R
-import su.tease.project.feature.cacheback.domain.entity.Bank
+import su.tease.project.feature.cacheback.domain.entity.BankAccount
 
 data class BankItem(
-    private val bank: Bank,
+    private val bankAccount: BankAccount,
     private val store: Store<*>,
 ) : LazyListItem {
 
-    override val key = bank.id.value
+    override val key = BANK + bankAccount.id
 
     @Composable
     override fun LazyItemScope.Compose() {
@@ -33,7 +33,7 @@ data class BankItem(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             DFImage(
-                url = bank.icon.url,
+                url = bankAccount.bankPreset.iconPreset.iconUrl,
                 modifier = Modifier
                     .padding(horizontal = Theme.sizes.padding8)
                     .clip(CircleShape)
@@ -41,14 +41,16 @@ data class BankItem(
                     .background(Theme.colors.tmpFiller),
                 contentDescription = stringResource(
                     R.string.item_bank_preview_content_description_bank_logo,
-                    bank.name.value,
+                    bankAccount.customName,
                 )
             )
             DFText(
-                text = bank.name.value,
+                text = bankAccount.customName,
                 style = Theme.fonts.placeholder,
                 modifier = Modifier.padding(horizontal = Theme.sizes.padding6)
             )
         }
     }
 }
+
+private const val BANK = "BANK"

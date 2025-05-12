@@ -15,6 +15,7 @@ interface Sizes {
     val size12: Dp
     val size16: Dp
     val size20: Dp
+    val size22: Dp
     val size24: Dp
     val size28: Dp
     val size32: Dp

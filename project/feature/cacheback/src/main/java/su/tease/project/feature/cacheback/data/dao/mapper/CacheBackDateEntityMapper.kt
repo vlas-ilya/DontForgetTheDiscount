@@ -7,3 +7,8 @@ fun CacheBackDateEntity.toDomain() = CacheBackDate(
     month = cacheBackMonth,
     year = cacheBackYear,
 )
+
+fun CacheBackDate.toEntity() = CacheBackDateEntity(
+    cacheBackMonth = month,
+    cacheBackYear = year,
+)

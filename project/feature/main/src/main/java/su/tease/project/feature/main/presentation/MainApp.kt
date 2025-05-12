@@ -15,7 +15,7 @@ import su.tease.project.core.mvi.navigation.selector.feature
 import su.tease.project.design.icons.R
 import su.tease.project.feature.cacheback.presentation.CacheBackFeature
 
-class MainApp(store: Store<*>) : BaseAppComponent(store) {
+class MainApp(store: Store<*>) : BaseAppComponent<MainApp.Target>(store) {
 
     @Composable
     override fun ComposeNavigationBar() {
@@ -30,7 +30,7 @@ class MainApp(store: Store<*>) : BaseAppComponent(store) {
                     image = painterResource(R.drawable.dollar),
                 ),
             ),
-            onSelect = { switch(it) },
+            onSelect = { it.switchTo() },
             compare = FeatureNavigation::some,
         )
     }

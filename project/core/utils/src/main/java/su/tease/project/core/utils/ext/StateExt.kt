@@ -19,3 +19,11 @@ fun <T> RedirectState(from: State<T>, to: MutableState<T>) {
         to.value = from.value
     }
 }
+
+@Composable
+@Suppress("MutableStateParam")
+fun <T> RedirectStateNotNull(from: State<T?>, to: MutableState<T>) {
+    LaunchedEffect(from.value, to) {
+        from.value?.let { to.value = it }
+    }
+}

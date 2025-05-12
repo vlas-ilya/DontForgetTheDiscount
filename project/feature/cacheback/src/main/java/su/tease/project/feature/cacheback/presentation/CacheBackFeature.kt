@@ -9,7 +9,7 @@ import su.tease.project.feature.cacheback.presentation.list.ListCacheBackPage
 
 class CacheBackFeature(
     store: Store<*>,
-) : BaseFeatureComponent(store) {
+) : BaseFeatureComponent<CacheBackFeature.Target>(store) {
 
     companion object {
         operator fun invoke() = feature(

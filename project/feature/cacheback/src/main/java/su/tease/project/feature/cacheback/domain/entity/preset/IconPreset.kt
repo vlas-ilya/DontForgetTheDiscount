@@ -1,10 +1,8 @@
 package su.tease.project.feature.cacheback.domain.entity.preset
 
 import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
 
-@JvmInline
-@Parcelize
-value class IconPreset(
-    val url: String
+abstract class IconPreset(
+    open val id: String,
+    open val iconUrl: String,
 ) : Parcelable

@@ -4,9 +4,6 @@ import android.content.Context
 import androidx.room.Room
 import org.koin.dsl.module
 import su.tease.dontforgetthediscount.database.migration.migration1to2Init
-import su.tease.dontforgetthediscount.database.migration.migration2to3Presets
-import su.tease.dontforgetthediscount.database.migration.migration3to4Codes
-import su.tease.dontforgetthediscount.database.migration.migration4To5CacheBackDate
 
 val databaseModule = module {
     single {
@@ -17,15 +14,11 @@ val databaseModule = module {
         )
             .addMigrations(
                 migration1to2Init,
-                migration2to3Presets,
-                migration3to4Codes,
-                migration4To5CacheBackDate,
             )
             .build()
     }
 
     dao { bankDao() }
     dao { cacheBackDao() }
-    dao { cacheBackCodeDao() }
-    dao { dictionaryDao() }
+    dao { presetDao() }
 }

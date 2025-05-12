@@ -4,48 +4,70 @@ import org.koin.dsl.module
 import su.tease.core.mvi.component.component.provider.feature
 import su.tease.core.mvi.component.component.provider.page
 import su.tease.project.core.utils.utils.api
-import su.tease.project.feature.cacheback.data.dataSource.DictionaryDataSource
-import su.tease.project.feature.cacheback.data.repository.BankRepositoryImpl
-import su.tease.project.feature.cacheback.data.repository.DictionaryRepositoryImpl
-import su.tease.project.feature.cacheback.domain.interceptor.DictionaryInterceptor
-import su.tease.project.feature.cacheback.domain.interceptor.impl.DictionaryInterceptorImpl
-import su.tease.project.feature.cacheback.domain.repository.BankRepository
-import su.tease.project.feature.cacheback.domain.repository.DictionaryRepository
-import su.tease.project.feature.cacheback.domain.usecase.AddBankUseCase
-import su.tease.project.feature.cacheback.domain.usecase.AddCodeUseCase
-import su.tease.project.feature.cacheback.domain.usecase.LoadBankListUseCase
-import su.tease.project.feature.cacheback.domain.usecase.SaveCacheBackUseCase
-import su.tease.project.feature.cacheback.domain.usecase.impl.AddBankUseCaseImpl
-import su.tease.project.feature.cacheback.domain.usecase.impl.AddCodeUseCaseImpl
-import su.tease.project.feature.cacheback.domain.usecase.impl.LoadBankListUseCaseImpl
-import su.tease.project.feature.cacheback.domain.usecase.impl.SaveCacheBackUseCaseImpl
+import su.tease.project.feature.cacheback.data.dataSource.PresetDataSource
+import su.tease.project.feature.cacheback.data.repository.BankAccountRepositoryImpl
+import su.tease.project.feature.cacheback.data.repository.PresetRepositoryImpl
+import su.tease.project.feature.cacheback.data.repository.SyncPresetRepositoryImpl
+import su.tease.project.feature.cacheback.domain.interceptor.BankAccountInterceptor
+import su.tease.project.feature.cacheback.domain.interceptor.PresetInterceptor
+import su.tease.project.feature.cacheback.domain.interceptor.impl.BankAccountInterceptorImpl
+import su.tease.project.feature.cacheback.domain.interceptor.impl.PresetInterceptorImpl
+import su.tease.project.feature.cacheback.domain.repository.BankAccountRepository
+import su.tease.project.feature.cacheback.domain.repository.PresetRepository
+import su.tease.project.feature.cacheback.domain.repository.SyncPresetRepository
 import su.tease.project.feature.cacheback.presentation.CacheBackFeature
 import su.tease.project.feature.cacheback.presentation.list.ListCacheBackPage
+import su.tease.project.feature.cacheback.presentation.list.action.LoadBankAccountListAction
+import su.tease.project.feature.cacheback.presentation.list.action.impl.LoadBankAccountListActionImpl
+import su.tease.project.feature.cacheback.presentation.preset.bank.save.SaveBankPresetPage
+import su.tease.project.feature.cacheback.presentation.preset.bank.save.action.SaveBankPresetAction
+import su.tease.project.feature.cacheback.presentation.preset.bank.save.action.impl.SaveBankPresetActionImpl
+import su.tease.project.feature.cacheback.presentation.preset.bank.select.SelectBankPresetPage
+import su.tease.project.feature.cacheback.presentation.preset.cacheback.save.SaveCacheBackPresetPage
+import su.tease.project.feature.cacheback.presentation.preset.cacheback.save.action.SaveCacheBackPresetAction
+import su.tease.project.feature.cacheback.presentation.preset.cacheback.save.action.impl.SaveCacheBackPresetActionImpl
+import su.tease.project.feature.cacheback.presentation.preset.cacheback.select.SelectCacheBackPresetPage
+import su.tease.project.feature.cacheback.presentation.preset.icon.select.IconSelectPresetPage
+import su.tease.project.feature.cacheback.presentation.preset.mcc.select.SelectMccCodePresetPage
+import su.tease.project.feature.cacheback.presentation.preset.mcc.select.action.SelectMccCodeAction
+import su.tease.project.feature.cacheback.presentation.preset.mcc.select.action.impl.SelectMccCodeActionImpl
 import su.tease.project.feature.cacheback.presentation.save.SaveCacheBackFeature
-import su.tease.project.feature.cacheback.presentation.save.SaveCacheBackPage
-import su.tease.project.feature.cacheback.presentation.select.bank.AddBankPage
-import su.tease.project.feature.cacheback.presentation.select.bank.BankSelectPage
-import su.tease.project.feature.cacheback.presentation.select.code.CodesSelectPage
-import su.tease.project.feature.cacheback.presentation.select.icon.IconSelectPage
+import su.tease.project.feature.cacheback.presentation.save.bank.save.SaveBankAccountPage
+import su.tease.project.feature.cacheback.presentation.save.bank.save.action.SaveBankAccountAction
+import su.tease.project.feature.cacheback.presentation.save.bank.save.action.impl.SaveBankAccountActionImpl
+import su.tease.project.feature.cacheback.presentation.save.bank.select.SelectBankAccountPage
+import su.tease.project.feature.cacheback.presentation.save.cacheback.SaveCacheBackPage
+import su.tease.project.feature.cacheback.presentation.save.cacheback.action.SaveCacheBackAction
+import su.tease.project.feature.cacheback.presentation.save.cacheback.action.impl.SaveCacheBackActionImpl
 
 val cacheBackModule = module {
-    api<DictionaryDataSource>()
+    api<PresetDataSource>()
 
-    factory<DictionaryRepository> { DictionaryRepositoryImpl(get(), get(), get()) }
-    factory<DictionaryInterceptor> { DictionaryInterceptorImpl(get()) }
-    factory<BankRepository> { BankRepositoryImpl(get(), get(), get()) }
-    factory<LoadBankListUseCase> { LoadBankListUseCaseImpl(get(), get()) }
-    factory<SaveCacheBackUseCase> { SaveCacheBackUseCaseImpl(get(), get(), get()) }
-    factory<AddBankUseCase> { AddBankUseCaseImpl(get(), get()) }
-    factory<AddCodeUseCase> { AddCodeUseCaseImpl(get(), get()) }
+    factory<PresetRepository> { PresetRepositoryImpl(get(), get(), get()) }
+    factory<BankAccountRepository> { BankAccountRepositoryImpl(get(), get(), get()) }
+    factory<SyncPresetRepository> { SyncPresetRepositoryImpl(get(), get(), get()) }
 
-    feature<CacheBackFeature.Target> { CacheBackFeature(it.store) }
-    feature<SaveCacheBackFeature.Target> { SaveCacheBackFeature(it.store) }
+    factory<PresetInterceptor> { PresetInterceptorImpl(get()) }
+    factory<BankAccountInterceptor> { BankAccountInterceptorImpl(get()) }
 
-    page<ListCacheBackPage.Target> { ListCacheBackPage(it.store, get(), get(), get()) }
-    page<SaveCacheBackPage.Target> { SaveCacheBackPage(it.store, it.target, get(), get()) }
-    page<BankSelectPage.Target> { BankSelectPage(it.store, it.target, get()) }
-    page<CodesSelectPage.Target> { CodesSelectPage(it.store, it.target, get(), get()) }
-    page<IconSelectPage.Target> { IconSelectPage(it.store, it.target, get()) }
-    page<AddBankPage.Target> { AddBankPage(it.store, get()) }
+    factory<LoadBankAccountListAction> { LoadBankAccountListActionImpl(get(), get()) }
+    factory<SaveCacheBackAction> { SaveCacheBackActionImpl(get(), get(), get(), get()) }
+    factory<SaveBankPresetAction> { SaveBankPresetActionImpl(get(), get()) }
+    factory<SaveBankAccountAction> { SaveBankAccountActionImpl(get(), get(), get()) }
+    factory<SaveCacheBackPresetAction> { SaveCacheBackPresetActionImpl(get(), get()) }
+    factory<SelectMccCodeAction> { SelectMccCodeActionImpl(get(), get()) }
+
+    feature { CacheBackFeature(get()) }
+    feature { SaveCacheBackFeature(get()) }
+
+    page { ListCacheBackPage(get(), get(), get(), get()) }
+    page { SaveCacheBackPage(get(), get(), get(), get()) }
+    page { SelectCacheBackPresetPage(get(), get(), get()) }
+    page { SaveCacheBackPresetPage(get(), get(), get()) }
+    page { SelectBankPresetPage(get(), get(), get()) }
+    page { SaveBankPresetPage(get(), get()) }
+    page { SelectBankAccountPage(get(), get(), get()) }
+    page { SaveBankAccountPage(get(), get(), get()) }
+    page { SelectMccCodePresetPage(get(), get(), get(), get()) }
+    page { IconSelectPresetPage(get(), get(), get()) }
 }

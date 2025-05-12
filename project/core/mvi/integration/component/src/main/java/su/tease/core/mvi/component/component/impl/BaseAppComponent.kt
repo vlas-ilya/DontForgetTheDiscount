@@ -5,10 +5,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import su.tease.core.mvi.component.component.container.AppConfig
 import su.tease.core.mvi.component.component.container.RootConfig
+import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.function.Transformer
 
-abstract class BaseAppComponent(store: Store<*>) : BaseNavigationMviComponent(store) {
+abstract class BaseAppComponent<T : NavigationTarget.App>(
+    store: Store<*>,
+) : BaseNavigationMviComponent(store) {
 
     internal val rootConfig = mutableStateOf<Transformer<RootConfig>>(Transformer { it })
     internal val appConfig = mutableStateOf<Transformer<AppConfig>>(Transformer { it })

@@ -8,7 +8,6 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -34,7 +33,6 @@ import su.tease.project.core.utils.utils.and
 import su.tease.project.core.utils.utils.or
 import su.tease.project.core.utils.utils.rememberCallback
 import su.tease.project.core.utils.utils.scrollDirectionState
-import su.tease.project.design.component.controls.dialog.DFBottomSheet
 import su.tease.project.design.component.controls.dropdown.DFDropdownMenu
 import su.tease.project.design.component.controls.list.LazyListItems
 import su.tease.project.design.component.controls.page.DFPage
@@ -43,28 +41,28 @@ import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.defaultCacheBackDate
 import su.tease.project.feature.cacheback.domain.mapper.toCacheBackDate
 import su.tease.project.feature.cacheback.domain.mapper.toMonthYear
-import su.tease.project.feature.cacheback.domain.usecase.LoadBankListAction
-import su.tease.project.feature.cacheback.domain.usecase.LoadBankListUseCase
-import su.tease.project.feature.cacheback.presentation.list.component.CacheBackDialogContent
+import su.tease.project.feature.cacheback.presentation.list.action.LoadBankAccountListAction
+import su.tease.project.feature.cacheback.presentation.list.action.LoadBankAccountListActions
+import su.tease.project.feature.cacheback.presentation.list.component.dialog.CacheBackInfoDialog
 import su.tease.project.feature.cacheback.presentation.list.page.ListCacheBackFailed
 import su.tease.project.feature.cacheback.presentation.list.page.ListCacheBackInit
 import su.tease.project.feature.cacheback.presentation.list.page.ListCacheBackSuccess
-import su.tease.project.feature.cacheback.presentation.mapper.toUi
-import su.tease.project.feature.cacheback.presentation.reducer.CacheBackInfoDialogAction
-import su.tease.project.feature.cacheback.presentation.reducer.ListCacheBackState
-import su.tease.project.feature.cacheback.presentation.reducer.SaveCacheBackState
+import su.tease.project.feature.cacheback.presentation.list.reducer.CacheBackInfoDialogAction
+import su.tease.project.feature.cacheback.presentation.list.reducer.ListCacheBackState
+import su.tease.project.feature.cacheback.presentation.list.utils.toUi
 import su.tease.project.feature.cacheback.presentation.save.SaveCacheBackFeature
+import su.tease.project.feature.cacheback.presentation.save.cacheback.action.SaveCacheBackRequest
 import su.tease.project.design.icons.R as RIcons
 
 class ListCacheBackPage(
     store: Store<*>,
-    private val loadBankListUseCase: LoadBankListUseCase,
+    private val loadBankAccountList: LoadBankAccountListAction,
     private val resourceProvider: ResourceProvider,
     private val dateProvider: DateProvider,
-) : BasePageComponent(store) {
+) : BasePageComponent<ListCacheBackPage.Target>(store) {
 
     init {
-        dispatch(LoadBankListAction.OnDateSelect(dateProvider.current().toCacheBackDate()))
+        dispatch(LoadBankAccountListActions.OnDateSelect(dateProvider.current().toCacheBackDate()))
     }
 
     private val lazyListState = LazyListState(0, 0)
@@ -94,7 +92,7 @@ class ListCacheBackPage(
 
         LaunchedEffect(date.value) {
             if (date.value === defaultCacheBackDate) return@LaunchedEffect
-            dispatch(loadBankListUseCase(date.value))
+            dispatch(loadBankAccountList(date.value))
         }
 
         val scope = rememberCoroutineScope()
@@ -110,15 +108,7 @@ class ListCacheBackPage(
                 persistentListOf(
                     DFPageFloatingButton(
                         icon = RIcons.drawable.plus,
-                        onClick = {
-                            forward(
-                                SaveCacheBackFeature(
-                                    addFormState = SaveCacheBackState(
-                                        date = date.value
-                                    )
-                                )
-                            )
-                        }
+                        onClick = { SaveCacheBackFeature(SaveCacheBackRequest(date = date.value)).forward() }
                     ),
                     DFPageFloatingButton(
                         icon = RIcons.drawable.angle_up,
@@ -145,7 +135,7 @@ class ListCacheBackPage(
                     DFDropdownMenu(
                         selected = date.value,
                         items = dates.value,
-                        onItemClick = { dispatch(LoadBankListAction.OnDateSelect(it)) },
+                        onItemClick = { dispatch(LoadBankAccountListActions.OnDateSelect(it)) },
                         text = { dateProvider.toText(it.toMonthYear()) },
                         modifier = Modifier.padding(bottom = Theme.sizes.padding4),
                         background = Theme.colors.background1,
@@ -158,7 +148,7 @@ class ListCacheBackPage(
                 LoadingStatus.Init -> ListCacheBackInit()
 
                 LoadingStatus.Failed -> ListCacheBackFailed(error) {
-                    dispatch(loadBankListUseCase(date.value))
+                    dispatch(loadBankAccountList(date.value))
                 }
 
                 LoadingStatus.Loading,
@@ -171,10 +161,11 @@ class ListCacheBackPage(
             }
         }
 
-        DFBottomSheet(
-            data = selectAsState(ListCacheBackState::shownCacheBack).value,
-            onHide = { dispatch(CacheBackInfoDialogAction.OnHide) }
-        ) { CacheBackDialogContent(data, ::dismiss, dateProvider) }
+        CacheBackInfoDialog(
+            info = selectAsState(ListCacheBackState::shownCacheBack),
+            onHide = { dispatch(CacheBackInfoDialogAction.OnHide) },
+            dateProvider = dateProvider,
+        )
     }
 
     @Parcelize

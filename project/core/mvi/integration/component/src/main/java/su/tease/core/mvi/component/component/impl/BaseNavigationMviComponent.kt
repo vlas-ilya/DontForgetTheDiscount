@@ -1,67 +1,53 @@
 package su.tease.core.mvi.component.component.impl
 
+import kotlinx.coroutines.Job
 import su.tease.core.mvi.navigation.AppNavigation
 import su.tease.core.mvi.navigation.FeatureNavigation
 import su.tease.core.mvi.navigation.NavigationTarget
+import su.tease.project.core.mvi.api.store.Dispatcher
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.navigation.action.NavigationAction
 import su.tease.project.design.component.controls.page.DFPageContext
 
-@Suppress("TooManyFunctions")
 abstract class BaseNavigationMviComponent(
     store: Store<*>
-) : BaseMviComponent(store), DFPageContext {
+) : BaseMviComponent(store), DFPageContext, NavigationComponent by NavigationComponentImpl(store) {
 
-    override fun onBackPress() {
-        back()
-    }
+    override fun onBackPress() = back()
+}
 
-    protected fun forward(
-        page: NavigationTarget.Page,
-        singleTop: Boolean = false,
-    ) = dispatch(NavigationAction.ForwardToPage(page, singleTop))
+@Suppress("TooManyFunctions")
+interface NavigationComponent {
+    fun NavigationTarget.Page.forward(singleTop: Boolean = false): Job
+    fun FeatureNavigation.forward(): Job
+    fun AppNavigation.forward(): Job
+    fun AppNavigation.replace(): Job
+    fun FeatureNavigation.switchTo(clearStack: Boolean = false): Job
+    fun AppNavigation.switchTo(clearStack: Boolean = false): Job
+    fun back(): Job
+    fun NavigationTarget.Page.backTo(): Job
+    fun FeatureNavigation.backTo(): Job
+    fun AppNavigation.backTo(): Job
+    fun FeatureNavigation.finish(): Job
+    fun AppNavigation.finish(): Job
+}
 
-    protected fun forward(
-        feature: FeatureNavigation,
-    ) = dispatch(NavigationAction.ForwardToFeature(feature))
-
-    protected fun forward(
-        app: AppNavigation,
-    ) = dispatch(NavigationAction.ForwardToApp(app))
-
-    protected fun replace(
-        app: AppNavigation,
-    ) = dispatch(NavigationAction.ReplaceApp(app))
-
-    protected fun switch(
-        feature: FeatureNavigation,
-        clearStack: Boolean = false,
-    ) = dispatch(NavigationAction.SwitchFeature(feature, clearStack))
-
-    protected fun switch(
-        app: AppNavigation,
-        clearStack: Boolean = false,
-    ) = dispatch(NavigationAction.SwitchApp(app, clearStack))
-
-    protected fun back() = dispatch(NavigationAction.Back)
-
-    protected fun backTo(
-        page: NavigationTarget.Page,
-    ) = dispatch(NavigationAction.BackToPage(page))
-
-    protected fun backTo(
-        feature: FeatureNavigation,
-    ) = dispatch(NavigationAction.BackToFeature(feature))
-
-    protected fun backTo(
-        app: AppNavigation,
-    ) = dispatch(NavigationAction.BackToApp(app))
-
-    protected fun finish(
-        feature: FeatureNavigation,
-    ) = dispatch(NavigationAction.FinishFeature(feature))
-
-    protected fun finish(
-        app: AppNavigation,
-    ) = dispatch(NavigationAction.FinishApp(app))
+@Suppress("TooManyFunctions")
+class NavigationComponentImpl(store: Store<*>) : NavigationComponent, Dispatcher by store.dispatcher {
+    override fun NavigationTarget.Page.forward(singleTop: Boolean) = dispatch(
+        NavigationAction.ForwardToPage(this, singleTop)
+    )
+    override fun FeatureNavigation.forward() = dispatch(NavigationAction.ForwardToFeature(this))
+    override fun AppNavigation.forward() = dispatch(NavigationAction.ForwardToApp(this))
+    override fun AppNavigation.replace() = dispatch(NavigationAction.ReplaceApp(this))
+    override fun FeatureNavigation.switchTo(clearStack: Boolean) = dispatch(
+        NavigationAction.SwitchFeature(this, clearStack)
+    )
+    override fun AppNavigation.switchTo(clearStack: Boolean) = dispatch(NavigationAction.SwitchApp(this, clearStack))
+    override fun back() = dispatch(NavigationAction.Back)
+    override fun NavigationTarget.Page.backTo() = dispatch(NavigationAction.BackToPage(this))
+    override fun FeatureNavigation.backTo() = dispatch(NavigationAction.BackToFeature(this))
+    override fun AppNavigation.backTo() = dispatch(NavigationAction.BackToApp(this))
+    override fun FeatureNavigation.finish() = dispatch(NavigationAction.FinishFeature(this))
+    override fun AppNavigation.finish() = dispatch(NavigationAction.FinishApp(this))
 }

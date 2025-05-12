@@ -10,15 +10,15 @@ interface NavigationTargetResolver {
     fun <T : NavigationTarget.Page> resolve(
         pageId: String,
         page: T,
-    ): BasePageComponent
+    ): BasePageComponent<*>
 
     fun <T : NavigationTarget.Feature> resolve(
         featureId: String,
         feature: T,
-    ): BaseFeatureComponent
+    ): BaseFeatureComponent<*>
 
     fun <T : NavigationTarget.App> resolve(
         appId: String,
         app: T,
-    ): BaseAppComponent
+    ): BaseAppComponent<*>
 }

@@ -70,10 +70,6 @@ fun DFFormElement(
 
         content()
 
-        runIf(info != null && error != null) {
-            Spacer(modifier = Modifier.height(Theme.sizes.padding4))
-        }
-
         info?.let {
             Spacer(modifier = Modifier.height(Theme.sizes.padding2))
             Row(

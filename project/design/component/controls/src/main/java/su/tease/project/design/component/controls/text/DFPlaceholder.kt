@@ -4,6 +4,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import su.tease.design.theme.api.Theme
 
 @Composable
@@ -19,6 +20,8 @@ fun DFPlaceholder(
         fontStyle = Theme.fonts.placeholder.fontStyle,
         fontWeight = Theme.fonts.placeholder.fontWeight,
         fontFamily = Theme.fonts.placeholder.fontFamily,
-        color = color
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+        color = color,
     )
 }

@@ -15,9 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import su.tease.core.mvi.component.component.impl.NavigationComponent
+import su.tease.core.mvi.component.component.impl.NavigationComponentImpl
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.store.Store
-import su.tease.project.core.mvi.navigation.action.NavigationAction
 import su.tease.project.core.utils.ext.runIf
 import su.tease.project.design.component.controls.icon.DFIconButton
 import su.tease.project.design.component.controls.icon.DFIconButtonSize
@@ -25,21 +26,20 @@ import su.tease.project.design.component.controls.image.DFImage
 import su.tease.project.design.component.controls.list.LazyListItem
 import su.tease.project.design.component.controls.text.DFText
 import su.tease.project.feature.cacheback.R
-import su.tease.project.feature.cacheback.domain.entity.Bank
+import su.tease.project.feature.cacheback.domain.entity.BankAccount
 import su.tease.project.feature.cacheback.domain.entity.CacheBack
-import su.tease.project.feature.cacheback.domain.entity.preset.mapper.toPreset
-import su.tease.project.feature.cacheback.presentation.reducer.CacheBackInfoDialogAction
-import su.tease.project.feature.cacheback.presentation.reducer.SaveCacheBackState
+import su.tease.project.feature.cacheback.presentation.list.reducer.CacheBackInfoDialogAction
 import su.tease.project.feature.cacheback.presentation.save.SaveCacheBackFeature
+import su.tease.project.feature.cacheback.presentation.save.cacheback.action.SaveCacheBackRequest
 import su.tease.project.design.icons.R as RIcons
 
 data class CacheBackItem(
-    private val bank: Bank,
+    private val bankAccount: BankAccount,
     private val cacheBack: CacheBack,
     private val store: Store<*>,
-) : LazyListItem {
+) : LazyListItem, NavigationComponent by NavigationComponentImpl(store) {
 
-    override val key = cacheBack.id.value
+    override val key = CACHE_BACK + cacheBack.id
 
     @Composable
     override fun LazyItemScope.Compose() {
@@ -47,29 +47,22 @@ data class CacheBackItem(
             Modifier
                 .fillParentMaxWidth()
                 .clickable {
-                    store.dispatcher.dispatch(
-                        NavigationAction.ForwardToFeature(
-                            SaveCacheBackFeature(
-                                SaveCacheBackState(
-                                    id = cacheBack.id,
-                                    date = cacheBack.date,
-                                    bank = bank.toPreset(),
-                                    name = cacheBack.name,
-                                    info = cacheBack.info,
-                                    icon = cacheBack.icon.toPreset(),
-                                    size = cacheBack.size,
-                                    codes = cacheBack.codes,
-                                )
-                            )
+                    SaveCacheBackFeature(
+                        SaveCacheBackRequest(
+                            id = cacheBack.id,
+                            bankAccount = bankAccount,
+                            cacheBackPreset = cacheBack.cacheBackPreset,
+                            size = cacheBack.size,
+                            date = cacheBack.date,
                         )
-                    )
+                    ).forward()
                 }
                 .padding(horizontal = Theme.sizes.padding8)
                 .padding(start = Theme.sizes.padding20),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             DFImage(
-                url = cacheBack.icon.url,
+                url = cacheBack.cacheBackPreset.iconPreset.iconUrl,
                 modifier = Modifier
                     .clip(CircleShape)
                     .background(Theme.colors.inputBackground)
@@ -88,24 +81,27 @@ data class CacheBackItem(
                 DFText(
                     text = stringResource(
                         R.string.item_cache_back_in_list_label_percent,
-                        cacheBack.size.percent.toString(),
+                        cacheBack.size.toString(),
                     ),
                     style = Theme.fonts.monospace,
                 )
                 Spacer(modifier = Modifier.width(Theme.sizes.padding4))
                 DFText(
-                    text = cacheBack.name.value,
+                    text = cacheBack.cacheBackPreset.name,
                     style = Theme.fonts.text,
                 )
             }
-            runIf(cacheBack.info.value.isNotBlank() || cacheBack.codes.isNotEmpty()) {
+            runIf(
+                cacheBack.cacheBackPreset.info.isNotBlank() ||
+                    cacheBack.cacheBackPreset.mccCodes.isNotEmpty()
+            ) {
                 Spacer(modifier = Modifier.width(Theme.sizes.padding4))
                 DFIconButton(
                     icon = RIcons.drawable.comment_info,
                     size = DFIconButtonSize.S,
                     onClick = {
                         store.dispatcher.dispatch(
-                            CacheBackInfoDialogAction.OnShow(bank to cacheBack)
+                            CacheBackInfoDialogAction.OnShow(bankAccount to cacheBack)
                         )
                     }
                 )
@@ -113,3 +109,5 @@ data class CacheBackItem(
         }
     }
 }
+
+private const val CACHE_BACK = "CACHE_BACK"

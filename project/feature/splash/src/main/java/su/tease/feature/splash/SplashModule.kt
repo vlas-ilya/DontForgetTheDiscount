@@ -4,13 +4,9 @@ import org.koin.dsl.module
 import su.tease.core.mvi.component.component.provider.app
 import su.tease.core.mvi.component.component.provider.feature
 import su.tease.core.mvi.component.component.provider.page
-import su.tease.project.core.mvi.navigation.state.AppNavigationTarget
-import su.tease.project.core.mvi.navigation.state.MainFeatureNavigationTarget
-import su.tease.project.core.mvi.navigation.state.SplashNavigationTarget
 
 val splashModule = module {
-
-    page<SplashNavigationTarget> { SplashPageComponent(it.store) }
-    feature<MainFeatureNavigationTarget> { SplashFeatureComponent(it.store) }
-    app<AppNavigationTarget> { SplashAppComponent(it.store) }
+    page { SplashPageComponent(get(), get()) }
+    feature { SplashFeatureComponent(get()) }
+    app { SplashAppComponent(get()) }
 }
