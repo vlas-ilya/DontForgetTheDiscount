@@ -69,9 +69,9 @@ class SelectBankAccountPage(
                 item { Spacer(modifier = Modifier.height(Theme.sizes.padding4)) }
                 banks?.forEach {
                     item(key = it.id) {
+                        val bankPreset = remember(it) { it.bankPreset.copy(name = it.customName) }
                         SelectBankPresetPreview(
-                            name = it.customName,
-                            iconPreset = it.bankPreset.iconPreset,
+                            bankPreset = bankPreset,
                             onClick = {
                                 dispatch(OnSelectAction(target.target, it))
                                 back()

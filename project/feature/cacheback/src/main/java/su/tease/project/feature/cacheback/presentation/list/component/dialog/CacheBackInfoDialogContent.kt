@@ -1,6 +1,5 @@
 package su.tease.project.feature.cacheback.presentation.list.component.dialog
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,23 +12,23 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.utils.date.DateProvider
 import su.tease.project.design.component.controls.button.DFButton
 import su.tease.project.design.component.controls.form.DFFormElement
-import su.tease.project.design.component.controls.image.DFImage
 import su.tease.project.design.component.controls.text.DFText
 import su.tease.project.design.component.controls.text.DFTextH1
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.BankAccount
 import su.tease.project.feature.cacheback.domain.entity.CacheBack
 import su.tease.project.feature.cacheback.domain.mapper.toMonthYear
+import su.tease.project.feature.cacheback.presentation.component.BankPresetIcon
+import su.tease.project.feature.cacheback.presentation.component.BankPresetIconSize
+import su.tease.project.feature.cacheback.presentation.component.CacheBackPresetIcon
 import su.tease.project.feature.cacheback.presentation.component.MccCodeItem
 
 @Composable
@@ -48,17 +47,8 @@ fun CacheBackInfoDialogContent(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            DFImage(
-                url = cacheBack.cacheBackPreset.iconPreset.iconUrl,
-                contentDescription = stringResource(
-                    R.string.page_cache_back_list_dialog_cache_back_content_description_icon,
-                    cacheBack.cacheBackPreset.name,
-                ),
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .background(Theme.colors.inputBackground)
-                    .padding(Theme.sizes.padding14)
-                    .size(Theme.sizes.size32)
+            CacheBackPresetIcon(
+                cacheBackPreset = cacheBack.cacheBackPreset,
             )
 
             Spacer(Modifier.width(Theme.sizes.padding4))
@@ -66,15 +56,9 @@ fun CacheBackInfoDialogContent(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                DFImage(
-                    url = bank.bankPreset.iconPreset.iconUrl,
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .size(Theme.sizes.size32),
-                    contentDescription = stringResource(
-                        R.string.page_cache_back_list_dialog_cache_back_content_description_bank_icon,
-                        bank.customName,
-                    )
+                BankPresetIcon(
+                    bankPreset = bank.bankPreset,
+                    size = BankPresetIconSize.DEFAULT,
                 )
                 DFText(
                     text = bank.customName,

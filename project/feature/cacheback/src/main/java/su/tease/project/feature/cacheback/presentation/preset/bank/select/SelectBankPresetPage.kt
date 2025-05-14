@@ -72,8 +72,7 @@ class SelectBankPresetPage(
                 banks?.forEach {
                     item(key = it.id) {
                         SelectBankPresetPreview(
-                            name = it.name,
-                            iconPreset = it.iconPreset,
+                            bankPreset = it,
                             onClick = {
                                 dispatch(OnSelectAction(target.target, it))
                                 back()

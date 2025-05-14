@@ -48,7 +48,7 @@ fun BankSelect(
         ) {
             bankState.value?.let {
                 BankPresetPreview(
-                    bank = it,
+                    bankPreset = it,
                     customName = customName?.value,
                     roundedIcon = true
                 )

@@ -1,6 +1,5 @@
 package su.tease.project.feature.cacheback.presentation.list.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,11 +8,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyItemScope
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import su.tease.core.mvi.component.component.impl.NavigationComponent
 import su.tease.core.mvi.component.component.impl.NavigationComponentImpl
@@ -22,12 +19,13 @@ import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.ext.runIf
 import su.tease.project.design.component.controls.icon.DFIconButton
 import su.tease.project.design.component.controls.icon.DFIconButtonSize
-import su.tease.project.design.component.controls.image.DFImage
 import su.tease.project.design.component.controls.list.LazyListItem
 import su.tease.project.design.component.controls.text.DFText
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.BankAccount
 import su.tease.project.feature.cacheback.domain.entity.CacheBack
+import su.tease.project.feature.cacheback.presentation.component.CacheBackPresetIcon
+import su.tease.project.feature.cacheback.presentation.component.CacheBackPresetIconSize
 import su.tease.project.feature.cacheback.presentation.list.reducer.CacheBackInfoDialogAction
 import su.tease.project.feature.cacheback.presentation.save.SaveCacheBackFeature
 import su.tease.project.feature.cacheback.presentation.save.cacheback.action.SaveCacheBackRequest
@@ -61,15 +59,9 @@ data class CacheBackItem(
                 .padding(start = Theme.sizes.padding20),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            DFImage(
-                url = cacheBack.cacheBackPreset.iconPreset.iconUrl,
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .background(Theme.colors.inputBackground)
-                    .padding(Theme.sizes.padding8)
-                    .size(Theme.sizes.size24),
-                contentDescription = "",
-                tint = Theme.colors.iconTint,
+            CacheBackPresetIcon(
+                cacheBackPreset = cacheBack.cacheBackPreset,
+                size = CacheBackPresetIconSize.SMALL,
             )
             Spacer(modifier = Modifier.width(Theme.sizes.padding4))
             Row(

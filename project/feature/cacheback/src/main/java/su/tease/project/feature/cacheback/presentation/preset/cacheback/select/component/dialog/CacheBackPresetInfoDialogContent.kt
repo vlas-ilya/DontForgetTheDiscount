@@ -1,6 +1,5 @@
 package su.tease.project.feature.cacheback.presentation.preset.cacheback.select.component.dialog
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,26 +7,26 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import su.tease.design.theme.api.Theme
 import su.tease.project.design.component.controls.button.DFButton
 import su.tease.project.design.component.controls.form.DFFormElement
-import su.tease.project.design.component.controls.image.DFImage
 import su.tease.project.design.component.controls.text.DFText
 import su.tease.project.design.component.controls.text.DFTextH1
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
 import su.tease.project.feature.cacheback.domain.entity.preset.CacheBackPreset
+import su.tease.project.feature.cacheback.presentation.component.BankPresetIcon
+import su.tease.project.feature.cacheback.presentation.component.BankPresetIconSize
+import su.tease.project.feature.cacheback.presentation.component.CacheBackPresetIcon
+import su.tease.project.feature.cacheback.presentation.component.CacheBackPresetIconSize
 import su.tease.project.feature.cacheback.presentation.component.MccCodeItem
 
 @Composable
@@ -45,17 +44,9 @@ fun CacheBackInfoDialogContent(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            DFImage(
-                url = cacheBackPreset.iconPreset.iconUrl,
-                contentDescription = stringResource(
-                    R.string.page_cache_back_list_dialog_cache_back_content_description_icon,
-                    cacheBackPreset.name,
-                ),
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .background(Theme.colors.inputBackground)
-                    .padding(Theme.sizes.padding14)
-                    .size(Theme.sizes.size32)
+            CacheBackPresetIcon(
+                cacheBackPreset = cacheBackPreset,
+                size = CacheBackPresetIconSize.DEFAULT,
             )
 
             Spacer(Modifier.width(Theme.sizes.padding4))
@@ -63,15 +54,9 @@ fun CacheBackInfoDialogContent(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                DFImage(
-                    url = bankPreset.iconPreset.iconUrl,
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .size(Theme.sizes.size32),
-                    contentDescription = stringResource(
-                        R.string.page_cache_back_list_dialog_cache_back_content_description_bank_icon,
-                        bankPreset.name,
-                    )
+                BankPresetIcon(
+                    bankPreset = bankPreset,
+                    size = BankPresetIconSize.DEFAULT,
                 )
                 DFText(
                     text = bankPreset.name,

@@ -1,23 +1,19 @@
 package su.tease.project.feature.cacheback.presentation.list.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyItemScope
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.stringResource
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.store.Store
-import su.tease.project.design.component.controls.image.DFImage
 import su.tease.project.design.component.controls.list.LazyListItem
 import su.tease.project.design.component.controls.text.DFText
-import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.BankAccount
+import su.tease.project.feature.cacheback.presentation.component.BankPresetIcon
+import su.tease.project.feature.cacheback.presentation.component.BankPresetIconSize
 
 data class BankItem(
     private val bankAccount: BankAccount,
@@ -32,18 +28,12 @@ data class BankItem(
             modifier = Modifier.fillParentMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            DFImage(
-                url = bankAccount.bankPreset.iconPreset.iconUrl,
-                modifier = Modifier
-                    .padding(horizontal = Theme.sizes.padding8)
-                    .clip(CircleShape)
-                    .size(Theme.sizes.size32)
-                    .background(Theme.colors.tmpFiller),
-                contentDescription = stringResource(
-                    R.string.item_bank_preview_content_description_bank_logo,
-                    bankAccount.customName,
-                )
+            BankPresetIcon(
+                bankPreset = bankAccount.bankPreset,
+                size = BankPresetIconSize.DEFAULT,
+                modifier = Modifier.padding(horizontal = Theme.sizes.padding8),
             )
+
             DFText(
                 text = bankAccount.customName,
                 style = Theme.fonts.placeholder,
