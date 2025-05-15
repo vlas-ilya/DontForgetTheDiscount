@@ -1,16 +1,24 @@
 package su.tease.project.feature.cacheback.presentation.preset.cacheback.select
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.parcelize.Parcelize
@@ -24,6 +32,7 @@ import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.utils.memoize
 import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.design.component.controls.page.DFPageFloatingButton
+import su.tease.project.design.component.controls.shimmer.Shimmer
 import su.tease.project.design.icons.R
 import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
 import su.tease.project.feature.cacheback.domain.entity.preset.CacheBackPreset
@@ -70,10 +79,16 @@ class SelectCacheBackPresetPage(
             onActionPress = LocalFeatureConfig.current.action?.onClick,
             hasSystemNavigationBar = LocalRootConfig.current.hasSystemNavigationBar,
         ) {
+            if (cacheBacks == null) {
+                SelectCacheBackPresetShimmer()
+                return@DFPage
+            }
+
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(Theme.sizes.padding4),
                 contentPadding = PaddingValues(vertical = Theme.sizes.padding8),
             ) {
+
                 cacheBacks?.forEach {
                     item(key = it.id) {
                         CacheBackPresetPreview(
@@ -96,6 +111,30 @@ class SelectCacheBackPresetPage(
             info = selectAsState(SelectCacheBackPresetState::shownCacheBack),
             onHide = { dispatch(CacheBackPresetInfoDialogAction.OnHide) },
         )
+    }
+
+    @Composable
+    private fun SelectCacheBackPresetShimmer(modifier: Modifier = Modifier) {
+        Shimmer(
+            modifier = modifier,
+        ) {
+            Column(
+                verticalArrangement = Arrangement
+                    .spacedBy(Theme.sizes.padding4)
+            ) {
+                Spacer(Modifier.height(Theme.sizes.padding8))
+                repeat(20) {
+                    Box(
+                        modifier = Modifier
+                            .padding(horizontal = Theme.sizes.padding8)
+                            .clip(RoundedCornerShape(Theme.sizes.round12))
+                            .fillMaxWidth()
+                            .height(Theme.sizes.size46)
+                            .background(Theme.colors.shimmer)
+                    )
+                }
+            }
+        }
     }
 
     @Parcelize

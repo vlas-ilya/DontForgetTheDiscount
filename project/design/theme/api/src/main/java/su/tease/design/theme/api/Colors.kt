@@ -36,5 +36,7 @@ interface Colors {
 
     val link: Color
 
+    val shimmer: Color
+
     val tmpFiller: Color
 }

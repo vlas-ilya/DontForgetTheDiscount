@@ -1,15 +1,23 @@
 package su.tease.project.feature.cacheback.presentation.save.bank.select
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.parcelize.Parcelize
@@ -23,6 +31,7 @@ import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.utils.memoize
 import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.design.component.controls.page.DFPageFloatingButton
+import su.tease.project.design.component.controls.shimmer.Shimmer
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.BankAccount
 import su.tease.project.feature.cacheback.domain.interceptor.BankAccountInterceptor
@@ -66,7 +75,13 @@ class SelectBankAccountPage(
             floatingButtons = floatingButtons,
         ) {
             LazyColumn(contentPadding = PaddingValues(horizontal = Theme.sizes.padding4)) {
+                if (banks == null) {
+                    item { SelectBankAccountShimmer() }
+                    return@LazyColumn
+                }
+
                 item { Spacer(modifier = Modifier.height(Theme.sizes.padding4)) }
+
                 banks?.forEach {
                     item(key = it.id) {
                         val bankPreset = remember(it) { it.bankPreset.copy(name = it.customName) }
@@ -79,6 +94,30 @@ class SelectBankAccountPage(
                             modifier = Modifier.fillMaxWidth(),
                         )
                     }
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun SelectBankAccountShimmer(modifier: Modifier = Modifier) {
+        Shimmer(
+            modifier = modifier,
+        ) {
+            Column(
+                verticalArrangement = Arrangement
+                    .spacedBy(Theme.sizes.padding4)
+            ) {
+                Spacer(Modifier.height(Theme.sizes.padding8))
+                repeat(20) {
+                    Box(
+                        modifier = Modifier
+                            .padding(horizontal = Theme.sizes.padding2)
+                            .clip(RoundedCornerShape(Theme.sizes.round12))
+                            .fillMaxWidth()
+                            .height(Theme.sizes.size42)
+                            .background(Theme.colors.shimmer)
+                    )
                 }
             }
         }

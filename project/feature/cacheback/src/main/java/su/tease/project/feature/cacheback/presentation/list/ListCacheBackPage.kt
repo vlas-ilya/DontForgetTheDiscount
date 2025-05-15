@@ -144,16 +144,14 @@ class ListCacheBackPage(
                 }
             }
         ) {
-            when (status.value) {
-                LoadingStatus.Init -> ListCacheBackInit()
+            val state = status.value
+            when {
+                state == LoadingStatus.Init ||
+                        state == LoadingStatus.Loading && list.value.isEmpty() -> ListCacheBackInit()
 
-                LoadingStatus.Failed -> ListCacheBackFailed(error) {
-                    dispatch(loadBankAccountList(date.value))
-                }
+                state == LoadingStatus.Failed -> ListCacheBackFailed(error) { dispatch(loadBankAccountList(date.value)) }
 
-                LoadingStatus.Loading,
-                LoadingStatus.Success -> ListCacheBackSuccess(
-                    isLoading = status.value == LoadingStatus.Loading,
+                else -> ListCacheBackSuccess(
                     list = list,
                     lazyListState = lazyListState,
                     modifier = Modifier.nestedScroll(nestedScrollConnection)

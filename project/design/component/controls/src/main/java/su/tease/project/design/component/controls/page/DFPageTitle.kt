@@ -3,9 +3,11 @@ package su.tease.project.design.component.controls.page
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -44,24 +46,30 @@ fun DFPageTitle(
             onBackPress?.let { onBackPressed ->
                 DFIconButton(
                     icon = R.drawable.arrow_small_left,
-                    modifier = Modifier.padding(start = Theme.sizes.padding4),
                     tint = Theme.colors.headerText,
                     onClick = onBackPressed
                 )
             } ?: Spacer(Modifier.size(Theme.sizes.size32))
 
-            DFText(
-                text = title,
-                maxLines = 1,
-                color = Theme.colors.headerText,
-                style = Theme.fonts.title,
-                modifier = Modifier.padding(horizontal = Theme.sizes.padding4)
-            )
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight(),
+                contentAlignment = Alignment.Center,
+            ) {
+                DFText(
+                    text = title,
+                    maxLines = 1,
+                    color = Theme.colors.headerText,
+                    style = Theme.fonts.title,
+                    modifier = Modifier
+                        .padding(horizontal = Theme.sizes.padding4)
+                )
+            }
 
             letIfNotNull(onActionPress, actionIcon) { onActionPressed, actionIcon ->
                 DFIconButton(
                     icon = actionIcon,
-                    modifier = Modifier.padding(start = Theme.sizes.padding4),
                     tint = Theme.colors.headerText,
                     onClick = onActionPressed
                 )

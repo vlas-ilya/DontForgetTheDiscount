@@ -21,15 +21,10 @@ import su.tease.project.feature.cacheback.R
 
 @Composable
 fun ListCacheBackSuccess(
-    isLoading: Boolean,
     list: State<PersistentList<LazyListItem>>,
     lazyListState: LazyListState,
     modifier: Modifier = Modifier,
 ) {
-    if (isLoading && list.value.isEmpty()) {
-        ListCacheBackLoading()
-        return
-    }
     Box(modifier = modifier) {
         if (list.value.isEmpty()) {
             DFTextH1(

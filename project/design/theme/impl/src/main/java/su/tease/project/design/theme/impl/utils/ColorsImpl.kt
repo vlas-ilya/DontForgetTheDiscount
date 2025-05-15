@@ -38,6 +38,8 @@ internal data class ColorsImpl(
     override val notificationErrorBackground: Color,
     override val notificationErrorText: Color,
 
+    override val shimmer: Color,
+
     override val tmpFiller: Color,
 ) : Colors {
     companion object {
@@ -89,6 +91,8 @@ private fun makeLightColors(): Colors = ColorsImpl(
 
     notificationErrorBackground = Color(0xFFD22038),
     notificationErrorText = Color(0xFFFFF5FA),
+
+    shimmer = Color(0xFFEEEEEE),
 
     tmpFiller = black,
 )
