@@ -10,7 +10,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
-import su.tease.design.theme.api.Colors
 import su.tease.design.theme.api.Theme
 import su.tease.project.design.component.controls.image.DFImage
 import su.tease.project.feature.cacheback.R

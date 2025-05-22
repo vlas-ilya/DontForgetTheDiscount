@@ -150,7 +150,7 @@ class ListCacheBackPage(
             val state = status.value
             when {
                 state == LoadingStatus.Init ||
-                        state == LoadingStatus.Loading && list.value.isEmpty() -> ListCacheBackInit()
+                    state == LoadingStatus.Loading && list.value.isEmpty() -> ListCacheBackInit()
 
                 state == LoadingStatus.Failed -> ListCacheBackFailed(
                     error

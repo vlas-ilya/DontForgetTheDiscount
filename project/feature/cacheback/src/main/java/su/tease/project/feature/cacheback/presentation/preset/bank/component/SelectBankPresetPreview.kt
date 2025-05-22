@@ -3,11 +3,9 @@ package su.tease.project.feature.cacheback.presentation.preset.bank.component
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.utils.ext.thenIfNotNull
 import su.tease.project.design.component.controls.text.DFText

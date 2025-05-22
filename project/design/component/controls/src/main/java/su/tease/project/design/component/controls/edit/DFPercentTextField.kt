@@ -97,7 +97,7 @@ fun DFPercentTextField(
                 } else {
                     newValue.selection
                 }
-                text.value = TextFieldValue(text = "${integer}.${fractional}", selection = selection)
+                text.value = TextFieldValue(text = "$integer.$fractional", selection = selection)
                 onChange(integer * 100 + fractional.rightPad(2, '0').toIntSafe())
                 return@DFTextField
             }
