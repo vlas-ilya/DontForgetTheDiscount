@@ -21,7 +21,7 @@ import kotlin.reflect.KClass
 @Suppress("TooManyFunctions")
 data class RootNavigation(
     val initApp: AppNavigation,
-    private val stack: Stack<AppNavigation> = Stack(prev = null, value = initApp),
+    val stack: Stack<AppNavigation> = Stack(prev = null, value = initApp),
     override val id: String = ImplicitUuid.make(),
 ) : Navigation {
 

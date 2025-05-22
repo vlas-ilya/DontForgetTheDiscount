@@ -48,6 +48,7 @@ fun DFNumberField(
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         placeholder = placeholder,
         action = action,
+        maxLength = 11
     )
 }
 

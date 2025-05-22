@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -18,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.utils.date.DateProvider
+import su.tease.project.core.utils.ext.toPercent
 import su.tease.project.design.component.controls.button.DFButton
 import su.tease.project.design.component.controls.form.DFFormElement
 import su.tease.project.design.component.controls.text.DFText
@@ -25,6 +25,7 @@ import su.tease.project.design.component.controls.text.DFTextH1
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.BankAccount
 import su.tease.project.feature.cacheback.domain.entity.CacheBack
+import su.tease.project.feature.cacheback.domain.entity.FRACTIONAL_SIZE
 import su.tease.project.feature.cacheback.domain.mapper.toMonthYear
 import su.tease.project.feature.cacheback.presentation.component.BankPresetIcon
 import su.tease.project.feature.cacheback.presentation.component.BankPresetIconSize
@@ -72,7 +73,7 @@ fun CacheBackInfoDialogContent(
 
         DFTextH1(
             text = cacheBack.cacheBackPreset.name,
-            maxLines = 1
+            maxLines = 1,
         )
 
         cacheBack.cacheBackPreset.info.takeIf { it.isNotBlank() }?.let {
@@ -84,12 +85,16 @@ fun CacheBackInfoDialogContent(
         }
 
         Spacer(Modifier.height(Theme.sizes.padding12))
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             DFText(
-                text = stringResource(R.string.item_cache_back_in_list_label_percent, cacheBack.size.toString()),
+                text = stringResource(
+                    R.string.item_cache_back_in_list_label_percent,
+                    cacheBack.size.toPercent(FRACTIONAL_SIZE)
+                ),
                 style = Theme.fonts.monospace,
             )
             Spacer(Modifier.width(Theme.sizes.padding8))
@@ -104,10 +109,10 @@ fun CacheBackInfoDialogContent(
                 label = stringResource(R.string.page_select_cache_back_codes_label_other),
                 noError = true,
             ) {
-                LazyVerticalGrid(columns = GridCells.Adaptive(minSize = Theme.sizes.size50)) {
+                LazyVerticalGrid(columns = GridCells.Adaptive(minSize = Theme.sizes.size56)) {
                     items(
                         items = items,
-                        key = { it.info }
+                        key = { it.id }
                     ) {
                         MccCodeItem(
                             code = it.code,
@@ -124,5 +129,7 @@ fun CacheBackInfoDialogContent(
             label = stringResource(R.string.page_cache_back_list_dialog_button_close),
             onClick = onClick
         )
+
+        Spacer(Modifier.height(Theme.sizes.padding12))
     }
 }

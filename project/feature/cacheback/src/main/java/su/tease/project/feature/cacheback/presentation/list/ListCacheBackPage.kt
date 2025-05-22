@@ -24,8 +24,10 @@ import su.tease.core.mvi.component.component.container.LocalRootConfig
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.design.theme.api.Theme
+import su.tease.project.core.mvi.api.selector.Selector
 import su.tease.project.core.mvi.api.state.LoadingStatus
 import su.tease.project.core.mvi.api.store.Store
+import su.tease.project.core.mvi.navigation.state.NavigationState
 import su.tease.project.core.utils.date.DateProvider
 import su.tease.project.core.utils.resource.ResourceProvider
 import su.tease.project.core.utils.utils.ScrollDirection
@@ -126,6 +128,7 @@ class ListCacheBackPage(
             actionIcon = LocalFeatureConfig.current.action?.icon,
             onActionPress = LocalFeatureConfig.current.action?.onClick,
             hasSystemNavigationBar = LocalRootConfig.current.hasSystemNavigationBar,
+            showBackButton = selectAsState(hasPrevPageSelector).value,
             additionalTitleContent = {
                 AnimatedVisibility(
                     visible = scrollDirection.value == ScrollDirection.BOTTOM,
@@ -149,7 +152,9 @@ class ListCacheBackPage(
                 state == LoadingStatus.Init ||
                         state == LoadingStatus.Loading && list.value.isEmpty() -> ListCacheBackInit()
 
-                state == LoadingStatus.Failed -> ListCacheBackFailed(error) { dispatch(loadBankAccountList(date.value)) }
+                state == LoadingStatus.Failed -> ListCacheBackFailed(
+                    error
+                ) { dispatch(loadBankAccountList(date.value)) }
 
                 else -> ListCacheBackSuccess(
                     list = list,
@@ -171,3 +176,10 @@ class ListCacheBackPage(
 }
 
 private const val SCROLL_ITEMS_FOR_SHOW_BUTTON = 3
+
+val hasPrevPageSelector = Selector<NavigationState, Boolean> {
+    val page = root.feature.stack.prev?.value?.page // Prev page in current feature
+        ?: root.app.stack.prev?.value?.page // Last page in prev feature
+        ?: root.stack.prev?.value?.page // Last page in prev app
+    page != null
+}

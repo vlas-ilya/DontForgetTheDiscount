@@ -23,8 +23,8 @@ fun SelectBankPresetPreview(
 ) {
     Row(
         modifier = modifier
-            .clip(RoundedCornerShape(Theme.sizes.roundInfinity))
             .thenIfNotNull(onClick) { Modifier.clickable { it() } }
+            .padding(horizontal = Theme.sizes.padding4)
             .padding(
                 vertical = Theme.sizes.padding4,
                 horizontal = Theme.sizes.padding4,

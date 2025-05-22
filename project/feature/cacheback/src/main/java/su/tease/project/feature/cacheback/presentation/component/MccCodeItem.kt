@@ -42,6 +42,7 @@ fun MccCodeItem(
             text = code,
             style = Theme.fonts.monospace,
             color = Theme.colors.inputText,
+            maxLines = 1,
         )
         runIf(hasClose) {
             DFIcon(

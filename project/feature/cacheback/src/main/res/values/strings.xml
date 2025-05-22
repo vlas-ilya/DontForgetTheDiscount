@@ -35,12 +35,12 @@
     <string name="item_select_cache_back_icon_title">Иконка</string>
     <string name="page_save_bank_preset_button_save">Сохранить</string>
     <string name="page_save_bank_preset_icon_title">Выбор иконки для банка</string>
-    <string name="page_save_bank_preset_title">Добавить банк</string>
+    <string name="page_save_bank_preset_title">Добавление банка</string>
 
     <string name="page_save_bank_preset_notification_title">Кэшбэк успешно добавлен</string>
     <string name="page_save_bank_preset_duplicate_notification_title">Кэшбэк уже добавлен</string>
     <string name="page_add_codes_button_save">Сохранить</string>
-    <string name="page_cache_back_list_dialog_button_close">Закрыть</string>
+    <string name="page_cache_back_list_dialog_button_close">Понятно</string>
     <string name="page_cache_back_list_dialog_cache_back_content_description_bank_icon">Логотип банка "%s"</string>
     <string name="page_cache_back_list_dialog_cache_back_content_description_icon">Иконка кэшбэка "%s"</string>
     <string name="page_cache_back_list_placeholder_empty_result">Здесь пока ничего нет</string>
@@ -48,26 +48,25 @@
     <string name="page_save_cache_back_button_save">Сохранить</string>
     <string name="page_save_cache_back_button_save_add_more">Сохранить и добавить еще</string>
     <string name="page_save_cache_back_notification_title">Кэшбэк успешно сохранен</string>
-    <string name="page_save_cache_back_title_add">Добавить Кэшбэк</string>
-    <string name="page_save_cache_back_title_edit">Редактировать Кэшбэк</string>
+    <string name="page_save_cache_back_title_add">Добавление Кэшбэка</string>
+    <string name="page_save_cache_back_title_edit">Редактирование Кэшбэка</string>
     <string name="page_select_cache_back_bank_title">Выбор банка</string>
     <string name="page_select_cache_back_codes_button_save">Добавить</string>
     <string name="page_select_cache_back_codes_label_input">MCC коды</string>
     <string name="page_select_cache_back_codes_label_other">MCC коды</string>
     <string name="page_select_cache_back_codes_label_selected">Выбранные MCC коды</string>
     <string name="page_select_cache_back_codes_placeholder_selected">Ничего не выбрано</string>
-    <string name="page_select_cache_back_codes_title">MCC коды для кэшбэка</string>
+    <string name="page_select_cache_back_codes_title">Выбор МСС кодов для кэшбэка</string>
     <string name="page_select_cache_back_icon_title">Выбор иконки для кэшбэка</string>
     <string name="page_select_text_title">Укажите %s</string>
-    <string name="page_select_bank_account_title">Банковский аккаунт</string>
+    <string name="page_select_bank_account_title">Выбор банковского аккаунта</string>
     <string name="page_save_bank_account_title_add">Добавление банковского аккаунта</string>
     <string name="page_save_bank_account_title_edit">Изменение банковского аккаунта</string>
     <string name="page_save_bank_account_button_save">Сохранить</string>
     <string name="page_save_bank_account_notification_title_add">Аккаунт успешно создан</string>
     <string name="page_save_bank_account_notification_title_save">Аккаунт успешно создан</string>
 
-
-    <string name="page_cache_back_preset_list_title_add">Список категорий кэшбека</string>
+    <string name="page_cache_back_preset_list_title_add">Выбор категории кэшбека</string>
     <string name="page_cache_back_preset_title_add">Добавление категории кэшбека</string>
     <string name="page_cache_back_preset_title_edit">Изменение категории кэшбека</string>
 </resources>

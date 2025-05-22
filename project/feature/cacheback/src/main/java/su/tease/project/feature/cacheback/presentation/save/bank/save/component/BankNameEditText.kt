@@ -31,6 +31,9 @@ fun BankNameEditText(
             placeholder = stringResource(R.string.item_bank_account_name_placeholder),
             onChange = { onChange(it) },
             modifier = Modifier.fillMaxWidth(),
+            maxLength = NAME_MAX_LENGTH,
         )
     }
 }
+
+private const val NAME_MAX_LENGTH = 255

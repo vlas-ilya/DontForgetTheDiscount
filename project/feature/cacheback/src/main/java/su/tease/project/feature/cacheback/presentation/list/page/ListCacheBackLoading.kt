@@ -14,7 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import su.tease.design.theme.api.Theme
 import su.tease.project.design.component.controls.shimmer.Shimmer
 
@@ -30,7 +29,7 @@ fun ListCacheBackLoading(
                 .spacedBy(Theme.sizes.padding4)
         ) {
             Spacer(Modifier.height(Theme.sizes.padding8))
-            repeat(20) {
+            repeat(SHIMMER_ITEM_COUNT) {
                 Box(
                     modifier = Modifier
                         .padding(horizontal = Theme.sizes.padding8)
@@ -43,3 +42,5 @@ fun ListCacheBackLoading(
         }
     }
 }
+
+private const val SHIMMER_ITEM_COUNT = 20

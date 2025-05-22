@@ -15,6 +15,7 @@ interface Colors {
     val error: Color
     val transparent: Color
     val iconTint: Color
+    val iTint: Color
 
     val inputBorder: Color
     val inputFocusedBorder: Color

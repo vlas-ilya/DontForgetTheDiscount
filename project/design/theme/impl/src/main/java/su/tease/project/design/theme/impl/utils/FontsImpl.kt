@@ -60,7 +60,7 @@ private fun makeLightFonts(): Fonts = FontsImpl(
         fontFamily = FontFamily.Default,
     ),
     smallTitle = FontSetting(
-        fontSize = 12.sp,
+        fontSize = 10.sp,
         fontStyle = FontStyle.Normal,
         fontWeight = FontWeight.Black,
         fontFamily = FontFamily.Default,

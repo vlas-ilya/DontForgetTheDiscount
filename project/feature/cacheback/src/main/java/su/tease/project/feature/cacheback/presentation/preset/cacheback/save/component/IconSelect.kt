@@ -8,12 +8,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import su.tease.design.theme.api.Theme
+import su.tease.project.core.utils.ext.choose
 import su.tease.project.core.utils.ext.thenIf
 import su.tease.project.design.component.controls.form.DFFormElement
 import su.tease.project.design.component.controls.image.DFImage
@@ -46,17 +46,17 @@ fun IconSelect(
                 .background(Theme.colors.inputBackground)
                 .size(Theme.sizes.size48)
         ) {
-            val icon by iconState
-            icon?.let {
-                DFImage(
-                    url = it.iconUrl,
-                    modifier = Modifier
-                        .size(Theme.sizes.size28)
-                        .align(Alignment.Center),
-                    contentDescription = "",
-                    tint = Theme.colors.iconTint,
-                )
-            }
+            val icon = iconState.value
+            DFImage(
+                url = icon?.iconUrl ?: ICON_PLACEHOLDER_URL,
+                modifier = Modifier
+                    .size((icon != null).choose(Theme.sizes.size28, Theme.sizes.size20))
+                    .align(Alignment.Center),
+                contentDescription = "",
+                tint = (icon != null).choose(Theme.colors.iconTint, Theme.colors.inputPlaceholder)
+            )
         }
     }
 }
+
+private const val ICON_PLACEHOLDER_URL = "https://dontforgetthediscount.ru/static/img/icon/svg/svg/fi-rr-search.svg"

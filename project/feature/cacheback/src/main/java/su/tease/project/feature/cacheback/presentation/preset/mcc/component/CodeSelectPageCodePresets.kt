@@ -43,7 +43,7 @@ fun CodeSelectPageCodePresets(
         modifier = modifier,
     ) {
         LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = Theme.sizes.size50),
+            columns = GridCells.Adaptive(minSize = Theme.sizes.size56),
             modifier = Modifier.fillMaxSize()
         ) {
             items(

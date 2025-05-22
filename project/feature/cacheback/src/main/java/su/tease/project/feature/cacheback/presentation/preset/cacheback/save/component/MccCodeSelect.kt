@@ -32,6 +32,9 @@ fun MccCodeSelect(
             enabled = false,
             modifier = Modifier.fillMaxWidth(),
             onClick = onSelect,
+            maxLength = MCC_CODE_MAX_LENGTH,
         )
     }
 }
+
+private const val MCC_CODE_MAX_LENGTH = 4

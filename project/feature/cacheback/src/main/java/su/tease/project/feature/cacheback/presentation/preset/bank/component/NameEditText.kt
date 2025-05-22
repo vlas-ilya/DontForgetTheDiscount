@@ -34,9 +34,12 @@ fun NameEditText(
             text = nameState.map { it },
             placeholder = stringResource(R.string.item_add_bank_name_placeholder),
             onChange = { onChange(it) },
+            maxLength = NAME_MAX_LENGTH,
             modifier = Modifier
                 .fillMaxWidth()
                 .focusRequester(focusRequester),
         )
     }
 }
+
+private const val NAME_MAX_LENGTH = 255

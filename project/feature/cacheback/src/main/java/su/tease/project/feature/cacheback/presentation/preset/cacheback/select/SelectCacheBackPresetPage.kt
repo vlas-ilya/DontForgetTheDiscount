@@ -18,7 +18,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.parcelize.Parcelize
@@ -88,7 +87,6 @@ class SelectCacheBackPresetPage(
                 verticalArrangement = Arrangement.spacedBy(Theme.sizes.padding4),
                 contentPadding = PaddingValues(vertical = Theme.sizes.padding8),
             ) {
-
                 cacheBacks?.forEach {
                     item(key = it.id) {
                         CacheBackPresetPreview(
@@ -98,9 +96,7 @@ class SelectCacheBackPresetPage(
                                 dispatch(OnSelectAction(target.target, it))
                                 back()
                             },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = Theme.sizes.padding8),
+                            modifier = Modifier.fillMaxWidth(),
                         )
                     }
                 }
@@ -123,7 +119,7 @@ class SelectCacheBackPresetPage(
                     .spacedBy(Theme.sizes.padding4)
             ) {
                 Spacer(Modifier.height(Theme.sizes.padding8))
-                repeat(20) {
+                repeat(SHIMMER_ITEM_COUNT) {
                     Box(
                         modifier = Modifier
                             .padding(horizontal = Theme.sizes.padding8)
@@ -157,3 +153,5 @@ class SelectCacheBackPresetPage(
         ) = Target(T::class.java.name, pageTitle, bankPreset)
     }
 }
+
+private const val SHIMMER_ITEM_COUNT = 20

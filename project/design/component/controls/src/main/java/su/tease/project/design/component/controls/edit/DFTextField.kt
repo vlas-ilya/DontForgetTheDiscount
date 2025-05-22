@@ -25,6 +25,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import su.tease.design.theme.api.Theme
@@ -41,20 +42,22 @@ import su.tease.project.design.theme.impl.utils.Preview
 fun DFTextField(
     text: State<String>,
     onChange: (String) -> Unit,
+    maxLength: Int,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
     enabled: Boolean = true,
     keyboardOptions: KeyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
     placeholder: String = "",
     action: DFTextFieldAction? = null,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
 ) {
     val isFocused = remember { mutableStateOf(false) }
     val interactionSource = remember { MutableInteractionSource() }
 
     Box(modifier = modifier) {
         BasicTextField(
-            keyboardOptions = keyboardOptions,
             value = text.value,
+            keyboardOptions = keyboardOptions,
             singleLine = true,
             textStyle = TextStyle(
                 fontSize = Theme.fonts.placeholder.fontSize,
@@ -63,7 +66,12 @@ fun DFTextField(
                 fontFamily = Theme.fonts.placeholder.fontFamily,
                 color = Theme.colors.text,
             ),
-            onValueChange = { onChange(it) },
+            onValueChange = {
+                if (it.length <= maxLength) {
+                    onChange(it)
+                }
+            },
+            visualTransformation = visualTransformation,
             enabled = enabled,
             modifier = Modifier
                 .fillMaxWidth()
@@ -87,49 +95,47 @@ fun DFTextField(
                     Modifier.clickable { it() }
                 },
             interactionSource = interactionSource,
-            visualTransformation = VisualTransformation.None,
-            decorationBox = {
-                TextFieldDefaults.DecorationBox(
-                    value = text.value,
-                    shape = RoundedCornerShape(Theme.sizes.roundInfinity),
-                    contentPadding = TextFieldDefaults.contentPaddingWithLabel(
-                        top = Theme.sizes.padding12,
-                        bottom = Theme.sizes.padding12,
-                        end = (action != null).choose(
-                            Theme.sizes.size50,
-                            Theme.sizes.padding8,
-                        )
-                    ),
-                    colors = TextFieldDefaults.colors().copy(
-                        cursorColor = Theme.colors.text,
+        ) {
+            TextFieldDefaults.DecorationBox(
+                value = text.value,
+                shape = RoundedCornerShape(Theme.sizes.roundInfinity),
+                contentPadding = TextFieldDefaults.contentPaddingWithLabel(
+                    top = Theme.sizes.padding12,
+                    bottom = Theme.sizes.padding12,
+                    end = (action != null).choose(
+                        Theme.sizes.size50,
+                        Theme.sizes.padding8,
+                    )
+                ),
+                colors = TextFieldDefaults.colors().copy(
+                    cursorColor = Theme.colors.text,
 
-                        focusedContainerColor = Theme.colors.inputBackground,
-                        unfocusedContainerColor = Theme.colors.inputBackground,
+                    focusedContainerColor = Theme.colors.inputBackground,
+                    unfocusedContainerColor = Theme.colors.inputBackground,
 
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
 
-                        focusedTextColor = Theme.colors.text,
-                        unfocusedTextColor = Theme.colors.text,
+                    focusedTextColor = Theme.colors.text,
+                    unfocusedTextColor = Theme.colors.text,
 
-                        focusedPlaceholderColor = Theme.colors.inputPlaceholder,
-                        unfocusedPlaceholderColor = Theme.colors.inputPlaceholder,
-                    ),
-                    innerTextField = it,
-                    enabled = true,
-                    singleLine = true,
-                    visualTransformation = VisualTransformation.None,
-                    interactionSource = interactionSource,
-                    placeholder = {
-                        DFText(
-                            text = placeholder,
-                            style = Theme.fonts.placeholder,
-                            color = Theme.colors.inputPlaceholder,
-                        )
-                    },
-                )
-            }
-        )
+                    focusedPlaceholderColor = Theme.colors.inputPlaceholder,
+                    unfocusedPlaceholderColor = Theme.colors.inputPlaceholder,
+                ),
+                innerTextField = it,
+                enabled = true,
+                singleLine = true,
+                visualTransformation = VisualTransformation.None,
+                interactionSource = interactionSource,
+                placeholder = {
+                    DFText(
+                        text = placeholder,
+                        style = Theme.fonts.placeholder,
+                        color = Theme.colors.inputPlaceholder,
+                    )
+                },
+            )
+        }
 
         action?.let {
             DFIconButton(
@@ -146,6 +152,123 @@ fun DFTextField(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+@Suppress("LongMethod", "LongParameterList")
+fun DFTextField(
+    text: TextFieldValue,
+    onChange: (TextFieldValue) -> Unit,
+    maxLength: Int,
+    modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
+    enabled: Boolean = true,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+    placeholder: String = "",
+    action: DFTextFieldAction? = null,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+) {
+    val isFocused = remember { mutableStateOf(false) }
+    val interactionSource = remember { MutableInteractionSource() }
+
+    Box(modifier = modifier) {
+        BasicTextField(
+            value = text,
+            keyboardOptions = keyboardOptions,
+            singleLine = true,
+            textStyle = TextStyle(
+                fontSize = Theme.fonts.placeholder.fontSize,
+                fontStyle = Theme.fonts.placeholder.fontStyle,
+                fontWeight = Theme.fonts.placeholder.fontWeight,
+                fontFamily = Theme.fonts.placeholder.fontFamily,
+                color = Theme.colors.text,
+            ),
+            onValueChange = {
+                if (it.text.length <= maxLength) {
+                    onChange(it)
+                }
+            },
+            visualTransformation = visualTransformation,
+            enabled = enabled,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(Theme.sizes.size48)
+                .border(
+                    width = isFocused.value.choose(
+                        Theme.sizes.size2,
+                        Theme.sizes.size0,
+                    ),
+                    color = isFocused.value.choose(
+                        Theme.colors.accent,
+                        Theme.colors.transparent,
+                    ),
+                    shape = RoundedCornerShape(Theme.sizes.roundInfinity)
+                )
+                .clip(RoundedCornerShape(Theme.sizes.roundInfinity))
+                .onFocusChanged {
+                    isFocused.value = it.isFocused
+                }
+                .thenIfNotNull(onClick) {
+                    Modifier.clickable { it() }
+                },
+            interactionSource = interactionSource,
+        ) {
+            TextFieldDefaults.DecorationBox(
+                value = text.text,
+                shape = RoundedCornerShape(Theme.sizes.roundInfinity),
+                contentPadding = TextFieldDefaults.contentPaddingWithLabel(
+                    top = Theme.sizes.padding12,
+                    bottom = Theme.sizes.padding12,
+                    end = (action != null).choose(
+                        Theme.sizes.size50,
+                        Theme.sizes.padding8,
+                    )
+                ),
+                colors = TextFieldDefaults.colors().copy(
+                    cursorColor = Theme.colors.text,
+
+                    focusedContainerColor = Theme.colors.inputBackground,
+                    unfocusedContainerColor = Theme.colors.inputBackground,
+
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+
+                    focusedTextColor = Theme.colors.text,
+                    unfocusedTextColor = Theme.colors.text,
+
+                    focusedPlaceholderColor = Theme.colors.inputPlaceholder,
+                    unfocusedPlaceholderColor = Theme.colors.inputPlaceholder,
+                ),
+                innerTextField = it,
+                enabled = true,
+                singleLine = true,
+                visualTransformation = VisualTransformation.None,
+                interactionSource = interactionSource,
+                placeholder = {
+                    DFText(
+                        text = placeholder,
+                        style = Theme.fonts.placeholder,
+                        color = Theme.colors.inputPlaceholder,
+                    )
+                },
+            )
+        }
+
+        action?.let {
+            DFIconButton(
+                icon = it.icon,
+                onClick = { it.onClick() },
+                modifier = Modifier
+                    .padding(end = Theme.sizes.padding4)
+                    .align(Alignment.CenterEnd)
+                    .size(Theme.sizes.size40),
+                background = Theme.colors.inputFocusedBorder,
+                tint = Theme.colors.buttonText,
+            )
+        }
+    }
+}
+
+
 data class DFTextFieldAction(
     @DrawableRes val icon: Int,
     val onClick: () -> Unit,
@@ -159,6 +282,7 @@ private fun DFTextFieldPreview() = Preview {
         text = text,
         onChange = { text.value = it },
         placeholder = "Test",
+        maxLength = 100,
         modifier = Modifier
             .fillMaxWidth()
             .padding(Theme.sizes.padding4)
@@ -167,6 +291,7 @@ private fun DFTextFieldPreview() = Preview {
         text = text,
         onChange = { text.value = it },
         placeholder = "Test",
+        maxLength = 100,
         modifier = Modifier
             .fillMaxWidth()
             .padding(Theme.sizes.padding4)
@@ -176,6 +301,7 @@ private fun DFTextFieldPreview() = Preview {
         text = text,
         onChange = { text.value = it },
         placeholder = "Test ",
+        maxLength = 100,
         modifier = Modifier
             .fillMaxWidth()
             .padding(Theme.sizes.padding4),

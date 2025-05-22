@@ -16,6 +16,8 @@ import su.tease.project.feature.cacheback.domain.repository.BankAccountRepositor
 import su.tease.project.feature.cacheback.domain.repository.PresetRepository
 import su.tease.project.feature.cacheback.domain.repository.SyncPresetRepository
 import su.tease.project.feature.cacheback.presentation.CacheBackFeature
+import su.tease.project.feature.cacheback.presentation.OtherFeature
+import su.tease.project.feature.cacheback.presentation.ShopFeature
 import su.tease.project.feature.cacheback.presentation.list.ListCacheBackPage
 import su.tease.project.feature.cacheback.presentation.list.action.LoadBankAccountListAction
 import su.tease.project.feature.cacheback.presentation.list.action.impl.LoadBankAccountListActionImpl
@@ -58,6 +60,8 @@ val cacheBackModule = module {
     factory<SelectMccCodeAction> { SelectMccCodeActionImpl(get(), get()) }
 
     feature { CacheBackFeature(get()) }
+    feature { ShopFeature(get()) }
+    feature { OtherFeature(get()) }
     feature { SaveCacheBackFeature(get()) }
 
     page { ListCacheBackPage(get(), get(), get(), get()) }

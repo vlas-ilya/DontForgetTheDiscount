@@ -17,6 +17,7 @@ internal data class ColorsImpl(
     override val error: Color,
     override val transparent: Color,
     override val iconTint: Color,
+    override val iTint: Color,
 
     override val buttonBackground: Color,
     override val buttonText: Color,
@@ -67,10 +68,11 @@ private fun makeLightColors(): Colors = ColorsImpl(
     headerText = Color(0xFFFFF5FA),
     text = text,
     placeholder = Color(0xFFBBBBBB),
-    info = Color(0xFF6C8FF6),
+    info = Color(0xFF758ED0),
     error = Color(0xFFD22038),
     transparent = Color.Transparent,
     iconTint = accent4,
+    iTint = Color(0xFF868686),
 
     buttonBackground = accent4,
     buttonText = Color(0xFFFFF5FA),

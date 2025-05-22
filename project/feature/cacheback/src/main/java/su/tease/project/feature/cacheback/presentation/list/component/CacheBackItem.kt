@@ -17,6 +17,7 @@ import su.tease.core.mvi.component.component.impl.NavigationComponentImpl
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.ext.runIf
+import su.tease.project.core.utils.ext.toPercent
 import su.tease.project.design.component.controls.icon.DFIconButton
 import su.tease.project.design.component.controls.icon.DFIconButtonSize
 import su.tease.project.design.component.controls.list.LazyListItem
@@ -24,6 +25,7 @@ import su.tease.project.design.component.controls.text.DFText
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.BankAccount
 import su.tease.project.feature.cacheback.domain.entity.CacheBack
+import su.tease.project.feature.cacheback.domain.entity.FRACTIONAL_SIZE
 import su.tease.project.feature.cacheback.presentation.component.CacheBackPresetIcon
 import su.tease.project.feature.cacheback.presentation.component.CacheBackPresetIconSize
 import su.tease.project.feature.cacheback.presentation.list.reducer.CacheBackInfoDialogAction
@@ -73,7 +75,7 @@ data class CacheBackItem(
                 DFText(
                     text = stringResource(
                         R.string.item_cache_back_in_list_label_percent,
-                        cacheBack.size.toString(),
+                        cacheBack.size.toPercent(FRACTIONAL_SIZE),
                     ),
                     style = Theme.fonts.monospace,
                 )
@@ -95,7 +97,8 @@ data class CacheBackItem(
                         store.dispatcher.dispatch(
                             CacheBackInfoDialogAction.OnShow(bankAccount to cacheBack)
                         )
-                    }
+                    },
+                    tint = Theme.colors.iTint,
                 )
             }
         }

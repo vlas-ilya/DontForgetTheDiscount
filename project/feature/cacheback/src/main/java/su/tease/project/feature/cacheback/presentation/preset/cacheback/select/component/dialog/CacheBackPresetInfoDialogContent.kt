@@ -87,7 +87,7 @@ fun CacheBackInfoDialogContent(
                 label = stringResource(R.string.page_select_cache_back_codes_label_other),
                 noError = true,
             ) {
-                LazyVerticalGrid(columns = GridCells.Adaptive(minSize = Theme.sizes.size50)) {
+                LazyVerticalGrid(columns = GridCells.Adaptive(minSize = Theme.sizes.size56)) {
                     items(
                         items = items,
                         key = { it.info }
@@ -107,5 +107,7 @@ fun CacheBackInfoDialogContent(
             label = stringResource(R.string.page_cache_back_list_dialog_button_close),
             onClick = onClick
         )
+
+        Spacer(Modifier.height(Theme.sizes.padding12))
     }
 }

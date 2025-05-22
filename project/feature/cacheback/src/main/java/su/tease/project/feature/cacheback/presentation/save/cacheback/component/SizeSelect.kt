@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import su.tease.project.core.utils.ext.map
 import su.tease.project.core.utils.ext.runIf
-import su.tease.project.design.component.controls.edit.DFNumberField
+import su.tease.project.design.component.controls.edit.DFPercentTextField
 import su.tease.project.design.component.controls.form.DFFormElement
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.presentation.save.cacheback.utls.FormFieldError
@@ -25,15 +25,13 @@ fun SizeSelect(
         },
         modifier = modifier
     ) {
-        DFNumberField(
-            text = sizeState.map { it ?: 0 },
+        DFPercentTextField(
+            value = sizeState.map { it ?: 0 },
             onChange = { onChange(it) },
             placeholder = stringResource(R.string.item_cache_back_size_placeholder),
-            minValue = MIN_PERCENT,
             maxValue = MAX_PERCENT,
         )
     }
 }
 
-private const val MIN_PERCENT = 0
 private const val MAX_PERCENT = 100

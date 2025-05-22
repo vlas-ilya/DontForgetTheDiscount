@@ -139,7 +139,7 @@ class SaveCacheBackPresetPage(
                     mccCodesState = form.mccCodes,
                     onSelect = { selectMccCode() }
                 )
-                Spacer(modifier = Modifier.height(Theme.sizes.padding4))
+                Spacer(modifier = Modifier.weight(1F))
                 SaveButton(
                     modifier = Modifier.wrapContentHeight(),
                     onSubmit = { save(target.cacheBackPreset?.id) }

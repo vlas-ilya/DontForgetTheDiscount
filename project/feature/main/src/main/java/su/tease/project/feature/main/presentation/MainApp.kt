@@ -12,8 +12,10 @@ import su.tease.design.component.navigationbar.NavigationBar
 import su.tease.design.component.navigationbar.data.NavigationBarItemData
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.navigation.selector.feature
-import su.tease.project.design.icons.R
 import su.tease.project.feature.cacheback.presentation.CacheBackFeature
+import su.tease.project.feature.cacheback.presentation.OtherFeature
+import su.tease.project.feature.cacheback.presentation.ShopFeature
+import su.tease.project.feature.main.R
 
 class MainApp(store: Store<*>) : BaseAppComponent<MainApp.Target>(store) {
 
@@ -26,8 +28,18 @@ class MainApp(store: Store<*>) : BaseAppComponent<MainApp.Target>(store) {
             items = persistentListOf(
                 NavigationBarItemData(
                     value = CacheBackFeature(),
-                    name = "Cache Back",
-                    image = painterResource(R.drawable.dollar),
+                    name = "Кэшбэк",
+                    image = painterResource(R.drawable.menu_icon_cashback),
+                ),
+                NavigationBarItemData(
+                    value = ShopFeature(),
+                    name = "Магазины",
+                    image = painterResource(R.drawable.menu_icon_shop),
+                ),
+                NavigationBarItemData(
+                    value = OtherFeature(),
+                    name = "Информация",
+                    image = painterResource(R.drawable.menu_icon_other),
                 ),
             ),
             onSelect = { it.switchTo() },

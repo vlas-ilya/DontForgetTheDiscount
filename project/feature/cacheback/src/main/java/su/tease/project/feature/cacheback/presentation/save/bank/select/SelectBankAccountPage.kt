@@ -17,7 +17,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.parcelize.Parcelize
@@ -74,7 +73,7 @@ class SelectBankAccountPage(
             hasSystemNavigationBar = LocalRootConfig.current.hasSystemNavigationBar,
             floatingButtons = floatingButtons,
         ) {
-            LazyColumn(contentPadding = PaddingValues(horizontal = Theme.sizes.padding4)) {
+            LazyColumn {
                 if (banks == null) {
                     item { SelectBankAccountShimmer() }
                     return@LazyColumn
@@ -109,7 +108,7 @@ class SelectBankAccountPage(
                     .spacedBy(Theme.sizes.padding4)
             ) {
                 Spacer(Modifier.height(Theme.sizes.padding8))
-                repeat(20) {
+                repeat(SHIMMER_ITEM_COUNT) {
                     Box(
                         modifier = Modifier
                             .padding(horizontal = Theme.sizes.padding2)
@@ -138,3 +137,5 @@ class SelectBankAccountPage(
         inline operator fun <reified T> invoke() = Target(T::class.java.name)
     }
 }
+
+private const val SHIMMER_ITEM_COUNT = 20

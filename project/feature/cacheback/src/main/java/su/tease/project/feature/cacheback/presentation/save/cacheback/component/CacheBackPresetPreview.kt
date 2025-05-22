@@ -25,6 +25,7 @@ fun CacheBackPresetPreview(
         CacheBackPresetIcon(
             cacheBackPreset = cacheBackPreset,
             size = CacheBackPresetIconSize.EXTRA_SMALL,
+            background = Theme.colors.background1
         )
         Spacer(modifier = Modifier.width(Theme.sizes.padding4))
         DFText(

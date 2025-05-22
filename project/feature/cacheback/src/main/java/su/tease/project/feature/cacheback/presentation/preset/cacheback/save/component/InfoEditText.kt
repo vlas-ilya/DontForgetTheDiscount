@@ -25,6 +25,9 @@ fun InfoEditText(
             placeholder = stringResource(R.string.item_cache_back_info_placeholder),
             onChange = { onChange(it) },
             modifier = Modifier.fillMaxWidth(),
+            maxLength = INFO_MAX_LENGTH,
         )
     }
 }
+
+private const val INFO_MAX_LENGTH = 255

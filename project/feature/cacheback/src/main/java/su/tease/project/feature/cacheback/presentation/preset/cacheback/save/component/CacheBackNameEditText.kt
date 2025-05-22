@@ -31,6 +31,9 @@ fun CacheBackNameEditText(
             placeholder = stringResource(R.string.item_cache_back_name_placeholder),
             onChange = { onChange(it) },
             modifier = Modifier.fillMaxWidth(),
+            maxLength = NAME_MAX_LENGTH,
         )
     }
 }
+
+private const val NAME_MAX_LENGTH = 255

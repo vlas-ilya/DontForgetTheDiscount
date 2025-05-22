@@ -95,7 +95,9 @@ fun DFFormElement(
             Spacer(modifier = Modifier.height(Theme.sizes.padding2))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(start = Theme.sizes.padding4),
+                modifier = Modifier
+                    .height(Theme.sizes.size14)
+                    .padding(start = Theme.sizes.padding4),
             ) {
                 DFIcon(
                     icon = R.drawable.cross_circle,
@@ -107,7 +109,7 @@ fun DFFormElement(
                     text = it,
                     style = Theme.fonts.smallInfo,
                     color = Theme.colors.error,
-                    modifier = Modifier,
+                    maxLines = 1,
                 )
             }
         } ?: runIf(!noError) {
@@ -130,7 +132,8 @@ private fun DFFormElementPreview() = Preview {
         DFTextField(
             text = text,
             onChange = { text.value = it },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            maxLength = 10,
         )
     }
 }

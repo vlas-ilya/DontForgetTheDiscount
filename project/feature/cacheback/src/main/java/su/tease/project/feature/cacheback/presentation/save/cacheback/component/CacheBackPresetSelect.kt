@@ -32,7 +32,9 @@ fun CacheBackPresetSelect(
 ) {
     DFFormElement(
         label = stringResource(R.string.item_select_cache_back_category_title),
-        info = stringResource(R.string.item_select_cache_back_category_info),
+        info = runIf(!enabled.value) {
+            stringResource(R.string.item_select_cache_back_category_info)
+        },
         error = runIf(error.value == FormFieldError.REQUIRED_BUT_EMPTY) {
             stringResource(R.string.item_select_cache_back_category_error)
         },

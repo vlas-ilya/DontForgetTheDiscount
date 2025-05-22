@@ -42,8 +42,13 @@ class SaveBankPresetReducer : Reducer<S> {
 @Parcelize
 data class SaveBankPresetState(
     val status: LoadingStatus = Init,
-    val icon: BankIconPreset? = null,
+    val icon: BankIconPreset? = defaultBankIconPreset,
     val name: String = "",
     val error: SaveBankPresetError? = null,
     val wasValidation: Boolean = false,
 ) : State
+
+private val defaultBankIconPreset = BankIconPreset(
+    id = "1af9a2da-d564-44ba-bb34-dbd82c602c9a",
+    iconUrl = "https://dontforgetthediscount.ru/static/img/bank/bank.png"
+)

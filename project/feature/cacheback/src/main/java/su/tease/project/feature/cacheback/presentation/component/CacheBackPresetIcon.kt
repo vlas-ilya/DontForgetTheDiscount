@@ -7,8 +7,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
+import su.tease.design.theme.api.Colors
 import su.tease.design.theme.api.Theme
 import su.tease.project.design.component.controls.image.DFImage
 import su.tease.project.feature.cacheback.R
@@ -17,7 +19,9 @@ import su.tease.project.feature.cacheback.domain.entity.preset.CacheBackPreset
 @Composable
 fun CacheBackPresetIcon(
     cacheBackPreset: CacheBackPreset,
+    modifier: Modifier = Modifier,
     size: CacheBackPresetIconSize = CacheBackPresetIconSize.DEFAULT,
+    background: Color = Theme.colors.inputBackground,
 ) {
     DFImage(
         url = cacheBackPreset.iconPreset.iconUrl,
@@ -25,9 +29,9 @@ fun CacheBackPresetIcon(
             R.string.page_cache_back_list_dialog_cache_back_content_description_icon,
             cacheBackPreset.name,
         ),
-        modifier = Modifier
+        modifier = modifier
             .clip(CircleShape)
-            .background(Theme.colors.inputBackground)
+            .background(background)
             .padding(size.padding())
             .size(size.size())
     )

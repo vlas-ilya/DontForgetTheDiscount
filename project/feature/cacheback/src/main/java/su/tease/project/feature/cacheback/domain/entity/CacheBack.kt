@@ -13,3 +13,5 @@ data class CacheBack(
     val size: Int,
     val date: CacheBackDate,
 ) : Parcelable
+
+const val FRACTIONAL_SIZE = 2

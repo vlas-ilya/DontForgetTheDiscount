@@ -59,7 +59,7 @@ class SaveCacheBackForm(
 }
 
 @Suppress("MagicNumber")
-private val INTERVAL = 1..100
+private val INTERVAL = 1..10000
 
 enum class FormFieldError {
     REQUIRED_BUT_EMPTY,
