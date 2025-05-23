@@ -10,10 +10,10 @@ import su.tease.project.core.mvi.api.state.LoadingStatus.Loading
 import su.tease.project.core.mvi.api.state.LoadingStatus.Success
 import su.tease.project.core.mvi.api.state.State
 import su.tease.project.core.utils.ext.transformIf
-import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
-import su.tease.project.feature.cacheback.presentation.preset.bank.select.SelectBankPresetPage.OnSelectAction as Select
+import su.tease.project.feature.preset.api.domain.entity.BankPreset
 import su.tease.project.feature.cacheback.presentation.save.bank.save.action.SaveBankAccountActions as Save
 import su.tease.project.feature.cacheback.presentation.save.bank.save.reducer.SaveBankAccountState as S
+import su.tease.project.feature.preset.api.presentation.bank.select.SelectBankPresetPage.OnSelectAction as Select
 
 class SaveBankAccountReducer : Reducer<S> {
     override val initState = S()

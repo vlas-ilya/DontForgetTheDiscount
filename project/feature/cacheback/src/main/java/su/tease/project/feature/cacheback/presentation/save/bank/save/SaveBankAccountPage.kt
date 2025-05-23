@@ -1,6 +1,5 @@
 package su.tease.project.feature.cacheback.presentation.save.bank.save
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -30,15 +29,15 @@ import su.tease.project.core.utils.ext.choose
 import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.BankAccount
-import su.tease.project.feature.cacheback.presentation.preset.bank.select.SelectBankPresetPage
 import su.tease.project.feature.cacheback.presentation.save.bank.save.action.SaveBankAccountAction
 import su.tease.project.feature.cacheback.presentation.save.bank.save.action.SaveBankAccountActions
-import su.tease.project.feature.cacheback.presentation.save.bank.save.component.BankNameEditText
-import su.tease.project.feature.cacheback.presentation.save.bank.save.component.BankSelect
-import su.tease.project.feature.cacheback.presentation.save.bank.save.component.SaveButton
+import su.tease.project.feature.cacheback.presentation.save.bank.save.component.SaveBankAccountNameEditText
+import su.tease.project.feature.cacheback.presentation.save.bank.save.component.SaveBankAccountSaveButton
+import su.tease.project.feature.cacheback.presentation.save.bank.save.component.SaveBankAccountBankPresetSelect
 import su.tease.project.feature.cacheback.presentation.save.bank.save.reducer.SaveBankAccountReducer
 import su.tease.project.feature.cacheback.presentation.save.bank.save.reducer.SaveBankAccountState
 import su.tease.project.feature.cacheback.presentation.save.bank.save.utils.SaveBankAccountForm
+import su.tease.project.feature.preset.api.presentation.bank.select.SelectBankPresetPage
 
 class SaveBankAccountPage(
     store: Store<*>,
@@ -91,21 +90,21 @@ class SaveBankAccountPage(
                     .verticalScroll(rememberScrollState())
                     .padding(WindowInsets.ime.asPaddingValues())
             ) {
-                BankSelect(
+                SaveBankAccountBankPresetSelect(
                     bankState = form.bankPreset,
-                    onSelect = { selectBank(R.string.page_select_cache_back_bank_title) },
+                    onSelect = { selectBank() },
                     error = form.ui { bankPresetError },
                     modifier = Modifier.fillMaxWidth(),
                 )
                 Spacer(modifier = Modifier.height(Theme.sizes.padding4))
-                BankNameEditText(
+                SaveBankAccountNameEditText(
                     nameState = form.customName,
                     onChange = { form.customName.value = it },
                     error = form.ui { customNameError },
                     modifier = Modifier.fillMaxWidth(),
                 )
                 Spacer(modifier = Modifier.weight(1F))
-                SaveButton(
+                SaveBankAccountSaveButton(
                     modifier = Modifier.wrapContentHeight(),
                     onSubmit = { save(bankAccountId.value ?: "") }
                 )
@@ -113,11 +112,8 @@ class SaveBankAccountPage(
         }
     }
 
-    private fun selectBank(@StringRes title: Int) {
-        SelectBankPresetPage<SaveBankAccountReducer>(
-            pageTitle = title,
-            selected = form.bankPreset.value
-        ).forward()
+    private fun selectBank() {
+        SelectBankPresetPage<SaveBankAccountReducer>(form.bankPreset.value).forward()
     }
 
     private fun save(bankAccountId: String) {

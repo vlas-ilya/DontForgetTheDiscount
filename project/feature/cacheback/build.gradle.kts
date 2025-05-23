@@ -94,4 +94,5 @@ dependencies {
     implementation(project(":project:core:navigation"))
     implementation(project(":project:core:utils"))
     implementation(project(":project:feature:notification:api"))
+    implementation(project(":project:feature:preset:api"))
 }

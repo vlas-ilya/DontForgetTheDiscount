@@ -121,4 +121,6 @@ dependencies {
     implementation(project(":project:core:mvi:middleware:suspend"))
     implementation(project(":project:core:navigation"))
     implementation(project(":project:core:utils"))
+    implementation(project(":project:feature:preset:api"))
+    implementation(project(":project:feature:preset:impl"))
 }

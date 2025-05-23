@@ -4,7 +4,7 @@ import kotlinx.collections.immutable.PersistentList
 import su.tease.project.feature.cacheback.data.dao.entity.BankAccountEntity
 import su.tease.project.feature.cacheback.domain.entity.BankAccount
 import su.tease.project.feature.cacheback.domain.entity.CacheBack
-import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
+import su.tease.project.feature.preset.api.domain.entity.BankPreset
 
 inline fun BankAccountEntity.toDomain(
     getBankPreset: (bankPresetId: String) -> BankPreset,

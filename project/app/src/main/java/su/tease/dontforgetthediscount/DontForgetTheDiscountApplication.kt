@@ -14,6 +14,7 @@ import su.tease.dontforgetthediscount.state.dontForgetTheDiscountReducer
 import su.tease.feature.splash.splashModule
 import su.tease.project.feature.cacheback.module.cacheBackModule
 import su.tease.project.feature.main.module.mainModule
+import su.tease.project.feature.preset.impl.module.presetModule
 import timber.log.Timber
 
 class DontForgetTheDiscountApplication : AndroidMviApplication(
@@ -38,6 +39,7 @@ class DontForgetTheDiscountApplication : AndroidMviApplication(
             modules(splashModule)
             modules(mainModule)
             modules(cacheBackModule)
+            modules(presetModule)
         }
     }
 }

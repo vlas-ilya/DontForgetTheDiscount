@@ -7,7 +7,7 @@ import su.tease.project.core.mvi.clean.doman.usecase.MviUseCase
 import su.tease.project.feature.cacheback.domain.entity.BankAccount
 import su.tease.project.feature.cacheback.domain.entity.CacheBack
 import su.tease.project.feature.cacheback.domain.entity.CacheBackDate
-import su.tease.project.feature.cacheback.domain.entity.preset.CacheBackPreset
+import su.tease.project.feature.preset.api.domain.entity.CacheBackPreset
 
 interface SaveCacheBackAction : MviUseCase<SaveCacheBackRequest>
 

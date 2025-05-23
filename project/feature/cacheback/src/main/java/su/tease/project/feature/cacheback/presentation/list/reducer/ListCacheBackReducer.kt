@@ -25,7 +25,6 @@ data class ListCacheBackState(
     val dates: PersistentList<CacheBackDate> = persistentListOf(),
     val list: PersistentList<BankAccount> = persistentListOf(),
     val shownCacheBack: Pair<BankAccount, CacheBack>? = null,
-    val error: Boolean = false,
 ) : State
 
 typealias S = ListCacheBackState
@@ -41,15 +40,14 @@ class ListCacheBackReducer : Reducer<S> {
     }
 
     private fun S.onLoadList(action: LoadList) = when (action) {
-        is LoadList.OnLoad -> copy(status = Loading, error = false)
-        is LoadList.OnFail -> copy(status = Failed, error = true)
+        is LoadList.OnLoad -> copy(status = Loading)
+        is LoadList.OnFail -> copy(status = Failed)
         is LoadList.OnDateSelect -> copy(date = action.date)
         is LoadList.OnSuccess -> copy(
             status = Success,
             date = action.currentDate,
             dates = action.dates,
             list = action.list,
-            error = false
         )
     }
 

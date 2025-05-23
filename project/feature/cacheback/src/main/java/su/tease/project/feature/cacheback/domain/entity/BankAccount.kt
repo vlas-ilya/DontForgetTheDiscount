@@ -4,7 +4,7 @@ import android.os.Parcelable
 import androidx.compose.runtime.Immutable
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.parcelize.Parcelize
-import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
+import su.tease.project.feature.preset.api.domain.entity.BankPreset
 
 @Parcelize
 @Immutable

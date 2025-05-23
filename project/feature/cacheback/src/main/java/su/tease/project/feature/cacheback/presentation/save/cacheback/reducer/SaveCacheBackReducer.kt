@@ -12,11 +12,11 @@ import su.tease.project.core.mvi.api.state.State
 import su.tease.project.core.utils.ext.transformIf
 import su.tease.project.feature.cacheback.domain.entity.BankAccount
 import su.tease.project.feature.cacheback.domain.entity.CacheBackDate
-import su.tease.project.feature.cacheback.domain.entity.preset.CacheBackPreset
-import su.tease.project.feature.cacheback.presentation.preset.cacheback.select.SelectCacheBackPresetPage
-import su.tease.project.feature.cacheback.presentation.save.bank.select.SelectBankAccountPage
+import su.tease.project.feature.preset.api.domain.entity.CacheBackPreset
+import su.tease.project.feature.cacheback.presentation.save.bank.select.SelectBankAccountPage.OnSelectAction as SelectBankAccount
 import su.tease.project.feature.cacheback.presentation.save.cacheback.action.SaveCacheBackActions as Save
 import su.tease.project.feature.cacheback.presentation.save.cacheback.reducer.SaveCacheBackState as S
+import su.tease.project.feature.preset.api.presentation.cacheback.select.SelectCacheBackPresetPage.OnSelectAction as SelectCacheBackPreset
 
 class SaveCacheBackReducer : Reducer<S> {
 
@@ -24,8 +24,8 @@ class SaveCacheBackReducer : Reducer<S> {
 
     override fun S.onAction(action: PlainAction) = when (action) {
         is Save -> onSave(action)
-        is SelectBankAccountPage.OnSelectAction -> onSelectBankAccount(action)
-        is SelectCacheBackPresetPage.OnSelectAction -> onSelectCacheBackPreset(action)
+        is SelectBankAccount -> onSelectBankAccount(action)
+        is SelectCacheBackPreset -> onSelectCacheBackPreset(action)
         else -> this
     }
 
@@ -46,7 +46,7 @@ class SaveCacheBackReducer : Reducer<S> {
         }
     }
 
-    private fun S.onSelectBankAccount(action: SelectBankAccountPage.OnSelectAction): S {
+    private fun S.onSelectBankAccount(action: SelectBankAccount): S {
         return transformIf(action.target.current()) {
             copy(
                 bankAccount = action.selected,
@@ -55,7 +55,7 @@ class SaveCacheBackReducer : Reducer<S> {
         }
     }
 
-    private fun S.onSelectCacheBackPreset(action: SelectCacheBackPresetPage.OnSelectAction) =
+    private fun S.onSelectCacheBackPreset(action: SelectCacheBackPreset) =
         transformIf(action.target.current()) { copy(cacheBackPreset = action.selected) }
 
     private fun String.current() = this == this@SaveCacheBackReducer::class.java.name

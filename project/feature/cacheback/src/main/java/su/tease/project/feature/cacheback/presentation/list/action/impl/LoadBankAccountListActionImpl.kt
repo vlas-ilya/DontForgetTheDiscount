@@ -9,11 +9,11 @@ import su.tease.project.core.utils.date.DateProvider
 import su.tease.project.feature.cacheback.domain.entity.BankAccount
 import su.tease.project.feature.cacheback.domain.entity.CacheBack
 import su.tease.project.feature.cacheback.domain.entity.CacheBackDate
-import su.tease.project.feature.cacheback.domain.entity.preset.CacheBackPreset
 import su.tease.project.feature.cacheback.domain.mapper.toCacheBackDate
 import su.tease.project.feature.cacheback.domain.repository.BankAccountRepository
 import su.tease.project.feature.cacheback.presentation.list.action.LoadBankAccountListAction
 import su.tease.project.feature.cacheback.presentation.list.action.LoadBankAccountListActions
+import su.tease.project.feature.preset.api.domain.entity.CacheBackPreset
 
 class LoadBankAccountListActionImpl(
     private val repository: BankAccountRepository,

@@ -8,14 +8,14 @@ import su.tease.project.core.utils.resource.ResourceProvider
 import su.tease.project.core.utils.uuid.UuidProvider
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.CacheBack
-import su.tease.project.feature.cacheback.domain.entity.preset.CacheBackPreset
-import su.tease.project.feature.cacheback.domain.interceptor.PresetInterceptor
 import su.tease.project.feature.cacheback.domain.repository.BankAccountRepository
 import su.tease.project.feature.cacheback.presentation.save.cacheback.action.SaveCacheBackAction
 import su.tease.project.feature.cacheback.presentation.save.cacheback.action.SaveCacheBackActions
 import su.tease.project.feature.cacheback.presentation.save.cacheback.action.SaveCacheBackRequest
 import su.tease.project.feature.notification.api.Notification
 import su.tease.project.feature.notification.api.NotificationAction
+import su.tease.project.feature.preset.api.domain.entity.CacheBackPreset
+import su.tease.project.feature.preset.api.domain.interceptor.PresetInterceptor
 import timber.log.Timber
 
 class SaveCacheBackActionImpl(

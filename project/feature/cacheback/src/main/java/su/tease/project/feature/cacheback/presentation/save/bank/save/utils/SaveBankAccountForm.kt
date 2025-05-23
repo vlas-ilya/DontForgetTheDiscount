@@ -7,7 +7,7 @@ import kotlinx.collections.immutable.persistentListOf
 import su.tease.project.core.utils.checker.check
 import su.tease.project.core.utils.ext.runIf
 import su.tease.project.feature.cacheback.domain.entity.BankAccount
-import su.tease.project.feature.cacheback.domain.entity.preset.BankPreset
+import su.tease.project.feature.preset.api.domain.entity.BankPreset
 
 class SaveBankAccountForm(
     bankPresetValue: BankPreset?,

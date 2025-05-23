@@ -8,8 +8,8 @@ import su.tease.project.core.utils.checker.check
 import su.tease.project.core.utils.ext.runIf
 import su.tease.project.feature.cacheback.domain.entity.BankAccount
 import su.tease.project.feature.cacheback.domain.entity.CacheBackDate
-import su.tease.project.feature.cacheback.domain.entity.preset.CacheBackPreset
 import su.tease.project.feature.cacheback.presentation.save.cacheback.action.SaveCacheBackRequest
+import su.tease.project.feature.preset.api.domain.entity.CacheBackPreset
 
 @Stable
 class SaveCacheBackForm(

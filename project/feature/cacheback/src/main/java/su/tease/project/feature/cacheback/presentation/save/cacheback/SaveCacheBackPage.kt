@@ -1,3 +1,5 @@
+@file:Suppress("EmptyFunctionBlock")
+
 package su.tease.project.feature.cacheback.presentation.save.cacheback
 
 import androidx.compose.foundation.layout.Column
@@ -34,19 +36,19 @@ import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.defaultCacheBackDate
 import su.tease.project.feature.cacheback.domain.mapper.toCacheBackDate
-import su.tease.project.feature.cacheback.presentation.preset.cacheback.select.SelectCacheBackPresetPage
 import su.tease.project.feature.cacheback.presentation.save.bank.select.SelectBankAccountPage
 import su.tease.project.feature.cacheback.presentation.save.cacheback.action.SaveCacheBackAction
 import su.tease.project.feature.cacheback.presentation.save.cacheback.action.SaveCacheBackRequest
-import su.tease.project.feature.cacheback.presentation.save.cacheback.component.BankAccountSelect
-import su.tease.project.feature.cacheback.presentation.save.cacheback.component.CacheBackPresetSelect
-import su.tease.project.feature.cacheback.presentation.save.cacheback.component.DateSelect
-import su.tease.project.feature.cacheback.presentation.save.cacheback.component.SaveAndAddMoreButton
-import su.tease.project.feature.cacheback.presentation.save.cacheback.component.SaveButton
-import su.tease.project.feature.cacheback.presentation.save.cacheback.component.SizeSelect
+import su.tease.project.feature.cacheback.presentation.save.cacheback.component.SaveCacheBackBankAccountSelect
+import su.tease.project.feature.cacheback.presentation.save.cacheback.component.SaveCacheBackDateSelect
+import su.tease.project.feature.cacheback.presentation.save.cacheback.component.SaveCacheBackCacheBackPresetSelect
+import su.tease.project.feature.cacheback.presentation.save.cacheback.component.SaveCacheBackSaveAndAddMoreButton
+import su.tease.project.feature.cacheback.presentation.save.cacheback.component.SaveCacheBackSaveButton
+import su.tease.project.feature.cacheback.presentation.save.cacheback.component.SaveCacheBackSizeSelect
 import su.tease.project.feature.cacheback.presentation.save.cacheback.reducer.SaveCacheBackReducer
 import su.tease.project.feature.cacheback.presentation.save.cacheback.reducer.SaveCacheBackState
 import su.tease.project.feature.cacheback.presentation.save.cacheback.utls.SaveCacheBackForm
+import su.tease.project.feature.preset.api.presentation.cacheback.select.SelectCacheBackPresetPage
 import su.tease.project.feature.cacheback.presentation.save.cacheback.action.SaveCacheBackActions as Save
 
 class SaveCacheBackPage(
@@ -125,7 +127,7 @@ class SaveCacheBackPage(
                 .verticalScroll(rememberScrollState())
                 .padding(WindowInsets.ime.asPaddingValues())
         ) {
-            DateSelect(
+            SaveCacheBackDateSelect(
                 dateState = form.date,
                 dates = dates,
                 onSelect = { dispatch(Save.OnSetDate(it)) },
@@ -133,14 +135,14 @@ class SaveCacheBackPage(
                 dateProvider = dateProvider,
             )
             Spacer(modifier = Modifier.height(Theme.sizes.padding4))
-            BankAccountSelect(
+            SaveCacheBackBankAccountSelect(
                 bankState = form.bankAccount,
                 onSelect = { selectBankAccount() },
                 error = form.ui { bankAccountError },
                 modifier = Modifier.fillMaxWidth(),
             )
             Spacer(modifier = Modifier.height(Theme.sizes.padding4))
-            CacheBackPresetSelect(
+            SaveCacheBackCacheBackPresetSelect(
                 cacheBackPreset = form.cacheBackPreset,
                 enabled = form.cacheBackPresetEnabled,
                 onSelect = { selectCacheBackPreset() },
@@ -148,20 +150,20 @@ class SaveCacheBackPage(
                 modifier = Modifier.fillMaxWidth(),
             )
             Spacer(modifier = Modifier.height(Theme.sizes.padding4))
-            SizeSelect(
+            SaveCacheBackSizeSelect(
                 sizeState = form.size,
                 onChange = { form.size.value = it },
                 error = form.ui { sizeError },
                 modifier = Modifier.fillMaxWidth(),
             )
             Spacer(modifier = Modifier.weight(1F))
-            SaveButton(
+            SaveCacheBackSaveButton(
                 modifier = Modifier.wrapContentHeight(),
                 onSubmit = { save(target.saveCacheBackRequest?.id) }
             )
             runIf(target.saveCacheBackRequest?.id == null) {
                 Spacer(modifier = Modifier.height(Theme.sizes.padding4))
-                SaveAndAddMoreButton(
+                SaveCacheBackSaveAndAddMoreButton(
                     modifier = Modifier.wrapContentHeight(),
                     onSubmit = { saveAndAddMore() }
                 )
@@ -175,10 +177,7 @@ class SaveCacheBackPage(
 
     private fun selectCacheBackPreset() {
         val bankPreset = form.bankAccount.value?.bankPreset ?: return
-        SelectCacheBackPresetPage<SaveCacheBackReducer>(
-            R.string.page_cache_back_preset_list_title_add,
-            bankPreset,
-        ).forward()
+        SelectCacheBackPresetPage<SaveCacheBackReducer>(bankPreset).forward()
     }
 
     private fun save(cacheBackId: String?) {

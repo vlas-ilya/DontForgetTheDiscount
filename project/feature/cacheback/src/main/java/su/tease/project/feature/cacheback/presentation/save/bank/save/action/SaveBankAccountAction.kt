@@ -7,11 +7,6 @@ import su.tease.project.feature.cacheback.domain.entity.BankAccount
 
 interface SaveBankAccountAction : MviUseCase<BankAccount>
 
-enum class SaveBankAccountError {
-    DUPLICATE_ERROR,
-    SOME_ERROR,
-}
-
 @Parcelize
 sealed class SaveBankAccountActions : PlainAction {
     data class OnInit(val bankAccount: BankAccount? = null) : SaveBankAccountActions()

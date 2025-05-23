@@ -27,10 +27,10 @@ import su.tease.project.feature.cacheback.domain.entity.BankAccount
 import su.tease.project.feature.cacheback.domain.entity.CacheBack
 import su.tease.project.feature.cacheback.domain.entity.FRACTIONAL_SIZE
 import su.tease.project.feature.cacheback.domain.mapper.toMonthYear
-import su.tease.project.feature.cacheback.presentation.component.BankPresetIcon
-import su.tease.project.feature.cacheback.presentation.component.BankPresetIconSize
-import su.tease.project.feature.cacheback.presentation.component.CacheBackPresetIcon
-import su.tease.project.feature.cacheback.presentation.component.MccCodeItem
+import su.tease.project.feature.preset.api.presentation.component.BankPresetIcon
+import su.tease.project.feature.preset.api.presentation.component.BankPresetIconSize
+import su.tease.project.feature.preset.api.presentation.component.CacheBackPresetIcon
+import su.tease.project.feature.preset.api.presentation.component.MccCodeItem
 
 @Composable
 fun CacheBackInfoDialogContent(
@@ -92,7 +92,7 @@ fun CacheBackInfoDialogContent(
         ) {
             DFText(
                 text = stringResource(
-                    R.string.item_cache_back_in_list_label_percent,
+                    R.string.dialog_cache_back_info_item_size_percent,
                     cacheBack.size.toPercent(FRACTIONAL_SIZE)
                 ),
                 style = Theme.fonts.monospace,
@@ -106,7 +106,7 @@ fun CacheBackInfoDialogContent(
         cacheBack.cacheBackPreset.mccCodes.takeIf { it.isNotEmpty() }?.let { items ->
             Spacer(Modifier.height(Theme.sizes.padding12))
             DFFormElement(
-                label = stringResource(R.string.page_select_cache_back_codes_label_other),
+                label = stringResource(R.string.dialog_cache_back_info_item_mcc_codes_label),
                 noError = true,
             ) {
                 LazyVerticalGrid(columns = GridCells.Adaptive(minSize = Theme.sizes.size56)) {
@@ -126,7 +126,7 @@ fun CacheBackInfoDialogContent(
         Spacer(Modifier.height(Theme.sizes.padding12))
 
         DFButton(
-            label = stringResource(R.string.page_cache_back_list_dialog_button_close),
+            label = stringResource(R.string.dialog_cache_back_info_item_button_close),
             onClick = onClick
         )
 

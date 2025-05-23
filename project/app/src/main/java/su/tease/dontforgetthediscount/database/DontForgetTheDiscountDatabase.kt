@@ -4,16 +4,16 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import su.tease.project.feature.cacheback.data.dao.BankAccountDao
 import su.tease.project.feature.cacheback.data.dao.CacheBackDao
-import su.tease.project.feature.cacheback.data.dao.PresetDao
 import su.tease.project.feature.cacheback.data.dao.entity.BankAccountEntity
 import su.tease.project.feature.cacheback.data.dao.entity.CacheBackEntity
-import su.tease.project.feature.cacheback.data.dao.entity.preset.BankIconPresetEntity
-import su.tease.project.feature.cacheback.data.dao.entity.preset.BankPresetEntity
-import su.tease.project.feature.cacheback.data.dao.entity.preset.CacheBackIconPresetEntity
-import su.tease.project.feature.cacheback.data.dao.entity.preset.CacheBackPresetEntity
-import su.tease.project.feature.cacheback.data.dao.entity.preset.CacheBackPresetToMccCodePresetEntity
-import su.tease.project.feature.cacheback.data.dao.entity.preset.MccCodePresetEntity
-import su.tease.project.feature.cacheback.data.dao.entity.preset.PresetsVersionEntity
+import su.tease.project.feature.preset.impl.data.dao.PresetDao
+import su.tease.project.feature.preset.impl.data.dao.entity.BankIconPresetEntity
+import su.tease.project.feature.preset.impl.data.dao.entity.BankPresetEntity
+import su.tease.project.feature.preset.impl.data.dao.entity.CacheBackIconPresetEntity
+import su.tease.project.feature.preset.impl.data.dao.entity.CacheBackPresetEntity
+import su.tease.project.feature.preset.impl.data.dao.entity.CacheBackPresetToMccCodePresetEntity
+import su.tease.project.feature.preset.impl.data.dao.entity.MccCodePresetEntity
+import su.tease.project.feature.preset.impl.data.dao.entity.PresetsVersionEntity
 
 @Database(
     entities = [

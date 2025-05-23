@@ -6,16 +6,21 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Immutable
-@Suppress("MagicNumber")
 data class CacheBackDate(
     val month: Int,
     val year: Int,
 ) : Parcelable {
     init {
-        require(month in 0..11)
-        require(year in 2025..3000)
+        require(month in monthInterval)
+        require(year in yearInterval)
     }
 }
+
+@Suppress("MagicNumber")
+val monthInterval = 0..11
+
+@Suppress("MagicNumber")
+val yearInterval = 2025..3000
 
 @Suppress("MagicNumber")
 val defaultCacheBackDate = CacheBackDate(0, 2025)

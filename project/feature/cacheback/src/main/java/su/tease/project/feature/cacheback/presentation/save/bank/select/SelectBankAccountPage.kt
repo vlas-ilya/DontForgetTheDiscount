@@ -33,7 +33,7 @@ import su.tease.project.design.component.controls.shimmer.Shimmer
 import su.tease.project.feature.cacheback.R
 import su.tease.project.feature.cacheback.domain.entity.BankAccount
 import su.tease.project.feature.cacheback.domain.interceptor.BankAccountInterceptor
-import su.tease.project.feature.cacheback.presentation.preset.bank.component.SelectBankPresetPreview
+import su.tease.project.feature.cacheback.presentation.save.bank.select.component.SelectBankAccountBankPresetPreview
 import su.tease.project.feature.cacheback.presentation.save.bank.save.SaveBankAccountPage
 import su.tease.project.feature.cacheback.presentation.save.bank.select.reducer.SelectBankAccountState
 import su.tease.project.design.icons.R as RIcons
@@ -83,7 +83,7 @@ class SelectBankAccountPage(
                 banks?.forEach {
                     item(key = it.id) {
                         val bankPreset = remember(it) { it.bankPreset.copy(name = it.customName) }
-                        SelectBankPresetPreview(
+                        SelectBankAccountBankPresetPreview(
                             bankPreset = bankPreset,
                             onClick = {
                                 dispatch(OnSelectAction(target.target, it))

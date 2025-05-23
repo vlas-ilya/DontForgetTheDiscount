@@ -17,7 +17,7 @@ import su.tease.project.core.utils.ext.toPercent
 import su.tease.project.design.theme.impl.utils.Preview
 
 @Composable
-@Suppress("LongParameterList")
+@Suppress("LongParameterList", "MagicNumber", "CyclomaticComplexMethod")
 fun DFPercentTextField(
     value: State<Int>,
     onChange: (Int) -> Unit,
@@ -114,6 +114,7 @@ private fun String.rightPad(n: Int, symbol: Char): String =
 
 @Composable
 @Preview
+@Suppress("MagicNumber")
 private fun DFPercentTextFieldPreview() = Preview {
     val value1 = remember { mutableIntStateOf(155) }
     DFPercentTextField(

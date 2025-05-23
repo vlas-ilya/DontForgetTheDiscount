@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -29,6 +30,7 @@ import su.tease.project.core.mvi.api.state.LoadingStatus
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.navigation.state.NavigationState
 import su.tease.project.core.utils.date.DateProvider
+import su.tease.project.core.utils.ext.unit
 import su.tease.project.core.utils.resource.ResourceProvider
 import su.tease.project.core.utils.utils.ScrollDirection
 import su.tease.project.core.utils.utils.and
@@ -40,6 +42,7 @@ import su.tease.project.design.component.controls.list.LazyListItems
 import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.design.component.controls.page.DFPageFloatingButton
 import su.tease.project.feature.cacheback.R
+import su.tease.project.feature.cacheback.domain.entity.CacheBackDate
 import su.tease.project.feature.cacheback.domain.entity.defaultCacheBackDate
 import su.tease.project.feature.cacheback.domain.mapper.toCacheBackDate
 import su.tease.project.feature.cacheback.domain.mapper.toMonthYear
@@ -48,6 +51,7 @@ import su.tease.project.feature.cacheback.presentation.list.action.LoadBankAccou
 import su.tease.project.feature.cacheback.presentation.list.component.dialog.CacheBackInfoDialog
 import su.tease.project.feature.cacheback.presentation.list.page.ListCacheBackFailed
 import su.tease.project.feature.cacheback.presentation.list.page.ListCacheBackInit
+import su.tease.project.feature.cacheback.presentation.list.page.ListCacheBackLoading
 import su.tease.project.feature.cacheback.presentation.list.page.ListCacheBackSuccess
 import su.tease.project.feature.cacheback.presentation.list.reducer.CacheBackInfoDialogAction
 import su.tease.project.feature.cacheback.presentation.list.reducer.ListCacheBackState
@@ -76,7 +80,6 @@ class ListCacheBackPage(
         val date = selectAsState(ListCacheBackState::date)
         val dates = selectAsState(ListCacheBackState::dates)
         val list = selectAsState<ListCacheBackState, LazyListItems> { list.toUi(date.value, store) }
-        val error = selectAsState(ListCacheBackState::error)
 
         val isScrollTopButtonVisible = remember {
             derivedStateOf {
@@ -87,6 +90,12 @@ class ListCacheBackPage(
                     ),
                     lazyListState.firstVisibleItemIndex >= SCROLL_ITEMS_FOR_SHOW_BUTTON
                 )
+            }
+        }
+
+        val isAddButtonVisible = remember {
+            derivedStateOf {
+                status.value == LoadingStatus.Success || list.value.isNotEmpty()
             }
         }
 
@@ -110,7 +119,8 @@ class ListCacheBackPage(
                 persistentListOf(
                     DFPageFloatingButton(
                         icon = RIcons.drawable.plus,
-                        onClick = { SaveCacheBackFeature(SaveCacheBackRequest(date = date.value)).forward() }
+                        onClick = { SaveCacheBackFeature(SaveCacheBackRequest(date = date.value)).forward() },
+                        isVisible = isAddButtonVisible.value
                     ),
                     DFPageFloatingButton(
                         icon = RIcons.drawable.angle_up,
@@ -149,18 +159,10 @@ class ListCacheBackPage(
         ) {
             val state = status.value
             when {
-                state == LoadingStatus.Init ||
-                    state == LoadingStatus.Loading && list.value.isEmpty() -> ListCacheBackInit()
-
-                state == LoadingStatus.Failed -> ListCacheBackFailed(
-                    error
-                ) { dispatch(loadBankAccountList(date.value)) }
-
-                else -> ListCacheBackSuccess(
-                    list = list,
-                    lazyListState = lazyListState,
-                    modifier = Modifier.nestedScroll(nestedScrollConnection)
-                )
+                state == LoadingStatus.Init -> ListCacheBackInit()
+                state == LoadingStatus.Loading && list.value.isEmpty() -> ListCacheBackLoading()
+                state == LoadingStatus.Failed -> ListCacheBackFailed({ onTryAgain(date) })
+                else -> ListCacheBackSuccess(list, lazyListState, Modifier.nestedScroll(nestedScrollConnection))
             }
         }
 
@@ -170,6 +172,8 @@ class ListCacheBackPage(
             dateProvider = dateProvider,
         )
     }
+
+    private fun onTryAgain(date: State<CacheBackDate>) = dispatch(loadBankAccountList(date.value)).unit()
 
     @Parcelize
     data object Target : NavigationTarget.Page

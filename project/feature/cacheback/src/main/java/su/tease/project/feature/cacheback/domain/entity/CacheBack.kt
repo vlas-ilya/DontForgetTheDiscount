@@ -3,7 +3,7 @@ package su.tease.project.feature.cacheback.domain.entity
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable
 import kotlinx.parcelize.Parcelize
-import su.tease.project.feature.cacheback.domain.entity.preset.CacheBackPreset
+import su.tease.project.feature.preset.api.domain.entity.CacheBackPreset
 
 @Parcelize
 @Immutable

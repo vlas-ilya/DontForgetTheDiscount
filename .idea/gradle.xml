@@ -41,6 +41,9 @@
             <option value="$PROJECT_DIR$/project/feature/notification" />
             <option value="$PROJECT_DIR$/project/feature/notification/api" />
             <option value="$PROJECT_DIR$/project/feature/notification/impl" />
+            <option value="$PROJECT_DIR$/project/feature/preset" />
+            <option value="$PROJECT_DIR$/project/feature/preset/api" />
+            <option value="$PROJECT_DIR$/project/feature/preset/impl" />
             <option value="$PROJECT_DIR$/project/feature/splash" />
           </set>
         </option>
