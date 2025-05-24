@@ -69,7 +69,7 @@ dependencies {
     implementation(project(":project:core:mvi:integration:navigation"))
     implementation(project(":project:core:navigation"))
     implementation(project(":project:core:utils"))
-    implementation(project(":project:feature:cacheback"))
+    implementation(project(":project:feature:cashback"))
     implementation(project(":project:feature:notification:api"))
     implementation(project(":project:feature:notification:impl"))
 }

@@ -6,12 +6,12 @@ import su.tease.project.core.utils.ext.mapPersistent
 import su.tease.project.core.utils.ext.unit
 import su.tease.project.core.utils.utils.withDefault
 import su.tease.project.core.utils.uuid.UuidProvider
-import su.tease.project.feature.preset.impl.domain.repository.SyncPresetRepository
 import su.tease.project.feature.preset.impl.data.dao.PresetDao
 import su.tease.project.feature.preset.impl.data.dao.entity.PresetsVersionEntity
 import su.tease.project.feature.preset.impl.data.dataSource.PresetDataSource
 import su.tease.project.feature.preset.impl.data.dataSource.mapper.toEntity
 import su.tease.project.feature.preset.impl.data.dataSource.mapper.toEntityWithRelations
+import su.tease.project.feature.preset.impl.domain.repository.SyncPresetRepository
 
 class SyncPresetRepositoryImpl(
     private val dataSource: PresetDataSource,
@@ -25,7 +25,7 @@ class SyncPresetRepositoryImpl(
             id = uuidProvider.uuid(),
             banks = 0,
             bankIcons = 0,
-            cacheBackIcons = 0,
+            cashBackIcons = 0,
             mccCodes = 0,
         )
 
@@ -43,9 +43,9 @@ class SyncPresetRepositoryImpl(
             )
         }
 
-        val remoteCacheBacksIcons = async {
-            (remoteVersion.cacheBackIcons > localVersion.cacheBackIcons).choose(
-                dataSource.cacheBackIcons(),
+        val remoteCashBacksIcons = async {
+            (remoteVersion.cashBackIcons > localVersion.cashBackIcons).choose(
+                dataSource.cashBackIcons(),
                 emptyList(),
             )
         }
@@ -59,17 +59,17 @@ class SyncPresetRepositoryImpl(
 
         val banks = remoteBanks.await().mapPersistent { it.toEntity() }
         val bankIcons = remoteBankIcons.await().mapPersistent { it.toEntity() }
-        val cacheBacksIcons = remoteCacheBacksIcons.await().mapPersistent { it.toEntity() }
+        val cashBacksIcons = remoteCashBacksIcons.await().mapPersistent { it.toEntity() }
         val mccCodes = remoteMccCodes.await().mapPersistent { it.toEntity() }
-        val (cacheBacks, mccCodesRelations) = remoteBanks.await()
-            .flatMap { bank -> bank.cacheBacks.map { it to bank.id } }
-            .map { (cacheBack, bankId) -> cacheBack.toEntityWithRelations(bankId) }
+        val (cashBacks, mccCodesRelations) = remoteBanks.await()
+            .flatMap { bank -> bank.cashBacks.map { it to bank.id } }
+            .map { (cashBack, bankId) -> cashBack.toEntityWithRelations(bankId) }
             .unzip()
 
         bankIcons.forEach { dao.save(it) }
         banks.forEach { dao.save(it) }
-        cacheBacksIcons.forEach { dao.save(it) }
-        cacheBacks.forEach { dao.save(it) }
+        cashBacksIcons.forEach { dao.save(it) }
+        cashBacks.forEach { dao.save(it) }
         mccCodes.forEach { dao.save(it) }
         mccCodesRelations.flatten().forEach { dao.save(it) }
 
@@ -78,7 +78,7 @@ class SyncPresetRepositoryImpl(
                 id = localVersion.id,
                 banks = remoteVersion.banks,
                 bankIcons = remoteVersion.bankIcons,
-                cacheBackIcons = remoteVersion.cacheBackIcons,
+                cashBackIcons = remoteVersion.cashBackIcons,
                 mccCodes = remoteVersion.mccCodes,
             )
         )

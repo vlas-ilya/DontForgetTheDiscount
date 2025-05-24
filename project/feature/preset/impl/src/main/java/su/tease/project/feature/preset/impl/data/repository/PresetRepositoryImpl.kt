@@ -10,8 +10,8 @@ import su.tease.project.core.utils.utils.tryOrDefault
 import su.tease.project.core.utils.utils.withDefault
 import su.tease.project.feature.preset.api.domain.entity.BankIconPreset
 import su.tease.project.feature.preset.api.domain.entity.BankPreset
-import su.tease.project.feature.preset.api.domain.entity.CacheBackIconPreset
-import su.tease.project.feature.preset.api.domain.entity.CacheBackPreset
+import su.tease.project.feature.preset.api.domain.entity.CashBackIconPreset
+import su.tease.project.feature.preset.api.domain.entity.CashBackPreset
 import su.tease.project.feature.preset.api.domain.entity.MccCodePreset
 import su.tease.project.feature.preset.impl.data.dao.PresetDao
 import su.tease.project.feature.preset.impl.data.dao.mapper.toDomain
@@ -29,7 +29,7 @@ class PresetRepositoryImpl(
 
     override suspend fun banks(): PersistentList<BankPreset> = withDefault {
         tryOrDefault(returnOnError = persistentListOf()) {
-            cache.getOrPut(BANKS_CACHE_LOCAL) {
+            cache.getOrPut(BANKS_CASH_LOCAL) {
                 presetDao.bankPresets()
                     .map { mapperHelper.run { it.toDomain() } }
                     .sortedBy { it.name }
@@ -40,19 +40,19 @@ class PresetRepositoryImpl(
 
     override suspend fun bankIcons(): PersistentList<BankIconPreset> = withDefault {
         tryOrDefault(returnOnError = persistentListOf()) {
-            cache.getOrPut(BANK_ICONS_CACHE_LOCAL) {
+            cache.getOrPut(BANK_ICONS_CASH_LOCAL) {
                 presetDao.bankIconPresets().mapPersistent { it.toDomain() }
             }
         }
     }
 
-    override suspend fun cacheBacks(bankPresetId: String): PersistentList<CacheBackPreset> =
+    override suspend fun cashBacks(bankPresetId: String): PersistentList<CashBackPreset> =
         withDefault {
             tryOrDefault(returnOnError = persistentListOf()) {
                 cache
-                    .getOrPut(CACHE_BACK_CACHE_LOCAL) { SimpleCache() }
+                    .getOrPut(CASH_BACK_CASH_LOCAL) { SimpleCache() }
                     .getOrPut(bankPresetId) {
-                        presetDao.cacheBackPresets(bankPresetId)
+                        presetDao.cashBackPresets(bankPresetId)
                             .map { mapperHelper.run { it.toDomain() } }
                             .sortedBy { it.name }
                             .toPersistentList()
@@ -60,10 +60,10 @@ class PresetRepositoryImpl(
             }
         }
 
-    override suspend fun cacheBacksIcons(): PersistentList<CacheBackIconPreset> = withDefault {
+    override suspend fun cashBacksIcons(): PersistentList<CashBackIconPreset> = withDefault {
         tryOrDefault(returnOnError = persistentListOf()) {
-            cache.getOrPut(CACHE_BACKS_ICONS_CACHE_LOCAL) {
-                presetDao.cacheBackIconPresets()
+            cache.getOrPut(CASH_BACKS_ICONS_CASH_LOCAL) {
+                presetDao.cashBackIconPresets()
                     .sortedBy { it.iconUrl }
                     .mapPersistent { it.toDomain() }
             }
@@ -72,7 +72,7 @@ class PresetRepositoryImpl(
 
     override suspend fun mccCodes() = withDefault {
         tryOrDefault(returnOnError = persistentListOf()) {
-            cache.getOrPut(MCC_CODES_CACHE_LOCAL) {
+            cache.getOrPut(MCC_CODES_CASH_LOCAL) {
                 presetDao.mccCodePresets()
                     .sortedBy { it.code }
                     .mapPersistent { it.toDomain() }
@@ -83,18 +83,20 @@ class PresetRepositoryImpl(
     override suspend fun bankPreset(bankPresetId: String) = withDefault {
         tryOrDefault(returnOnError = { throw RepositoryException() }) {
             cache
-                .getOrPut(BANK_CACHE_LOCAL) { SimpleCache() }
+                .getOrPut(BANK_CASH_LOCAL) { SimpleCache() }
                 .getOrPut(bankPresetId) {
                     mapperHelper.run { presetDao.bankPreset(bankPresetId).toDomain() }
                 }
         }
     }
 
-    override suspend fun cacheBackPreset(cacheBackPresetId: String) = withDefault {
+    override suspend fun cashBackPreset(cashBackPresetId: String) = withDefault {
         tryOrDefault(returnOnError = { throw RepositoryException() }) {
-            cache.getOrPut("$CACHE_BACKS_CACHE_LOCAL cacheBack $cacheBackPresetId") {
-                mapperHelper.run { presetDao.cacheBackPreset(cacheBackPresetId).toDomain() }
-            }
+            cache
+                .getOrPut(CASH_BACK_CASH_LOCAL) { SimpleCache() }
+                .getOrPut(cashBackPresetId) {
+                    mapperHelper.run { presetDao.cashBackPreset(cashBackPresetId).toDomain() }
+                }
         }
     }
 
@@ -102,27 +104,27 @@ class PresetRepositoryImpl(
         bankPreset.iconPreset.toEntity().let { presetDao.save(it) }
         bankPreset.toEntity().let { presetDao.save(it) }
 
-        cache.clear(BANK_ICONS_CACHE_LOCAL)
-        cache.clear(BANKS_CACHE_LOCAL)
-        cache.getOrPut(BANK_CACHE_LOCAL) { SimpleCache() }.clear(bankPreset.id)
+        cache.clear(BANK_ICONS_CASH_LOCAL)
+        cache.clear(BANKS_CASH_LOCAL)
+        cache.getOrPut(BANK_CASH_LOCAL) { SimpleCache() }.clear(bankPreset.id)
     }
 
-    override suspend fun save(cacheBackPreset: CacheBackPreset) = withDefault {
-        save(cacheBackPreset.bankPreset)
+    override suspend fun save(cashBackPreset: CashBackPreset) = withDefault {
+        save(cashBackPreset.bankPreset)
 
-        cacheBackPreset.iconPreset.toEntity().let { presetDao.save(it) }
-        cacheBackPreset.mccCodes.forEach { save(it) }
+        cashBackPreset.iconPreset.toEntity().let { presetDao.save(it) }
+        cashBackPreset.mccCodes.forEach { save(it) }
 
-        val (cacheBackEntity, relationEntities) = cacheBackPreset.toEntityWithRelations()
-        presetDao.save(cacheBackEntity)
+        val (cashBackEntity, relationEntities) = cashBackPreset.toEntityWithRelations()
+        presetDao.save(cashBackEntity)
 
-        presetDao.removeMccCodeRelations(cacheBackPreset.id)
+        presetDao.removeMccCodeRelations(cashBackPreset.id)
         relationEntities.forEach { presetDao.save(it) }
 
-        cache.clear(CACHE_BACKS_ICONS_CACHE_LOCAL)
-        cache.clear(MCC_CODES_CACHE_LOCAL)
-        cache.clear(CACHE_BACKS_CACHE_LOCAL)
-        cache.getOrPut(CACHE_BACK_CACHE_LOCAL) { SimpleCache() }.clear(cacheBackPreset.id)
+        cache.clear(CASH_BACKS_ICONS_CASH_LOCAL)
+        cache.clear(MCC_CODES_CASH_LOCAL)
+        cache.clear(CASH_BACKS_CASH_LOCAL)
+        cache.getOrPut(CASH_BACK_CASH_LOCAL) { SimpleCache() }.clear(cashBackPreset.id)
     }
 
     override suspend fun save(mccCodePreset: MccCodePreset) = withDefault {
@@ -130,12 +132,12 @@ class PresetRepositoryImpl(
     }
 
     companion object {
-        private const val BANKS_CACHE_LOCAL = "BANKS_CACHE_LOCAL"
-        private const val BANK_CACHE_LOCAL = "BANK_CACHE_LOCAL"
-        private const val BANK_ICONS_CACHE_LOCAL = "BANK_ICONS_CACHE_LOCAL"
-        private const val CACHE_BACKS_CACHE_LOCAL = "CACHE_BACKS_CACHE_LOCAL"
-        private const val CACHE_BACK_CACHE_LOCAL = "CACHE_BACK_CACHE_LOCAL"
-        private const val CACHE_BACKS_ICONS_CACHE_LOCAL = "CACHE_BACKS_ICONS_CACHE_LOCAL"
-        private const val MCC_CODES_CACHE_LOCAL = "CACHE_BACK_CODES_CACHE_LOCAL"
+        private const val BANKS_CASH_LOCAL = "BANKS_CASH_LOCAL"
+        private const val BANK_CASH_LOCAL = "BANK_CASH_LOCAL"
+        private const val BANK_ICONS_CASH_LOCAL = "BANK_ICONS_CASH_LOCAL"
+        private const val CASH_BACKS_CASH_LOCAL = "CASH_BACKS_CASH_LOCAL"
+        private const val CASH_BACK_CASH_LOCAL = "CASH_BACK_CASH_LOCAL"
+        private const val CASH_BACKS_ICONS_CASH_LOCAL = "CASH_BACKS_ICONS_CASH_LOCAL"
+        private const val MCC_CODES_CASH_LOCAL = "CASH_BACK_CODES_CASH_LOCAL"
     }
 }

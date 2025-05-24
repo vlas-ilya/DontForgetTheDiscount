@@ -7,5 +7,5 @@ data class BankPresetDto(
     val id: String,
     val name: String,
     val icon: BankIconPresetDto,
-    val cacheBacks: List<CacheBackPresetDto>,
+    val cashBacks: List<CashBackPresetDto>,
 )

@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import su.tease.design.theme.api.Theme
 import su.tease.project.design.component.controls.form.DFFormElement
-import su.tease.project.feature.preset.impl.R
 import su.tease.project.feature.preset.api.presentation.component.MccCodeItem
+import su.tease.project.feature.preset.impl.R
 
 @Composable
 @Suppress("MutableStateParam")
@@ -38,7 +38,7 @@ fun CodeSelectPageCodePresets(
     }
 
     DFFormElement(
-        label = stringResource(R.string.page_select_cache_back_codes_label_other),
+        label = stringResource(R.string.page_select_cash_back_codes_label_other),
         noError = true,
         modifier = modifier,
     ) {

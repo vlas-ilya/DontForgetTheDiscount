@@ -5,9 +5,9 @@ import androidx.room.Query
 import androidx.room.Upsert
 import su.tease.project.feature.preset.impl.data.dao.entity.BankIconPresetEntity
 import su.tease.project.feature.preset.impl.data.dao.entity.BankPresetEntity
-import su.tease.project.feature.preset.impl.data.dao.entity.CacheBackIconPresetEntity
-import su.tease.project.feature.preset.impl.data.dao.entity.CacheBackPresetEntity
-import su.tease.project.feature.preset.impl.data.dao.entity.CacheBackPresetToMccCodePresetEntity
+import su.tease.project.feature.preset.impl.data.dao.entity.CashBackIconPresetEntity
+import su.tease.project.feature.preset.impl.data.dao.entity.CashBackPresetEntity
+import su.tease.project.feature.preset.impl.data.dao.entity.CashBackPresetToMccCodePresetEntity
 import su.tease.project.feature.preset.impl.data.dao.entity.MccCodePresetEntity
 import su.tease.project.feature.preset.impl.data.dao.entity.PresetsVersionEntity
 
@@ -40,31 +40,31 @@ interface PresetDao {
     suspend fun bankIconPreset(id: String): BankIconPresetEntity
 
     @Upsert
-    suspend fun save(entity: CacheBackPresetEntity)
+    suspend fun save(entity: CashBackPresetEntity)
 
-    @Query("SELECT * FROM CacheBackPresetEntity WHERE bankPresetId = :bankPresetId")
-    suspend fun cacheBackPresets(bankPresetId: String): List<CacheBackPresetEntity>
+    @Query("SELECT * FROM CashBackPresetEntity WHERE bankPresetId = :bankPresetId")
+    suspend fun cashBackPresets(bankPresetId: String): List<CashBackPresetEntity>
 
-    @Query("SELECT * FROM CacheBackPresetEntity WHERE id = :id")
-    suspend fun cacheBackPreset(id: String): CacheBackPresetEntity
-
-    @Upsert
-    suspend fun save(entity: CacheBackIconPresetEntity)
-
-    @Query("SELECT * FROM CacheBackIconPresetEntity")
-    suspend fun cacheBackIconPresets(): List<CacheBackIconPresetEntity>
-
-    @Query("SELECT * FROM CacheBackIconPresetEntity WHERE id = :id")
-    suspend fun cacheBackIconPreset(id: String): CacheBackIconPresetEntity
+    @Query("SELECT * FROM CashBackPresetEntity WHERE id = :id")
+    suspend fun cashBackPreset(id: String): CashBackPresetEntity
 
     @Upsert
-    suspend fun save(entity: CacheBackPresetToMccCodePresetEntity)
+    suspend fun save(entity: CashBackIconPresetEntity)
 
-    @Query("DELETE FROM CacheBackPresetToMccCodePresetEntity WHERE cacheBackPresetId = :cacheBackPresetId")
-    suspend fun removeMccCodeRelations(cacheBackPresetId: String)
+    @Query("SELECT * FROM CashBackIconPresetEntity")
+    suspend fun cashBackIconPresets(): List<CashBackIconPresetEntity>
 
-    @Query("SELECT * FROM CacheBackPresetToMccCodePresetEntity WHERE cacheBackPresetId = :cacheBackPresetId")
-    suspend fun mccCodeRelations(cacheBackPresetId: String): List<CacheBackPresetToMccCodePresetEntity>
+    @Query("SELECT * FROM CashBackIconPresetEntity WHERE id = :id")
+    suspend fun cashBackIconPreset(id: String): CashBackIconPresetEntity
+
+    @Upsert
+    suspend fun save(entity: CashBackPresetToMccCodePresetEntity)
+
+    @Query("DELETE FROM CashBackPresetToMccCodePresetEntity WHERE cashBackPresetId = :cashBackPresetId")
+    suspend fun removeMccCodeRelations(cashBackPresetId: String)
+
+    @Query("SELECT * FROM CashBackPresetToMccCodePresetEntity WHERE cashBackPresetId = :cashBackPresetId")
+    suspend fun mccCodeRelations(cashBackPresetId: String): List<CashBackPresetToMccCodePresetEntity>
 
     @Upsert
     suspend fun save(entity: MccCodePresetEntity)

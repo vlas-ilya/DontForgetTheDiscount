@@ -86,8 +86,8 @@ class IconSelectPresetPage(
         val padding: @Composable () -> Dp,
         val size: @Composable () -> Dp,
     ) {
-        CACHE_BACK_ICON(
-            getIcons = PresetInterceptor::cacheBacksIconPresets,
+        CASH_BACK_ICON(
+            getIcons = PresetInterceptor::cashBacksIconPresets,
             tint = { Theme.colors.iconTint },
             clip = { RoundedCornerShape(Theme.sizes.round4) },
             padding = { Theme.sizes.padding4 },

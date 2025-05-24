@@ -26,7 +26,7 @@ fun CodeSelectPageInput(
 ) {
     DFFormElement(
         modifier = modifier,
-        label = stringResource(R.string.page_select_cache_back_codes_label_input),
+        label = stringResource(R.string.page_select_cash_back_codes_label_input),
     ) {
         Box {
             DFNumberField(

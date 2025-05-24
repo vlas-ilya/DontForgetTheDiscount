@@ -12,9 +12,9 @@ import su.tease.design.component.navigationbar.NavigationBar
 import su.tease.design.component.navigationbar.data.NavigationBarItemData
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.navigation.selector.feature
-import su.tease.project.feature.cacheback.presentation.CacheBackFeature
-import su.tease.project.feature.cacheback.presentation.OtherFeature
-import su.tease.project.feature.cacheback.presentation.ShopFeature
+import su.tease.project.feature.cashback.presentation.CashBackFeature
+import su.tease.project.feature.cashback.presentation.OtherFeature
+import su.tease.project.feature.cashback.presentation.ShopFeature
 import su.tease.project.feature.main.R
 
 class MainApp(store: Store<*>) : BaseAppComponent<MainApp.Target>(store) {
@@ -27,7 +27,7 @@ class MainApp(store: Store<*>) : BaseAppComponent<MainApp.Target>(store) {
             selected = feature,
             items = persistentListOf(
                 NavigationBarItemData(
-                    value = CacheBackFeature(),
+                    value = CashBackFeature(),
                     name = "Кэшбэк",
                     image = painterResource(R.drawable.menu_icon_cashback),
                 ),
@@ -50,7 +50,7 @@ class MainApp(store: Store<*>) : BaseAppComponent<MainApp.Target>(store) {
     companion object {
         operator fun invoke() = app(
             Target,
-            CacheBackFeature(),
+            CashBackFeature(),
         )
     }
 

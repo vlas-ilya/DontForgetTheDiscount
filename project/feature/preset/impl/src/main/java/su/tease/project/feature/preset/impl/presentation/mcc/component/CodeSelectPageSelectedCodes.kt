@@ -14,8 +14,8 @@ import androidx.compose.ui.res.stringResource
 import su.tease.design.theme.api.Theme
 import su.tease.project.design.component.controls.form.DFFormElement
 import su.tease.project.design.component.controls.text.DFText
-import su.tease.project.feature.preset.impl.R
 import su.tease.project.feature.preset.api.presentation.component.MccCodeItem
+import su.tease.project.feature.preset.impl.R
 
 @Composable
 fun CodeSelectPageSelectedCodes(
@@ -24,7 +24,7 @@ fun CodeSelectPageSelectedCodes(
 ) {
     DFFormElement(
         modifier = modifier,
-        label = stringResource(R.string.page_select_cache_back_item_codes_label_selected),
+        label = stringResource(R.string.page_select_cash_back_item_codes_label_selected),
         noError = selectedCodes.isNotEmpty(),
     ) {
         if (selectedCodes.isNotEmpty()) {
@@ -46,7 +46,7 @@ fun CodeSelectPageSelectedCodes(
             Spacer(Modifier.height(Theme.sizes.size4))
         } else {
             DFText(
-                text = stringResource(R.string.page_select_cache_back_item_codes_placeholder_selected),
+                text = stringResource(R.string.page_select_cash_back_item_codes_placeholder_selected),
                 modifier = Modifier.padding(horizontal = Theme.sizes.padding4),
                 style = Theme.fonts.placeholder,
                 color = Theme.colors.placeholder

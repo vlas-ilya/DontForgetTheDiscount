@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 data class PresetVersionDto(
     val banks: Int,
     val bankIcons: Int,
-    val cacheBackIcons: Int,
+    val cashBackIcons: Int,
     val mccCodes: Int,
 )

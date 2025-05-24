@@ -6,7 +6,7 @@ import su.tease.project.feature.preset.impl.domain.repository.SyncPresetReposito
 
 class SyncPresetInterceptorImpl(
     private val syncPresetRepository: SyncPresetRepository
-): SyncPresetInterceptor {
+) : SyncPresetInterceptor {
     override suspend fun sync() = withDefault {
         syncPresetRepository.sync()
     }

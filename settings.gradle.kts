@@ -22,7 +22,7 @@ dependencyResolutionManagement {
 rootProject.name = "Don't Forget The Discount"
 include(":project:app")
 include(":project:feature:main")
-include(":project:feature:cacheback")
+include(":project:feature:cashback")
 include(":project:feature:notification:api")
 include(":project:feature:notification:impl")
 include(":project:feature:splash")

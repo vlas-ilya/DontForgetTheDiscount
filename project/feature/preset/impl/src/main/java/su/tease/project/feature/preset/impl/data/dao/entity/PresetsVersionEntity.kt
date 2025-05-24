@@ -16,8 +16,8 @@ data class PresetsVersionEntity(
     @ColumnInfo(name = "bankIcons")
     val bankIcons: Int,
 
-    @ColumnInfo(name = "cacheBackIcons")
-    val cacheBackIcons: Int,
+    @ColumnInfo(name = "cashBackIcons")
+    val cashBackIcons: Int,
 
     @ColumnInfo(name = "mccCodes")
     val mccCodes: Int,

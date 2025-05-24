@@ -103,7 +103,7 @@ dependencies {
     // project
     implementation(project(":project:feature:main"))
     implementation(project(":project:feature:splash"))
-    implementation(project(":project:feature:cacheback"))
+    implementation(project(":project:feature:cashback"))
     implementation(project(":project:feature:notification:api"))
     implementation(project(":project:feature:notification:impl"))
     implementation(project(":project:design:icons"))
