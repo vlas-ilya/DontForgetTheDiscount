@@ -93,9 +93,11 @@ class SaveCashBackPage(
             }
         }
 
+        val isCreatingNew = target.saveCashBackRequest?.id == null
+
         DFPage(
             title = stringResource(
-                (target.saveCashBackRequest?.id == null).choose(
+                (isCreatingNew).choose(
                     R.string.page_save_cash_back_title_add,
                     R.string.page_save_cash_back_title_edit,
                 )
@@ -106,7 +108,7 @@ class SaveCashBackPage(
         ) {
             when (status) {
                 LoadingStatus.Success -> return@DFPage
-                LoadingStatus.Init -> CashBackAddPageForm()
+                LoadingStatus.Init -> CashBackAddPageForm(isCreatingNew)
                 LoadingStatus.Loading -> CashBackAddPageLoading()
                 LoadingStatus.Failed -> CashBackAddPageFailed()
             }
@@ -114,7 +116,9 @@ class SaveCashBackPage(
     }
 
     @Composable
-    private fun CashBackAddPageForm() {
+    private fun CashBackAddPageForm(
+        isCreatingNew: Boolean
+    ) {
         RedirectState(selectAsState(SaveCashBackState::bankAccount), form.bankAccount)
         RedirectState(selectAsState(SaveCashBackState::cashBackPreset), form.cashBackPreset)
         RedirectStateNotNull(selectAsState(SaveCashBackState::date), form.date)
@@ -139,6 +143,7 @@ class SaveCashBackPage(
                 bankState = form.bankAccount,
                 onSelect = { selectBankAccount() },
                 error = form.ui { bankAccountError },
+                disabled = !isCreatingNew,
                 modifier = Modifier.fillMaxWidth(),
             )
             Spacer(modifier = Modifier.height(Theme.sizes.padding4))

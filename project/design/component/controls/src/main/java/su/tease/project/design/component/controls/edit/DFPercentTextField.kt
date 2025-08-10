@@ -89,9 +89,8 @@ fun DFPercentTextField(
 
             if (newValue.text.all { it.isDigit() || it == '.' }) {
                 val parts = newValue.text.replace("..", ".").split('.')
-                val integer = parts[0].toIntSafe()
+                val integer = parts[0].toIntSafe().trimToBelow(maxValue)
                 val fractional = parts[1].take(2)
-                if (integer + 1 > maxValue) return@DFTextField
                 val selection = if (newValue.text.startsWith("0") && integer > 0) {
                     TextRange(newValue.selection.start - 1, newValue.selection.end - 1)
                 } else {
@@ -103,6 +102,14 @@ fun DFPercentTextField(
             }
         },
     )
+}
+
+private fun Int.trimToBelow(limit: Int): Int {
+    var num = this
+    while (num >= limit && num != 0) {
+        num /= 10
+    }
+    return num
 }
 
 private fun String.rightPad(n: Int, symbol: Char): String =

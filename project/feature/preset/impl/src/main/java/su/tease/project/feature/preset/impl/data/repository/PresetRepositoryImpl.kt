@@ -50,7 +50,7 @@ class PresetRepositoryImpl(
         withDefault {
             tryOrDefault(returnOnError = persistentListOf()) {
                 cache
-                    .getOrPut(CASH_BACK_CASH_LOCAL) { SimpleCache() }
+                    .getOrPut(CASH_BACKS_CASH_LOCAL) { SimpleCache() }
                     .getOrPut(bankPresetId) {
                         presetDao.cashBackPresets(bankPresetId)
                             .map { mapperHelper.run { it.toDomain() } }
