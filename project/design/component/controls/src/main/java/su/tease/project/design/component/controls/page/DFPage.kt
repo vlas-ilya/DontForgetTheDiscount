@@ -54,6 +54,7 @@ fun DFPageContext.DFPage(
                     targetValueMax at (DefaultDurationMillis * 0.9).toInt()
                     0f at DefaultDurationMillis
                 }
+
                 targetValueMax -> {
                     0f at 0
                     targetValueMax at (DefaultDurationMillis * 0.1).toInt()
@@ -64,9 +65,7 @@ fun DFPageContext.DFPage(
     )
 
     Box(
-        modifier = modifier
-            .background(Theme.colors.background0)
-            .fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             DFPageTitle(
@@ -87,7 +86,7 @@ fun DFPageContext.DFPage(
                             bottomEnd = Dp(bottomRound),
                         )
                     )
-                    .background(Theme.colors.background1)
+                    .background(Theme.colors.background2)
                     .fillMaxSize()
             ) {
                 content()

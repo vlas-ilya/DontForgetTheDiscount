@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Bank_ListBankPage_AddCashBackButton_Title">Добавить еще кэшбэк</string>
+    <string name="Bank_ListBankPage_CashBackItem_Percent_Text">%s\%%</string>
+    <string name="Bank_ListBankPage_Empty_Result_Placeholder">Здесь пока ничего нет</string>
+    <string name="Bank_ListBankPage_Error_TryAgainButton">Попробовать еще раз</string>
+    <string name="Bank_ListBankPage_ErrorResult_Placeholder">Не удалось загрузить данные</string>
+    <string name="Bank_ListBankPage_Title">Кэшбэк</string>
+    <string name="Bank_SaveBankAccountPage_AccountNameItem_Error">Поле должно быть заполнено</string>
+    <string name="Bank_SaveBankAccountPage_AccountNameItem_Placeholder">Укажите название банковского аккаунта</string>
+    <string name="Bank_SaveBankAccountPage_AccountNameItem_Title">Название</string>
+    <string name="Bank_SaveBankAccountPage_Add_Title">Добавление банковского аккаунта</string>
+    <string name="Bank_SaveBankAccountPage_BankPresetSelect_Error">Поле должно быть заполнено</string>
+    <string name="Bank_SaveBankAccountPage_BankPresetSelect_Placeholder">Кликните для выбора банка</string>
+    <string name="Bank_SaveBankAccountPage_BankPresetSelect_Title">Банк</string>
+    <string name="Bank_SaveBankAccountPage_Notification_Add_Title">Аккаунт успешно создан</string>
+    <string name="Bank_SaveBankAccountPage_Notification_Save_Title">Аккаунт успешно сохранен</string>
+    <string name="Bank_SaveBankAccountPage_Save_Title">Изменение банковского аккаунта</string>
+    <string name="Bank_SaveBankAccountPage_SaveButton_Title">Сохранить</string>
+    <string name="Bank_SelectBankAccountPage_Title">Выбор банковского аккаунта</string>
+</resources>

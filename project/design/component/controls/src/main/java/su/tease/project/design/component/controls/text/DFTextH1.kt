@@ -5,7 +5,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import su.tease.design.theme.api.Theme
+import su.tease.project.core.utils.ext.choose
 
 @Composable
 fun DFTextH1(
@@ -25,5 +27,6 @@ fun DFTextH1(
         textAlign = textAlign,
         color = color,
         maxLines = maxLines,
+        overflow = (maxLines == 1).choose(TextOverflow.Ellipsis, TextOverflow.Clip)
     )
 }

@@ -36,18 +36,38 @@
             <option value="$PROJECT_DIR$/project/design/theme/api" />
             <option value="$PROJECT_DIR$/project/design/theme/impl" />
             <option value="$PROJECT_DIR$/project/feature" />
+            <option value="$PROJECT_DIR$/project/feature/bank" />
+            <option value="$PROJECT_DIR$/project/feature/bank/data" />
+            <option value="$PROJECT_DIR$/project/feature/bank/domain" />
+            <option value="$PROJECT_DIR$/project/feature/bank/integration" />
+            <option value="$PROJECT_DIR$/project/feature/bank/presentation" />
             <option value="$PROJECT_DIR$/project/feature/cashback" />
+            <option value="$PROJECT_DIR$/project/feature/cashback/data" />
+            <option value="$PROJECT_DIR$/project/feature/cashback/domain" />
+            <option value="$PROJECT_DIR$/project/feature/cashback/integration" />
+            <option value="$PROJECT_DIR$/project/feature/cashback/presentation" />
+            <option value="$PROJECT_DIR$/project/feature/info" />
+            <option value="$PROJECT_DIR$/project/feature/info/data" />
+            <option value="$PROJECT_DIR$/project/feature/info/domain" />
+            <option value="$PROJECT_DIR$/project/feature/info/integration" />
+            <option value="$PROJECT_DIR$/project/feature/info/presentation" />
             <option value="$PROJECT_DIR$/project/feature/main" />
             <option value="$PROJECT_DIR$/project/feature/notification" />
             <option value="$PROJECT_DIR$/project/feature/notification/api" />
             <option value="$PROJECT_DIR$/project/feature/notification/impl" />
             <option value="$PROJECT_DIR$/project/feature/preset" />
-            <option value="$PROJECT_DIR$/project/feature/preset/api" />
-            <option value="$PROJECT_DIR$/project/feature/preset/impl" />
+            <option value="$PROJECT_DIR$/project/feature/preset/data" />
+            <option value="$PROJECT_DIR$/project/feature/preset/domain" />
+            <option value="$PROJECT_DIR$/project/feature/preset/integration" />
+            <option value="$PROJECT_DIR$/project/feature/preset/presentation" />
+            <option value="$PROJECT_DIR$/project/feature/shop" />
+            <option value="$PROJECT_DIR$/project/feature/shop/data" />
+            <option value="$PROJECT_DIR$/project/feature/shop/domain" />
+            <option value="$PROJECT_DIR$/project/feature/shop/integration" />
+            <option value="$PROJECT_DIR$/project/feature/shop/presentation" />
             <option value="$PROJECT_DIR$/project/feature/splash" />
           </set>
         </option>
-        <option name="resolveExternalAnnotations" value="false" />
       </GradleProjectSettings>
     </option>
   </component>

@@ -14,6 +14,7 @@ inline fun <reified T> Module.dao(
     }
 }
 
+@Suppress("TooGenericExceptionCaught")
 inline fun migration(
     from: Int,
     to: Int,
@@ -32,7 +33,7 @@ inline fun migration(
 
 class RichSupportSQLiteDatabase(
     supportSQLiteDatabase: SupportSQLiteDatabase
-): SupportSQLiteDatabase by supportSQLiteDatabase {
+) : SupportSQLiteDatabase by supportSQLiteDatabase {
     fun execRichSQL(sql: String) {
         sql.split(";")
             .map { it.trimIndent() }

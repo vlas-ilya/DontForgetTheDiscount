@@ -33,7 +33,6 @@ fun DFPageTitle(
     Column(
         modifier = modifier
             .padding(horizontal = Theme.sizes.padding4)
-            .background(Theme.colors.background0)
             .fillMaxWidth()
     ) {
         Row(

@@ -39,7 +39,8 @@ android {
             variant.outputs
                 .map { it as com.android.build.gradle.internal.api.BaseVariantOutputImpl }
                 .forEach { output ->
-                    val outputFileName = "DontForgetTheDiscount-${variant.baseName}-${variant.versionName}-${variant.versionCode}.apk"
+                    val outputFileName =
+                        "DontForgetTheDiscount-${variant.baseName}-${variant.versionName}-${variant.versionCode}.apk"
                     output.outputFileName = outputFileName
                 }
         }
@@ -72,6 +73,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
 
     // Architecture
+    implementation(kotlin("reflect"))
     implementation(libs.decompose)
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
@@ -112,10 +114,37 @@ dependencies {
 
     // project
     implementation(project(":project:feature:main"))
+
     implementation(project(":project:feature:splash"))
-    implementation(project(":project:feature:cashback"))
+
     implementation(project(":project:feature:notification:api"))
     implementation(project(":project:feature:notification:impl"))
+
+    implementation(project(":project:feature:bank:data"))
+    implementation(project(":project:feature:bank:domain"))
+    implementation(project(":project:feature:bank:integration"))
+    implementation(project(":project:feature:bank:presentation"))
+
+    implementation(project(":project:feature:cashback:data"))
+    implementation(project(":project:feature:cashback:domain"))
+    implementation(project(":project:feature:cashback:integration"))
+    implementation(project(":project:feature:cashback:presentation"))
+
+    implementation(project(":project:feature:info:data"))
+    implementation(project(":project:feature:info:domain"))
+    implementation(project(":project:feature:info:integration"))
+    implementation(project(":project:feature:info:presentation"))
+
+    implementation(project(":project:feature:preset:data"))
+    implementation(project(":project:feature:preset:domain"))
+    implementation(project(":project:feature:preset:integration"))
+    implementation(project(":project:feature:preset:presentation"))
+
+    implementation(project(":project:feature:shop:data"))
+    implementation(project(":project:feature:shop:domain"))
+    implementation(project(":project:feature:shop:integration"))
+    implementation(project(":project:feature:shop:presentation"))
+
     implementation(project(":project:design:icons"))
     implementation(project(":project:design:component:navigation_bar"))
     implementation(project(":project:design:component:controls"))
@@ -131,6 +160,4 @@ dependencies {
     implementation(project(":project:core:mvi:middleware:suspend"))
     implementation(project(":project:core:navigation"))
     implementation(project(":project:core:utils"))
-    implementation(project(":project:feature:preset:api"))
-    implementation(project(":project:feature:preset:impl"))
 }

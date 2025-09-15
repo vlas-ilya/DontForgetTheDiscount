@@ -104,6 +104,7 @@ fun DFPercentTextField(
     )
 }
 
+@Suppress("MagicNumber")
 private fun Int.trimToBelow(limit: Int): Int {
     var num = this
     while (num >= limit && num != 0) {

@@ -4,9 +4,9 @@ import su.tease.dontforgetthediscount.database.migration
 
 val migration1to2Init = migration(1, 2) {
     execSQL("PRAGMA foreign_keys = ON")
-    execSQL(CREATE_TABLE_BANK_ICON_PRESET_ENTITY.trimIndent())
-    execSQL(CREATE_TABLE_BANK_PRESET_ENTITY.trimIndent())
-    execSQL(CREATE_TABLE_BANK_PRESET_ENTITY_INDEX.trimIndent())
+    execSQL(CREATE_TABLE_CASH_BACK_OWNER_ICON_PRESET_ENTITY.trimIndent())
+    execSQL(CREATE_TABLE_CASH_BACK_OWNER_PRESET_ENTITY.trimIndent())
+    execSQL(CREATE_TABLE_CASH_BACK_OWNER_PRESET_ENTITY_INDEX.trimIndent())
     execSQL(CREATE_TABLE_CASH_BACK_ICON_PRESET_ENTITY.trimIndent())
     execSQL(CREATE_TABLE_MCC_CODE_PRESET_ENTITY.trimIndent())
     execSQL(CREATE_TABLE_CASH_BACK_PRESET_ENTITY.trimIndent())
@@ -18,31 +18,35 @@ val migration1to2Init = migration(1, 2) {
     execSQL(CREATE_TABLE_PRESETS_VERSION_ENTITY.trimIndent())
     execSQL(CREATE_TABLE_BANK_ACCOUNT_ENTITY.trimIndent())
     execSQL(CREATE_TABLE_BANK_ACCOUNT_ENTITY_INDEX.trimIndent())
+    execSQL(CREATE_TABLE_SHOP_ENTITY.trimIndent())
+    execSQL(CREATE_TABLE_SHOP_ENTITY_INDEX.trimIndent())
     execSQL(CREATE_TABLE_CASH_BACK_ENTITY.trimIndent())
     execSQL(CREATE_TABLE_CASH_BACK_ENTITY_INDEX_1.trimIndent())
     execSQL(CREATE_TABLE_CASH_BACK_ENTITY_INDEX_2.trimIndent())
 }
 
-private const val CREATE_TABLE_BANK_ICON_PRESET_ENTITY = """
-    CREATE TABLE `BankIconPresetEntity` (
+private const val CREATE_TABLE_CASH_BACK_OWNER_ICON_PRESET_ENTITY = """
+    CREATE TABLE `CashBackOwnerIconPresetEntity` (
         `id` TEXT PRIMARY KEY NOT NULL,
-        `iconUrl` TEXT NOT NULL
+        `iconUrl` TEXT NOT NULL,
+        `type` TEXT NOT NULL,
     );
 """
 
-private const val CREATE_TABLE_BANK_PRESET_ENTITY = """
-    CREATE TABLE `BankPresetEntity` (
+private const val CREATE_TABLE_CASH_BACK_OWNER_PRESET_ENTITY = """
+    CREATE TABLE `CashBackOwnerPresetEntity` (
         `id` TEXT PRIMARY KEY NOT NULL,
         `name` TEXT NOT NULL,
         `iconPresetId` TEXT NOT NULL,
+        `type` TEXT NOT NULL,
         
-        FOREIGN KEY (iconPresetId) REFERENCES BankIconPresetEntity (id)
+        FOREIGN KEY (iconPresetId) REFERENCES CashBackOwnerIconPresetEntity (id)
     );
 """
 
-private const val CREATE_TABLE_BANK_PRESET_ENTITY_INDEX = """
-    CREATE INDEX index_BankPresetEntity_iconPresetId
-    ON BankPresetEntity (iconPresetId);
+private const val CREATE_TABLE_CASH_BACK_OWNER_PRESET_ENTITY_INDEX = """
+    CREATE INDEX index_CashBackOwnerPresetEntity_iconPresetId
+    ON CashBackOwnerPresetEntity (iconPresetId);
 """
 
 private const val CREATE_TABLE_CASH_BACK_ICON_PRESET_ENTITY = """
@@ -117,38 +121,52 @@ private const val CREATE_TABLE_PRESETS_VERSION_ENTITY = """
 private const val CREATE_TABLE_BANK_ACCOUNT_ENTITY = """
     CREATE TABLE `BankAccountEntity` (
         `id` TEXT PRIMARY KEY NOT NULL,
-        `bankPresetId` TEXT NOT NULL,
+        `presetId` TEXT NOT NULL,
         `customName` TEXT NOT NULL,
         
-        FOREIGN KEY (bankPresetId) REFERENCES BankPresetEntity (id)
+        FOREIGN KEY (presetId) REFERENCES BankPresetEntity (id)
     );
 """
 
 private const val CREATE_TABLE_BANK_ACCOUNT_ENTITY_INDEX = """
-    CREATE INDEX index_BankAccountEntity_bankPresetId
-    ON BankAccountEntity (bankPresetId);
+    CREATE INDEX index_BankAccountEntity_presetId
+    ON BankAccountEntity (presetId);
+"""
+
+private const val CREATE_TABLE_SHOP_ENTITY = """
+    CREATE TABLE `ShopEntity` (
+        `id` TEXT PRIMARY KEY NOT NULL,
+        `presetId` TEXT NOT NULL,
+        `customName` TEXT NOT NULL,
+        
+        FOREIGN KEY (presetId) REFERENCES ShopPresetEntity (id)
+    );
+"""
+
+private const val CREATE_TABLE_SHOP_ENTITY_INDEX = """
+    CREATE INDEX index_ShopEntity_presetId
+    ON ShopEntity (presetId);
 """
 
 private const val CREATE_TABLE_CASH_BACK_ENTITY = """
     CREATE TABLE `CashBackEntity` (
         `id` TEXT PRIMARY KEY NOT NULL,
-        `cashBackPresetId` TEXT NOT NULL,
+        `presetId` TEXT NOT NULL,
         `size` INTEGER NOT NULL,
-        `cashBackMonth` INTEGER NOT NULL,
-        `cashBackYear` INTEGER NOT NULL,
-        `bankAccountId` TEXT NOT NULL,
+        `month` INTEGER NOT NULL,
+        `year` INTEGER NOT NULL,
+        `ownerId` TEXT NOT NULL,
         
-        FOREIGN KEY (cashBackPresetId) REFERENCES CashBackPresetEntity (id)
-        FOREIGN KEY (bankAccountId) REFERENCES BankAccountEntity (id)
+        FOREIGN KEY (presetId) REFERENCES CashBackPresetEntity (id)
     );
 """
 
 private const val CREATE_TABLE_CASH_BACK_ENTITY_INDEX_1 = """
-    CREATE INDEX index_CashBackEntity_cashBackPresetId
-    ON CashBackEntity (cashBackPresetId);
+    CREATE INDEX index_CashBackEntity_presetId
+    ON CashBackEntity (presetId);
 """
 
 private const val CREATE_TABLE_CASH_BACK_ENTITY_INDEX_2 = """
-    CREATE INDEX index_CashBackEntity_bankAccountId
-    ON CashBackEntity (bankAccountId);
+    CREATE INDEX index_CashBackEntity_ownerId
+    ON CashBackEntity (ownerId);
 """

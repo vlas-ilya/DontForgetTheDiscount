@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="item_back_preset_icon_content_description">Логотип банка \"%s\"</string>
-    <string name="item_cash_back_preset_icon_content_description">Иконка кэшбэка \"%s\"</string>
-</resources>

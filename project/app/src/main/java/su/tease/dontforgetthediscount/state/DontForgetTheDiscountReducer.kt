@@ -2,29 +2,32 @@ package su.tease.dontforgetthediscount.state
 
 import su.tease.project.core.mvi.impl.combine.combine
 import su.tease.project.core.mvi.navigation.reducer.NavigationReducer
-import su.tease.project.feature.cashback.presentation.list.reducer.ListCashBackReducer
-import su.tease.project.feature.cashback.presentation.save.bank.save.reducer.SaveBankAccountReducer
-import su.tease.project.feature.cashback.presentation.save.bank.select.reducer.SelectBankAccountReducer
-import su.tease.project.feature.cashback.presentation.save.cashback.reducer.SaveCashBackReducer
+import su.tease.project.feature.bank.presentation.list.reducer.BankAccountsReducer
+import su.tease.project.feature.bank.presentation.save.reducer.SaveBankAccountReducer
+import su.tease.project.feature.bank.presentation.select.reducer.SelectBankAccountReducer
+import su.tease.project.feature.cashback.presentation.save.reducer.SaveCashBackReducer
 import su.tease.project.feature.notification.impl.presentation.reducer.NotificationReducer
-import su.tease.project.feature.preset.impl.presentation.bank.save.reducer.SaveBankPresetReducer
-import su.tease.project.feature.preset.impl.presentation.bank.select.reducer.SelectBankPresetReducer
-import su.tease.project.feature.preset.impl.presentation.cashback.save.reducer.SaveCashBackPresetReducer
-import su.tease.project.feature.preset.impl.presentation.cashback.select.reducer.SelectCashBackPresetReducer
+import su.tease.project.feature.preset.presentation.bank.save.reducer.SaveBankPresetReducer
+import su.tease.project.feature.preset.presentation.bank.select.reducer.SelectBankPresetReducer
+import su.tease.project.feature.preset.presentation.cashback.save.reducer.SaveCashBackPresetReducer
+import su.tease.project.feature.preset.presentation.cashback.select.reducer.SelectCashBackPresetReducer
+import su.tease.project.feature.shop.presentation.list.reducer.ShopsReducer
 
 val dontForgetTheDiscountReducer = combine(
+
     NavigationReducer(),
     NotificationReducer(),
 
-    ListCashBackReducer(),
+    BankAccountsReducer(),
+    SelectBankAccountReducer(),
+    SaveBankAccountReducer(),
+
     SaveCashBackReducer(),
 
     SelectBankPresetReducer(),
     SaveBankPresetReducer(),
-
-    SelectBankAccountReducer(),
-    SaveBankAccountReducer(),
-
     SelectCashBackPresetReducer(),
     SaveCashBackPresetReducer(),
+
+    ShopsReducer(),
 )

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="BankAccount_SaveCashBack_CashBackOwnerSelect_Title">Банк</string>
+    <string name="BankAccount_SaveCashBack_CashBackOwnerSelect_Placeholder">Кликните для выбора банка</string>
+    <string name="BankAccount_SaveCashBack_CashBackPresetSelect_Info">Для выбора категории нужно выбрать банк</string>
+</resources>

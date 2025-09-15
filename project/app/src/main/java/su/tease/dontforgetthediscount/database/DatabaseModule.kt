@@ -19,6 +19,7 @@ val databaseModule = module {
     }
 
     dao { bankDao() }
+    dao { shopDao() }
     dao { cashBackDao() }
     dao { presetDao() }
 }

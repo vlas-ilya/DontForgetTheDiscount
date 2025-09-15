@@ -1,0 +1,11 @@
+package su.tease.project.feature.preset.data.dataSource.dto
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class BankPresetDto(
+    val id: String,
+    val name: String,
+    val icon: BankIconPresetDto,
+    val cashBacks: List<CashBackPresetDto>,
+)

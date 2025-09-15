@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="SaveCashBack_AddPage_DuplicateNotification_Title">Кэшбэк уже добавлен</string>
+    <string name="SaveCashBack_AddPage_SuccessNotification_Title">Кэшбэк успешно добавлен</string>
+    <string name="SaveCashBack_AddPage_Title">Добавление Кэшбэка</string>
+    <string name="SaveCashBack_CashBackOwnerSelect_Error">Поле должно быть заполнено</string>
+    <string name="SaveCashBack_CashBackPresetSelect_Error">Поле должно быть заполнено</string>
+    <string name="SaveCashBack_CashBackPresetSelect_Placeholder">Кликните для выбора категории кэшбэка</string>
+    <string name="SaveCashBack_CashBackPresetSelect_Title">Категория кэшбэка</string>
+    <string name="SaveCashBack_CashBackSizeItem_Error">Некорректное значение</string>
+    <string name="SaveCashBack_CashBackSizeItem_Placeholder">Укажите размер кэшбэка</string>
+    <string name="SaveCashBack_CashBackSizeItem_Title">Размер кэшбэка (%)</string>
+    <string name="SaveCashBack_DateItem_Placeholder">Поле должно быть заполнено</string>
+    <string name="SaveCashBack_DateItem_Title">Дата</string>
+    <string name="SaveCashBack_EditPage_SuccessNotification_Title">Кэшбэк успешно сохранен</string>
+    <string name="SaveCashBack_EditPage_Title">Редактирование Кэшбэка</string>
+    <string name="SaveCashBack_SaveAddMoreButton_Title">Сохранить и добавить еще</string>
+    <string name="SaveCashBack_SaveButton_Title">Сохранить</string>
+    <string name="CashBack_InfoDialog_SizeItem_Percent">%s\%%</string>
+    <string name="CashBack_InfoDialog_MccList_Label">MCC коды</string>
+    <string name="CashBack_InfoDialog_CloseButton_Label">Понятно</string>
+</resources>

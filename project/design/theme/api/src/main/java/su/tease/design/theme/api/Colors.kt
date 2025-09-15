@@ -6,8 +6,8 @@ import androidx.compose.ui.graphics.Color
 @Immutable
 interface Colors {
     val accent: Color
-    val background0: Color
     val background1: Color
+    val background2: Color
     val headerText: Color
     val text: Color
     val placeholder: Color

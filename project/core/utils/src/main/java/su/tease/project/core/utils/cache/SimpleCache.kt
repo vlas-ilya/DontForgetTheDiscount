@@ -19,6 +19,20 @@ class SimpleCache {
             .also { removeKeyMutex(key) }
     } as R
 
+    @Suppress("UNCHECKED_CAST")
+    fun <R> get(
+        key: String,
+    ): R? = cache[key] as? R
+
+    @Suppress("UNCHECKED_CAST")
+    suspend fun put(
+        key: String,
+        value: Any
+    ): Unit = getKeyMutex(key)
+        .withLock { cache.put(key, value) }
+        .also { removeKeyMutex(key) }
+        .unit()
+
     suspend fun clear(key: String) = locksMutex.withLock {
         cache.remove(key)
         locks.remove(key)

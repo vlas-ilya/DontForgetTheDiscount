@@ -8,8 +8,8 @@ import su.tease.project.design.theme.impl.ThemeValue
 
 internal data class ColorsImpl(
     override val accent: Color,
-    override val background0: Color,
     override val background1: Color,
+    override val background2: Color,
     override val headerText: Color,
     override val text: Color,
     override val placeholder: Color,
@@ -63,8 +63,8 @@ private val transparent = Color(0x00FFFFFF)
 
 private fun makeLightColors(): Colors = ColorsImpl(
     accent = accent1,
-    background0 = accent1,
-    background1 = Color(0xFFFFF5FA),
+    background1 = accent1,
+    background2 = Color(0xFFFFF5FA),
     headerText = Color(0xFFFFF5FA),
     text = text,
     placeholder = Color(0xFFBBBBBB),

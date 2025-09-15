@@ -44,7 +44,7 @@ class DontForgetTheDiscountComponent(
                 .fillMaxSize()
                 .padding(WindowInsets.statusBars.asPaddingValues())
                 .padding(WindowInsets.navigationBars.asPaddingValues())
-                .background(Theme.colors.background0),
+                .background(Theme.colors.background1),
         ) {
             rootContainer.ComposeRootContainer()
 

@@ -53,7 +53,7 @@ fun <T> NavigationBar(
     EqualWidthRow(
         modifier = modifier
             .fillMaxWidth()
-            .background(Theme.colors.background0)
+            .background(Theme.colors.transparent)
             .padding(vertical = Theme.sizes.padding6)
             .padding(horizontal = Theme.sizes.padding4)
     ) {
@@ -68,7 +68,7 @@ fun <T> NavigationBar(
                         .background(
                             isSelected.choose(
                                 Theme.colors.headerText,
-                                Theme.colors.background0,
+                                Theme.colors.transparent,
                             )
                         )
                         .padding(
@@ -80,7 +80,7 @@ fun <T> NavigationBar(
                         painter = item.image,
                         contentDescription = "",
                         tint = isSelected.choose(
-                            Theme.colors.background0,
+                            Theme.colors.background1,
                             Theme.colors.headerText,
                         ),
                         modifier = Modifier
@@ -91,7 +91,7 @@ fun <T> NavigationBar(
                         modifier = Modifier
                             .padding(top = Theme.sizes.padding4),
                         color = isSelected.choose(
-                            Theme.colors.background0,
+                            Theme.colors.background1,
                             Theme.colors.headerText,
                         ),
                         fontSize = Theme.fonts.smallTitle.fontSize,
