@@ -11,6 +11,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -20,6 +21,9 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Don't Forget The Discount"
+
+includeBuild("build-logic/conventions")
+
 include(":project:app")
 
 include(":project:feature:main")

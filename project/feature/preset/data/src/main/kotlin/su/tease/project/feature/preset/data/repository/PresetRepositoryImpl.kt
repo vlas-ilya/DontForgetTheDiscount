@@ -3,7 +3,6 @@ package su.tease.project.feature.preset.data.repository
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
-import su.tease.core.clean.domain.repository.RepositoryException
 import su.tease.project.core.utils.cache.SimpleCache
 import su.tease.project.core.utils.ext.mapPersistent
 import su.tease.project.core.utils.utils.tryOrDefault
@@ -13,6 +12,7 @@ import su.tease.project.feature.preset.data.dao.mapper.toDomain
 import su.tease.project.feature.preset.data.dao.mapper.toEntity
 import su.tease.project.feature.preset.data.dao.mapper.toEntityWithRelations
 import su.tease.project.feature.preset.data.dataSource.mapper.MapperHelper
+import su.tease.project.feature.preset.data.repository.exception.RepositoryException
 import su.tease.project.feature.preset.domain.entity.BankIconPreset
 import su.tease.project.feature.preset.domain.entity.BankPreset
 import su.tease.project.feature.preset.domain.entity.CashBackOwnerPreset
