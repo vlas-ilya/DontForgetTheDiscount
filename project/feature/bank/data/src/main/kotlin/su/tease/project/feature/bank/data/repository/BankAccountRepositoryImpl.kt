@@ -17,16 +17,16 @@ import su.tease.project.feature.bank.domain.repository.BankAccountRepository
 import timber.log.Timber
 
 class BankAccountRepositoryImpl(
-    private val bankAccountDao: BankAccountDao,
+    private val dao: BankAccountDao,
     private val cashBackIntegrationInteractor: CashBackIntegrationInteractor,
     private val presetIntegrationInteractor: PresetIntegrationInteractor,
 ) : BankAccountRepository {
 
     override suspend fun save(bankAccount: BankAccount) = withDefault {
         try {
-            bankAccountDao.findById(bankAccount.id)
+            dao.findById(bankAccount.id)
                 ?.run { cashBackIntegrationInteractor.removeForOwnerId(id) }
-            bankAccountDao.save(bankAccount.toEntity())
+            dao.save(bankAccount.toEntity())
             bankAccount.cashBacks.forEach { cashBackIntegrationInteractor.save(it, bankAccount.id) }
         } catch (e: SQLiteException) {
             Timber.Forest.e(e)
@@ -36,7 +36,7 @@ class BankAccountRepositoryImpl(
 
     override suspend fun get(id: String): BankAccount = withDefault {
         try {
-            val bankAccountDto = bankAccountDao.findById(id) ?: throw RepositoryException()
+            val bankAccountDto = dao.findById(id) ?: throw RepositoryException()
             val bankPreset = presetIntegrationInteractor.get(bankAccountDto.presetId)
             val cashBacks = cashBackIntegrationInteractor.listForOwner(bankAccountDto.id)
             bankAccountDto.toDomain(bankPreset, cashBacks)
@@ -48,7 +48,7 @@ class BankAccountRepositoryImpl(
 
     override suspend fun list() = withDefault {
         try {
-            val bankAccountDtos = bankAccountDao.list()
+            val bankAccountDtos = dao.list()
             val bankAccountIds = bankAccountDtos.map { it.id }
             val cashBacks = cashBackIntegrationInteractor.listForOwners(bankAccountIds)
             val bankPresetIds = bankAccountDtos.map { it.presetId }
@@ -68,7 +68,7 @@ class BankAccountRepositoryImpl(
     override suspend fun filterBy(date: CashBackDate) = try {
         val cashBacks = cashBackIntegrationInteractor.listForCashBackDate(date)
         val bankAccountIds = cashBacks.keys
-        val bankAccountDtos = bankAccountDao.listByIds(bankAccountIds)
+        val bankAccountDtos = dao.listByIds(bankAccountIds)
         val bankPresetIds = bankAccountDtos.map { it.presetId }
         val bankPresets = presetIntegrationInteractor.list(bankPresetIds).associateBy { it.id }
         bankAccountDtos.mapNotNull {
@@ -91,9 +91,9 @@ class BankAccountRepositoryImpl(
 
     override suspend fun delete(id: String): Boolean = withDefault {
         try {
-            bankAccountDao.findById(id)?.run {
+            dao.findById(id)?.run {
                 cashBackIntegrationInteractor.removeForOwnerId(id)
-                bankAccountDao.delete(id)
+                dao.delete(id)
                 true
             } ?: false
         } catch (e: SQLiteException) {

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Shop_ListShopPage_AddCashBackButton_Title">Добавить еще кэшбэк</string>
+    <string name="Shop_ListShopPage_CashBackItem_Percent_Text">%s\%%</string>
+    <string name="Shop_ListShopPage_Empty_Result_Placeholder">Здесь пока ничего нет</string>
+    <string name="Shop_ListShopPage_Error_TryAgainButton">Попробовать еще раз</string>
+    <string name="Shop_ListShopPage_ErrorResult_Placeholder">Не удалось загрузить данные</string>
+    <string name="Shop_ListShopPage_Title">Кэшбэк</string>
+    <string name="Shop_SaveShopPage_AccountNameItem_Error">Поле должно быть заполнено</string>
+    <string name="Shop_SaveShopPage_AccountNameItem_Placeholder">Укажите название аккаунта</string>
+    <string name="Shop_SaveShopPage_AccountNameItem_Title">Название</string>
+    <string name="Shop_SaveShopPage_Add_Title">Добавление аккаунта</string>
+    <string name="Shop_SaveShopPage_ShopPresetSelect_Error">Поле должно быть заполнено</string>
+    <string name="Shop_SaveShopPage_ShopPresetSelect_Placeholder">Кликните для выбора магазина</string>
+    <string name="Shop_SaveShopPage_ShopPresetSelect_Title">Магазин</string>
+    <string name="Shop_SaveShopPage_Notification_Add_Title">Аккаунт успешно создан</string>
+    <string name="Shop_SaveShopPage_Notification_Save_Title">Аккаунт успешно сохранен</string>
+    <string name="Shop_SaveShopPage_Save_Title">Изменение аккаунта</string>
+    <string name="Shop_SaveShopPage_SaveButton_Title">Сохранить</string>
+    <string name="Shop_SelectShopPage_Title">Выбор аккаунта</string>
+</resources>

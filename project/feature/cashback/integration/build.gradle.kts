@@ -8,5 +8,7 @@ integration {
         implementation(project(":project:feature:preset:presentation"))
         implementation(project(":project:feature:bank:domain"))
         implementation(project(":project:feature:bank:presentation"))
+        implementation(project(":project:feature:shop:domain"))
+        implementation(project(":project:feature:shop:presentation"))
     }
 }

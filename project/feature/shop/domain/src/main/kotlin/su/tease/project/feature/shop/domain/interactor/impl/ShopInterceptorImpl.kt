@@ -26,10 +26,6 @@ class ShopInterceptorImpl(
         repository.filterBy(date)
     }
 
-    override suspend fun filterBy(ids: List<String>) = withDefault {
-        repository.filterBy(ids)
-    }
-
     override suspend fun listDates() = withDefault {
         repository.listDates()
     }

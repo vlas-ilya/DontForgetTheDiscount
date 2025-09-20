@@ -34,8 +34,8 @@ import su.tease.project.feature.bank.presentation.dependencies.view.BankPresetIc
 import su.tease.project.feature.bank.presentation.save.action.SaveBankAccountAction
 import su.tease.project.feature.bank.presentation.save.action.SaveBankAccountActions
 import su.tease.project.feature.bank.presentation.save.component.SaveBankAccountBankPresetSelect
-import su.tease.project.feature.bank.presentation.save.component.SaveBankAccountNameEditText
-import su.tease.project.feature.bank.presentation.save.component.SaveBankAccountSaveButton
+import su.tease.project.feature.bank.presentation.save.component.SaveBankAccountPageNameEditText
+import su.tease.project.feature.bank.presentation.save.component.SaveBankAccountPageSaveButton
 import su.tease.project.feature.bank.presentation.save.reducer.SaveBankAccountState
 import su.tease.project.feature.bank.presentation.save.utils.SaveBankAccountForm
 
@@ -99,14 +99,14 @@ class SaveBankAccountPage(
                     modifier = Modifier.fillMaxWidth(),
                 )
                 Spacer(modifier = Modifier.height(Theme.sizes.padding4))
-                SaveBankAccountNameEditText(
+                SaveBankAccountPageNameEditText(
                     nameState = form.customName,
                     onChange = { form.customName.value = it },
                     error = form.ui { customNameError },
                     modifier = Modifier.fillMaxWidth(),
                 )
                 Spacer(modifier = Modifier.weight(1F))
-                SaveBankAccountSaveButton(
+                SaveBankAccountPageSaveButton(
                     modifier = Modifier.wrapContentHeight(),
                     onSubmit = { save(bankAccountId ?: "") }
                 )

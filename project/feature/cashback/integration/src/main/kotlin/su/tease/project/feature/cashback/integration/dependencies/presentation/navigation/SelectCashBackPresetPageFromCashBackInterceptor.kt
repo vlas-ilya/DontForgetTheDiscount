@@ -3,7 +3,8 @@ package su.tease.project.feature.cashback.integration.dependencies.presentation.
 import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.intercetpor.Interceptor
 import su.tease.project.core.mvi.navigation.action.NavigationAction
-import su.tease.project.feature.cashback.integration.dependencies.mapper.cashback.toExternal
+import su.tease.project.feature.cashback.integration.dependencies.mapper.cashback.bank.toExternalBankPreset
+import su.tease.project.feature.cashback.integration.dependencies.mapper.cashback.shop.toExternalShopPreset
 import su.tease.project.feature.cashback.integration.dependencies.mapper.preset.toDomain
 import su.tease.project.feature.cashback.presentation.dependencies.navigation.SelectCashBackPresetPage
 import su.tease.project.feature.preset.presentation.cashback.select.SelectCashBackPresetPage as ExternalSelectCashBackPresetPage
@@ -11,16 +12,21 @@ import su.tease.project.feature.preset.presentation.cashback.select.SelectCashBa
 class SelectCashBackPresetPageFromCashBackInterceptor : Interceptor {
 
     override fun intercept(action: PlainAction) = when (action) {
-        is NavigationAction.ForwardToPage -> tryToNavigateToSelectBankPresetPage(action)
+        is NavigationAction.ForwardToPage -> tryToNavigateToSelectOwnerPresetPage(action)
         is ExternalSelectCashBackPresetPage.OnSelectAction -> tryToHandleOnSelectAction(action)
         else -> listOf()
     }
 
-    private fun tryToNavigateToSelectBankPresetPage(action: NavigationAction.ForwardToPage): List<PlainAction> {
+    private fun tryToNavigateToSelectOwnerPresetPage(action: NavigationAction.ForwardToPage): List<PlainAction> {
         if (action.page !is SelectCashBackPresetPage) return listOf()
         val page = action.page as SelectCashBackPresetPage
+        val ownerPreset = when (page.ownerType) {
+            "bank" -> page.ownerPreset.toExternalBankPreset()
+            "shop" -> page.ownerPreset.toExternalShopPreset()
+            else -> error("Unsupported owner type")
+        }
         return NavigationAction.ForwardToPage(
-            page = ExternalSelectCashBackPresetPage<Target>(page.ownerPreset.toExternal()),
+            page = ExternalSelectCashBackPresetPage<Target>(ownerPreset),
             singleTop = action.singleTop,
         ).let(::listOf)
     }

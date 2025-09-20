@@ -2,10 +2,12 @@ package su.tease.project.feature.bank.presentation.dependencies.view
 
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import su.tease.project.feature.bank.domain.entity.BankIconPreset
 
+@Immutable
 interface BankPresetIconView {
     @Composable
     fun ComposeComponent(

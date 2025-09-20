@@ -35,7 +35,7 @@ import su.tease.project.feature.bank.domain.interactor.BankAccountInterceptor
 import su.tease.project.feature.bank.presentation.R
 import su.tease.project.feature.bank.presentation.dependencies.view.BankPresetIconView
 import su.tease.project.feature.bank.presentation.save.SaveBankAccountPage
-import su.tease.project.feature.bank.presentation.select.component.SelectBankAccountBankPresetPreview
+import su.tease.project.feature.bank.presentation.select.component.SelectBankAccountPageBankPresetPreview
 import su.tease.project.feature.bank.presentation.select.reducer.SelectBankAccountState
 import su.tease.project.design.icons.R as RIcons
 
@@ -85,7 +85,7 @@ class SelectBankAccountPage(
                 banks?.forEach {
                     item(key = it.id) {
                         val bankPreset = remember(it) { it.preset.copy(name = it.customName) }
-                        SelectBankAccountBankPresetPreview(
+                        SelectBankAccountPageBankPresetPreview(
                             bankPreset = bankPreset,
                             onClick = {
                                 dispatch(OnSelectAction(target.target, it))

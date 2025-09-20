@@ -1,12 +1,14 @@
 package su.tease.project.feature.bank.presentation.dependencies.view
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import su.tease.project.core.utils.date.DateProvider
 import su.tease.project.feature.bank.domain.entity.BankAccount
 import su.tease.project.feature.bank.domain.entity.CashBack
 
+@Immutable
 interface CashBackInfoDialogView {
     @Composable
     fun ComposeComponent(

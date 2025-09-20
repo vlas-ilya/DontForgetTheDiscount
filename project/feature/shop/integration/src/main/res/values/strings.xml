@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Shop_SaveCashBack_CashBackOwnerSelect_Title">Магазин</string>
+    <string name="Shop_SaveCashBack_CashBackOwnerSelect_Placeholder">Кликните для выбора магазина</string>
+    <string name="Shop_SaveCashBack_CashBackPresetSelect_Info">Для выбора категории нужно выбрать магазин</string>
+</resources>

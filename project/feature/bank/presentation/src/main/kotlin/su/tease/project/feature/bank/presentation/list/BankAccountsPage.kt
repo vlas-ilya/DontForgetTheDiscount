@@ -51,10 +51,10 @@ import su.tease.project.feature.bank.presentation.dependencies.view.CashBackPres
 import su.tease.project.feature.bank.presentation.dependencies.view.Compose
 import su.tease.project.feature.bank.presentation.list.action.LoadBankAccountsAction
 import su.tease.project.feature.bank.presentation.list.action.LoadBankAccountsActions
-import su.tease.project.feature.bank.presentation.list.page.ListCashBackFailed
-import su.tease.project.feature.bank.presentation.list.page.ListCashBackInit
-import su.tease.project.feature.bank.presentation.list.page.ListCashBackLoading
-import su.tease.project.feature.bank.presentation.list.page.ListCashBackSuccess
+import su.tease.project.feature.bank.presentation.list.page.BankAccountsPageFailed
+import su.tease.project.feature.bank.presentation.list.page.BankAccountsPageInit
+import su.tease.project.feature.bank.presentation.list.page.BankAccountsPageLoading
+import su.tease.project.feature.bank.presentation.list.page.BankAccountsPageSuccess
 import su.tease.project.feature.bank.presentation.list.reducer.BankAccountsState
 import su.tease.project.feature.bank.presentation.list.reducer.CashBackInfoDialogAction
 import su.tease.project.feature.bank.presentation.list.utils.toCashBackDate
@@ -166,10 +166,10 @@ class BankAccountsPage(
         ) {
             val state = status.value
             when {
-                state == LoadingStatus.Init -> ListCashBackInit()
-                state == LoadingStatus.Loading && list.value.isEmpty() -> ListCashBackLoading()
-                state == LoadingStatus.Failed -> ListCashBackFailed({ onTryAgain(date) })
-                else -> ListCashBackSuccess(
+                state == LoadingStatus.Init -> BankAccountsPageInit()
+                state == LoadingStatus.Loading && list.value.isEmpty() -> BankAccountsPageLoading()
+                state == LoadingStatus.Failed -> BankAccountsPageFailed({ onTryAgain(date) })
+                else -> BankAccountsPageSuccess(
                     list,
                     lazyListState,
                     Modifier.nestedScroll(nestedScrollConnection)

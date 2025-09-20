@@ -14,33 +14,35 @@ interface PresetInteractor {
 
     suspend fun bankPresets(): PersistentList<BankPreset>
 
-    suspend fun bankPresets(bankPresetIds: List<String>): PersistentList<BankPreset>
+    suspend fun bankPresets(presetIds: List<String>): PersistentList<BankPreset>
 
     suspend fun bankIconPresets(): PersistentList<BankIconPreset>
 
     suspend fun shopPresets(): PersistentList<ShopPreset>
 
-    suspend fun shopPresets(shopPresetIds: List<String>): PersistentList<ShopPreset>
+    suspend fun shopPresets(presetIds: List<String>): PersistentList<ShopPreset>
 
     suspend fun shopIconPresets(): PersistentList<ShopIconPreset>
 
-    suspend fun cashBackPresets(bankPresetId: String): PersistentList<CashBackPreset>
+    suspend fun cashBackPresets(presetId: String): PersistentList<CashBackPreset>
 
-    suspend fun cashBackPresets(cashBackPresetIds: List<String>): PersistentList<CashBackPreset>
+    suspend fun cashBackPresets(presetIds: List<String>): PersistentList<CashBackPreset>
 
     suspend fun cashBacksIconPresets(): PersistentList<CashBackIconPreset>
 
     suspend fun mccCodePresets(): PersistentList<MccCodePreset>
 
-    suspend fun bankPreset(bankPresetId: String): BankPreset
+    suspend fun bankPreset(presetId: String): BankPreset
 
-    suspend fun shopPreset(shopPresetId: String): ShopPreset
+    suspend fun shopPreset(presetId: String): ShopPreset
 
-    suspend fun cashBackPreset(cashBackPresetId: String): CashBackPreset
+    suspend fun cashBackPreset(presetId: String): CashBackPreset
 
-    suspend fun save(cashBackOwnerPreset: BankPreset)
+    suspend fun save(preset: BankPreset)
 
-    suspend fun save(cashBackPreset: CashBackPreset)
+    suspend fun save(preset: ShopPreset)
 
-    suspend fun save(mccCodePreset: MccCodePreset)
+    suspend fun save(preset: CashBackPreset)
+
+    suspend fun save(preset: MccCodePreset)
 }

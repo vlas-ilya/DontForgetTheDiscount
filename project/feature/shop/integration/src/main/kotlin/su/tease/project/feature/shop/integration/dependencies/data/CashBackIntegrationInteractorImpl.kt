@@ -4,8 +4,8 @@ import kotlinx.collections.immutable.PersistentList
 import su.tease.project.core.utils.ext.mapPersistent
 import su.tease.project.feature.cashback.domain.interactor.CashBackListInteractor
 import su.tease.project.feature.shop.data.dependencies.CashBackIntegrationInteractor
-import su.tease.project.feature.shop.integration.mapper.toDomain
-import su.tease.project.feature.shop.integration.mapper.toExternal
+import su.tease.project.feature.shop.integration.mapper.cashback.toDomain
+import su.tease.project.feature.shop.integration.mapper.cashback.toExternal
 import su.tease.project.feature.shop.domain.entity.CashBack as DomainCashBack
 import su.tease.project.feature.shop.domain.entity.CashBackDate as DomainCashBackDate
 

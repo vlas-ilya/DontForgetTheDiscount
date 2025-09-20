@@ -26,14 +26,14 @@ class LoadShopsActionImpl(
             val date = request ?: dateProvider.current().toCashBackDate()
             val list = interactor.filterBy(date)
             val dates = interactor.listDates().takeIf { it.isNotEmpty() } ?: persistentListOf(date)
-            dispatch(LoadShopsActions.OnSuccess(date, dates, list.sortBanks()))
+            dispatch(LoadShopsActions.OnSuccess(date, dates, list.sortShops()))
         } catch (_: RepositoryException) {
             dispatch(LoadShopsActions.OnFail)
         }
     }
 }
 
-private fun List<Shop>.sortBanks(): PersistentList<Shop> = this
+private fun List<Shop>.sortShops(): PersistentList<Shop> = this
     .map { it.copy(cashBacks = it.cashBacks.sortCashBacks()) }
     .sortedBy { it.preset.name }
     .toPersistentList()

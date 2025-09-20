@@ -9,6 +9,7 @@ import su.tease.project.feature.cashback.domain.entity.preset.CashBackPreset
 @Parcelize
 data class SelectCashBackPresetPage(
     val ownerPreset: CashBackOwnerPreset,
+    val ownerType: String,
 ) : NavigationTarget.Page {
 
     @Parcelize

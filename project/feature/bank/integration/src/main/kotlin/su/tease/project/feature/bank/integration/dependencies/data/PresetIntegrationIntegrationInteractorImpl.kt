@@ -11,11 +11,11 @@ class PresetIntegrationIntegrationInteractorImpl(
     private val presetInteractor: PresetInteractor,
 ) : PresetIntegrationInteractor {
 
-    override suspend fun get(bankPresetId: String) =
-        presetInteractor.bankPreset(bankPresetId).toDomain()
+    override suspend fun get(presetId: String) =
+        presetInteractor.bankPreset(presetId).toDomain()
 
-    override suspend fun list(bankPresetIds: List<String>) =
-        presetInteractor.bankPresets(bankPresetIds).map { it.toDomain() }
+    override suspend fun list(presetIds: List<String>) =
+        presetInteractor.bankPresets(presetIds).map { it.toDomain() }
 
     private fun BankPreset.toDomain() = DomainBankPreset(
         id = id,

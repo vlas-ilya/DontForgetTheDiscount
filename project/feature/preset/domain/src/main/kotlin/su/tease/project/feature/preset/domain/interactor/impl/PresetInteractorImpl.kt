@@ -20,8 +20,8 @@ class PresetInteractorImpl(
     override suspend fun bankPresets(): PersistentList<BankPreset> =
         withDefault { repository.bankPresets() }
 
-    override suspend fun bankPresets(bankPresetIds: List<String>) =
-        withDefault { repository.bankPresets(bankPresetIds) }
+    override suspend fun bankPresets(presetIds: List<String>) =
+        withDefault { repository.bankPresets(presetIds) }
 
     override suspend fun bankIconPresets(): PersistentList<BankIconPreset> =
         withDefault { repository.bankIcons() }
@@ -29,17 +29,17 @@ class PresetInteractorImpl(
     override suspend fun shopPresets(): PersistentList<ShopPreset> =
         withDefault { repository.shopPresets() }
 
-    override suspend fun shopPresets(shopPresetIds: List<String>) =
-        withDefault { repository.shopPresets(shopPresetIds) }
+    override suspend fun shopPresets(presetIds: List<String>) =
+        withDefault { repository.shopPresets(presetIds) }
 
     override suspend fun shopIconPresets(): PersistentList<ShopIconPreset> =
         withDefault { repository.shopIconPresets() }
 
-    override suspend fun cashBackPresets(bankPresetId: String): PersistentList<CashBackPreset> =
-        withDefault { repository.cashBackPresets(bankPresetId) }
+    override suspend fun cashBackPresets(presetId: String): PersistentList<CashBackPreset> =
+        withDefault { repository.cashBackPresets(presetId) }
 
-    override suspend fun cashBackPresets(cashBackPresetIds: List<String>) =
-        withDefault { repository.cashBackPresets(cashBackPresetIds) }
+    override suspend fun cashBackPresets(presetIds: List<String>) =
+        withDefault { repository.cashBackPresets(presetIds) }
 
     override suspend fun cashBacksIconPresets(): PersistentList<CashBackIconPreset> =
         withDefault { repository.cashBacksIconPresets() }
@@ -47,21 +47,25 @@ class PresetInteractorImpl(
     override suspend fun mccCodePresets(): PersistentList<MccCodePreset> =
         withDefault { repository.mccCodePresets() }
 
-    override suspend fun bankPreset(bankPresetId: String) =
-        withDefault { repository.bankPreset(bankPresetId) }
+    override suspend fun bankPreset(presetId: String) =
+        withDefault { repository.bankPreset(presetId) }
 
-    override suspend fun shopPreset(shopPresetId: String) =
-        withDefault { repository.shopPreset(shopPresetId) }
+    override suspend fun shopPreset(presetId: String) =
+        withDefault { repository.shopPreset(presetId) }
 
-    override suspend fun cashBackPreset(cashBackPresetId: String) =
-        withDefault { repository.cashBackPreset(cashBackPresetId) }
+    override suspend fun cashBackPreset(presetId: String) =
+        withDefault { repository.cashBackPreset(presetId) }
 
-    override suspend fun save(cashBackOwnerPreset: BankPreset) =
-        withDefault { repository.save(cashBackOwnerPreset) }
+    override suspend fun save(preset: BankPreset) =
+        withDefault { repository.save(preset) }
 
-    override suspend fun save(cashBackPreset: CashBackPreset) =
-        withDefault { repository.save(cashBackPreset) }
+    override suspend fun save(preset: ShopPreset) {
+        withDefault { repository.save(preset) }
+    }
 
-    override suspend fun save(mccCodePreset: MccCodePreset) =
-        withDefault { repository.save(mccCodePreset) }
+    override suspend fun save(preset: CashBackPreset) =
+        withDefault { repository.save(preset) }
+
+    override suspend fun save(preset: MccCodePreset) =
+        withDefault { repository.save(preset) }
 }

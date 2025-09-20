@@ -49,7 +49,7 @@ fun SaveBankAccountBankPresetSelect(
             verticalAlignment = Alignment.CenterVertically
         ) {
             bankState.value?.let {
-                SaveBankAccountBankPresetPreview(
+                SaveBankAccountPageBankPresetPreview(
                     bankPreset = it,
                     customName = customName?.value,
                     bankPresetIconView = bankPresetIconView,

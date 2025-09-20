@@ -99,6 +99,13 @@ class SelectIconPresetPage(
             clip = { CircleShape },
             padding = { 0.dp },
             size = { Theme.sizes.size46 },
+        ),
+        SHOP_ICON(
+            getIcons = PresetInteractor::shopIconPresets,
+            tint = { null },
+            clip = { CircleShape },
+            padding = { 0.dp },
+            size = { Theme.sizes.size46 },
         )
     }
 

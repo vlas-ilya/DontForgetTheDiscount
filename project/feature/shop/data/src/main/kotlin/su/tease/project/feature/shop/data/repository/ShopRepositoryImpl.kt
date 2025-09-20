@@ -17,16 +17,16 @@ import su.tease.project.feature.shop.domain.repository.ShopRepository
 import timber.log.Timber
 
 class ShopRepositoryImpl(
-    private val shopDao: ShopDao,
+    private val dao: ShopDao,
     private val cashBackIntegrationInteractor: CashBackIntegrationInteractor,
     private val presetIntegrationInteractor: PresetIntegrationInteractor,
 ) : ShopRepository {
 
     override suspend fun save(value: Shop) = withDefault {
         try {
-            shopDao.findById(value.id)
+            dao.findById(value.id)
                 ?.run { cashBackIntegrationInteractor.removeForOwnerId(id) }
-            shopDao.save(value.toEntity())
+            dao.save(value.toEntity())
             value.cashBacks.forEach { cashBackIntegrationInteractor.save(it, value.id) }
         } catch (e: SQLiteException) {
             Timber.Forest.e(e)
@@ -36,7 +36,7 @@ class ShopRepositoryImpl(
 
     override suspend fun get(id: String): Shop = withDefault {
         try {
-            val shopDto = shopDao.findById(id) ?: throw RepositoryException()
+            val shopDto = dao.findById(id) ?: throw RepositoryException()
             val shopPreset = presetIntegrationInteractor.get(shopDto.presetId)
             val cashBacks = cashBackIntegrationInteractor.listForOwner(shopDto.id)
             shopDto.toDomain(shopPreset, cashBacks)
@@ -48,7 +48,7 @@ class ShopRepositoryImpl(
 
     override suspend fun list() = withDefault {
         try {
-            val shopDtos = shopDao.list()
+            val shopDtos = dao.list()
             val shopIds = shopDtos.map { it.id }
             val cashBacks = cashBackIntegrationInteractor.listForOwners(shopIds)
             val presetIds = shopDtos.map { it.presetId }
@@ -69,25 +69,7 @@ class ShopRepositoryImpl(
         try {
             val cashBacks = cashBackIntegrationInteractor.listForCashBackDate(date)
             val shopIds = cashBacks.keys
-            val shopDtos = shopDao.listByIds(shopIds)
-            val presetIds = shopDtos.map { it.presetId }
-            val presets = presetIntegrationInteractor.list(presetIds).associateBy { it.id }
-            shopDtos.mapNotNull {
-                it.toDomain(
-                    shopPreset = presets[it.presetId] ?: return@mapNotNull null,
-                    cashBacks = cashBacks[it.id] ?: persistentListOf()
-                )
-            }.toPersistentList()
-        } catch (e: SQLiteException) {
-            Timber.Forest.e(e)
-            throw RepositoryException()
-        }
-
-    override suspend fun filterBy(ids: List<String>) =
-        try {
-            val shopDtos = shopDao.listByIds(ids)
-            val shopIds = shopDtos.map { it.id }
-            val cashBacks = cashBackIntegrationInteractor.listForOwners(shopIds)
+            val shopDtos = dao.listByIds(shopIds)
             val presetIds = shopDtos.map { it.presetId }
             val presets = presetIntegrationInteractor.list(presetIds).associateBy { it.id }
             shopDtos.mapNotNull {
@@ -111,9 +93,9 @@ class ShopRepositoryImpl(
 
     override suspend fun delete(id: String): Boolean = withDefault {
         try {
-            shopDao.findById(id)?.run {
+            dao.findById(id)?.run {
                 cashBackIntegrationInteractor.removeForOwnerId(id)
-                shopDao.delete(id)
+                dao.delete(id)
                 true
             } ?: false
         } catch (e: SQLiteException) {

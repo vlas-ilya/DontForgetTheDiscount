@@ -4,8 +4,8 @@ import su.tease.project.feature.cashback.data.dependencies.CashBackOwnerIntegrat
 import su.tease.project.feature.cashback.domain.entity.CashBackOwner
 import su.tease.project.feature.cashback.domain.interactor.CashBackOwnerId
 import su.tease.project.feature.shop.domain.interactor.ShopInterceptor
-import su.tease.project.feature.shop.integration.mapper.toDomain
-import su.tease.project.feature.shop.integration.mapper.toExternal
+import su.tease.project.feature.shop.integration.mapper.cashback.toDomain
+import su.tease.project.feature.shop.integration.mapper.cashback.toExternal
 
 class CashBackOwnerIntegrationInteractorImpl(
     private val shopInterceptor: ShopInterceptor,

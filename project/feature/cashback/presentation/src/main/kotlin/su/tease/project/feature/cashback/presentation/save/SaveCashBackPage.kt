@@ -38,6 +38,7 @@ import su.tease.project.feature.cashback.domain.entity.CashBackOwner
 import su.tease.project.feature.cashback.domain.entity.preset.CashBackPreset
 import su.tease.project.feature.cashback.domain.mapper.toCashBackDate
 import su.tease.project.feature.cashback.presentation.R
+import su.tease.project.feature.cashback.presentation.dependencies.CashBackOwnerTypeProvider
 import su.tease.project.feature.cashback.presentation.dependencies.navigation.SelectCashBackPresetPage
 import su.tease.project.feature.cashback.presentation.dependencies.view.CashBackOwnerPreviewView
 import su.tease.project.feature.cashback.presentation.dependencies.view.CashBackOwnerText
@@ -61,6 +62,7 @@ class SaveCashBackPage(
     private val cashBackPresetIconView: CashBackPresetIconView,
     private val cashBackOwnerPreviewView: CashBackOwnerPreviewView,
     private val cashBackOwnerText: CashBackOwnerText,
+    private val ownerTypeProvider: CashBackOwnerTypeProvider,
 ) : BasePageComponent<SaveCashBackPage.Target>(store) {
 
     private val dateValue = target.date
@@ -192,7 +194,7 @@ class SaveCashBackPage(
 
     private fun selectCashBackPreset() {
         val ownerPreset = form.cashBackOwner.value?.preset ?: return
-        SelectCashBackPresetPage(ownerPreset).forward()
+        SelectCashBackPresetPage(ownerPreset, ownerTypeProvider.get()).forward()
     }
 
     private fun save(cashBackId: String?) {

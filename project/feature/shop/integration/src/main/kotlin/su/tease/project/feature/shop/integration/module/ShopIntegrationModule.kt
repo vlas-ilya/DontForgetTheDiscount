@@ -11,10 +11,20 @@ import su.tease.project.feature.shop.domain.interactor.impl.ShopInterceptorImpl
 import su.tease.project.feature.shop.domain.repository.ShopRepository
 import su.tease.project.feature.shop.integration.dependencies.data.CashBackIntegrationInteractorImpl
 import su.tease.project.feature.shop.integration.dependencies.data.PresetIntegrationIntegrationInteractorImpl
+import su.tease.project.feature.shop.integration.dependencies.presentation.view.ShopPresetIconViewImpl
+import su.tease.project.feature.shop.integration.dependencies.presentation.view.CashBackInfoDialogViewImpl
+import su.tease.project.feature.shop.integration.dependencies.presentation.view.CashBackPresetIconViewImpl
 import su.tease.project.feature.shop.presentation.ShopFeature
+import su.tease.project.feature.shop.presentation.dependencies.view.ShopPresetIconView
+import su.tease.project.feature.shop.presentation.dependencies.view.CashBackInfoDialogView
+import su.tease.project.feature.shop.presentation.dependencies.view.CashBackPresetIconView
 import su.tease.project.feature.shop.presentation.list.ShopsPage
 import su.tease.project.feature.shop.presentation.list.action.LoadShopsAction
 import su.tease.project.feature.shop.presentation.list.action.impl.LoadShopsActionImpl
+import su.tease.project.feature.shop.presentation.save.SaveShopPage
+import su.tease.project.feature.shop.presentation.save.action.SaveShopAction
+import su.tease.project.feature.shop.presentation.save.action.impl.SaveShopActionImpl
+import su.tease.project.feature.shop.presentation.select.SelectShopPage
 
 val shopIntegrationModule = module {
     factory<CashBackIntegrationInteractor> { CashBackIntegrationInteractorImpl(get()) }
@@ -22,8 +32,15 @@ val shopIntegrationModule = module {
     factory<ShopRepository> { ShopRepositoryImpl(get(), get(), get()) }
     factory<ShopInterceptor> { ShopInterceptorImpl(get()) }
 
+    factory<CashBackInfoDialogView> { CashBackInfoDialogViewImpl() }
+    factory<ShopPresetIconView> { ShopPresetIconViewImpl() }
+    factory<CashBackPresetIconView> { CashBackPresetIconViewImpl() }
+
     factory<LoadShopsAction> { LoadShopsActionImpl(get(), get()) }
+    factory<SaveShopAction> { SaveShopActionImpl(get(), get(), get()) }
 
     feature { ShopFeature(get()) }
-    page { ShopsPage(get(), get(), get()) }
+    page { ShopsPage(get(), get(), get(), get(), get(), get(), get()) }
+    page { SelectShopPage(get(), get(), get(), get()) }
+    page { SaveShopPage(get(), get(), get(), get()) }
 }
