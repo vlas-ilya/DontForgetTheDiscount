@@ -64,6 +64,7 @@
             <option value="$PROJECT_DIR$/project/feature/info/integration" />
             <option value="$PROJECT_DIR$/project/feature/info/presentation" />
             <option value="$PROJECT_DIR$/project/feature/main" />
+            <option value="$PROJECT_DIR$/project/feature/main/integration" />
             <option value="$PROJECT_DIR$/project/feature/notification" />
             <option value="$PROJECT_DIR$/project/feature/notification/api" />
             <option value="$PROJECT_DIR$/project/feature/notification/impl" />
@@ -78,6 +79,9 @@
             <option value="$PROJECT_DIR$/project/feature/shop/integration" />
             <option value="$PROJECT_DIR$/project/feature/shop/presentation" />
             <option value="$PROJECT_DIR$/project/feature/splash" />
+            <option value="$PROJECT_DIR$/project/feature/splash/domain" />
+            <option value="$PROJECT_DIR$/project/feature/splash/integration" />
+            <option value="$PROJECT_DIR$/project/feature/splash/presentation" />
           </set>
         </option>
       </GradleProjectSettings>

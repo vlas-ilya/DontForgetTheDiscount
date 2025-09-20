@@ -12,7 +12,7 @@ import su.tease.dontforgetthediscount.state.dontForgetTheDiscountInterceptors
 import su.tease.dontforgetthediscount.state.dontForgetTheDiscountLogger
 import su.tease.dontforgetthediscount.state.dontForgetTheDiscountMiddlewares
 import su.tease.dontforgetthediscount.state.dontForgetTheDiscountReducer
-import su.tease.feature.splash.splashModule
+import su.tease.feature.splash.integration.module.splashModule
 import su.tease.project.feature.bank.integration.module.bankIntegrationModule
 import su.tease.project.feature.cashback.integration.module.cashBackIntegrationModule
 import su.tease.project.feature.info.integration.module.otherModule

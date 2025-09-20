@@ -32,7 +32,14 @@ class PresentationConventionPlugin : Plugin<Project> {
         val extension = extensions.create("presentation", PresentationExtension::class.java, this)
         val path = project.projectDir.toRelativeString(project.rootDir).split(File.separator)
         val id = path.joinToString(".", "su.tease.")
-        val domainModule = path.dropLast(1).joinToString(":", ":", ":domain")
+
+        fun String.takeIfExists(): String? = run {
+            val path = replace(":", "/")
+            val moduleDir = file("${rootDir}/${path}")
+            takeIf { moduleDir.exists() && moduleDir.isDirectory }
+        }
+
+        val domainModule = path.dropLast(1).joinToString(":", ":", ":domain").takeIfExists()
 
         // android конфигурация
         extensions.configure<LibraryExtension> {
@@ -102,7 +109,7 @@ class PresentationConventionPlugin : Plugin<Project> {
             add("implementation", project(":project:feature:notification:api"))
 
             // domain
-            add("implementation", project(domainModule))
+            domainModule?.let { add("implementation", project(it)) }
         }
 
         afterEvaluate {

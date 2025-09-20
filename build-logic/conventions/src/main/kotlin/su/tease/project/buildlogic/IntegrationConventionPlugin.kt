@@ -32,9 +32,16 @@ class IntegrationConventionPlugin : Plugin<Project> {
         val extension = extensions.create("integration", IntegrationExtension::class.java, this)
         val path = project.projectDir.toRelativeString(project.rootDir).split(File.separator)
         val id = path.joinToString(".", "su.tease.")
-        val dataModule = path.dropLast(1).joinToString(":", ":", ":data")
-        val domainModule = path.dropLast(1).joinToString(":", ":", ":domain")
-        val presentationModule = path.dropLast(1).joinToString(":", ":", ":presentation")
+
+        fun String.takeIfExists(): String? = run {
+            val path = replace(":", "/")
+            val moduleDir = file("${rootDir}/${path}")
+            takeIf { moduleDir.exists() && moduleDir.isDirectory }
+        }
+
+        val dataModule = path.dropLast(1).joinToString(":", ":", ":data").takeIfExists()
+        val domainModule = path.dropLast(1).joinToString(":", ":", ":domain").takeIfExists()
+        val presentationModule = path.dropLast(1).joinToString(":", ":", ":presentation").takeIfExists()
 
         extensions.getByType<LibraryExtension>().apply {
             namespace = id
@@ -127,9 +134,9 @@ class IntegrationConventionPlugin : Plugin<Project> {
             add("implementation", project(":project:design:theme:api"))
             add("implementation", project(":project:design:component:controls"))
 
-            add("implementation", project(domainModule))
-            add("implementation", project(dataModule))
-            add("implementation", project(presentationModule))
+            domainModule?.let { add("implementation", project(it)) }
+            dataModule?.let { add("implementation", project(it)) }
+            presentationModule?.let { add("implementation", project(it)) }
         }
 
         afterEvaluate {

@@ -26,9 +26,11 @@ includeBuild("build-logic/conventions")
 
 include(":project:app")
 
-include(":project:feature:main")
+include(":project:feature:main:integration")
 
-include(":project:feature:splash")
+include(":project:feature:splash:domain")
+include(":project:feature:splash:integration")
+include(":project:feature:splash:presentation")
 
 include(":project:feature:notification:api")
 include(":project:feature:notification:impl")

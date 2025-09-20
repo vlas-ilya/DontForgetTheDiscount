@@ -1,5 +1,6 @@
 package su.tease.dontforgetthediscount.state
 
+import su.tease.feature.splash.integration.dependencies.presentation.navigation.MainPageFromSplashInterceptor
 import su.tease.project.feature.bank.integration.dependencies.presentation.navigation.SaveCashBackPageFromBankAccountsPageInterceptor
 import su.tease.project.feature.bank.integration.dependencies.presentation.navigation.SelectBankPresetPageFromSaveBankPageInterceptor
 import su.tease.project.feature.cashback.integration.dependencies.presentation.navigation.SelectCashBackOwnerPageFromSaveCashBackInterceptor
@@ -10,4 +11,5 @@ val dontForgetTheDiscountInterceptors = listOf(
     SelectBankPresetPageFromSaveBankPageInterceptor(),
     SelectCashBackOwnerPageFromSaveCashBackInterceptor(),
     SelectCashBackPresetPageFromCashBackInterceptor(),
+    MainPageFromSplashInterceptor(),
 )

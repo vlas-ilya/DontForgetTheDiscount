@@ -113,12 +113,14 @@ dependencies {
     implementation(libs.okhttp3.logging)
 
     // project
-    implementation(project(":project:feature:main"))
-
-    implementation(project(":project:feature:splash"))
-
     implementation(project(":project:feature:notification:api"))
     implementation(project(":project:feature:notification:impl"))
+
+    implementation(project(":project:feature:main:integration"))
+
+    implementation(project(":project:feature:splash:domain"))
+    implementation(project(":project:feature:splash:presentation"))
+    implementation(project(":project:feature:splash:integration"))
 
     implementation(project(":project:feature:bank:data"))
     implementation(project(":project:feature:bank:domain"))

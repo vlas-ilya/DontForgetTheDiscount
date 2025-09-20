@@ -31,7 +31,14 @@ class DataConventionPlugin : Plugin<Project> {
         val extension = extensions.create("data", DataExtension::class.java, this)
         val path = project.projectDir.toRelativeString(project.rootDir).split(File.separator)
         val id = path.joinToString(".", "su.tease.")
-        val domainModule = path.dropLast(1).joinToString(":", ":", ":domain")
+
+        fun String.takeIfExists(): String? = run {
+            val path = replace(":", "/")
+            val moduleDir = file("${rootDir}/${path}")
+            takeIf { moduleDir.exists() && moduleDir.isDirectory }
+        }
+
+        val domainModule = path.dropLast(1).joinToString(":", ":", ":domain").takeIfExists()
 
         extensions.getByType<LibraryExtension>().apply {
             namespace = id
@@ -118,7 +125,7 @@ class DataConventionPlugin : Plugin<Project> {
             // project
             add("implementation", project(":project:core:utils"))
 
-            add("implementation", project(domainModule))
+            domainModule?.let { add("implementation", project(it)) }
         }
 
         afterEvaluate {
