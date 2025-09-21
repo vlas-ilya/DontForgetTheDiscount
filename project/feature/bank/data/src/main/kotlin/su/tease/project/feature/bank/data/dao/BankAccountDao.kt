@@ -11,10 +11,10 @@ interface BankAccountDao {
     @Query("SELECT * FROM BankAccountEntity where id = :id")
     suspend fun findById(id: String): BankAccountEntity?
 
-    @Query("SELECT * FROM BankAccountEntity")
+    @Query("SELECT * FROM BankAccountEntity ORDER BY customName")
     suspend fun list(): List<BankAccountEntity>
 
-    @Query("SELECT DISTINCT * FROM BankAccountEntity WHERE id in (:ids)")
+    @Query("SELECT DISTINCT * FROM BankAccountEntity WHERE id in (:ids) ORDER BY customName")
     suspend fun listByIds(ids: Collection<String>): List<BankAccountEntity>
 
     @Upsert

@@ -28,25 +28,25 @@ interface PresetDao {
     @Upsert
     suspend fun save(entity: CashBackOwnerPresetEntity)
 
-    @Query("SELECT * FROM CashBackOwnerPresetEntity where type = '$BANK_PRESET_TYPE'")
+    @Query("SELECT * FROM CashBackOwnerPresetEntity where type = '$BANK_PRESET_TYPE' ORDER BY name")
     suspend fun bankPresets(): List<CashBackOwnerPresetEntity>
 
-    @Query("SELECT * FROM CashBackOwnerPresetEntity where type = '$BANK_PRESET_TYPE' AND id in (:bankPresetIds)")
+    @Query("SELECT * FROM CashBackOwnerPresetEntity where type = '$BANK_PRESET_TYPE' AND id in (:bankPresetIds) ORDER BY name")
     suspend fun bankPresets(bankPresetIds: List<String>): List<CashBackOwnerPresetEntity>
 
     @Query("SELECT * FROM CashBackOwnerPresetEntity WHERE id = :id AND type = '$BANK_PRESET_TYPE'")
     suspend fun bankPreset(id: String): CashBackOwnerPresetEntity
 
-    @Query("SELECT * FROM CashBackOwnerPresetEntity where type = '$SHOP_PRESET_TYPE'")
+    @Query("SELECT * FROM CashBackOwnerPresetEntity where type = '$SHOP_PRESET_TYPE' ORDER BY name")
     suspend fun shopPresets(): List<CashBackOwnerPresetEntity>
 
-    @Query("SELECT * FROM CashBackOwnerPresetEntity where type = '$SHOP_PRESET_TYPE' AND id in (:shopPresetIds)")
+    @Query("SELECT * FROM CashBackOwnerPresetEntity where type = '$SHOP_PRESET_TYPE' AND id in (:shopPresetIds) ORDER BY name")
     suspend fun shopPresets(shopPresetIds: List<String>): List<CashBackOwnerPresetEntity>
 
     @Query("SELECT * FROM CashBackOwnerPresetEntity WHERE id = :id AND type = '$SHOP_PRESET_TYPE'")
     suspend fun shopPreset(id: String): CashBackOwnerPresetEntity
 
-    @Query("SELECT * FROM CashBackOwnerPresetEntity")
+    @Query("SELECT * FROM CashBackOwnerPresetEntity ORDER BY name")
     suspend fun cashBackOwnerPresets(): List<CashBackOwnerPresetEntity>
 
     @Query("SELECT * FROM CashBackOwnerPresetEntity WHERE id = :id")
@@ -55,19 +55,19 @@ interface PresetDao {
     @Upsert
     suspend fun save(entity: CashBackOwnerIconPresetEntity)
 
-    @Query("SELECT * FROM CashBackOwnerIconPresetEntity WHERE type = '$BANK_ICON_PRESET_TYPE'")
+    @Query("SELECT * FROM CashBackOwnerIconPresetEntity WHERE type = '$BANK_ICON_PRESET_TYPE' ORDER BY iconUrl")
     suspend fun bankIconPresets(): List<CashBackOwnerIconPresetEntity>
 
     @Query("SELECT * FROM CashBackOwnerIconPresetEntity WHERE id = :id AND type = '$BANK_ICON_PRESET_TYPE'")
     suspend fun bankIconPreset(id: String): CashBackOwnerIconPresetEntity
 
-    @Query("SELECT * FROM CashBackOwnerIconPresetEntity WHERE type = '$SHOP_ICON_PRESET_TYPE'")
+    @Query("SELECT * FROM CashBackOwnerIconPresetEntity WHERE type = '$SHOP_ICON_PRESET_TYPE' ORDER BY iconUrl")
     suspend fun shopIconPresets(): List<CashBackOwnerIconPresetEntity>
 
     @Query("SELECT * FROM CashBackOwnerIconPresetEntity WHERE id = :id AND type = '$SHOP_ICON_PRESET_TYPE'")
     suspend fun shopIconPreset(id: String): CashBackOwnerIconPresetEntity
 
-    @Query("SELECT * FROM CashBackOwnerIconPresetEntity")
+    @Query("SELECT * FROM CashBackOwnerIconPresetEntity ORDER BY iconUrl")
     suspend fun cashBackOwnerIconPresets(): List<CashBackOwnerIconPresetEntity>
 
     @Query("SELECT * FROM CashBackOwnerIconPresetEntity WHERE id = :id")
@@ -76,10 +76,10 @@ interface PresetDao {
     @Upsert
     suspend fun save(entity: CashBackPresetEntity)
 
-    @Query("SELECT * FROM CashBackPresetEntity WHERE cashBackOwnerPresetId = :cashBackOwnerPresetId")
+    @Query("SELECT * FROM CashBackPresetEntity WHERE cashBackOwnerPresetId = :cashBackOwnerPresetId ORDER BY name")
     suspend fun cashBackPresets(cashBackOwnerPresetId: String): List<CashBackPresetEntity>
 
-    @Query("SELECT * FROM CashBackPresetEntity WHERE id in (:ids)")
+    @Query("SELECT * FROM CashBackPresetEntity WHERE id in (:ids) ORDER BY name")
     suspend fun cashBackPresets(ids: List<String>): List<CashBackPresetEntity>
 
     @Query("SELECT * FROM CashBackPresetEntity WHERE id = :id")
@@ -88,7 +88,7 @@ interface PresetDao {
     @Upsert
     suspend fun save(entity: CashBackIconPresetEntity)
 
-    @Query("SELECT * FROM CashBackIconPresetEntity")
+    @Query("SELECT * FROM CashBackIconPresetEntity ORDER BY iconUrl")
     suspend fun cashBackIconPresets(): List<CashBackIconPresetEntity>
 
     @Query("SELECT * FROM CashBackIconPresetEntity WHERE id = :id")

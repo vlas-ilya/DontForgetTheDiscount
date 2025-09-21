@@ -50,5 +50,5 @@ data class SaveShopPresetState(
 
 private val defaultShopIconPreset = ShopIconPreset(
     id = "1af9a2da-d564-44ba-bb34-dbd82c602c9a",
-    iconUrl = "https://dontforgetthediscount.ru/static/img/shop/shop.png"
+    iconUrl = "https://dontforgetthediscount.ru/static/img/shop/0.png"
 )

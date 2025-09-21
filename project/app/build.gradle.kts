@@ -12,7 +12,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "su.tease.dontforgetthediscount"
+        applicationId = "su.tease.dontforgetthediscount.dev"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

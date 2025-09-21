@@ -5,7 +5,7 @@
     <string name="Shop_ListShopPage_Empty_Result_Placeholder">Здесь пока ничего нет</string>
     <string name="Shop_ListShopPage_Error_TryAgainButton">Попробовать еще раз</string>
     <string name="Shop_ListShopPage_ErrorResult_Placeholder">Не удалось загрузить данные</string>
-    <string name="Shop_ListShopPage_Title">Кэшбэк</string>
+    <string name="Shop_ListShopPage_Title">Магазины</string>
     <string name="Shop_SaveShopPage_AccountNameItem_Error">Поле должно быть заполнено</string>
     <string name="Shop_SaveShopPage_AccountNameItem_Placeholder">Укажите название аккаунта</string>
     <string name="Shop_SaveShopPage_AccountNameItem_Title">Название</string>
