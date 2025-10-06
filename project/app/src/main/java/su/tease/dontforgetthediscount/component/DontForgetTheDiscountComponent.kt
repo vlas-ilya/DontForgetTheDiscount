@@ -51,7 +51,7 @@ class DontForgetTheDiscountComponent(
             NotificationContainer(
                 notificationsState = selectAsState(NotificationState::notifications),
                 modifier = Modifier
-                    .padding(top = Theme.sizes.padding46)
+                    .padding(top = Theme.sizes.padding4)
                     .align(Alignment.TopCenter)
                     .fillMaxWidth(),
                 onCloseNotification = { dispatch(NotificationAction.CloseNotification(it.id)) }

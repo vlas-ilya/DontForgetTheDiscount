@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Info_InfoListPage_Item_BankIconPresets_Title">Иконки банков</string>
+    <string name="Info_InfoListPage_Item_BankPresets_Title">Банки</string>
+    <string name="Info_InfoListPage_Item_Banks_Title">Банк</string>
+    <string name="Info_InfoListPage_Item_CashBackIconPresets_Title">Иконки кэшбэков</string>
+    <string name="Info_InfoListPage_Item_CashBackPresets_Title">Категории кэшбэка</string>
+    <string name="Info_InfoListPage_Item_MccCodePresets_Title">MCC коды</string>
+    <string name="Info_InfoListPage_Item_ShopIconPresets_Title">Иконки магазинов</string>
+    <string name="Info_InfoListPage_Item_ShopPresets_Title">Магазины</string>
+    <string name="Info_InfoListPage_Item_Shops_Title">Аккаунты магазинов</string>
+    <string name="Info_InfoListPage_Title">Информация</string>
+</resources>
