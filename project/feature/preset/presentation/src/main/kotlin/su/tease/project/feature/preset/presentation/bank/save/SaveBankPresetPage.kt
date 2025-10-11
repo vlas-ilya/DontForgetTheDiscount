@@ -29,7 +29,9 @@ import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.state.LoadingStatus
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.ext.RedirectState
+import su.tease.project.core.utils.ext.choose
 import su.tease.project.design.component.controls.page.DFPage
+import su.tease.project.feature.preset.domain.entity.BankPreset
 import su.tease.project.feature.preset.presentation.R
 import su.tease.project.feature.preset.presentation.bank.component.IconSelect
 import su.tease.project.feature.preset.presentation.bank.component.NameEditText
@@ -43,13 +45,14 @@ import su.tease.project.feature.preset.presentation.icon.select.SelectIconPreset
 
 class SaveBankPresetPage(
     store: Store<*>,
+    private val target: Target,
     private val saveBankPresetAction: SaveBankPresetAction,
 ) : BasePageComponent<SaveBankPresetPage.Target>(store) {
 
-    private val form = SaveBankPresetForm()
+    private val form = SaveBankPresetForm(target.bankPreset)
 
     init {
-        dispatch(SaveBankPresetActions.OnInit)
+        dispatch(SaveBankPresetActions.OnInit(target.bankPreset))
     }
 
     @Composable
@@ -69,13 +72,17 @@ class SaveBankPresetPage(
 
         LaunchedEffect(status) {
             if (status == LoadingStatus.Success) {
-                dispatch(SaveBankPresetActions.OnInit)
+                dispatch(SaveBankPresetActions.OnInit())
+                form.clean()
                 back()
             }
         }
 
         DFPage(
-            title = stringResource(R.string.page_save_bank_preset_title),
+            title = (target.bankPreset == null).choose(
+                stringResource(R.string.Presets_SaveBankPage_Add_Title),
+                stringResource(R.string.Presets_SaveBankPage_Edit_Title),
+            ),
             actionIcon = LocalFeatureConfig.current.action?.icon,
             onActionPress = LocalFeatureConfig.current.action?.onClick,
             hasSystemNavigationBar = LocalRootConfig.current.hasSystemNavigationBar,
@@ -93,7 +100,7 @@ class SaveBankPresetPage(
                 ) {
                     IconSelect(
                         iconState = form.iconPreset,
-                        onSelect = { selectIcon(R.string.page_save_bank_preset_icon_title) },
+                        onSelect = { selectIcon(R.string.Presets_SaveBankPage_IconSelect_Title) },
                         error = form.ui { iconError },
                         modifier = Modifier.wrapContentWidth(),
                     )
@@ -130,9 +137,15 @@ class SaveBankPresetPage(
     }
 
     @Parcelize
-    data object Target : NavigationTarget.Page
+    data class Target(
+        val bankPreset: BankPreset?
+    ) : NavigationTarget.Page
 
     companion object {
-        operator fun invoke() = Target
+        operator fun invoke(
+            bankPreset: BankPreset? = null,
+        ) = Target(
+            bankPreset = bankPreset,
+        )
     }
 }

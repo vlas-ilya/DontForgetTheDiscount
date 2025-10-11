@@ -14,7 +14,7 @@ enum class SaveBankPresetError {
 
 @Parcelize
 sealed class SaveBankPresetActions : PlainAction {
-    data object OnInit : SaveBankPresetActions()
+    data class OnInit(val initBankPreset: BankPreset? = null) : SaveBankPresetActions()
     data object OnSave : SaveBankPresetActions()
     data class OnSaveSuccess(val cashBackOwnerPreset: BankPreset) : SaveBankPresetActions()
     data class OnSaveFail(val error: SaveBankPresetError) : SaveBankPresetActions()

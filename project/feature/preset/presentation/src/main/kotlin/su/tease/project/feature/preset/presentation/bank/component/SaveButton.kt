@@ -12,7 +12,7 @@ fun SaveButton(
     modifier: Modifier = Modifier,
 ) {
     DFButton(
-        label = stringResource(R.string.page_save_bank_preset_button_save),
+        label = stringResource(R.string.Presets_SaveBankPage_SaveButton_Label),
         onClick = onSubmit,
         modifier = modifier,
     )

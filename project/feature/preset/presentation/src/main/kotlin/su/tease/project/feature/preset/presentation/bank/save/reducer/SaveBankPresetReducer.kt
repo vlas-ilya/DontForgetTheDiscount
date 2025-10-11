@@ -11,6 +11,7 @@ import su.tease.project.core.mvi.api.state.LoadingStatus.Success
 import su.tease.project.core.mvi.api.state.State
 import su.tease.project.core.utils.ext.transformIf
 import su.tease.project.feature.preset.domain.entity.BankIconPreset
+import su.tease.project.feature.preset.domain.entity.BankPreset
 import su.tease.project.feature.preset.presentation.bank.save.action.SaveBankPresetError
 import su.tease.project.feature.preset.presentation.icon.select.SelectIconPresetPage
 import su.tease.project.feature.preset.presentation.bank.save.action.SaveBankPresetActions as Save
@@ -27,7 +28,7 @@ class SaveBankPresetReducer : Reducer<S> {
     }
 
     private fun S.onSave(action: Save) = when (action) {
-        is Save.OnInit -> S()
+        is Save.OnInit -> S(action.initBankPreset)
         is Save.OnSave -> copy(status = Loading, error = null)
         is Save.OnSaveFail -> copy(status = Failed, error = action.error)
         is Save.OnSaveSuccess -> S(status = Success)
@@ -43,12 +44,20 @@ class SaveBankPresetReducer : Reducer<S> {
 data class SaveBankPresetState(
     val status: LoadingStatus = Init,
     val icon: BankIconPreset? = defaultBankIconPreset,
-    val name: String = "",
+    val name: String = defaultName,
     val error: SaveBankPresetError? = null,
     val wasValidation: Boolean = false,
-) : State
+) : State {
+
+    constructor(bankPreset: BankPreset?) : this(
+        icon = bankPreset?.iconPreset ?: defaultBankIconPreset,
+        name = bankPreset?.name ?: defaultName,
+    )
+}
 
 private val defaultBankIconPreset = BankIconPreset(
     id = "1af9a2da-d564-44ba-bb34-dbd82c602c9a",
     iconUrl = "https://dontforgetthediscount.ru/static/img/bank/bank.png"
 )
+
+private val defaultName = ""

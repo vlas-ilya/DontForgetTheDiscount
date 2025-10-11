@@ -17,12 +17,12 @@ class SaveBankPresetActionImpl(
     override fun run(request: BankPreset) = suspendAction {
         dispatch(SaveBankPresetActions.OnSave)
         val bankPreset = request.copy(
-            id = uuidProvider.uuid(),
+            id = request.id.takeIf { it.isNotBlank() } ?: uuidProvider.uuid(),
             name = request.name.trim()
         )
         try {
             val banks = presetInteractor.bankPresets()
-            if (banks.any { it.name == bankPreset.name }) {
+            if (banks.any { it.name == bankPreset.name && it.id != bankPreset.id }) {
                 dispatch(SaveBankPresetActions.OnSaveFail(SaveBankPresetError.DUPLICATE_ERROR))
                 return@suspendAction
             }

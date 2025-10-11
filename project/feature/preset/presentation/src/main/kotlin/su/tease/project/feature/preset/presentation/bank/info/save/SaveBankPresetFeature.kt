@@ -8,6 +8,7 @@ import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.core.mvi.navigation.feature
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.design.icons.R
+import su.tease.project.feature.preset.domain.entity.BankPreset
 import su.tease.project.feature.preset.presentation.bank.save.SaveBankPresetPage
 
 class SaveBankPresetFeature(
@@ -32,9 +33,11 @@ class SaveBankPresetFeature(
     private fun onClosePressed() = SaveBankPresetFeature().finish()
 
     companion object {
-        operator fun invoke() = feature(
+        operator fun invoke(
+            bankPreset: BankPreset? = null
+        ) = feature(
             Target,
-            SaveBankPresetPage(),
+            SaveBankPresetPage(bankPreset),
         )
     }
 

@@ -49,7 +49,7 @@ val presetIntegrationModule = module {
     page { SaveCashBackPresetPage(get(), get(), get()) }
     page { ListBankPresetPage(get(), get()) }
     page { SelectBankPresetPage(get(), get(), get()) }
-    page { SaveBankPresetPage(get(), get()) }
+    page { SaveBankPresetPage(get(), get(), get()) }
     page { SelectShopPresetPage(get(), get(), get()) }
     page { SaveShopPresetPage(get(), get()) }
     page { SelectMccCodePresetPage(get(), get(), get(), get()) }

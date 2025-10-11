@@ -5,15 +5,16 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import su.tease.project.core.utils.checker.check
 import su.tease.project.core.utils.ext.runIf
-import su.tease.project.feature.preset.domain.entity.BankIconPreset
 import su.tease.project.feature.preset.domain.entity.BankPreset
 import su.tease.project.feature.preset.presentation.bank.save.action.SaveBankPresetError
 
-class SaveBankPresetForm {
+class SaveBankPresetForm(
+    private val initBankPreset: BankPreset?
+) {
     private val wasValidation = mutableStateOf(false)
 
-    val name = mutableStateOf("")
-    val iconPreset = mutableStateOf<BankIconPreset?>(null)
+    val name = mutableStateOf(initBankPreset?.name ?: "")
+    val iconPreset = mutableStateOf(initBankPreset?.iconPreset)
     val error = mutableStateOf<SaveBankPresetError?>(null)
 
     val nameError = check(name) {
@@ -34,7 +35,7 @@ class SaveBankPresetForm {
             .takeIf { it }
             ?.let {
                 BankPreset(
-                    id = "",
+                    id = initBankPreset?.id ?: "",
                     name = name.value,
                     iconPreset = iconPreset.value!!,
                 )

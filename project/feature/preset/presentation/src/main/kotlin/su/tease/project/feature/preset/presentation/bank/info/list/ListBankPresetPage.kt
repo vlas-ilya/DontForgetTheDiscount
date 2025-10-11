@@ -1,6 +1,7 @@
 package su.tease.project.feature.preset.presentation.bank.info.list
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,7 +33,6 @@ import su.tease.project.feature.preset.domain.interactor.PresetInteractor
 import su.tease.project.feature.preset.presentation.R
 import su.tease.project.feature.preset.presentation.bank.component.SelectBankPresetPreview
 import su.tease.project.feature.preset.presentation.bank.info.save.SaveBankPresetFeature
-import su.tease.project.feature.preset.presentation.bank.save.SaveBankPresetPage
 import su.tease.project.design.icons.R as RIcons
 
 class ListBankPresetPage(
@@ -71,7 +71,9 @@ class ListBankPresetPage(
                     item(key = it.id) {
                         SelectBankPresetPreview(
                             bankPreset = it,
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .clickable { SaveBankPresetFeature(it).forward() }
+                                .fillMaxWidth(),
                         )
                     }
                 }
