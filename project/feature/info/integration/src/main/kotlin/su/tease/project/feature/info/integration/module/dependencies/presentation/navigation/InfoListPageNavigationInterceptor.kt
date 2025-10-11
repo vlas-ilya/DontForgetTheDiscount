@@ -3,6 +3,7 @@ package su.tease.project.feature.info.integration.module.dependencies.presentati
 import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.intercetpor.Interceptor
 import su.tease.project.core.mvi.navigation.action.NavigationAction
+import su.tease.project.feature.bank.presentation.info.list.BankAccountsInfoPage
 import su.tease.project.feature.info.presentation.dependencies.navigation.BankIconPresets
 import su.tease.project.feature.info.presentation.dependencies.navigation.BankPresets
 import su.tease.project.feature.info.presentation.dependencies.navigation.Banks
@@ -13,7 +14,7 @@ import su.tease.project.feature.info.presentation.dependencies.navigation.MccCod
 import su.tease.project.feature.info.presentation.dependencies.navigation.ShopIconPresets
 import su.tease.project.feature.info.presentation.dependencies.navigation.ShopPresets
 import su.tease.project.feature.info.presentation.dependencies.navigation.Shops
-import su.tease.project.feature.bank.presentation.info.list.BankAccountsInfoPage
+import su.tease.project.feature.preset.presentation.bank.info.list.ListBankPresetPage
 
 class InfoListPageNavigationInterceptor : Interceptor {
     override fun intercept(action: PlainAction): List<PlainAction> {
@@ -24,8 +25,8 @@ class InfoListPageNavigationInterceptor : Interceptor {
 
     private fun handleInfoNavigation(page: Info): List<PlainAction> = when (page) {
         Banks -> NavigationAction.ForwardToPage(BankAccountsInfoPage()).let(::listOf)
+        BankPresets -> NavigationAction.ForwardToPage(ListBankPresetPage()).let(::listOf)
         BankIconPresets,
-        BankPresets,
         CashBackIconPresets,
         CashBackPresets,
         MccCodePresets,

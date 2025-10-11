@@ -1,4 +1,4 @@
-package su.tease.project.feature.preset.presentation.bank.select
+package su.tease.project.feature.preset.presentation.bank.info.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -24,51 +23,38 @@ import su.tease.core.mvi.component.component.container.LocalRootConfig
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.design.theme.api.Theme
-import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.utils.memoize
 import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.design.component.controls.page.DFPageFloatingButton
 import su.tease.project.design.component.controls.shimmer.Shimmer
-import su.tease.project.feature.preset.domain.entity.BankPreset
 import su.tease.project.feature.preset.domain.interactor.PresetInteractor
 import su.tease.project.feature.preset.presentation.R
 import su.tease.project.feature.preset.presentation.bank.component.SelectBankPresetPreview
+import su.tease.project.feature.preset.presentation.bank.info.save.SaveBankPresetFeature
 import su.tease.project.feature.preset.presentation.bank.save.SaveBankPresetPage
-import su.tease.project.feature.preset.presentation.bank.select.reducer.SelectBankPresetState
 import su.tease.project.design.icons.R as RIcons
 
-class SelectBankPresetPage(
+class ListBankPresetPage(
     store: Store<*>,
-    private val target: Target,
     private val presetInteractor: PresetInteractor,
-) : BasePageComponent<SelectBankPresetPage.Target>(store) {
+) : BasePageComponent<ListBankPresetPage.Target>(store) {
 
     @Composable
-    override operator fun invoke() {
-        RootConfig { copy(isFullscreen = true) }
-
+    override fun invoke() {
         val banks by memoize { presetInteractor.bankPresets() }
-        val savedBankPreset = selectAsState(SelectBankPresetState::savedCashBackOwnerPreset).value
-
-        LaunchedEffect(savedBankPreset) {
-            if (savedBankPreset != null) {
-                dispatch(OnSelectAction(target.target, savedBankPreset))
-                back()
-            }
-        }
 
         val floatingButtons = remember {
             persistentListOf(
                 DFPageFloatingButton(
                     icon = RIcons.drawable.plus,
-                    onClick = { SaveBankPresetPage().forward() }
+                    onClick = { SaveBankPresetFeature().forward() }
                 )
             )
         }
 
         DFPage(
-            title = stringResource(R.string.page_select_bank_preset_title),
+            title = stringResource(R.string.Presets_BankListPage_Title),
             floatingButtons = floatingButtons,
             actionIcon = LocalFeatureConfig.current.action?.icon,
             onActionPress = LocalFeatureConfig.current.action?.onClick,
@@ -85,10 +71,6 @@ class SelectBankPresetPage(
                     item(key = it.id) {
                         SelectBankPresetPreview(
                             bankPreset = it,
-                            onClick = {
-                                dispatch(OnSelectAction(target.target, it))
-                                back()
-                            },
                             modifier = Modifier.fillMaxWidth(),
                         )
                     }
@@ -102,10 +84,7 @@ class SelectBankPresetPage(
         Shimmer(
             modifier = modifier,
         ) {
-            Column(
-                verticalArrangement = Arrangement
-                    .spacedBy(Theme.sizes.padding4)
-            ) {
+            Column(verticalArrangement = Arrangement.spacedBy(Theme.sizes.padding4)) {
                 Spacer(Modifier.height(Theme.sizes.padding8))
                 repeat(SHIMMER_ITEM_COUNT) {
                     Box(
@@ -122,21 +101,10 @@ class SelectBankPresetPage(
     }
 
     @Parcelize
-    data class Target(
-        val target: String,
-        val selected: BankPreset?
-    ) : NavigationTarget.Page
-
-    @Parcelize
-    data class OnSelectAction(
-        val target: String,
-        val selected: BankPreset?
-    ) : PlainAction
+    data object Target : NavigationTarget.Page
 
     companion object {
-        inline operator fun <reified T> invoke(
-            selected: BankPreset? = null,
-        ) = Target(T::class.java.name, selected)
+        operator fun invoke() = Target
     }
 }
 

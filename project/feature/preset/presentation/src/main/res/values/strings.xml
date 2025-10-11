@@ -50,4 +50,6 @@
     <string name="page_select_cash_back_item_codes_title">Выбор МСС кодов для кэшбэка</string>
     <string name="page_select_cash_back_item_icon_title">Выбор иконки для кэшбэка</string>
     <string name="page_select_mcc_codes_button_save">Сохранить</string>
+
+    <string name="Presets_BankListPage_Title">Банки</string>
 </resources>

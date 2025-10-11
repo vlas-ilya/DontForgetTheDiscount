@@ -2,6 +2,7 @@ package su.tease.project.feature.preset.integration.module
 
 import org.koin.dsl.module
 import su.tease.core.mvi.component.component.provider.page
+import su.tease.core.mvi.component.component.provider.feature
 import su.tease.project.core.utils.utils.api
 import su.tease.project.feature.preset.data.dataSource.PresetDataSource
 import su.tease.project.feature.preset.data.repository.PresetRepositoryImpl
@@ -12,6 +13,8 @@ import su.tease.project.feature.preset.domain.interactor.impl.PresetInteractorIm
 import su.tease.project.feature.preset.domain.interactor.impl.SyncPresetInteractorImpl
 import su.tease.project.feature.preset.domain.repository.PresetRepository
 import su.tease.project.feature.preset.domain.repository.SyncPresetRepository
+import su.tease.project.feature.preset.presentation.bank.info.list.ListBankPresetPage
+import su.tease.project.feature.preset.presentation.bank.info.save.SaveBankPresetFeature
 import su.tease.project.feature.preset.presentation.bank.save.SaveBankPresetPage
 import su.tease.project.feature.preset.presentation.bank.save.action.SaveBankPresetAction
 import su.tease.project.feature.preset.presentation.bank.save.action.impl.SaveBankPresetActionImpl
@@ -41,8 +44,10 @@ val presetIntegrationModule = module {
     factory<SaveCashBackPresetAction> { SaveCashBackPresetActionImpl(get(), get()) }
     factory<SelectMccCodeAction> { SelectMccCodeActionImpl(get(), get()) }
 
+    feature { SaveBankPresetFeature(get()) }
     page { SelectCashBackPresetPage(get(), get(), get()) }
     page { SaveCashBackPresetPage(get(), get(), get()) }
+    page { ListBankPresetPage(get(), get()) }
     page { SelectBankPresetPage(get(), get(), get()) }
     page { SaveBankPresetPage(get(), get()) }
     page { SelectShopPresetPage(get(), get(), get()) }
