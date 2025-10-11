@@ -14,6 +14,7 @@ class SelectBankAccountPageReducer : Reducer<S> {
     override val initState = S()
 
     override fun S.onAction(action: PlainAction): S = when (action) {
+        is SelectBankAccountPage.OnInit -> S()
         is SelectBankAccountPage.OnSelectAction -> copy(savedBankAccount = null)
         is SaveBankAccountActions.OnSaveSuccess -> copy(savedBankAccount = action.bankAccount)
         else -> this

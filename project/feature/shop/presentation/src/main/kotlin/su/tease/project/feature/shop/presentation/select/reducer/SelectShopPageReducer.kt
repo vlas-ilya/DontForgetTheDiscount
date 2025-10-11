@@ -14,6 +14,7 @@ class SelectShopPageReducer : Reducer<S> {
     override val initState = S()
 
     override fun S.onAction(action: PlainAction): S = when (action) {
+        is SelectShopPage.OnInit -> S()
         is SelectShopPage.OnSelectAction -> copy(savedShop = null)
         is SaveShopActions.OnSaveSuccess -> copy(savedShop = action.shop)
         else -> this

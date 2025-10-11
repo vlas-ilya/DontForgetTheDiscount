@@ -46,6 +46,8 @@ class SelectShopPage(
     private val shopPresetIconView: ShopPresetIconView,
 ) : BasePageComponent<SelectShopPage.Target>(store) {
 
+    init { dispatch(OnInit) }
+
     @Composable
     override fun invoke() {
         val shops by memoize { interceptor.list() }
@@ -134,6 +136,9 @@ class SelectShopPage(
         val target: String,
         val selected: Shop?,
     ) : PlainAction
+
+    @Parcelize
+    data object OnInit : PlainAction
 
     companion object {
         inline operator fun <reified T> invoke() = Target(T::class.java.name)

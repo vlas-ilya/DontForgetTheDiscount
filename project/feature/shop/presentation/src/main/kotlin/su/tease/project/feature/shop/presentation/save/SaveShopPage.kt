@@ -68,6 +68,7 @@ class SaveShopPage(
         LaunchedEffect(status) {
             if (status == LoadingStatus.Success) {
                 dispatch(SaveShopActions.OnInit())
+                form.clean()
                 back()
             }
         }

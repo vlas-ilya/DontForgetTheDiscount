@@ -46,6 +46,8 @@ class SelectBankAccountPage(
     private val bankPresetIconView: BankPresetIconView,
 ) : BasePageComponent<SelectBankAccountPage.Target>(store) {
 
+    init { dispatch(OnInit) }
+
     @Composable
     override fun invoke() {
         val banks by memoize { interceptor.list() }
@@ -128,6 +130,9 @@ class SelectBankAccountPage(
     data class Target(
         val target: String,
     ) : NavigationTarget.Page
+
+    @Parcelize
+    data object OnInit : PlainAction
 
     @Parcelize
     data class OnSelectAction(

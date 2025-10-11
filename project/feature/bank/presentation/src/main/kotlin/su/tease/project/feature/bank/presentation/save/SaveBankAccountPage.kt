@@ -68,6 +68,7 @@ class SaveBankAccountPage(
         LaunchedEffect(status) {
             if (status == LoadingStatus.Success) {
                 dispatch(SaveBankAccountActions.OnInit())
+                form.clean()
                 back()
             }
         }
