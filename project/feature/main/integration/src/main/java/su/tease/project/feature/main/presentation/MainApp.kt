@@ -42,7 +42,7 @@ class MainApp(store: Store<*>) : BaseAppComponent<MainApp.Target>(store) {
                     image = painterResource(R.drawable.menu_icon_other),
                 ),
             ),
-            onSelect = { it.switchTo() },
+            onSelect = { it.switchTo(it.name == feature.name) },
             compare = FeatureNavigation::some,
         )
     }
