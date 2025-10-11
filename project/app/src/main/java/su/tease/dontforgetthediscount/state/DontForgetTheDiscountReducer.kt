@@ -2,6 +2,7 @@ package su.tease.dontforgetthediscount.state
 
 import su.tease.project.core.mvi.impl.combine.combine
 import su.tease.project.core.mvi.navigation.reducer.NavigationReducer
+import su.tease.project.feature.bank.presentation.info.list.reducer.BankAccountsInfoPageReducer
 import su.tease.project.feature.bank.presentation.list.reducer.BankAccountsPageReducer
 import su.tease.project.feature.bank.presentation.save.reducer.SaveBankAccountPageReducer
 import su.tease.project.feature.bank.presentation.select.reducer.SelectBankAccountPageReducer
@@ -23,6 +24,7 @@ val dontForgetTheDiscountReducer = combine(
     NotificationReducer(),
 
     BankAccountsPageReducer(),
+    BankAccountsInfoPageReducer(),
     SelectBankAccountPageReducer(),
     SaveBankAccountPageReducer(),
 

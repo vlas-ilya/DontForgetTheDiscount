@@ -96,6 +96,7 @@ class SaveBankAccountPage(
                     onSelect = { SelectBankPresetPage(form.bankPreset.value).forward() },
                     error = form.ui { bankPresetError },
                     bankPresetIconView = bankPresetIconView,
+                    enabled = target.bankAccount == null,
                     modifier = Modifier.fillMaxWidth(),
                 )
                 Spacer(modifier = Modifier.height(Theme.sizes.padding4))

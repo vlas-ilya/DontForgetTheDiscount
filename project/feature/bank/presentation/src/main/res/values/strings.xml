@@ -6,6 +6,10 @@
     <string name="Bank_ListBankPage_Error_TryAgainButton">Попробовать еще раз</string>
     <string name="Bank_ListBankPage_ErrorResult_Placeholder">Не удалось загрузить данные</string>
     <string name="Bank_ListBankPage_Title">Кэшбэк</string>
+    <string name="Bank_InfoListBankPage_Title">Банковские аккаунты</string>
+    <string name="Bank_InfoListBankPage_ErrorResult_Placeholder">Не удалось загрузить данные</string>
+    <string name="Bank_InfoListBankPage_Error_TryAgainButton">Попробовать еще раз</string>
+    <string name="Bank_InfoListBankPage_Empty_Result_Placeholder">Здесь пока ничего нет</string>
     <string name="Bank_SaveBankAccountPage_AccountNameItem_Error">Поле должно быть заполнено</string>
     <string name="Bank_SaveBankAccountPage_AccountNameItem_Placeholder">Укажите название банковского аккаунта</string>
     <string name="Bank_SaveBankAccountPage_AccountNameItem_Title">Название</string>

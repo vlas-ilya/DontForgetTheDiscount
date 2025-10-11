@@ -13,6 +13,7 @@ import su.tease.project.feature.info.presentation.dependencies.navigation.MccCod
 import su.tease.project.feature.info.presentation.dependencies.navigation.ShopIconPresets
 import su.tease.project.feature.info.presentation.dependencies.navigation.ShopPresets
 import su.tease.project.feature.info.presentation.dependencies.navigation.Shops
+import su.tease.project.feature.bank.presentation.info.list.BankAccountsInfoPage
 
 class InfoListPageNavigationInterceptor : Interceptor {
     override fun intercept(action: PlainAction): List<PlainAction> {
@@ -22,9 +23,9 @@ class InfoListPageNavigationInterceptor : Interceptor {
     }
 
     private fun handleInfoNavigation(page: Info): List<PlainAction> = when (page) {
+        Banks -> NavigationAction.ForwardToPage(BankAccountsInfoPage()).let(::listOf)
         BankIconPresets,
         BankPresets,
-        Banks,
         CashBackIconPresets,
         CashBackPresets,
         MccCodePresets,

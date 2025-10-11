@@ -8,6 +8,7 @@ interface BankAccountInterceptor {
     suspend fun save(bankAccount: BankAccount)
     suspend fun get(id: String): BankAccount
     suspend fun list(): PersistentList<BankAccount>
+    suspend fun listWithOutCashbacks(): PersistentList<BankAccount>
     suspend fun filterBy(date: CashBackDate): PersistentList<BankAccount>
     suspend fun listDates(): PersistentList<CashBackDate>
     suspend fun delete(id: String): Boolean

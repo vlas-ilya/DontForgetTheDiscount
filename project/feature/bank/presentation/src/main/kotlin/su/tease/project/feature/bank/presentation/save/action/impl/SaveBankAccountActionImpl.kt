@@ -23,13 +23,13 @@ data class SaveBankAccountActionImpl(
     override fun run(request: BankAccount) = suspendAction {
         dispatch(SaveBankAccountActions.OnSave)
         try {
-            val persisted = request.takeIf { it.id.isNotBlank() }
-                ?.let { interceptor.get(it.id) }
-                ?: request.copy(id = uuidProvider.uuid())
-
-            interceptor.save(persisted)
-
-            dispatch(SaveBankAccountActions.OnSaveSuccess(persisted))
+            val persisted = request.takeIf { it.id.isNotBlank() }?.let { interceptor.get(it.id) }
+            val bankAccount = request.copy(
+                id = persisted?.id ?: uuidProvider.uuid(),
+                cashBacks = persisted?.cashBacks ?: request.cashBacks
+            )
+            interceptor.save(bankAccount)
+            dispatch(SaveBankAccountActions.OnSaveSuccess(bankAccount))
             dispatch(NotificationAction.ShowNotification(successNotification(request.id.isBlank())))
         } catch (e: RepositoryException) {
             Timber.e(e)

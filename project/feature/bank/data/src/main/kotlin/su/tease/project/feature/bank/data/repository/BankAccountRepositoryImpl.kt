@@ -65,6 +65,23 @@ class BankAccountRepositoryImpl(
         }
     }
 
+    override suspend fun listWithOutCashbacks() = withDefault {
+        try {
+            val bankAccountDtos = dao.list()
+            val bankPresetIds = bankAccountDtos.map { it.presetId }
+            val bankPresets = presetIntegrationInteractor.list(bankPresetIds).associateBy { it.id }
+            bankAccountDtos.mapNotNull {
+                it.toDomain(
+                    bankPreset = bankPresets[it.presetId] ?: return@mapNotNull null,
+                    cashBacks = persistentListOf()
+                )
+            }.toPersistentList()
+        } catch (e: SQLiteException) {
+            Timber.Forest.e(e)
+            throw RepositoryException()
+        }
+    }
+
     override suspend fun filterBy(date: CashBackDate) = try {
         val cashBacks = cashBackIntegrationInteractor.listForCashBackDate(date)
         val bankAccountIds = cashBacks.keys
