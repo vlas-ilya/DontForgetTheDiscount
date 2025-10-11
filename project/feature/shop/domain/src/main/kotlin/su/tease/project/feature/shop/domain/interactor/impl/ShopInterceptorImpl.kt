@@ -1,5 +1,6 @@
 package su.tease.project.feature.shop.domain.interactor.impl
 
+import kotlinx.collections.immutable.PersistentList
 import su.tease.project.core.utils.utils.withDefault
 import su.tease.project.feature.shop.domain.entity.CashBackDate
 import su.tease.project.feature.shop.domain.entity.Shop
@@ -24,6 +25,10 @@ class ShopInterceptorImpl(
 
     override suspend fun filterBy(date: CashBackDate) = withDefault {
         repository.filterBy(date)
+    }
+
+    override suspend fun listWithoutCashbacks() = withDefault {
+        repository.listWithoutCashbacks()
     }
 
     override suspend fun listDates() = withDefault {

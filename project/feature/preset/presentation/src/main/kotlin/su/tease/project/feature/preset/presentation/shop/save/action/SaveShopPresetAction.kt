@@ -14,7 +14,7 @@ enum class SaveShopPresetError {
 
 @Parcelize
 sealed class SaveShopPresetActions : PlainAction {
-    data object OnInit : SaveShopPresetActions()
+    data class OnInit(val initShopPreset: ShopPreset? = null) : SaveShopPresetActions()
     data object OnSave : SaveShopPresetActions()
     data class OnSaveSuccess(val cashBackOwnerPreset: ShopPreset) : SaveShopPresetActions()
     data class OnSaveFail(val error: SaveShopPresetError) : SaveShopPresetActions()

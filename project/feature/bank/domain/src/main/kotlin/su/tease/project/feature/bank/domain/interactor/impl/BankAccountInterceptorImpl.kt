@@ -22,8 +22,8 @@ class BankAccountInterceptorImpl(
         repository.list()
     }
 
-    override suspend fun listWithOutCashbacks() = withDefault {
-        repository.listWithOutCashbacks()
+    override suspend fun listWithoutCashbacks() = withDefault {
+        repository.listWithoutCashbacks()
     }
 
     override suspend fun filterBy(date: CashBackDate) = withDefault {

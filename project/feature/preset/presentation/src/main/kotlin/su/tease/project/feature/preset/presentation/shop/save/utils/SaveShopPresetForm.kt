@@ -5,15 +5,16 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import su.tease.project.core.utils.checker.check
 import su.tease.project.core.utils.ext.runIf
-import su.tease.project.feature.preset.domain.entity.ShopIconPreset
 import su.tease.project.feature.preset.domain.entity.ShopPreset
 import su.tease.project.feature.preset.presentation.shop.save.action.SaveShopPresetError
 
-class SaveShopPresetForm {
+class SaveShopPresetForm(
+    private val initShopPreset: ShopPreset?
+) {
     private val wasValidation = mutableStateOf(false)
 
-    val name = mutableStateOf("")
-    val iconPreset = mutableStateOf<ShopIconPreset?>(null)
+    val name = mutableStateOf(initShopPreset?.name ?: "")
+    val iconPreset = mutableStateOf(initShopPreset?.iconPreset)
     val error = mutableStateOf<SaveShopPresetError?>(null)
 
     val nameError = check(name) {
@@ -34,7 +35,7 @@ class SaveShopPresetForm {
             .takeIf { it }
             ?.let {
                 ShopPreset(
-                    id = "",
+                    id = initShopPreset?.id ?: "",
                     name = name.value,
                     iconPreset = iconPreset.value!!,
                 )

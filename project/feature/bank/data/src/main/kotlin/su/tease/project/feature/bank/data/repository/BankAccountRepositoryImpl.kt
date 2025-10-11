@@ -65,7 +65,7 @@ class BankAccountRepositoryImpl(
         }
     }
 
-    override suspend fun listWithOutCashbacks() = withDefault {
+    override suspend fun listWithoutCashbacks() = withDefault {
         try {
             val bankAccountDtos = dao.list()
             val bankPresetIds = bankAccountDtos.map { it.presetId }

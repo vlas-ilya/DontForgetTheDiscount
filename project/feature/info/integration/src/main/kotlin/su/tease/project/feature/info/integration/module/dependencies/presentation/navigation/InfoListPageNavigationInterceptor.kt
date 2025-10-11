@@ -15,6 +15,8 @@ import su.tease.project.feature.info.presentation.dependencies.navigation.ShopIc
 import su.tease.project.feature.info.presentation.dependencies.navigation.ShopPresets
 import su.tease.project.feature.info.presentation.dependencies.navigation.Shops
 import su.tease.project.feature.preset.presentation.bank.info.list.ListBankPresetPage
+import su.tease.project.feature.preset.presentation.shop.info.list.ListShopPresetPage
+import su.tease.project.feature.shop.presentation.info.list.ShopsInfoPage
 
 class InfoListPageNavigationInterceptor : Interceptor {
     override fun intercept(action: PlainAction): List<PlainAction> {
@@ -26,13 +28,13 @@ class InfoListPageNavigationInterceptor : Interceptor {
     private fun handleInfoNavigation(page: Info): List<PlainAction> = when (page) {
         Banks -> NavigationAction.ForwardToPage(BankAccountsInfoPage()).let(::listOf)
         BankPresets -> NavigationAction.ForwardToPage(ListBankPresetPage()).let(::listOf)
+        Shops -> NavigationAction.ForwardToPage(ShopsInfoPage()).let(::listOf)
+        ShopPresets -> NavigationAction.ForwardToPage(ListShopPresetPage()).let(::listOf)
         BankIconPresets,
         CashBackIconPresets,
         CashBackPresets,
         MccCodePresets,
         ShopIconPresets,
-        ShopPresets,
-        Shops,
             -> emptyList()
     }
 }

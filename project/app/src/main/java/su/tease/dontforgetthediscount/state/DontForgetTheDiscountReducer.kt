@@ -14,6 +14,7 @@ import su.tease.project.feature.preset.presentation.cashback.save.reducer.SaveCa
 import su.tease.project.feature.preset.presentation.cashback.select.reducer.SelectCashBackPresetReducer
 import su.tease.project.feature.preset.presentation.shop.save.reducer.SaveShopPresetReducer
 import su.tease.project.feature.preset.presentation.shop.select.reducer.SelectShopPresetReducer
+import su.tease.project.feature.shop.presentation.info.list.reducer.ShopsInfoPageReducer
 import su.tease.project.feature.shop.presentation.list.reducer.ShopsReducer
 import su.tease.project.feature.shop.presentation.save.reducer.SaveShopPageReducer
 import su.tease.project.feature.shop.presentation.select.reducer.SelectShopPageReducer
@@ -29,6 +30,7 @@ val dontForgetTheDiscountReducer = combine(
     SaveBankAccountPageReducer(),
 
     ShopsReducer(),
+    ShopsInfoPageReducer(),
     SaveShopPageReducer(),
     SelectShopPageReducer(),
 

@@ -17,7 +17,7 @@ class SaveShopPresetActionImpl(
     override fun run(request: ShopPreset) = suspendAction {
         dispatch(SaveShopPresetActions.OnSave)
         val shopPreset = request.copy(
-            id = uuidProvider.uuid(),
+            id = request.id.takeIf { it.isNotBlank() } ?: uuidProvider.uuid(),
             name = request.name.trim()
         )
         try {

@@ -65,7 +65,24 @@ class ShopRepositoryImpl(
         }
     }
 
-    override suspend fun filterBy(date: CashBackDate) =
+    override suspend fun listWithoutCashbacks() = withDefault {
+        try {
+            val shopDtos = dao.list()
+            val presetIds = shopDtos.map { it.presetId }
+            val presets = presetIntegrationInteractor.list(presetIds).associateBy { it.id }
+            shopDtos.mapNotNull {
+                it.toDomain(
+                    shopPreset = presets[it.presetId] ?: return@mapNotNull null,
+                    cashBacks = persistentListOf()
+                )
+            }.toPersistentList()
+        } catch (e: SQLiteException) {
+            Timber.Forest.e(e)
+            throw RepositoryException()
+        }
+    }
+
+    override suspend fun filterBy(date: CashBackDate) = withDefault {
         try {
             val cashBacks = cashBackIntegrationInteractor.listForCashBackDate(date)
             val shopIds = cashBacks.keys
@@ -82,14 +99,16 @@ class ShopRepositoryImpl(
             Timber.Forest.e(e)
             throw RepositoryException()
         }
+    }
 
-    override suspend fun listDates(): PersistentList<CashBackDate> =
+    override suspend fun listDates(): PersistentList<CashBackDate> = withDefault {
         try {
             cashBackIntegrationInteractor.listDates()
         } catch (e: SQLiteException) {
             Timber.Forest.e(e)
             throw RepositoryException()
         }
+    }
 
     override suspend fun delete(id: String): Boolean = withDefault {
         try {

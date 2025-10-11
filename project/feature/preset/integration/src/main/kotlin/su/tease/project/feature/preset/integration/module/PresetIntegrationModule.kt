@@ -27,6 +27,8 @@ import su.tease.project.feature.preset.presentation.icon.select.SelectIconPreset
 import su.tease.project.feature.preset.presentation.mcc.select.SelectMccCodePresetPage
 import su.tease.project.feature.preset.presentation.mcc.select.action.SelectMccCodeAction
 import su.tease.project.feature.preset.presentation.mcc.select.action.impl.SelectMccCodeActionImpl
+import su.tease.project.feature.preset.presentation.shop.info.list.ListShopPresetPage
+import su.tease.project.feature.preset.presentation.shop.info.save.SaveShopPresetFeature
 import su.tease.project.feature.preset.presentation.shop.save.SaveShopPresetPage
 import su.tease.project.feature.preset.presentation.shop.save.action.SaveShopPresetAction
 import su.tease.project.feature.preset.presentation.shop.save.action.impl.SaveShopPresetActionImpl
@@ -45,13 +47,15 @@ val presetIntegrationModule = module {
     factory<SelectMccCodeAction> { SelectMccCodeActionImpl(get(), get()) }
 
     feature { SaveBankPresetFeature(get()) }
+    feature { SaveShopPresetFeature(get()) }
     page { SelectCashBackPresetPage(get(), get(), get()) }
     page { SaveCashBackPresetPage(get(), get(), get()) }
     page { ListBankPresetPage(get(), get()) }
     page { SelectBankPresetPage(get(), get(), get()) }
     page { SaveBankPresetPage(get(), get(), get()) }
+    page { ListShopPresetPage(get(), get()) }
     page { SelectShopPresetPage(get(), get(), get()) }
-    page { SaveShopPresetPage(get(), get()) }
+    page { SaveShopPresetPage(get(), get(), get()) }
     page { SelectMccCodePresetPage(get(), get(), get(), get()) }
     page { SelectIconPresetPage(get(), get(), get()) }
 }

@@ -137,15 +137,9 @@ class SaveBankPresetPage(
     }
 
     @Parcelize
-    data class Target(
-        val bankPreset: BankPreset?
-    ) : NavigationTarget.Page
+    data class Target(val bankPreset: BankPreset?) : NavigationTarget.Page
 
     companion object {
-        operator fun invoke(
-            bankPreset: BankPreset? = null,
-        ) = Target(
-            bankPreset = bankPreset,
-        )
+        operator fun invoke(bankPreset: BankPreset? = null) = Target(bankPreset = bankPreset)
     }
 }

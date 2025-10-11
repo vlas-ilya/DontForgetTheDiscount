@@ -29,8 +29,11 @@ import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.state.LoadingStatus
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.ext.RedirectState
+import su.tease.project.core.utils.ext.choose
 import su.tease.project.design.component.controls.page.DFPage
+import su.tease.project.feature.preset.domain.entity.ShopPreset
 import su.tease.project.feature.preset.presentation.R
+import su.tease.project.feature.preset.presentation.icon.select.SelectIconPresetPage
 import su.tease.project.feature.preset.presentation.shop.component.IconSelect
 import su.tease.project.feature.preset.presentation.shop.component.NameEditText
 import su.tease.project.feature.preset.presentation.shop.component.SaveButton
@@ -39,17 +42,17 @@ import su.tease.project.feature.preset.presentation.shop.save.action.SaveShopPre
 import su.tease.project.feature.preset.presentation.shop.save.reducer.SaveShopPresetReducer
 import su.tease.project.feature.preset.presentation.shop.save.reducer.SaveShopPresetState
 import su.tease.project.feature.preset.presentation.shop.save.utils.SaveShopPresetForm
-import su.tease.project.feature.preset.presentation.icon.select.SelectIconPresetPage
 
 class SaveShopPresetPage(
     store: Store<*>,
+    private val target: Target,
     private val saveShopPresetAction: SaveShopPresetAction,
 ) : BasePageComponent<SaveShopPresetPage.Target>(store) {
 
-    private val form = SaveShopPresetForm()
+    private val form = SaveShopPresetForm(target.shopPreset)
 
     init {
-        dispatch(SaveShopPresetActions.OnInit)
+        dispatch(SaveShopPresetActions.OnInit(target.shopPreset))
     }
 
     @Composable
@@ -69,13 +72,17 @@ class SaveShopPresetPage(
 
         LaunchedEffect(status) {
             if (status == LoadingStatus.Success) {
-                dispatch(SaveShopPresetActions.OnInit)
+                dispatch(SaveShopPresetActions.OnInit())
+                form.clean()
                 back()
             }
         }
 
         DFPage(
-            title = stringResource(R.string.page_save_shop_preset_title),
+            title = (target.shopPreset == null).choose(
+                stringResource(R.string.Presets_SaveShopPage_Add_Title),
+                stringResource(R.string.Presets_SaveShopPage_Edit_Title),
+            ),
             actionIcon = LocalFeatureConfig.current.action?.icon,
             onActionPress = LocalFeatureConfig.current.action?.onClick,
             hasSystemNavigationBar = LocalRootConfig.current.hasSystemNavigationBar,
@@ -93,7 +100,7 @@ class SaveShopPresetPage(
                 ) {
                     IconSelect(
                         iconState = form.iconPreset,
-                        onSelect = { selectIcon(R.string.page_save_shop_preset_icon_title) },
+                        onSelect = { selectIcon(R.string.Presets_SaveShopPage_IconSelect_Title) },
                         error = form.ui { iconError },
                         modifier = Modifier.wrapContentWidth(),
                     )
@@ -130,9 +137,9 @@ class SaveShopPresetPage(
     }
 
     @Parcelize
-    data object Target : NavigationTarget.Page
+    data class Target(val shopPreset: ShopPreset?) : NavigationTarget.Page
 
     companion object {
-        operator fun invoke() = Target
+        operator fun invoke(shopPreset: ShopPreset? = null) = Target(shopPreset = shopPreset)
     }
 }

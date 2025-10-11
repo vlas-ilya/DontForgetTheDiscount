@@ -32,10 +32,6 @@
     <string name="page_cash_back_preset_list_title">Выбор категории кэшбека</string>
     <string name="page_cash_back_preset_save_title_add">Добавление категории кэшбека</string>
     <string name="page_cash_back_preset_save_title_edit">Изменение категории кэшбека</string>
-
-    <string name="page_save_shop_preset_button_save">Сохранить</string>
-    <string name="page_save_shop_preset_icon_title">Выбор иконки для магазина</string>
-    <string name="page_save_shop_preset_title">Добавление магазина</string>
     <string name="page_save_cash_back_button_save">Сохранить</string>
     <string name="page_select_bank_preset_title">Выбор банка</string>
     <string name="page_select_shop_preset_title">Выбор магазина</string>
@@ -50,9 +46,15 @@
     <string name="page_select_mcc_codes_button_save">Сохранить</string>
 
     <string name="Presets_BankListPage_Title">Банки</string>
+    <string name="Presets_ShopListPage_Title">Магазины</string>
 
     <string name="Presets_SaveBankPage_Add_Title">Добавление банка</string>
     <string name="Presets_SaveBankPage_Edit_Title">Редактирование банка</string>
     <string name="Presets_SaveBankPage_SaveButton_Label">Сохранить</string>
     <string name="Presets_SaveBankPage_IconSelect_Title">Выбор иконки для банка</string>
+
+    <string name="Presets_SaveShopPage_Add_Title">Добавление магазина</string>
+    <string name="Presets_SaveShopPage_Edit_Title">Редактирование магазина</string>
+    <string name="Presets_SaveShopPage_SaveButton_Label">Сохранить</string>
+    <string name="Presets_SaveShopPage_IconSelect_Title">Выбор иконки для магазина</string>
 </resources>

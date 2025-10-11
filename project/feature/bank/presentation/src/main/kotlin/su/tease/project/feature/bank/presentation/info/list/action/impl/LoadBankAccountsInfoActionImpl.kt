@@ -15,7 +15,7 @@ class LoadBankAccountsInfoActionImpl(
 
     override fun run() = suspendAction {
         dispatch(LoadBankAccountsInfoActions.OnLoad)
-        val list = interactor.listWithOutCashbacks()
+        val list = interactor.listWithoutCashbacks()
         try {
             dispatch(LoadBankAccountsInfoActions.OnSuccess(list.sortBanks()))
         } catch (_: RepositoryException) {
@@ -25,5 +25,5 @@ class LoadBankAccountsInfoActionImpl(
 }
 
 private fun List<BankAccount>.sortBanks(): PersistentList<BankAccount> = this
-    .sortedBy { it.preset.name }
+    .sortedBy { it.customName }
     .toPersistentList()
