@@ -1,0 +1,37 @@
+package su.tease.project.feature.preset.presentation.cashback.info.list.reducer
+
+import kotlinx.parcelize.Parcelize
+import su.tease.project.core.mvi.api.action.PlainAction
+import su.tease.project.core.mvi.api.reducer.Reducer
+import su.tease.project.core.mvi.api.state.State
+import su.tease.project.feature.preset.domain.entity.CashBackOwnerPreset
+import su.tease.project.feature.preset.domain.entity.CashBackPreset
+import su.tease.project.feature.preset.presentation.cashback.info.list.reducer.CashBackPresetInfoDialogAction as Dialog
+import su.tease.project.feature.preset.presentation.cashback.info.list.reducer.ListInfoCashbackPresetState as S
+
+class ListInfoCashbackPresetReducer : Reducer<S> {
+
+    override val initState = S()
+
+    override fun S.onAction(action: PlainAction) = when (action) {
+        is Dialog -> anCashBackInfoDialog(action)
+        else -> this
+    }
+
+    private fun S.anCashBackInfoDialog(action: Dialog) = when (action) {
+        is Dialog.OnShow -> copy(shownCashBack = action.data)
+        is Dialog.OnHide -> copy(shownCashBack = null)
+    }
+}
+
+@Parcelize
+data class ListInfoCashbackPresetState(
+    val savedCashBackPreset: CashBackPreset? = null,
+    val shownCashBack: Pair<CashBackOwnerPreset, CashBackPreset>? = null,
+) : State
+
+@Parcelize
+sealed class CashBackPresetInfoDialogAction : PlainAction {
+    data class OnShow(val data: Pair<CashBackOwnerPreset, CashBackPreset>?) : Dialog()
+    data object OnHide : Dialog()
+}

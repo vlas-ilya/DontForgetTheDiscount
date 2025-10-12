@@ -35,6 +35,9 @@ class PresetInteractorImpl(
     override suspend fun shopIconPresets(): PersistentList<ShopIconPreset> =
         withDefault { repository.shopIconPresets() }
 
+    override suspend fun cashBackPresets(): PersistentList<CashBackPreset> =
+        withDefault { repository.cashBackPresets() }
+
     override suspend fun cashBackPresets(presetId: String): PersistentList<CashBackPreset> =
         withDefault { repository.cashBackPresets(presetId) }
 

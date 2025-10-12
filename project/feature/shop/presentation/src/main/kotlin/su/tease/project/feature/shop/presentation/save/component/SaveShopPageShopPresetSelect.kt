@@ -15,6 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.utils.ext.runIf
+import su.tease.project.core.utils.ext.thenIf
 import su.tease.project.design.component.controls.form.DFFormElement
 import su.tease.project.design.component.controls.text.DFPlaceholder
 import su.tease.project.feature.shop.domain.entity.ShopPreset
@@ -29,6 +30,7 @@ fun SaveShopPageShopPresetSelect(
     error: State<FormFieldError?>,
     shopPresetIconView: ShopPresetIconView,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     customName: State<String?>? = null,
 ) {
     DFFormElement(
@@ -41,7 +43,7 @@ fun SaveShopPageShopPresetSelect(
         Row(
             modifier = Modifier
                 .clip(RoundedCornerShape(Theme.sizes.roundInfinity))
-                .clickable { onSelect() }
+                .thenIf(enabled) { Modifier.clickable { onSelect() } }
                 .background(Theme.colors.inputBackground)
                 .fillMaxWidth()
                 .height(Theme.sizes.size48)

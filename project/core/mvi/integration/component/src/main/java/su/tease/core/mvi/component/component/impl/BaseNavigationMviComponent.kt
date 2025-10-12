@@ -30,19 +30,17 @@ interface NavigationComponent {
     fun AppNavigation.backTo(): Job
     fun FeatureNavigation.finish(): Job
     fun AppNavigation.finish(): Job
+    fun BaseFeatureComponent<*>.finish(): Job
+    fun BaseAppComponent<*>.finish(): Job
 }
 
 @Suppress("TooManyFunctions")
 class NavigationComponentImpl(store: Store<*>) : NavigationComponent, Dispatcher by store.dispatcher {
-    override fun NavigationTarget.Page.forward(singleTop: Boolean) = dispatch(
-        NavigationAction.ForwardToPage(this, singleTop)
-    )
+    override fun NavigationTarget.Page.forward(singleTop: Boolean) = dispatch(NavigationAction.ForwardToPage(this, singleTop))
     override fun FeatureNavigation.forward() = dispatch(NavigationAction.ForwardToFeature(this))
     override fun AppNavigation.forward() = dispatch(NavigationAction.ForwardToApp(this))
     override fun AppNavigation.replace() = dispatch(NavigationAction.ReplaceApp(this))
-    override fun FeatureNavigation.switchTo(clearStack: Boolean) = dispatch(
-        NavigationAction.SwitchFeature(this, clearStack)
-    )
+    override fun FeatureNavigation.switchTo(clearStack: Boolean) = dispatch(NavigationAction.SwitchFeature(this, clearStack))
     override fun AppNavigation.switchTo(clearStack: Boolean) = dispatch(NavigationAction.SwitchApp(this, clearStack))
     override fun back() = dispatch(NavigationAction.Back)
     override fun NavigationTarget.Page.backTo() = dispatch(NavigationAction.BackToPage(this))
@@ -50,4 +48,6 @@ class NavigationComponentImpl(store: Store<*>) : NavigationComponent, Dispatcher
     override fun AppNavigation.backTo() = dispatch(NavigationAction.BackToApp(this))
     override fun FeatureNavigation.finish() = dispatch(NavigationAction.FinishFeature(this))
     override fun AppNavigation.finish() = dispatch(NavigationAction.FinishApp(this))
+    override fun BaseFeatureComponent<*>.finish() = dispatch(NavigationAction.FinishFeature(this.featureNavigation))
+    override fun BaseAppComponent<*>.finish() = dispatch(NavigationAction.FinishApp(this.appNavigation))
 }

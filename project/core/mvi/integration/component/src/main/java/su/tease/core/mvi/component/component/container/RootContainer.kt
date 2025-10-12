@@ -24,9 +24,9 @@ import androidx.compose.ui.Modifier
 import su.tease.core.mvi.component.component.impl.BaseMviComponent
 import su.tease.core.mvi.component.resolver.impl.AppNavigationTargetResolver
 import su.tease.project.core.mvi.api.store.Store
-import su.tease.project.core.mvi.navigation.selector.appIdName
-import su.tease.project.core.mvi.navigation.selector.featureIdName
-import su.tease.project.core.mvi.navigation.selector.pageIdName
+import su.tease.project.core.mvi.navigation.selector.app
+import su.tease.project.core.mvi.navigation.selector.feature
+import su.tease.project.core.mvi.navigation.selector.page
 import su.tease.project.core.utils.ext.hideSystemUI
 import su.tease.project.core.utils.ext.isNavigationBarVisible
 import su.tease.project.core.utils.ext.map
@@ -70,20 +70,19 @@ class RootContainer(
     @Composable
     @Suppress("ModifierMissing")
     fun ComposeRootContainer() {
-        val app = selectAsState(appIdName())
-            .map { navigationTargetResolver.resolve(it.first, it.second) }
+        val app = selectAsState(app())
+            .map { navigationTargetResolver.resolve(it.id, it.name, it) }
             .value
 
-        val feature = selectAsState(featureIdName())
-            .map { navigationTargetResolver.resolve(it.first, it.second) }
+        val feature = selectAsState(feature())
+            .map { navigationTargetResolver.resolve(it.id, it.name, it) }
             .value
 
-        val page = selectAsState(pageIdName())
-            .map { navigationTargetResolver.resolve(it.first, it.second) }
+        val page = selectAsState(page())
+            .map { navigationTargetResolver.resolve(it.id, it.name) }
             .value
 
-        val rootConfig =
-            remember(app.rootConfig.value, feature.rootConfig.value, page.rootConfig.value) {
+        val rootConfig = remember(app.rootConfig.value, feature.rootConfig.value, page.rootConfig.value) {
                 RootConfig()
                     .pipe(app.rootConfig.value)
                     .pipe(feature.rootConfig.value)

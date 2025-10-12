@@ -41,7 +41,8 @@ interface ShopIconPresetRepository {
 }
 
 interface CashBackPresetRepository {
-    suspend fun cashBackPresets(bankPresetId: String): PersistentList<CashBackPreset>
+    suspend fun cashBackPresets(): PersistentList<CashBackPreset>
+    suspend fun cashBackPresets(ownerPresetId: String): PersistentList<CashBackPreset>
     suspend fun cashBackPreset(cashBackPresetId: String): CashBackPreset
     suspend fun cashBackPresets(cashBackPresetIds: List<String>): PersistentList<CashBackPreset>
     suspend fun save(cashBackPreset: CashBackPreset)

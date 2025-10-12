@@ -11,6 +11,8 @@ import su.tease.core.mvi.component.component.provider.FeatureProvider
 import su.tease.core.mvi.component.component.provider.NavigationScope
 import su.tease.core.mvi.component.component.provider.PageProvider
 import su.tease.core.mvi.component.resolver.NavigationTargetResolver
+import su.tease.core.mvi.navigation.AppNavigation
+import su.tease.core.mvi.navigation.FeatureNavigation
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.project.core.mvi.api.selector.select
 import su.tease.project.core.mvi.api.store.Store
@@ -51,27 +53,37 @@ class AppNavigationTargetResolver(
         }
     }
 
-    override fun <T : NavigationTarget.Page> resolve(pageId: String, page: T) =
-        pageCache.getOrPut(pageId) {
-            mapPage[page::class.java]
-                ?.let { it as? PageProvider<T> }
-                ?.run { NavigationScope<T>(scope, store, page).component() }
-                ?: error("There are no page component")
-        }
+    override fun <T : NavigationTarget.Page> resolve(
+        pageId: String,
+        page: T,
+    ) = pageCache.getOrPut(pageId) {
+        mapPage[page::class.java]
+            ?.let { it as? PageProvider<T> }
+            ?.run { NavigationScope<T>(scope, store, page).component() }
+            ?: error("There are no page component")
+    }
 
-    override fun <T : NavigationTarget.Feature> resolve(featureId: String, feature: T) =
-        featureCache.getOrPut(featureId) {
-            mapFeatures[feature::class.java]
-                ?.let { it as? FeatureProvider<T> }
-                ?.run { NavigationScope<T>(scope, store, feature).component() }
-                ?: error("There are no feature component")
-        }
+    override fun <T : NavigationTarget.Feature> resolve(
+        featureId: String,
+        feature: T,
+        featureNavigation: FeatureNavigation,
+    ) = featureCache.getOrPut(featureId) {
+        mapFeatures[feature::class.java]
+            ?.let { it as? FeatureProvider<T> }
+            ?.run { NavigationScope<T>(scope, store, feature).component() }
+            ?.also { it.featureNavigation = featureNavigation }
+            ?: error("There are no feature component")
+    }
 
-    override fun <T : NavigationTarget.App> resolve(appId: String, app: T) =
-        appCache.getOrPut(appId) {
-            mapApps[app::class.java]
-                ?.let { it as? AppProvider<T> }
-                ?.run { NavigationScope<T>(scope, store, app).component() }
-                ?: error("There are no app component")
-        }
+    override fun <T : NavigationTarget.App> resolve(
+        appId: String,
+        app: T,
+        appNavigation: AppNavigation,
+    ) = appCache.getOrPut(appId) {
+        mapApps[app::class.java]
+            ?.let { it as? AppProvider<T> }
+            ?.run { NavigationScope<T>(scope, store, app).component() }
+            ?.also { it.appNavigation = appNavigation }
+            ?: error("There are no app component")
+    }
 }

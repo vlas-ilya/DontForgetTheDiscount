@@ -31,7 +31,7 @@ class PresetRepositoryImpl(
 
     override suspend fun bankPresets(): PersistentList<BankPreset> = withDefault {
         tryOrDefault(returnOnError = persistentListOf()) {
-            cache.getOrPut(BANKS_CASH_LOCAL) {
+            cache.getOrPut(BANKS_CACHE_LOCAL) {
                 presetDao.bankPresets()
                     .map { mapperHelper.run { it.toDomain() as BankPreset } }
                     .sortedBy { it.name }
@@ -42,7 +42,7 @@ class PresetRepositoryImpl(
 
     override suspend fun bankIcons(): PersistentList<BankIconPreset> = withDefault {
         tryOrDefault(returnOnError = persistentListOf()) {
-            cache.getOrPut(BANK_ICONS_CASH_LOCAL) {
+            cache.getOrPut(BANK_ICONS_CACHE_LOCAL) {
                 presetDao.bankIconPresets().mapPersistent { it.toDomain() as BankIconPreset }
             }
         }
@@ -50,7 +50,7 @@ class PresetRepositoryImpl(
 
     override suspend fun shopPresets(): PersistentList<ShopPreset> = withDefault {
         tryOrDefault(returnOnError = persistentListOf()) {
-            cache.getOrPut(SHOPS_CASH_LOCAL) {
+            cache.getOrPut(SHOPS_CACHE_LOCAL) {
                 presetDao.shopPresets()
                     .map { mapperHelper.run { it.toDomain() as ShopPreset } }
                     .sortedBy { it.name }
@@ -61,18 +61,30 @@ class PresetRepositoryImpl(
 
     override suspend fun shopIconPresets(): PersistentList<ShopIconPreset> = withDefault {
         tryOrDefault(returnOnError = persistentListOf()) {
-            cache.getOrPut(SHOP_ICONS_CASH_LOCAL) {
+            cache.getOrPut(SHOP_ICONS_CACHE_LOCAL) {
                 presetDao.shopIconPresets().mapPersistent { it.toDomain() as ShopIconPreset }
             }
         }
     }
 
-    override suspend fun cashBackPresets(bankPresetId: String) = withDefault {
+    override suspend fun cashBackPresets(): PersistentList<CashBackPreset> = withDefault {
         tryOrDefault(returnOnError = persistentListOf()) {
             cache
-                .getOrPut(CASH_BACKS_CASH_LOCAL) { SimpleCache() }
-                .getOrPut(bankPresetId) {
-                    presetDao.cashBackPresets(bankPresetId)
+                .getOrPut(CASH_BACKS_ALL_CACHE_LOCAL) {
+                    presetDao.cashBackPresets()
+                        .map { mapperHelper.run { it.toDomain() } }
+                        .sortedBy { it.cashBackOwnerPreset.name + it.name }
+                        .toPersistentList()
+                }
+        }
+    }
+
+    override suspend fun cashBackPresets(ownerPresetId: String) = withDefault {
+        tryOrDefault(returnOnError = persistentListOf()) {
+            cache
+                .getOrPut(CASH_BACKS_CACHE_LOCAL) { SimpleCache() }
+                .getOrPut(ownerPresetId) {
+                    presetDao.cashBackPresets(ownerPresetId)
                         .map { mapperHelper.run { it.toDomain() } }
                         .sortedBy { it.name }
                         .toPersistentList()
@@ -82,7 +94,7 @@ class PresetRepositoryImpl(
 
     override suspend fun cashBacksIconPresets() = withDefault {
         tryOrDefault(returnOnError = persistentListOf()) {
-            cache.getOrPut(CASH_BACKS_ICONS_CASH_LOCAL) {
+            cache.getOrPut(CASH_BACKS_ICONS_CACHE_LOCAL) {
                 presetDao.cashBackIconPresets()
                     .sortedBy { it.iconUrl }
                     .mapPersistent { it.toDomain() }
@@ -92,7 +104,7 @@ class PresetRepositoryImpl(
 
     override suspend fun mccCodePresets() = withDefault {
         tryOrDefault(returnOnError = persistentListOf()) {
-            cache.getOrPut(MCC_CODES_CASH_LOCAL) {
+            cache.getOrPut(MCC_CODES_CACHE_LOCAL) {
                 presetDao.mccCodePresets()
                     .sortedBy { it.code }
                     .mapPersistent { it.toDomain() }
@@ -103,7 +115,7 @@ class PresetRepositoryImpl(
     override suspend fun bankPreset(bankPresetId: String) = withDefault {
         tryOrDefault(returnOnError = { throw RepositoryException() }) {
             cache
-                .getOrPut(BANK_CASH_LOCAL) { SimpleCache() }
+                .getOrPut(BANK_CACHE_LOCAL) { SimpleCache() }
                 .getOrPut(bankPresetId) {
                     mapperHelper.run { presetDao.bankPreset(bankPresetId).toDomain() as BankPreset }
                 }
@@ -112,7 +124,7 @@ class PresetRepositoryImpl(
 
     override suspend fun bankPresets(bankPresetIds: List<String>) = withDefault {
         tryOrDefault(returnOnError = { throw RepositoryException() }) {
-            val cache = cache.getOrPut(BANK_CASH_LOCAL) { SimpleCache() }
+            val cache = cache.getOrPut(BANK_CACHE_LOCAL) { SimpleCache() }
             val cachedBankPresets = bankPresetIds.mapNotNull { cache.get<BankPreset>(it) }
             val cachedBankPresetIds = cachedBankPresets.map { it.id }
             val nonCachedBankPresetIds = bankPresetIds.subtract(cachedBankPresetIds).toList()
@@ -126,7 +138,7 @@ class PresetRepositoryImpl(
     override suspend fun shopPreset(shopPresetId: String) = withDefault {
         tryOrDefault(returnOnError = { throw RepositoryException() }) {
             cache
-                .getOrPut(SHOP_CASH_LOCAL) { SimpleCache() }
+                .getOrPut(SHOP_CACHE_LOCAL) { SimpleCache() }
                 .getOrPut(shopPresetId) {
                     mapperHelper.run { presetDao.shopPreset(shopPresetId).toDomain() as ShopPreset }
                 }
@@ -135,7 +147,7 @@ class PresetRepositoryImpl(
 
     override suspend fun shopPresets(shopPresetIds: List<String>) = withDefault {
         tryOrDefault(returnOnError = { throw RepositoryException() }) {
-            val cache = cache.getOrPut(SHOP_CASH_LOCAL) { SimpleCache() }
+            val cache = cache.getOrPut(SHOP_CACHE_LOCAL) { SimpleCache() }
             val cachedShopPresets = shopPresetIds.mapNotNull { cache.get<ShopPreset>(it) }
             val cachedShopPresetIds = cachedShopPresets.map { it.id }
             val nonCachedShopPresetIds = shopPresetIds.subtract(cachedShopPresetIds).toList()
@@ -149,7 +161,7 @@ class PresetRepositoryImpl(
     override suspend fun cashBackPreset(cashBackPresetId: String) = withDefault {
         tryOrDefault(returnOnError = { throw RepositoryException() }) {
             cache
-                .getOrPut(CASH_BACK_CASH_LOCAL) { SimpleCache() }
+                .getOrPut(CASH_BACK_CACHE_LOCAL) { SimpleCache() }
                 .getOrPut(cashBackPresetId) {
                     mapperHelper.run { presetDao.cashBackPreset(cashBackPresetId).toDomain() }
                 }
@@ -158,7 +170,7 @@ class PresetRepositoryImpl(
 
     override suspend fun cashBackPresets(cashBackPresetIds: List<String>) = withDefault {
         tryOrDefault(returnOnError = { throw RepositoryException() }) {
-            val cache = cache.getOrPut(CASH_BACK_CASH_LOCAL) { SimpleCache() }
+            val cache = cache.getOrPut(CASH_BACK_CACHE_LOCAL) { SimpleCache() }
             val cachedCashBackPresets =
                 cashBackPresetIds.mapNotNull { cache.get<CashBackPreset>(it) }
             val cachedCashBackPresetIds = cachedCashBackPresets.map { it.id }
@@ -175,18 +187,18 @@ class PresetRepositoryImpl(
         cashBackOwnerPreset.iconPreset.toEntity().let { presetDao.save(it) }
         cashBackOwnerPreset.toEntity().let { presetDao.save(it) }
 
-        cache.clear(BANK_ICONS_CASH_LOCAL)
-        cache.clear(BANKS_CASH_LOCAL)
-        cache.getOrPut(BANK_CASH_LOCAL) { SimpleCache() }.clear(cashBackOwnerPreset.id)
+        cache.clear(BANK_ICONS_CACHE_LOCAL)
+        cache.clear(BANKS_CACHE_LOCAL)
+        cache.getOrPut(BANK_CACHE_LOCAL) { SimpleCache() }.clear(cashBackOwnerPreset.id)
     }
 
     override suspend fun save(shopPreset: ShopPreset) = withDefault {
         shopPreset.iconPreset.toEntity().let { presetDao.save(it) }
         shopPreset.toEntity().let { presetDao.save(it) }
 
-        cache.clear(SHOP_ICONS_CASH_LOCAL)
-        cache.clear(SHOPS_CASH_LOCAL)
-        cache.getOrPut(SHOP_CASH_LOCAL) { SimpleCache() }.clear(shopPreset.id)
+        cache.clear(SHOP_ICONS_CACHE_LOCAL)
+        cache.clear(SHOPS_CACHE_LOCAL)
+        cache.getOrPut(SHOP_CACHE_LOCAL) { SimpleCache() }.clear(shopPreset.id)
     }
 
     override suspend fun save(cashBackPreset: CashBackPreset) = withDefault {
@@ -201,10 +213,11 @@ class PresetRepositoryImpl(
         presetDao.removeMccCodeRelations(cashBackPreset.id)
         relationEntities.forEach { presetDao.save(it) }
 
-        cache.clear(CASH_BACKS_ICONS_CASH_LOCAL)
-        cache.clear(MCC_CODES_CASH_LOCAL)
-        cache.clear(CASH_BACKS_CASH_LOCAL)
-        cache.getOrPut(CASH_BACK_CASH_LOCAL) { SimpleCache() }.clear(cashBackPreset.id)
+        cache.clear(CASH_BACKS_ICONS_CACHE_LOCAL)
+        cache.clear(MCC_CODES_CACHE_LOCAL)
+        cache.clear(CASH_BACKS_CACHE_LOCAL)
+        cache.clear(CASH_BACKS_ALL_CACHE_LOCAL)
+        cache.getOrPut(CASH_BACK_CACHE_LOCAL) { SimpleCache() }.clear(cashBackPreset.id)
     }
 
     private suspend fun save(preset: CashBackOwnerPreset) = when (preset) {
@@ -217,15 +230,16 @@ class PresetRepositoryImpl(
     }
 
     companion object {
-        private const val BANKS_CASH_LOCAL = "BANKS_CASH_LOCAL"
-        private const val BANK_CASH_LOCAL = "BANK_CASH_LOCAL"
-        private const val BANK_ICONS_CASH_LOCAL = "BANK_ICONS_CASH_LOCAL"
-        private const val SHOPS_CASH_LOCAL = "SHOPS_CASH_LOCAL"
-        private const val SHOP_CASH_LOCAL = "SHOP_CASH_LOCAL"
-        private const val SHOP_ICONS_CASH_LOCAL = "SHOP_ICONS_CASH_LOCAL"
-        private const val CASH_BACKS_CASH_LOCAL = "CASH_BACKS_CASH_LOCAL"
-        private const val CASH_BACK_CASH_LOCAL = "CASH_BACK_CASH_LOCAL"
-        private const val CASH_BACKS_ICONS_CASH_LOCAL = "CASH_BACKS_ICONS_CASH_LOCAL"
-        private const val MCC_CODES_CASH_LOCAL = "CASH_BACK_CODES_CASH_LOCAL"
+        private const val BANKS_CACHE_LOCAL = "BANKS_CACHE_LOCAL"
+        private const val BANK_CACHE_LOCAL = "BANK_CACHE_LOCAL"
+        private const val BANK_ICONS_CACHE_LOCAL = "BANK_ICONS_CACHE_LOCAL"
+        private const val SHOPS_CACHE_LOCAL = "SHOPS_CACHE_LOCAL"
+        private const val SHOP_CACHE_LOCAL = "SHOP_CACHE_LOCAL"
+        private const val SHOP_ICONS_CACHE_LOCAL = "SHOP_ICONS_CACHE_LOCAL"
+        private const val CASH_BACKS_CACHE_LOCAL = "CASH_BACKS_CACHE_LOCAL"
+        private const val CASH_BACKS_ALL_CACHE_LOCAL = "CASH_BACKS_ALL_CACHE_LOCAL"
+        private const val CASH_BACK_CACHE_LOCAL = "CASH_BACK_CACHE_LOCAL"
+        private const val CASH_BACKS_ICONS_CACHE_LOCAL = "CASH_BACKS_ICONS_CACHE_LOCAL"
+        private const val MCC_CODES_CACHE_LOCAL = "MCC_CODES_CACHE_LOCAL"
     }
 }

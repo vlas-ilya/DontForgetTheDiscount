@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import su.tease.core.mvi.component.component.container.AppConfig
 import su.tease.core.mvi.component.component.container.FeatureConfig
 import su.tease.core.mvi.component.component.container.RootConfig
+import su.tease.core.mvi.navigation.FeatureNavigation
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.function.Transformer
@@ -13,6 +14,8 @@ import su.tease.project.core.utils.function.Transformer
 abstract class BaseFeatureComponent<T : NavigationTarget.Feature>(
     store: Store<*>
 ) : BaseNavigationMviComponent(store) {
+
+    internal lateinit var featureNavigation: FeatureNavigation
 
     internal val rootConfig = mutableStateOf<Transformer<RootConfig>>(Transformer { it })
     internal val appConfig = mutableStateOf<Transformer<AppConfig>>(Transformer { it })

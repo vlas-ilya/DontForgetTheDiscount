@@ -76,6 +76,9 @@ interface PresetDao {
     @Upsert
     suspend fun save(entity: CashBackPresetEntity)
 
+    @Query("SELECT * FROM CashBackPresetEntity ORDER BY name")
+    suspend fun cashBackPresets(): List<CashBackPresetEntity>
+
     @Query("SELECT * FROM CashBackPresetEntity WHERE cashBackOwnerPresetId = :cashBackOwnerPresetId ORDER BY name")
     suspend fun cashBackPresets(cashBackOwnerPresetId: String): List<CashBackPresetEntity>
 

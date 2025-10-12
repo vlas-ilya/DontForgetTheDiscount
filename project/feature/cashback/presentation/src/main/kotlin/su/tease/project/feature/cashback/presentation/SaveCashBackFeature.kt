@@ -25,14 +25,12 @@ class SaveCashBackFeature(
             copy(
                 action = FeatureConfig.AppAction(
                     icon = RIcons.drawable.cross_small,
-                    onClick = ::onClosePressed,
+                    onClick = { finish() },
                 )
             )
         }
         child()
     }
-
-    private fun onClosePressed() = SaveCashBackFeature().finish()
 
     companion object {
         operator fun invoke(

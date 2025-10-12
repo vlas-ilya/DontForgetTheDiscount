@@ -19,6 +19,8 @@ import su.tease.project.feature.preset.presentation.bank.save.SaveBankPresetPage
 import su.tease.project.feature.preset.presentation.bank.save.action.SaveBankPresetAction
 import su.tease.project.feature.preset.presentation.bank.save.action.impl.SaveBankPresetActionImpl
 import su.tease.project.feature.preset.presentation.bank.select.SelectBankPresetPage
+import su.tease.project.feature.preset.presentation.cashback.info.list.ListInfoCashbackPresetPage
+import su.tease.project.feature.preset.presentation.cashback.info.save.SaveCashBackPresetFeature
 import su.tease.project.feature.preset.presentation.cashback.save.SaveCashBackPresetPage
 import su.tease.project.feature.preset.presentation.cashback.save.action.SaveCashBackPresetAction
 import su.tease.project.feature.preset.presentation.cashback.save.action.impl.SaveCashBackPresetActionImpl
@@ -46,16 +48,21 @@ val presetIntegrationModule = module {
     factory<SaveCashBackPresetAction> { SaveCashBackPresetActionImpl(get(), get()) }
     factory<SelectMccCodeAction> { SelectMccCodeActionImpl(get(), get()) }
 
-    feature { SaveBankPresetFeature(get()) }
-    feature { SaveShopPresetFeature(get()) }
+    feature { SaveCashBackPresetFeature(get()) }
+    page { ListInfoCashbackPresetPage(get(), get()) }
     page { SelectCashBackPresetPage(get(), get(), get()) }
     page { SaveCashBackPresetPage(get(), get(), get()) }
+
+    feature { SaveBankPresetFeature(get()) }
     page { ListBankPresetPage(get(), get()) }
     page { SelectBankPresetPage(get(), get(), get()) }
     page { SaveBankPresetPage(get(), get(), get()) }
+
+    feature { SaveShopPresetFeature(get()) }
     page { ListShopPresetPage(get(), get()) }
     page { SelectShopPresetPage(get(), get(), get()) }
     page { SaveShopPresetPage(get(), get(), get()) }
+
     page { SelectMccCodePresetPage(get(), get(), get(), get()) }
     page { SelectIconPresetPage(get(), get(), get()) }
 }

@@ -23,14 +23,12 @@ class SaveBankPresetFeature(
             copy(
                 action = FeatureConfig.AppAction(
                     icon = R.drawable.cross_small,
-                    onClick = ::onClosePressed,
+                    onClick = { finish() },
                 )
             )
         }
         child()
     }
-
-    private fun onClosePressed() = SaveBankPresetFeature().finish()
 
     companion object {
         operator fun invoke(

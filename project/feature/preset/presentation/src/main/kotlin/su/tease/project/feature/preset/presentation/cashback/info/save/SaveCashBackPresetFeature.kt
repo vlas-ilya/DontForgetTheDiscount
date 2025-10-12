@@ -1,4 +1,4 @@
-package su.tease.project.feature.bank.presentation.info.save
+package su.tease.project.feature.preset.presentation.cashback.info.save
 
 import androidx.compose.runtime.Composable
 import kotlinx.parcelize.Parcelize
@@ -8,12 +8,12 @@ import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.core.mvi.navigation.feature
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.design.icons.R
-import su.tease.project.feature.bank.domain.entity.BankAccount
-import su.tease.project.feature.bank.presentation.save.SaveBankAccountPage
+import su.tease.project.feature.preset.domain.entity.CashBackPreset
+import su.tease.project.feature.preset.presentation.cashback.save.SaveCashBackPresetPage
 
-class SaveBankAccountInfoFeature(
+class SaveCashBackPresetFeature(
     store: Store<*>,
-) : BaseFeatureComponent<SaveBankAccountInfoFeature.Target>(store) {
+) : BaseFeatureComponent<SaveCashBackPresetFeature.Target>(store) {
 
     @Composable
     override operator fun invoke(child: @Composable () -> Unit) {
@@ -30,15 +30,13 @@ class SaveBankAccountInfoFeature(
         child()
     }
 
-    companion object {
-        operator fun invoke(
-            bankAccount: BankAccount? = null
-        ) = feature(
-            Target,
-            SaveBankAccountPage(bankAccount),
-        )
-    }
-
     @Parcelize
     data object Target : NavigationTarget.Feature
+
+    companion object {
+        operator fun invoke(preset: CashBackPreset) = feature(
+            feature = Target,
+            initPage = SaveCashBackPresetPage(preset.cashBackOwnerPreset, preset)
+        )
+    }
 }

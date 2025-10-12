@@ -24,6 +24,8 @@ interface PresetInteractor {
 
     suspend fun shopIconPresets(): PersistentList<ShopIconPreset>
 
+    suspend fun cashBackPresets(): PersistentList<CashBackPreset>
+
     suspend fun cashBackPresets(presetId: String): PersistentList<CashBackPreset>
 
     suspend fun cashBackPresets(presetIds: List<String>): PersistentList<CashBackPreset>

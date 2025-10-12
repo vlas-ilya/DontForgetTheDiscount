@@ -15,6 +15,7 @@ import su.tease.project.feature.info.presentation.dependencies.navigation.ShopIc
 import su.tease.project.feature.info.presentation.dependencies.navigation.ShopPresets
 import su.tease.project.feature.info.presentation.dependencies.navigation.Shops
 import su.tease.project.feature.preset.presentation.bank.info.list.ListBankPresetPage
+import su.tease.project.feature.preset.presentation.cashback.info.list.ListInfoCashbackPresetPage
 import su.tease.project.feature.preset.presentation.shop.info.list.ListShopPresetPage
 import su.tease.project.feature.shop.presentation.info.list.ShopsInfoPage
 
@@ -30,9 +31,9 @@ class InfoListPageNavigationInterceptor : Interceptor {
         BankPresets -> NavigationAction.ForwardToPage(ListBankPresetPage()).let(::listOf)
         Shops -> NavigationAction.ForwardToPage(ShopsInfoPage()).let(::listOf)
         ShopPresets -> NavigationAction.ForwardToPage(ListShopPresetPage()).let(::listOf)
+        CashBackPresets -> NavigationAction.ForwardToPage(ListInfoCashbackPresetPage()).let(::listOf)
         BankIconPresets,
         CashBackIconPresets,
-        CashBackPresets,
         MccCodePresets,
         ShopIconPresets,
             -> emptyList()

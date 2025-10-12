@@ -23,14 +23,12 @@ class SaveShopPresetFeature(
             copy(
                 action = FeatureConfig.AppAction(
                     icon = R.drawable.cross_small,
-                    onClick = ::onClosePressed,
+                    onClick = { finish() },
                 )
             )
         }
         child()
     }
-
-    private fun onClosePressed() = SaveShopPresetFeature().finish()
 
     companion object {
         operator fun invoke(

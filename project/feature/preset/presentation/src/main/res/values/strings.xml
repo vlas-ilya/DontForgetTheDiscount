@@ -45,6 +45,7 @@
     <string name="page_select_cash_back_item_icon_title">Выбор иконки для кэшбэка</string>
     <string name="page_select_mcc_codes_button_save">Сохранить</string>
 
+    <string name="Presets_CashbackListPage_Title">Категории кэшбэка</string>
     <string name="Presets_BankListPage_Title">Банки</string>
     <string name="Presets_ShopListPage_Title">Магазины</string>
 

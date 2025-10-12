@@ -18,12 +18,3 @@ fun app(): NavigationState.() -> AppNavigation =
 
 fun root(): NavigationState.() -> RootNavigation =
     run { { root } }
-
-fun pageIdName(): NavigationState.() -> Pair<String, NavigationTarget.Page> =
-    run { { root.page.id to root.page.name } }
-
-fun featureIdName(): NavigationState.() -> Pair<String, NavigationTarget.Feature> =
-    run { { root.feature.id to root.feature.name } }
-
-fun appIdName(): NavigationState.() -> Pair<String, NavigationTarget.App> =
-    run { { root.app.id to root.app.name } }

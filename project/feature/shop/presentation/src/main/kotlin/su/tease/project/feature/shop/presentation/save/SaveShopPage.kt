@@ -97,6 +97,7 @@ class SaveShopPage(
                     onSelect = { SelectShopPresetPage(form.shopPreset.value).forward() },
                     error = form.ui { shopPresetError },
                     shopPresetIconView = shopPresetIconView,
+                    enabled = target.shop == null,
                     modifier = Modifier.fillMaxWidth(),
                 )
                 Spacer(modifier = Modifier.height(Theme.sizes.padding4))
