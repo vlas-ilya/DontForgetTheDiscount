@@ -77,6 +77,7 @@ data class BankAccountsPageCashBackItem(
                 DFText(
                     text = cashBack.preset.name,
                     style = Theme.fonts.text,
+                    maxLines = 1,
                 )
             }
             runIf(cashBack.preset.info.isNotBlank() || cashBack.preset.mccCodes.isNotEmpty()) {

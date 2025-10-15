@@ -14,6 +14,7 @@ class SelectBankPresetReducer : Reducer<S> {
     override val initState = S()
 
     override fun S.onAction(action: PlainAction) = when (action) {
+        is Select.OnInit -> S()
         is Select.OnSelectAction -> copy(savedCashBackOwnerPreset = null)
         is Save.OnSaveSuccess -> copy(savedCashBackOwnerPreset = action.cashBackOwnerPreset)
         else -> this

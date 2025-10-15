@@ -1,4 +1,4 @@
-package su.tease.project.feature.preset.presentation.cashback.info.list.component.dialog
+package su.tease.project.feature.preset.presentation.cashback.dialog
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -14,13 +14,20 @@ fun CashBackPresetInfoDialog(
     modifier: Modifier = Modifier,
 ) {
     DFBottomSheet(
-        data = info.value,
+        data = info.value?.toData(),
         modifier = modifier,
         onHide = { onHide() }
     ) {
         CashBackInfoDialogContent(
-            data,
-            ::dismiss,
+            data = data,
+            onClick = ::dismiss,
         )
     }
 }
+
+private fun Pair<CashBackOwnerPreset, CashBackPreset>.toData() =
+    CashBackPresetInfoDialogContentData(
+        ownerName = first.name,
+        ownerIconPreset = first.iconPreset,
+        cashBackPreset = second,
+    )

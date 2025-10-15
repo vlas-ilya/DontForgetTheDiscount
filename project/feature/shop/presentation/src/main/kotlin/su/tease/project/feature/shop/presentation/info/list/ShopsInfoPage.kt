@@ -6,8 +6,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
@@ -80,7 +78,7 @@ class ShopsInfoPage(
             }
         }
 
-        val (_, nestedScrollConnection, resetScroll) = scrollDirectionState
+        val (_, _, resetScroll) = scrollDirectionState
 
         val scope = rememberCoroutineScope()
         val scrollUp = rememberCallback(resetScroll, lazyListState) {
@@ -125,7 +123,6 @@ class ShopsInfoPage(
                 else -> ShopsInfoPageSuccess(
                     list,
                     lazyListState,
-                    Modifier.nestedScroll(nestedScrollConnection)
                 )
             }
         }

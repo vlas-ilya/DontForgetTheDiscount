@@ -31,7 +31,8 @@ fun CashBackOwnerPreview(
         DFText(
             text = customName,
             style = Theme.fonts.placeholder,
-            modifier = Modifier.padding(horizontal = Theme.sizes.padding6)
+            modifier = Modifier.padding(horizontal = Theme.sizes.padding6),
+            maxLines = 1,
         )
     }
 }

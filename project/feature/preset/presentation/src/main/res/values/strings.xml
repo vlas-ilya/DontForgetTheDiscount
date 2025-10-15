@@ -58,4 +58,8 @@
     <string name="Presets_SaveShopPage_Edit_Title">Редактирование магазина</string>
     <string name="Presets_SaveShopPage_SaveButton_Label">Сохранить</string>
     <string name="Presets_SaveShopPage_IconSelect_Title">Выбор иконки для магазина</string>
+
+    <string name="Presets_CashBackInfoDialog_MccList_Label">MCC коды</string>
+    <string name="Presets_CashBackInfoDialog_CloseButton_Label">Понятно</string>
+
 </resources>

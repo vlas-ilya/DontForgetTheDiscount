@@ -1,8 +1,8 @@
 package su.tease.project.feature.preset.integration.module
 
 import org.koin.dsl.module
-import su.tease.core.mvi.component.component.provider.page
 import su.tease.core.mvi.component.component.provider.feature
+import su.tease.core.mvi.component.component.provider.page
 import su.tease.project.core.utils.utils.api
 import su.tease.project.feature.preset.data.dataSource.PresetDataSource
 import su.tease.project.feature.preset.data.repository.PresetRepositoryImpl
@@ -49,18 +49,18 @@ val presetIntegrationModule = module {
     factory<SelectMccCodeAction> { SelectMccCodeActionImpl(get(), get()) }
 
     feature { SaveCashBackPresetFeature(get()) }
-    page { ListInfoCashbackPresetPage(get(), get()) }
-    page { SelectCashBackPresetPage(get(), get(), get()) }
+    page { ListInfoCashbackPresetPage(get(), get(), get()) }
+    page { SelectCashBackPresetPage(get(), get(), get(), get()) }
     page { SaveCashBackPresetPage(get(), get(), get()) }
 
     feature { SaveBankPresetFeature(get()) }
-    page { ListBankPresetPage(get(), get()) }
-    page { SelectBankPresetPage(get(), get(), get()) }
+    page { ListBankPresetPage(get(), get(), get()) }
+    page { SelectBankPresetPage(get(), get(), get(), get()) }
     page { SaveBankPresetPage(get(), get(), get()) }
 
     feature { SaveShopPresetFeature(get()) }
-    page { ListShopPresetPage(get(), get()) }
-    page { SelectShopPresetPage(get(), get(), get()) }
+    page { ListShopPresetPage(get(), get(), get()) }
+    page { SelectShopPresetPage(get(), get(), get(), get()) }
     page { SaveShopPresetPage(get(), get(), get()) }
 
     page { SelectMccCodePresetPage(get(), get(), get(), get()) }

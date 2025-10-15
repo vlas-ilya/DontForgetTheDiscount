@@ -22,7 +22,7 @@ class SaveShopPresetActionImpl(
         )
         try {
             val shops = presetInteractor.shopPresets()
-            if (shops.any { it.name == shopPreset.name }) {
+            if (shops.any { it.name == shopPreset.name && it.id != request.id }) {
                 dispatch(SaveShopPresetActions.OnSaveFail(SaveShopPresetError.DUPLICATE_ERROR))
                 return@suspendAction
             }

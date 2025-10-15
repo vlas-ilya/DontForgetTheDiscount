@@ -32,7 +32,8 @@ class SaveCashBackPresetForm(
     val name = mutableStateOf(nameValue ?: "")
     val info = mutableStateOf(infoValue ?: "")
     val iconPreset = mutableStateOf(iconPresetValue)
-    val cashBackOwnerPreset = mutableStateOf(disabledCashBackOwnerPresetValue ?: cashBackOwnerPreset)
+    val cashBackOwnerPreset =
+        mutableStateOf(disabledCashBackOwnerPresetValue ?: cashBackOwnerPreset)
     val mccCodes = mutableStateOf(mccCodesValue ?: persistentListOf())
 
     val error = mutableStateOf<SaveCashBackPresetError?>(null)
@@ -65,6 +66,14 @@ class SaveCashBackPresetForm(
 
     fun ui(block: SaveCashBackPresetForm.() -> State<FormFieldError?>): State<FormFieldError?> =
         derivedStateOf { runIf(wasValidation.value) { block().value } }
+
+    fun clean() {
+        name.value = ""
+        info.value = ""
+        iconPreset.value = null
+        cashBackOwnerPreset.value = null
+        mccCodes.value = persistentListOf()
+    }
 }
 
 enum class FormFieldError {

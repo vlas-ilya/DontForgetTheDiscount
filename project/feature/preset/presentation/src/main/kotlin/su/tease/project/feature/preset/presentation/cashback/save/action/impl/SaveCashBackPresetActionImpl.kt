@@ -18,7 +18,7 @@ class SaveCashBackPresetActionImpl(
         dispatch(SaveCashBackPresetActions.OnSave)
         try {
             val cashBackPresets = presetInteractor.cashBackPresets(request.cashBackOwnerPreset.id)
-            if (cashBackPresets.any { it.name == request.name }) {
+            if (cashBackPresets.any { it.name == request.name && it.id != request.id }) {
                 dispatch(SaveCashBackPresetActions.OnSaveFail(SaveCashBackPresetError.DUPLICATE_ERROR))
                 return@suspendAction
             }

@@ -46,7 +46,7 @@ class InfoListPage(
             derivedStateOf { lazyListState.firstVisibleItemIndex >= SCROLL_ITEMS_FOR_SHOW_BUTTON }
         }
 
-        val (scrollDirection, nestedScrollConnection, resetScroll) = scrollDirectionState
+        val (_, _, resetScroll) = scrollDirectionState
 
         val scope = rememberCoroutineScope()
         val scrollUp = rememberCallback(resetScroll, lazyListState) {
@@ -77,7 +77,10 @@ class InfoListPage(
             hasSystemNavigationBar = LocalRootConfig.current.hasSystemNavigationBar,
             showBackButton = selectAsState(hasPrevPageSelector).value,
         ) {
-            LazyColumn(contentPadding = PaddingValues(vertical = Theme.sizes.padding6)) {
+            LazyColumn(
+                state = lazyListState,
+                contentPadding = PaddingValues(vertical = Theme.sizes.padding6),
+            ) {
                 itemsIndexed(
                     items = infoItems,
                     key = { index, it -> it.id },

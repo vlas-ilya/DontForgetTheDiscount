@@ -95,6 +95,7 @@ class SaveCashBackPresetPage(
         LaunchedEffect(status) {
             if (status == LoadingStatus.Success) {
                 dispatch(SaveCashBackPresetActions.OnInit())
+                form.clean()
                 back()
             }
         }

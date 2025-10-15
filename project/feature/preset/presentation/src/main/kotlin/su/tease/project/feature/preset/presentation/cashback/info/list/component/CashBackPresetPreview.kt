@@ -65,6 +65,7 @@ fun CashBackPresetPreview(
         DFText(
             text = cashBackPreset.name,
             style = Theme.fonts.text,
+            maxLines = 1,
             modifier = Modifier
                 .weight(1F)
                 .fillMaxSize(),
