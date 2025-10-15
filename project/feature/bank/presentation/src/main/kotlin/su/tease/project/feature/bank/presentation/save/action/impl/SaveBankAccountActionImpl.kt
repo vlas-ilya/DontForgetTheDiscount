@@ -5,11 +5,11 @@ import su.tease.project.core.mvi.middleware.suspend.suspendAction
 import su.tease.project.core.utils.ext.choose
 import su.tease.project.core.utils.resource.ResourceProvider
 import su.tease.project.core.utils.uuid.UuidProvider
-import su.tease.project.feature.bank.domain.entity.BankAccount
 import su.tease.project.feature.bank.domain.interactor.BankAccountInterceptor
 import su.tease.project.feature.bank.presentation.R
 import su.tease.project.feature.bank.presentation.save.action.SaveBankAccountAction
 import su.tease.project.feature.bank.presentation.save.action.SaveBankAccountActions
+import su.tease.project.feature.bank.presentation.save.action.SaveBankAccountRequest
 import su.tease.project.feature.notification.api.Notification
 import su.tease.project.feature.notification.api.NotificationAction
 import timber.log.Timber
@@ -20,17 +20,17 @@ data class SaveBankAccountActionImpl(
     private val resourceProvider: ResourceProvider,
 ) : SaveBankAccountAction {
 
-    override fun run(request: BankAccount) = suspendAction {
+    override fun run(request: SaveBankAccountRequest) = suspendAction {
         dispatch(SaveBankAccountActions.OnSave)
         try {
-            val persisted = request.takeIf { it.id.isNotBlank() }?.let { interceptor.get(it.id) }
-            val bankAccount = request.copy(
+            val persisted = request.bankAccount.takeIf { it.id.isNotBlank() }?.let { interceptor.get(it.id) }
+            val bankAccount = request.bankAccount.copy(
                 id = persisted?.id ?: uuidProvider.uuid(),
-                cashBacks = persisted?.cashBacks ?: request.cashBacks
+                cashBacks = persisted?.cashBacks ?: request.bankAccount.cashBacks
             )
             interceptor.save(bankAccount)
-            dispatch(SaveBankAccountActions.OnSaveSuccess(bankAccount))
-            dispatch(NotificationAction.ShowNotification(successNotification(request.id.isBlank())))
+            dispatch(SaveBankAccountActions.OnSaveSuccess(request.target, bankAccount))
+            dispatch(NotificationAction.ShowNotification(successNotification(request.bankAccount.id.isBlank())))
         } catch (e: RepositoryException) {
             Timber.e(e)
             dispatch(SaveBankAccountActions.OnSaveFail)

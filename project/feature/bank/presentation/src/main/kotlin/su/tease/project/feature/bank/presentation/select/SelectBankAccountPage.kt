@@ -36,6 +36,7 @@ import su.tease.project.feature.bank.presentation.R
 import su.tease.project.feature.bank.presentation.dependencies.view.BankPresetIconView
 import su.tease.project.feature.bank.presentation.save.SaveBankAccountPage
 import su.tease.project.feature.bank.presentation.select.component.SelectBankAccountPageBankPresetPreview
+import su.tease.project.feature.bank.presentation.select.reducer.SelectBankAccountPageReducer
 import su.tease.project.feature.bank.presentation.select.reducer.SelectBankAccountState
 import su.tease.project.design.icons.R as RIcons
 
@@ -64,7 +65,7 @@ class SelectBankAccountPage(
             persistentListOf(
                 DFPageFloatingButton(
                     icon = RIcons.drawable.plus,
-                    onClick = { SaveBankAccountPage().forward() }
+                    onClick = { SaveBankAccountPage<SelectBankAccountPageReducer>().forward() }
                 )
             )
         }

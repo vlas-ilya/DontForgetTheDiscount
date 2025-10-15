@@ -14,6 +14,7 @@ import su.tease.project.design.component.controls.edit.DFNumberField
 import su.tease.project.design.component.controls.edit.DFTextFieldAction
 import su.tease.project.design.component.controls.form.DFFormElement
 import su.tease.project.feature.preset.presentation.R
+import su.tease.project.design.icons.R as RIcons
 
 @Composable
 @Suppress("MutableStateParam")
@@ -26,7 +27,7 @@ fun CodeSelectPageInput(
 ) {
     DFFormElement(
         modifier = modifier,
-        label = stringResource(R.string.page_select_cash_back_codes_label_input),
+        label = stringResource(R.string.Preset_SelectMccCodePresetPage_Value_Title),
     ) {
         Box {
             DFNumberField(
@@ -35,7 +36,7 @@ fun CodeSelectPageInput(
                 minValue = 0,
                 maxValue = maxMccCode,
                 action = DFTextFieldAction(
-                    icon = su.tease.project.design.icons.R.drawable.plus,
+                    icon = RIcons.drawable.plus,
                     onClick = { onActionClick() },
                 ),
                 modifier = Modifier

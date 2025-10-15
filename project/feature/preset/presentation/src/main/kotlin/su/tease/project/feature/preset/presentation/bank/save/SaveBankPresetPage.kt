@@ -100,7 +100,7 @@ class SaveBankPresetPage(
                 ) {
                     IconSelect(
                         iconState = form.iconPreset,
-                        onSelect = { selectIcon(R.string.Presets_SaveBankPage_IconSelect_Title) },
+                        onSelect = { selectIcon(R.string.Presets_SaveBankPage_IconSelect_PageTitle) },
                         error = form.ui { iconError },
                         modifier = Modifier.wrapContentWidth(),
                     )

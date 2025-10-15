@@ -26,7 +26,7 @@ fun CashBackPresetIcon(
     DFImage(
         url = iconPreset.iconUrl,
         contentDescription = stringResource(
-            R.string.item_cash_back_preset_icon_content_description,
+            R.string.Preset_CashBackPresetIconItem_ContentDescription,
             name,
         ),
         modifier = modifier

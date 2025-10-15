@@ -43,9 +43,9 @@ val presetIntegrationModule = module {
     factory<SyncPresetRepository> { SyncPresetRepositoryImpl(get(), get(), get()) }
     factory<PresetInteractor> { PresetInteractorImpl(get()) }
     factory<SyncPresetInteractor> { SyncPresetInteractorImpl(get()) }
-    factory<SaveBankPresetAction> { SaveBankPresetActionImpl(get(), get()) }
-    factory<SaveShopPresetAction> { SaveShopPresetActionImpl(get(), get()) }
-    factory<SaveCashBackPresetAction> { SaveCashBackPresetActionImpl(get(), get()) }
+    factory<SaveBankPresetAction> { SaveBankPresetActionImpl(get(), get(), get()) }
+    factory<SaveShopPresetAction> { SaveShopPresetActionImpl(get(), get(), get()) }
+    factory<SaveCashBackPresetAction> { SaveCashBackPresetActionImpl(get(), get(), get()) }
     factory<SelectMccCodeAction> { SelectMccCodeActionImpl(get(), get()) }
 
     feature { SaveCashBackPresetFeature(get()) }

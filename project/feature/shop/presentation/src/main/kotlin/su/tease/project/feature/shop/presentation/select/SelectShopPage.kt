@@ -36,6 +36,7 @@ import su.tease.project.feature.shop.presentation.R
 import su.tease.project.feature.shop.presentation.dependencies.view.ShopPresetIconView
 import su.tease.project.feature.shop.presentation.save.SaveShopPage
 import su.tease.project.feature.shop.presentation.select.component.SelectShopPageShopPresetPreview
+import su.tease.project.feature.shop.presentation.select.reducer.SelectShopPageReducer
 import su.tease.project.feature.shop.presentation.select.reducer.SelectShopState
 import su.tease.project.design.icons.R as RIcons
 
@@ -64,7 +65,7 @@ class SelectShopPage(
             persistentListOf(
                 DFPageFloatingButton(
                     icon = RIcons.drawable.plus,
-                    onClick = { SaveShopPage().forward() }
+                    onClick = { SaveShopPage<SelectShopPageReducer>().forward() }
                 )
             )
         }

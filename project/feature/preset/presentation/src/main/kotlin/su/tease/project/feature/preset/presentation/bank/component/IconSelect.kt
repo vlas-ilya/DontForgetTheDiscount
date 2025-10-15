@@ -29,7 +29,7 @@ fun IconSelect(
     modifier: Modifier = Modifier,
 ) {
     DFFormElement(
-        label = stringResource(R.string.item_bank_icon_select_title),
+        label = stringResource(R.string.Presets_SaveBankPage_IconSelect_Title),
         modifier = modifier
     ) {
         Box(

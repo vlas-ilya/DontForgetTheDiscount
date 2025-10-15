@@ -112,7 +112,7 @@ class SelectCashBackPresetPage(
         }
 
         DFPage(
-            title = stringResource(R.string.page_cash_back_preset_list_title),
+            title = stringResource(R.string.Presets_SelectCashBackPreset_Title),
             floatingButtons = floatingButtons.value,
             actionIcon = LocalFeatureConfig.current.action?.icon,
             onActionPress = LocalFeatureConfig.current.action?.onClick,

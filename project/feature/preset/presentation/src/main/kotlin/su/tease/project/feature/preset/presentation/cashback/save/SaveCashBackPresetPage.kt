@@ -103,8 +103,8 @@ class SaveCashBackPresetPage(
         DFPage(
             title = stringResource(
                 (target.preset == null).choose(
-                    R.string.page_cash_back_preset_save_title_add,
-                    R.string.page_cash_back_preset_save_title_edit,
+                    R.string.Presets_SaveCashBackPresetPage_Add_Title,
+                    R.string.Presets_SaveCashBackPresetPage_Edit_Title,
                 )
             ),
             actionIcon = LocalFeatureConfig.current.action?.icon,
@@ -174,7 +174,7 @@ class SaveCashBackPresetPage(
     private fun selectIcon() {
         SelectIconPresetPage<SaveCashBackPresetReducer>(
             iconType = SelectIconPresetPage.IconType.CASH_BACK_ICON,
-            pageTitle = R.string.page_select_cash_back_item_icon_title,
+            pageTitle = R.string.Presets_SaveCashBackPresetPage_IconSelect_PageTitle,
             selected = form.iconPreset.value
         ).forward()
     }

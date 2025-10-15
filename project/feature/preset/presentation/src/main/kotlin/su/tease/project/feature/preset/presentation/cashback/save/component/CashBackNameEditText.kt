@@ -20,15 +20,15 @@ fun CashBackNameEditText(
     modifier: Modifier = Modifier,
 ) {
     DFFormElement(
-        label = stringResource(R.string.item_cash_back_name_title),
+        label = stringResource(R.string.Presets_SaveCashBackPresetPage_Name_Title),
         error = runIf(error.value == FormFieldError.REQUIRED_BUT_EMPTY) {
-            stringResource(R.string.item_cash_back_name_error)
+            stringResource(R.string.Presets_SaveCashBackPresetPage_Name_Error)
         },
         modifier = modifier,
     ) {
         DFTextField(
             text = nameState.map { it.orEmpty() },
-            placeholder = stringResource(R.string.item_cash_back_name_placeholder),
+            placeholder = stringResource(R.string.Presets_SaveCashBackPresetPage_Name_Placeholder),
             onChange = { onChange(it) },
             modifier = Modifier.fillMaxWidth(),
             maxLength = NAME_MAX_LENGTH,

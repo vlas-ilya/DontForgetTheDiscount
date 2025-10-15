@@ -66,7 +66,7 @@ class SelectMccCodePresetPage(
         }
 
         DFPage(
-            title = stringResource(R.string.page_select_cash_back_item_codes_title),
+            title = stringResource(R.string.Preset_SelectMccCodePresetPage_Title),
             actionIcon = LocalFeatureConfig.current.action?.icon,
             onActionPress = LocalFeatureConfig.current.action?.onClick,
             hasSystemNavigationBar = LocalRootConfig.current.hasSystemNavigationBar,

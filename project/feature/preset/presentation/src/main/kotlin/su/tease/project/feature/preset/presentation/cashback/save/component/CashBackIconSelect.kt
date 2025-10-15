@@ -29,7 +29,7 @@ fun CashBackIconSelect(
     modifier: Modifier = Modifier,
 ) {
     DFFormElement(
-        label = stringResource(R.string.item_cash_back_icon_title),
+        label = stringResource(R.string.Presets_SaveCashBackPresetPage_Icon_Title),
         modifier = modifier
     ) {
         Box(

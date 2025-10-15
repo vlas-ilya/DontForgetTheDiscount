@@ -12,7 +12,7 @@ fun CashBackSaveButton(
     modifier: Modifier = Modifier,
 ) {
     DFButton(
-        label = stringResource(R.string.page_save_cash_back_button_save),
+        label = stringResource(R.string.Presets_SaveCashBackPresetPage_SaveButton_Label),
         onClick = onSubmit,
         modifier = modifier,
     )

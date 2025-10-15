@@ -32,10 +32,11 @@ import su.tease.project.feature.shop.presentation.R
 import su.tease.project.feature.shop.presentation.dependencies.navigation.SelectShopPresetPage
 import su.tease.project.feature.shop.presentation.dependencies.view.ShopPresetIconView
 import su.tease.project.feature.shop.presentation.save.action.SaveShopAction
+import su.tease.project.feature.shop.presentation.save.action.SaveShopActionRequest
 import su.tease.project.feature.shop.presentation.save.action.SaveShopActions
-import su.tease.project.feature.shop.presentation.save.component.SaveShopPageShopPresetSelect
 import su.tease.project.feature.shop.presentation.save.component.SaveShopPageNameEditText
 import su.tease.project.feature.shop.presentation.save.component.SaveShopPageSaveButton
+import su.tease.project.feature.shop.presentation.save.component.SaveShopPageShopPresetSelect
 import su.tease.project.feature.shop.presentation.save.reducer.SaveShopState
 import su.tease.project.feature.shop.presentation.save.utils.SaveShopForm
 
@@ -53,9 +54,7 @@ class SaveShopPage(
             ?: "",
     )
 
-    init {
-        dispatch(SaveShopActions.OnInit(target.shop))
-    }
+    init { dispatch(SaveShopActions.OnInit(target.shop)) }
 
     @Composable
     override fun invoke() {
@@ -118,16 +117,18 @@ class SaveShopPage(
 
     private fun save(shopId: String) {
         form.makeResult(shopId)?.let {
-            dispatch(saveShopAction(it))
+            dispatch(saveShopAction(SaveShopActionRequest(target.target, it)))
         }
     }
 
     @Parcelize
     data class Target(
+        val target: String,
         val shop: Shop? = null
     ) : NavigationTarget.Page
 
     companion object {
-        operator fun invoke(shop: Shop? = null) = Target(shop)
+        inline operator fun <reified T> invoke(shop: Shop? = null) =
+            Target(T::class.java.name, shop)
     }
 }

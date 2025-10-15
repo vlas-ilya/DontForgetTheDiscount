@@ -31,9 +31,9 @@ fun CashBackBankPresetSelect(
     modifier: Modifier = Modifier,
 ) {
     DFFormElement(
-        label = stringResource(R.string.item_cash_back_bank_title),
+        label = stringResource(R.string.Presets_SaveCashBackPresetPage_BankPreset_Title),
         error = runIf(error.value == FormFieldError.REQUIRED_BUT_EMPTY) {
-            stringResource(R.string.item_cash_back_bank_error)
+            stringResource(R.string.Presets_SaveCashBackPresetPage_BankPreset_Error)
         },
         modifier = modifier.fillMaxWidth()
     ) {
@@ -51,7 +51,7 @@ fun CashBackBankPresetSelect(
                 CashBackBankPresetPreview(it, roundedIcon = true)
             } ?: run {
                 DFPlaceholder(
-                    text = stringResource(R.string.item_cash_back_bank_placeholder),
+                    text = stringResource(R.string.Presets_SaveCashBackPresetPage_BankPreset_Placeholder),
                     modifier = Modifier.padding(
                         horizontal = Theme.sizes.padding6,
                         vertical = Theme.sizes.padding6,

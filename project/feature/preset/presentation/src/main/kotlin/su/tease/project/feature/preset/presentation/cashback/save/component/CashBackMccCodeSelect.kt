@@ -19,7 +19,7 @@ fun CashBackMccCodeSelect(
     modifier: Modifier = Modifier,
 ) {
     DFFormElement(
-        label = stringResource(R.string.item_cash_back_mcc_codes_title),
+        label = stringResource(R.string.Presets_SaveCashBackPresetPage_MccCodes_Title),
         modifier = modifier,
     ) {
         val selectedCodesText = mccCodesState
@@ -27,7 +27,7 @@ fun CashBackMccCodeSelect(
 
         DFTextField(
             text = selectedCodesText,
-            placeholder = stringResource(R.string.item_cash_back_mcc_codes_placeholder),
+            placeholder = stringResource(R.string.Presets_SaveCashBackPresetPage_MccCodes_Placeholder),
             onChange = {},
             enabled = false,
             modifier = Modifier.fillMaxWidth(),

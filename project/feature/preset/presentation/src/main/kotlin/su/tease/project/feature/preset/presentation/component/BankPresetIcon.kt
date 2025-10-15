@@ -27,7 +27,7 @@ fun BankPresetIcon(
             .clip(clip)
             .size(size.size()),
         contentDescription = stringResource(
-            R.string.item_back_preset_icon_content_description,
+            R.string.Preset_BankIconPresetItem_ContentDescription,
             name,
         )
     )

@@ -27,7 +27,7 @@ fun ShopPresetIcon(
             .clip(clip)
             .size(size.size()),
         contentDescription = stringResource(
-            R.string.item_shop_preset_icon_content_description,
+            R.string.Preset_ShopPresetIconItem_ContentDescription,
             name,
         )
     )

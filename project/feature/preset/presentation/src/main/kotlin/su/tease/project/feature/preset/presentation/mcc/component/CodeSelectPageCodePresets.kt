@@ -38,7 +38,7 @@ fun CodeSelectPageCodePresets(
     }
 
     DFFormElement(
-        label = stringResource(R.string.page_select_cash_back_codes_label_other),
+        label = stringResource(R.string.Preset_SelectMccCodePresetPage_AllCodes_Label),
         noError = true,
         modifier = modifier,
     ) {

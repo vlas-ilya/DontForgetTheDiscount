@@ -100,7 +100,7 @@ class SaveShopPresetPage(
                 ) {
                     IconSelect(
                         iconState = form.iconPreset,
-                        onSelect = { selectIcon(R.string.Presets_SaveShopPage_IconSelect_Title) },
+                        onSelect = { selectIcon(R.string.Presets_SaveShopPage_IconSelect_PageTitle) },
                         error = form.ui { iconError },
                         modifier = Modifier.wrapContentWidth(),
                     )

@@ -17,12 +17,12 @@ fun CashBackInfoEditText(
     modifier: Modifier = Modifier,
 ) {
     DFFormElement(
-        label = stringResource(R.string.item_cash_back_info_title),
+        label = stringResource(R.string.Presets_SaveCashBackPresetPage_Info_Title),
         modifier = modifier,
     ) {
         DFTextField(
             text = infoState.map { it.orEmpty() },
-            placeholder = stringResource(R.string.item_cash_back_info_placeholder),
+            placeholder = stringResource(R.string.Presets_SaveCashBackPresetPage_Info_Placeholder),
             onChange = { onChange(it) },
             modifier = Modifier.fillMaxWidth(),
             maxLength = INFO_MAX_LENGTH,

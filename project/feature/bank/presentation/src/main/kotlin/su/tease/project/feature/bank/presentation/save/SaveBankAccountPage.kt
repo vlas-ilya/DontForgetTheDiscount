@@ -33,6 +33,7 @@ import su.tease.project.feature.bank.presentation.dependencies.navigation.Select
 import su.tease.project.feature.bank.presentation.dependencies.view.BankPresetIconView
 import su.tease.project.feature.bank.presentation.save.action.SaveBankAccountAction
 import su.tease.project.feature.bank.presentation.save.action.SaveBankAccountActions
+import su.tease.project.feature.bank.presentation.save.action.SaveBankAccountRequest
 import su.tease.project.feature.bank.presentation.save.component.SaveBankAccountBankPresetSelect
 import su.tease.project.feature.bank.presentation.save.component.SaveBankAccountPageNameEditText
 import su.tease.project.feature.bank.presentation.save.component.SaveBankAccountPageSaveButton
@@ -118,16 +119,18 @@ class SaveBankAccountPage(
 
     private fun save(bankAccountId: String) {
         form.makeResult(bankAccountId)?.let {
-            dispatch(saveBankAccountAction(it))
+            dispatch(saveBankAccountAction(SaveBankAccountRequest(target.target, it)))
         }
     }
 
     @Parcelize
     data class Target(
+        val target: String,
         val bankAccount: BankAccount? = null
     ) : NavigationTarget.Page
 
     companion object {
-        operator fun invoke(bankAccount: BankAccount? = null) = Target(bankAccount)
+        inline operator fun <reified T> invoke(bankAccount: BankAccount? = null) =
+            Target(T::class.java.name, bankAccount)
     }
 }

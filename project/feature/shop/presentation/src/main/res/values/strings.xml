@@ -17,8 +17,8 @@
     <string name="Shop_SaveShopPage_ShopPresetSelect_Error">Поле должно быть заполнено</string>
     <string name="Shop_SaveShopPage_ShopPresetSelect_Placeholder">Кликните для выбора магазина</string>
     <string name="Shop_SaveShopPage_ShopPresetSelect_Title">Магазин</string>
-    <string name="Shop_SaveShopPage_Notification_Add_Title">Аккаунт успешно создан</string>
-    <string name="Shop_SaveShopPage_Notification_Save_Title">Аккаунт успешно сохранен</string>
+    <string name="Shop_SaveShopPage_Notification_Add_Title">Аккаунт магазина успешно создан</string>
+    <string name="Shop_SaveShopPage_Notification_Save_Title">Аккаунт магазина успешно сохранен</string>
     <string name="Shop_SaveShopPage_Save_Title">Изменение аккаунта</string>
     <string name="Shop_SaveShopPage_SaveButton_Title">Сохранить</string>
     <string name="Shop_SelectShopPage_Title">Выбор аккаунта</string>

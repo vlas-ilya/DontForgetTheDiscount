@@ -108,7 +108,7 @@ class SelectShopPresetPage(
         }
 
         DFPage(
-            title = stringResource(R.string.page_select_shop_preset_title),
+            title = stringResource(R.string.Presets_SelectShopPreset_Title),
             floatingButtons = floatingButtons.value,
             actionIcon = LocalFeatureConfig.current.action?.icon,
             onActionPress = LocalFeatureConfig.current.action?.onClick,

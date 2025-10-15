@@ -5,13 +5,13 @@ import su.tease.project.core.mvi.middleware.suspend.suspendAction
 import su.tease.project.core.utils.ext.choose
 import su.tease.project.core.utils.resource.ResourceProvider
 import su.tease.project.core.utils.uuid.UuidProvider
-import su.tease.project.feature.shop.domain.entity.Shop
+import su.tease.project.feature.notification.api.Notification
+import su.tease.project.feature.notification.api.NotificationAction
 import su.tease.project.feature.shop.domain.interactor.ShopInterceptor
 import su.tease.project.feature.shop.presentation.R
 import su.tease.project.feature.shop.presentation.save.action.SaveShopAction
+import su.tease.project.feature.shop.presentation.save.action.SaveShopActionRequest
 import su.tease.project.feature.shop.presentation.save.action.SaveShopActions
-import su.tease.project.feature.notification.api.Notification
-import su.tease.project.feature.notification.api.NotificationAction
 import timber.log.Timber
 
 data class SaveShopActionImpl(
@@ -20,17 +20,17 @@ data class SaveShopActionImpl(
     private val resourceProvider: ResourceProvider,
 ) : SaveShopAction {
 
-    override fun run(request: Shop) = suspendAction {
+    override fun run(request: SaveShopActionRequest) = suspendAction {
         dispatch(SaveShopActions.OnSave)
         try {
-            val persisted = request.takeIf { it.id.isNotBlank() }
+            val persisted = request.shop.takeIf { it.id.isNotBlank() }
                 ?.let { interceptor.get(it.id) }
-                ?: request.copy(id = uuidProvider.uuid())
+                ?: request.shop.copy(id = uuidProvider.uuid())
 
             interceptor.save(persisted)
 
-            dispatch(SaveShopActions.OnSaveSuccess(persisted))
-            dispatch(NotificationAction.ShowNotification(successNotification(request.id.isBlank())))
+            dispatch(SaveShopActions.OnSaveSuccess(request.target, persisted))
+            dispatch(NotificationAction.ShowNotification(successNotification(request.shop.id.isBlank())))
         } catch (e: RepositoryException) {
             Timber.e(e)
             dispatch(SaveShopActions.OnSaveFail)

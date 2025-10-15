@@ -22,17 +22,17 @@ fun NameEditText(
     modifier: Modifier = Modifier,
 ) {
     DFFormElement(
-        label = stringResource(R.string.item_shop_name_title),
+        label = stringResource(R.string.Presets_SaveShopPage_Name_Title),
         error = when (error.value) {
-            FormFieldError.REQUIRED_BUT_EMPTY -> stringResource(R.string.item_shop_name_error_common)
-            FormFieldError.DUPLICATE -> stringResource(R.string.item_shop_name_error_duplicate)
+            FormFieldError.REQUIRED_BUT_EMPTY -> stringResource(R.string.Presets_SaveShopPage_Name_Error_Common)
+            FormFieldError.DUPLICATE -> stringResource(R.string.Presets_SaveShopPage_Name_Error_Duplicate)
             else -> null
         },
         modifier = modifier,
     ) {
         DFTextField(
             text = nameState.map { it },
-            placeholder = stringResource(R.string.item_shop_name_placeholder),
+            placeholder = stringResource(R.string.Presets_SaveShopPage_Name_Placeholder),
             onChange = { onChange(it) },
             maxLength = NAME_MAX_LENGTH,
             modifier = Modifier

@@ -10,6 +10,7 @@ import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.design.icons.R
 import su.tease.project.feature.bank.domain.entity.BankAccount
 import su.tease.project.feature.bank.presentation.save.SaveBankAccountPage
+import su.tease.project.feature.notification.api.Notification
 
 class SaveBankAccountInfoFeature(
     store: Store<*>,
@@ -35,7 +36,7 @@ class SaveBankAccountInfoFeature(
             bankAccount: BankAccount? = null
         ) = feature(
             Target,
-            SaveBankAccountPage(bankAccount),
+            SaveBankAccountPage<Unit>(bankAccount),
         )
     }
 
