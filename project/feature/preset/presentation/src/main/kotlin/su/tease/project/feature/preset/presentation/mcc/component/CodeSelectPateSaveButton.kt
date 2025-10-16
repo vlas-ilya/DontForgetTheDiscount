@@ -12,7 +12,7 @@ fun CodeSelectPateSaveButton(
     modifier: Modifier = Modifier,
 ) {
     DFButton(
-        label = stringResource(R.string.Preset_SelectMccCodePresetPage_SaveButton_Label),
+        label = stringResource(R.string.Presets_SelectMccCodePresetPage_SaveButton_Label),
         onClick = { onClick() },
         modifier = modifier,
     )

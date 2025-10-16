@@ -16,6 +16,10 @@ import su.tease.project.feature.info.presentation.dependencies.navigation.ShopPr
 import su.tease.project.feature.info.presentation.dependencies.navigation.Shops
 import su.tease.project.feature.preset.presentation.bank.info.list.ListBankPresetPage
 import su.tease.project.feature.preset.presentation.cashback.info.list.ListInfoCashbackPresetPage
+import su.tease.project.feature.preset.presentation.icon.info.ListIconPresetPage
+import su.tease.project.feature.preset.presentation.icon.info.ListIconPresetPage.IconType.BANK_ICON
+import su.tease.project.feature.preset.presentation.icon.info.ListIconPresetPage.IconType.CASH_BACK_ICON
+import su.tease.project.feature.preset.presentation.icon.info.ListIconPresetPage.IconType.SHOP_ICON
 import su.tease.project.feature.preset.presentation.shop.info.list.ListShopPresetPage
 import su.tease.project.feature.shop.presentation.info.list.ShopsInfoPage
 
@@ -27,15 +31,16 @@ class InfoListPageNavigationInterceptor : Interceptor {
     }
 
     private fun handleInfoNavigation(page: Info): List<PlainAction> = when (page) {
-        Banks -> NavigationAction.ForwardToPage(BankAccountsInfoPage()).let(::listOf)
-        BankPresets -> NavigationAction.ForwardToPage(ListBankPresetPage()).let(::listOf)
-        Shops -> NavigationAction.ForwardToPage(ShopsInfoPage()).let(::listOf)
-        ShopPresets -> NavigationAction.ForwardToPage(ListShopPresetPage()).let(::listOf)
-        CashBackPresets -> NavigationAction.ForwardToPage(ListInfoCashbackPresetPage()).let(::listOf)
-        BankIconPresets,
-        CashBackIconPresets,
-        MccCodePresets,
-        ShopIconPresets,
-            -> emptyList()
+        Banks -> BankAccountsInfoPage()
+        BankPresets -> ListBankPresetPage()
+        Shops -> ShopsInfoPage()
+        ShopPresets -> ListShopPresetPage()
+        CashBackPresets -> ListInfoCashbackPresetPage()
+        BankIconPresets -> ListIconPresetPage(BANK_ICON)
+        CashBackIconPresets -> ListIconPresetPage(CASH_BACK_ICON)
+        ShopIconPresets -> ListIconPresetPage(SHOP_ICON)
+        MccCodePresets -> TODO()
     }
+        .let { NavigationAction.ForwardToPage(it) }
+        .let(::listOf)
 }

@@ -25,6 +25,7 @@ import su.tease.project.feature.preset.presentation.cashback.save.SaveCashBackPr
 import su.tease.project.feature.preset.presentation.cashback.save.action.SaveCashBackPresetAction
 import su.tease.project.feature.preset.presentation.cashback.save.action.impl.SaveCashBackPresetActionImpl
 import su.tease.project.feature.preset.presentation.cashback.select.SelectCashBackPresetPage
+import su.tease.project.feature.preset.presentation.icon.info.ListIconPresetPage
 import su.tease.project.feature.preset.presentation.icon.select.SelectIconPresetPage
 import su.tease.project.feature.preset.presentation.mcc.select.SelectMccCodePresetPage
 import su.tease.project.feature.preset.presentation.mcc.select.action.SelectMccCodeAction
@@ -63,6 +64,8 @@ val presetIntegrationModule = module {
     page { SelectShopPresetPage(get(), get(), get(), get()) }
     page { SaveShopPresetPage(get(), get(), get()) }
 
+    page { ListIconPresetPage(get(), get(), get(), get()) }
+    page { SelectIconPresetPage(get(), get(), get(), get()) }
+
     page { SelectMccCodePresetPage(get(), get(), get(), get()) }
-    page { SelectIconPresetPage(get(), get(), get()) }
 }

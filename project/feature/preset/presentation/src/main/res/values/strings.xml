@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="Preset_BankIconPresetItem_ContentDescription">Логотип банка \"%s\"</string>
-    <string name="Preset_CashBackPresetIconItem_ContentDescription">Иконка кэшбэка \"%s\"</string>
-    <string name="Preset_SelectMccCodePresetPage_AllCodes_Label">MCC коды</string>
-    <string name="Preset_SelectMccCodePresetPage_SaveButton_Label">Сохранить</string>
-    <string name="Preset_SelectMccCodePresetPage_SelectedCodes_Label">Выбранные MCC коды</string>
-    <string name="Preset_SelectMccCodePresetPage_SelectedCodes_Placeholder">Ничего не выбрано</string>
-    <string name="Preset_SelectMccCodePresetPage_Title">Выбор МСС кодов для кэшбэка</string>
-    <string name="Preset_SelectMccCodePresetPage_Value_Title">MCC коды</string>
-    <string name="Preset_ShopPresetIconItem_ContentDescription">Логотип магазина \"%s\"</string>
+    <string name="Presets_ListIconPresetPage_Bank_Title">Иконки банков</string>
+    <string name="Presets_ListIconPresetPage_Shop_Title">Иконки магазинов</string>
+    <string name="Presets_ListIconPresetPage_Cashback_Title">Иконки кэшбэков</string>
+
+    <string name="Presets_BankIconPresetItem_ContentDescription">Логотип банка \"%s\"</string>
     <string name="Presets_BankListPage_Title">Банки</string>
     <string name="Presets_CashBackInfoDialog_CloseButton_Label">Понятно</string>
     <string name="Presets_CashBackInfoDialog_MccList_Label">MCC коды</string>
     <string name="Presets_CashbackListPage_Title">Категории кэшбэка</string>
+    <string name="Presets_CashBackPresetIconItem_ContentDescription">Иконка кэшбэка \"%s\"</string>
     <string name="Presets_SaveBankPage_Add_Title">Добавление банка</string>
     <string name="Presets_SaveBankPage_Edit_Title">Редактирование банка</string>
     <string name="Presets_SaveBankPage_IconSelect_PageTitle">Выбор иконки для банка</string>
@@ -57,6 +54,13 @@
     <string name="Presets_SaveShopPage_SaveButton_Label">Сохранить</string>
     <string name="Presets_SelectBankPreset_Title">Выбор банка</string>
     <string name="Presets_SelectCashBackPreset_Title">Выбор категории кэшбека</string>
+    <string name="Presets_SelectMccCodePresetPage_AllCodes_Label">MCC коды</string>
+    <string name="Presets_SelectMccCodePresetPage_SaveButton_Label">Сохранить</string>
+    <string name="Presets_SelectMccCodePresetPage_SelectedCodes_Label">Выбранные MCC коды</string>
+    <string name="Presets_SelectMccCodePresetPage_SelectedCodes_Placeholder">Ничего не выбрано</string>
+    <string name="Presets_SelectMccCodePresetPage_Title">Выбор МСС кодов для кэшбэка</string>
+    <string name="Presets_SelectMccCodePresetPage_Value_Title">MCC коды</string>
     <string name="Presets_SelectShopPreset_Title">Выбор магазина</string>
     <string name="Presets_ShopListPage_Title">Магазины</string>
+    <string name="Presets_ShopPresetIconItem_ContentDescription">Логотип магазина \"%s\"</string>
 </resources>

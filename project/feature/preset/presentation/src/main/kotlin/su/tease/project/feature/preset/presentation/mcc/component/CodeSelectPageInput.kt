@@ -27,7 +27,7 @@ fun CodeSelectPageInput(
 ) {
     DFFormElement(
         modifier = modifier,
-        label = stringResource(R.string.Preset_SelectMccCodePresetPage_Value_Title),
+        label = stringResource(R.string.Presets_SelectMccCodePresetPage_Value_Title),
     ) {
         Box {
             DFNumberField(

@@ -24,7 +24,7 @@ fun CodeSelectPageSelectedCodes(
 ) {
     DFFormElement(
         modifier = modifier,
-        label = stringResource(R.string.Preset_SelectMccCodePresetPage_SelectedCodes_Label),
+        label = stringResource(R.string.Presets_SelectMccCodePresetPage_SelectedCodes_Label),
         noError = selectedCodes.isNotEmpty(),
     ) {
         if (selectedCodes.isNotEmpty()) {
@@ -46,7 +46,7 @@ fun CodeSelectPageSelectedCodes(
             Spacer(Modifier.height(Theme.sizes.size4))
         } else {
             DFText(
-                text = stringResource(R.string.Preset_SelectMccCodePresetPage_SelectedCodes_Placeholder),
+                text = stringResource(R.string.Presets_SelectMccCodePresetPage_SelectedCodes_Placeholder),
                 modifier = Modifier.padding(horizontal = Theme.sizes.padding4),
                 style = Theme.fonts.placeholder,
                 color = Theme.colors.placeholder

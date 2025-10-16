@@ -1,7 +1,5 @@
-package su.tease.project.feature.preset.presentation.icon.select
+package su.tease.project.feature.preset.presentation.icon.info
 
-import androidx.annotation.StringRes
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -32,7 +30,6 @@ import su.tease.core.mvi.component.component.container.LocalRootConfig
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.design.theme.api.Theme
-import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.resource.ResourceProvider
 import su.tease.project.core.utils.utils.memoize
@@ -43,14 +40,15 @@ import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.design.component.controls.page.DFPageFloatingButton
 import su.tease.project.feature.preset.domain.entity.IconPreset
 import su.tease.project.feature.preset.domain.interactor.PresetInteractor
+import su.tease.project.feature.preset.presentation.R
 import su.tease.project.design.icons.R as RIcons
 
-class SelectIconPresetPage(
+class ListIconPresetPage(
     store: Store<*>,
     val target: Target,
     private val presetInteractor: PresetInteractor,
     private val resourceProvider: ResourceProvider,
-) : BasePageComponent<SelectIconPresetPage.Target>(store) {
+) : BasePageComponent<ListIconPresetPage.Target>(store) {
 
     private val lazyGridState = LazyGridState(0, 0)
     private val scrollDirectionState = scrollDirectionState { resourceProvider.dpToPx(it) }
@@ -91,7 +89,13 @@ class SelectIconPresetPage(
         }
 
         DFPage(
-            title = stringResource(target.pageTitle),
+            title = stringResource(
+                when (target.iconType) {
+                    IconType.BANK_ICON -> R.string.Presets_ListIconPresetPage_Bank_Title
+                    IconType.SHOP_ICON -> R.string.Presets_ListIconPresetPage_Shop_Title
+                    IconType.CASH_BACK_ICON -> R.string.Presets_ListIconPresetPage_Cashback_Title
+                }
+            ),
             floatingButtons = floatingButtons.value,
             actionIcon = LocalFeatureConfig.current.action?.icon,
             onActionPress = LocalFeatureConfig.current.action?.onClick,
@@ -109,10 +113,6 @@ class SelectIconPresetPage(
                         DFImage(
                             modifier = Modifier
                                 .clip(target.iconType.clip())
-                                .clickable {
-                                    dispatch(OnSelectAction(target.target, it))
-                                    back()
-                                }
                                 .padding(target.iconType.padding())
                                 .size(target.iconType.size()),
                             url = it.iconUrl,
@@ -132,13 +132,6 @@ class SelectIconPresetPage(
         val padding: @Composable () -> Dp,
         val size: @Composable () -> Dp,
     ) {
-        CASH_BACK_ICON(
-            getIcons = PresetInteractor::cashBacksIconPresets,
-            tint = { Theme.colors.iconTint },
-            clip = { RoundedCornerShape(Theme.sizes.round4) },
-            padding = { Theme.sizes.padding4 },
-            size = { Theme.sizes.size46 },
-        ),
         BANK_ICON(
             getIcons = PresetInteractor::bankIconPresets,
             tint = { null },
@@ -152,29 +145,21 @@ class SelectIconPresetPage(
             clip = { CircleShape },
             padding = { 0.dp },
             size = { Theme.sizes.size46 },
-        )
+        ),
+        CASH_BACK_ICON(
+            getIcons = PresetInteractor::cashBacksIconPresets,
+            tint = { Theme.colors.iconTint },
+            clip = { RoundedCornerShape(Theme.sizes.round4) },
+            padding = { Theme.sizes.padding4 },
+            size = { Theme.sizes.size46 },
+        ),
     }
 
     @Parcelize
-    data class Target(
-        val target: String,
-        val iconType: IconType,
-        val pageTitle: Int,
-        val selected: IconPreset?
-    ) : NavigationTarget.Page
-
-    @Parcelize
-    data class OnSelectAction(
-        val target: String,
-        val selected: IconPreset?
-    ) : PlainAction
+    data class Target(val iconType: IconType) : NavigationTarget.Page
 
     companion object {
-        inline operator fun <reified T> invoke(
-            iconType: IconType,
-            @StringRes pageTitle: Int,
-            selected: IconPreset?,
-        ) = Target(T::class.java.name, iconType, pageTitle, selected)
+        operator fun invoke(iconType: IconType) = Target(iconType)
     }
 }
 
