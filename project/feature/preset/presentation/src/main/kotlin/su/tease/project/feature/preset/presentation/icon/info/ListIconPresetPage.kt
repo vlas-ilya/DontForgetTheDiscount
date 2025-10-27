@@ -55,8 +55,6 @@ class ListIconPresetPage(
 
     @Composable
     override operator fun invoke() {
-        RootConfig { copy(isFullscreen = true) }
-
         val icons by memoize { target.iconType.getIcons(presetInteractor) }
 
         val isScrollTopButtonVisible = remember {

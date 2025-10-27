@@ -17,8 +17,7 @@ class SelectBankPresetPageFromSaveBankPageInterceptor : Interceptor {
     }
 
     private fun tryToNavigateToSelectBankPresetPage(action: NavigationAction.ForwardToPage): List<PlainAction> {
-        if (action.page !is SelectBankPresetPage) return listOf()
-        val page = action.page as SelectBankPresetPage
+        val page = action.page as? SelectBankPresetPage ?: return listOf()
         return NavigationAction.ForwardToPage(
             page = ExternalSelectBankPresetPage<Target>(
                 selected = page.selected?.toExternal(),

@@ -1,25 +1,17 @@
 package su.tease.project.feature.preset.presentation.bank.info.list
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
@@ -30,17 +22,20 @@ import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.store.Store
+import su.tease.project.core.utils.ext.map
 import su.tease.project.core.utils.resource.ResourceProvider
 import su.tease.project.core.utils.utils.memoize
 import su.tease.project.core.utils.utils.rememberCallback
 import su.tease.project.core.utils.utils.scrollDirectionState
+import su.tease.project.design.component.controls.list.LazyList
 import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.design.component.controls.page.DFPageFloatingButton
 import su.tease.project.design.component.controls.shimmer.Shimmer
 import su.tease.project.feature.preset.domain.interactor.PresetInteractor
 import su.tease.project.feature.preset.presentation.R
-import su.tease.project.feature.preset.presentation.bank.component.SelectBankPresetPreview
+import su.tease.project.feature.preset.presentation.bank.component.BankPresetPreview
 import su.tease.project.feature.preset.presentation.bank.info.save.SaveBankPresetFeature
+import su.tease.project.feature.preset.presentation.bank.utils.toUi
 import su.tease.project.design.icons.R as RIcons
 
 class ListBankPresetPage(
@@ -54,7 +49,8 @@ class ListBankPresetPage(
 
     @Composable
     override fun invoke() {
-        val banks by memoize { presetInteractor.bankPresets() }
+        val list = memoize { presetInteractor.bankPresets() }
+            .map { it?.toUi(store, null) }
 
         val isScrollTopButtonVisible = remember {
             derivedStateOf {
@@ -96,45 +92,27 @@ class ListBankPresetPage(
             onActionPress = LocalFeatureConfig.current.action?.onClick,
             hasSystemNavigationBar = LocalRootConfig.current.hasSystemNavigationBar,
         ) {
-            LazyColumn(
-                state = lazyListState,
-                contentPadding = PaddingValues(vertical = Theme.sizes.padding4),
-            ) {
-                if (banks == null) {
-                    item { SelectBankPresetShimmer() }
-                    return@LazyColumn
-                }
-                banks?.forEach {
-                    item(key = it.id) {
-                        SelectBankPresetPreview(
-                            bankPreset = it,
-                            modifier = Modifier
-                                .clickable { SaveBankPresetFeature(it).forward() }
-                                .fillMaxWidth(),
-                        )
-                    }
-                }
+            val banks = list.value ?: run {
+                BankPresetShimmer()
+                return@DFPage
             }
+            LazyList(
+                count = banks.size,
+                modifier = Modifier.fillMaxWidth(),
+                itemContent = banks::get,
+                verticalArrangement = Arrangement.spacedBy(Theme.sizes.padding4),
+                contentPadding = PaddingValues(vertical = Theme.sizes.padding8),
+                lazyListState = lazyListState,
+            )
         }
     }
 
     @Composable
-    private fun SelectBankPresetShimmer(modifier: Modifier = Modifier) {
-        Shimmer(
-            modifier = modifier,
-        ) {
+    private fun BankPresetShimmer() {
+        Shimmer {
             Column(verticalArrangement = Arrangement.spacedBy(Theme.sizes.padding4)) {
-                Spacer(Modifier.height(Theme.sizes.padding8))
-                repeat(SHIMMER_ITEM_COUNT) {
-                    Box(
-                        modifier = Modifier
-                            .padding(horizontal = Theme.sizes.padding2)
-                            .clip(RoundedCornerShape(Theme.sizes.round12))
-                            .fillMaxWidth()
-                            .height(Theme.sizes.size42)
-                            .background(Theme.colors.shimmer)
-                    )
-                }
+                Spacer(Modifier.height(Theme.sizes.padding4))
+                repeat(SHIMMER_ITEM_COUNT) { BankPresetPreview.Shimmer() }
             }
         }
     }

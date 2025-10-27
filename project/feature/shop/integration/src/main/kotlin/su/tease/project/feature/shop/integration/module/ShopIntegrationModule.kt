@@ -48,6 +48,6 @@ val shopIntegrationModule = module {
     feature { SaveShopInfoFeature(get()) }
     page { ShopsPage(get(), get(), get(), get(), get(), get(), get()) }
     page { ShopsInfoPage(get(), get(), get(), get()) }
-    page { SelectShopPage(get(), get(), get(), get()) }
+    page { SelectShopPage(get(), get(), get(), get(), get()) }
     page { SaveShopPage(get(), get(), get(), get()) }
 }

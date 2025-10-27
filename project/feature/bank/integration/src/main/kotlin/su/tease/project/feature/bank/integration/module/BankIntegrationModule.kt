@@ -48,6 +48,6 @@ val bankIntegrationModule = module {
     feature { SaveBankAccountInfoFeature(get()) }
     page { BankAccountsPage(get(), get(), get(), get(), get(), get(), get()) }
     page { BankAccountsInfoPage(get(), get(), get(), get()) }
-    page { SelectBankAccountPage(get(), get(), get(), get()) }
+    page { SelectBankAccountPage(get(), get(), get(), get(), get()) }
     page { SaveBankAccountPage(get(), get(), get(), get()) }
 }

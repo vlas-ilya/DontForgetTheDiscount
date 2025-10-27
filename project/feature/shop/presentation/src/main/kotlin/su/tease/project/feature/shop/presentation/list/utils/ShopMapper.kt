@@ -10,7 +10,7 @@ import su.tease.project.feature.shop.presentation.dependencies.view.CashBackPres
 import su.tease.project.feature.shop.presentation.dependencies.view.ShopPresetIconView
 import su.tease.project.feature.shop.presentation.list.component.ShopsAddMoreCashBackItem
 import su.tease.project.feature.shop.presentation.list.component.ShopsPageCashBackItem
-import su.tease.project.feature.shop.presentation.list.component.ShopsPageShopItem
+import su.tease.project.feature.shop.presentation.component.ShopsItem
 
 fun List<Shop>.toUi(
     date: CashBackDate,
@@ -26,7 +26,7 @@ fun Shop.toUi(
     store: Store<*>,
 ): LazyListItems = buildPersistentList {
     val shop = this@toUi
-    add(ShopsPageShopItem(shop, shopPresetIconView, store))
+    add(ShopsItem(shop, shopPresetIconView, store))
     cashBacks.forEach { add(ShopsPageCashBackItem(shop, it, cashBackPresetIconView, store)) }
     add(ShopsAddMoreCashBackItem(date, shop, store))
 }

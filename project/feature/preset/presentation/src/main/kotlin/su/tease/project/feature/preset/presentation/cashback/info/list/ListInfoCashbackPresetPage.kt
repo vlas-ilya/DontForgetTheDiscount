@@ -1,24 +1,17 @@
 package su.tease.project.feature.preset.presentation.cashback.info.list
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
@@ -29,10 +22,12 @@ import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.store.Store
+import su.tease.project.core.utils.ext.map
 import su.tease.project.core.utils.resource.ResourceProvider
 import su.tease.project.core.utils.utils.memoize
 import su.tease.project.core.utils.utils.rememberCallback
 import su.tease.project.core.utils.utils.scrollDirectionState
+import su.tease.project.design.component.controls.list.LazyList
 import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.design.component.controls.page.DFPageFloatingButton
 import su.tease.project.design.component.controls.shimmer.Shimmer
@@ -42,7 +37,7 @@ import su.tease.project.feature.preset.presentation.cashback.dialog.CashBackPres
 import su.tease.project.feature.preset.presentation.cashback.info.list.component.CashBackPresetPreview
 import su.tease.project.feature.preset.presentation.cashback.info.list.reducer.CashBackPresetInfoDialogAction
 import su.tease.project.feature.preset.presentation.cashback.info.list.reducer.ListInfoCashbackPresetState
-import su.tease.project.feature.preset.presentation.cashback.info.save.SaveCashBackPresetFeature
+import su.tease.project.feature.preset.presentation.cashback.info.list.utils.toUi
 import su.tease.project.design.icons.R as RIcons
 
 class ListInfoCashbackPresetPage(
@@ -56,7 +51,8 @@ class ListInfoCashbackPresetPage(
 
     @Composable
     override fun invoke() {
-        val cashBacks by memoize { presetInteractor.cashBackPresets() }
+        val list = memoize { presetInteractor.cashBackPresets() }
+            .map { it?.toUi(store, null) }
 
         val isScrollTopButtonVisible = remember {
             derivedStateOf {
@@ -94,25 +90,18 @@ class ListInfoCashbackPresetPage(
             onActionPress = LocalFeatureConfig.current.action?.onClick,
             hasSystemNavigationBar = LocalRootConfig.current.hasSystemNavigationBar,
         ) {
-            LazyColumn(
-                state = lazyListState,
-                contentPadding = PaddingValues(vertical = Theme.sizes.padding4),
-            ) {
-                if (cashBacks == null) {
-                    item { SelectCashbackPresetShimmer() }
-                    return@LazyColumn
-                }
-                cashBacks?.forEach {
-                    item(key = it.id) {
-                        CashBackPresetPreview(
-                            store = store,
-                            cashBackPreset = it,
-                            onClick = { SaveCashBackPresetFeature(it).forward() },
-                            modifier = Modifier.fillMaxWidth(),
-                        )
-                    }
-                }
+            val cashBacks = list.value ?: run {
+                CashbackPresetShimmer()
+                return@DFPage
             }
+            LazyList(
+                count = cashBacks.size,
+                modifier = Modifier.fillMaxWidth(),
+                itemContent = cashBacks::get,
+                verticalArrangement = Arrangement.spacedBy(Theme.sizes.padding4),
+                contentPadding = PaddingValues(vertical = Theme.sizes.padding8),
+                lazyListState = lazyListState,
+            )
         }
 
         CashBackPresetInfoDialog(
@@ -122,22 +111,11 @@ class ListInfoCashbackPresetPage(
     }
 
     @Composable
-    private fun SelectCashbackPresetShimmer(modifier: Modifier = Modifier) {
-        Shimmer(
-            modifier = modifier,
-        ) {
+    private fun CashbackPresetShimmer() {
+        Shimmer {
             Column(verticalArrangement = Arrangement.spacedBy(Theme.sizes.padding4)) {
-                Spacer(Modifier.height(Theme.sizes.padding8))
-                repeat(SHIMMER_ITEM_COUNT) {
-                    Box(
-                        modifier = Modifier
-                            .padding(horizontal = Theme.sizes.padding2)
-                            .clip(RoundedCornerShape(Theme.sizes.round12))
-                            .fillMaxWidth()
-                            .height(Theme.sizes.size42)
-                            .background(Theme.colors.shimmer)
-                    )
-                }
+                Spacer(Modifier.height(Theme.sizes.padding4))
+                repeat(SHIMMER_ITEM_COUNT) { CashBackPresetPreview.Shimmer() }
             }
         }
     }

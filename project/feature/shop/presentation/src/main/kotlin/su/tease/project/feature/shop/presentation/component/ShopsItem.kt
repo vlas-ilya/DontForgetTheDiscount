@@ -1,12 +1,20 @@
-package su.tease.project.feature.shop.presentation.list.component
+package su.tease.project.feature.shop.presentation.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import su.tease.design.theme.api.Theme
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.ext.thenIfNotNull
@@ -16,7 +24,7 @@ import su.tease.project.feature.shop.domain.entity.Shop
 import su.tease.project.feature.shop.presentation.dependencies.view.ShopPresetIconView
 import su.tease.project.feature.shop.presentation.dependencies.view.Compose
 
-data class ShopsPageShopItem(
+data class ShopsItem(
     private val shop: Shop,
     private val shopPresetIconView: ShopPresetIconView,
     private val store: Store<*>,
@@ -44,6 +52,33 @@ data class ShopsPageShopItem(
                 style = Theme.fonts.placeholder,
                 modifier = Modifier.padding(horizontal = Theme.sizes.padding6)
             )
+        }
+    }
+
+    companion object {
+
+        @Composable
+        fun Shimmer() {
+            Row(
+                modifier = Modifier,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Box(
+                    modifier = Modifier
+                        .padding(horizontal = Theme.sizes.padding8)
+                        .clip(CircleShape)
+                        .size(Theme.sizes.size32)
+                        .background(Theme.colors.shimmer),
+                )
+                Box(
+                    modifier = Modifier
+                        .padding(end = Theme.sizes.padding6)
+                        .clip(RoundedCornerShape(Theme.sizes.round12))
+                        .fillMaxWidth()
+                        .height(Theme.sizes.size32)
+                        .background(Theme.colors.shimmer)
+                )
+            }
         }
     }
 }
