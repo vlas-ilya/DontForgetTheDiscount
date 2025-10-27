@@ -30,6 +30,7 @@ import su.tease.project.core.mvi.api.state.LoadingStatus
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.navigation.state.NavigationState
 import su.tease.project.core.utils.date.DateProvider
+import su.tease.project.core.utils.ext.map
 import su.tease.project.core.utils.ext.unit
 import su.tease.project.core.utils.resource.ResourceProvider
 import su.tease.project.core.utils.utils.ScrollDirection
@@ -39,6 +40,7 @@ import su.tease.project.core.utils.utils.rememberCallback
 import su.tease.project.core.utils.utils.scrollDirectionState
 import su.tease.project.design.component.controls.dropdown.DFDropdownMenu
 import su.tease.project.design.component.controls.list.LazyListItems
+import su.tease.project.design.component.controls.list.LazyListWrapper
 import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.design.component.controls.page.DFPageFloatingButton
 import su.tease.project.feature.bank.domain.entity.CashBackDate
@@ -72,8 +74,7 @@ class BankAccountsPage(
     private val cashBackInfoDialogView: CashBackInfoDialogView,
 ) : BasePageComponent<BankAccountsPage.Target>(store) {
 
-    private val lazyListState = LazyListState(0, 0)
-    private val scrollDirectionState = scrollDirectionState { resourceProvider.dpToPx(it) }
+    private val lazyListWrapper = LazyListWrapper(resourceProvider, SCROLL_ITEMS_FOR_SHOW_BUTTON)
 
     init {
         dispatch(LoadBankAccountsActions.OnDateSelect(dateProvider.current().toCashBackDate()))
@@ -84,20 +85,12 @@ class BankAccountsPage(
         val status = selectAsState(BankAccountsState::status)
         val date = selectAsState(BankAccountsState::date)
         val dates = selectAsState(BankAccountsState::dates)
-        val list = selectAsState<BankAccountsState, LazyListItems> {
-            list.toUi(date.value, bankPresetIconView, cashBackPresetIconView, store)
-        }
+        val list = selectAsState(BankAccountsState::list)
+            .map { it.toUi(date.value, bankPresetIconView, cashBackPresetIconView, store) }
 
-        val isScrollTopButtonVisible = remember {
-            derivedStateOf {
-                and(
-                    or(
-                        status.value == LoadingStatus.Success,
-                        status.value == LoadingStatus.Loading,
-                    ),
-                    lazyListState.firstVisibleItemIndex >= SCROLL_ITEMS_FOR_SHOW_BUTTON
-                )
-            }
+        LaunchedEffect(date.value) {
+            if (date.value === defaultCashBackDate) return@LaunchedEffect
+            dispatch(loadBankAccountList(date.value))
         }
 
         val isAddButtonVisible = remember {
@@ -106,20 +99,7 @@ class BankAccountsPage(
             }
         }
 
-        val (scrollDirection, nestedScrollConnection, resetScroll) = scrollDirectionState
-
-        LaunchedEffect(date.value) {
-            if (date.value === defaultCashBackDate) return@LaunchedEffect
-            dispatch(loadBankAccountList(date.value))
-        }
-
-        val scope = rememberCoroutineScope()
-        val scrollUp = rememberCallback(resetScroll, lazyListState) {
-            scope.launch {
-                resetScroll()
-                lazyListState.animateScrollToItem(0)
-            }
-        }
+        val (isScrollTopButtonVisible, scrollDirection, nestedScrollConnection, _, scrollUp) = lazyListWrapper.scrollState
 
         val floatingButtons = remember {
             derivedStateOf {
@@ -166,12 +146,12 @@ class BankAccountsPage(
         ) {
             val state = status.value
             when {
-                state == LoadingStatus.Init -> BankAccountsPageInit()
-                state == LoadingStatus.Loading && list.value.isEmpty() -> BankAccountsPageLoading()
+                state == LoadingStatus.Init -> BankAccountsPageInit(lazyListWrapper)
+                state == LoadingStatus.Loading && list.value.isEmpty() -> BankAccountsPageLoading(lazyListWrapper)
                 state == LoadingStatus.Failed -> BankAccountsPageFailed({ onTryAgain(date) })
                 else -> BankAccountsPageSuccess(
                     list,
-                    lazyListState,
+                    lazyListWrapper,
                     Modifier.nestedScroll(nestedScrollConnection)
                 )
             }

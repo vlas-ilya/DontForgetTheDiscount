@@ -21,8 +21,8 @@ import su.tease.project.core.utils.ext.thenIfNotNull
 import su.tease.project.design.component.controls.list.LazyListItem
 import su.tease.project.design.component.controls.text.DFText
 import su.tease.project.feature.shop.domain.entity.Shop
-import su.tease.project.feature.shop.presentation.dependencies.view.ShopPresetIconView
 import su.tease.project.feature.shop.presentation.dependencies.view.Compose
+import su.tease.project.feature.shop.presentation.dependencies.view.ShopPresetIconView
 
 data class ShopsItem(
     private val shop: Shop,
@@ -55,10 +55,14 @@ data class ShopsItem(
         }
     }
 
-    companion object {
+    data class Shimmer(
+        private val index: Int,
+    ) : LazyListItem {
+
+        override val key: String = "${SHOP}_SHIMMER_$index"
 
         @Composable
-        fun Shimmer() {
+        override fun LazyItemScope.Compose() {
             Row(
                 modifier = Modifier,
                 verticalAlignment = Alignment.CenterVertically,

@@ -29,7 +29,6 @@ import su.tease.project.design.component.controls.text.DFText
 import su.tease.project.feature.preset.domain.entity.BankIconPreset
 import su.tease.project.feature.preset.domain.entity.CashBackPreset
 import su.tease.project.feature.preset.domain.entity.ShopIconPreset
-import su.tease.project.feature.preset.presentation.cashback.select.reducer.CashBackPresetInfoDialogAction
 import su.tease.project.feature.preset.presentation.component.BankPresetIcon
 import su.tease.project.feature.preset.presentation.component.CashBackPresetIcon
 import su.tease.project.feature.preset.presentation.component.CashBackPresetIconSize
@@ -98,10 +97,15 @@ data class CashBackPresetPreview(
         }
     }
 
-    companion object {
+
+    data class Shimmer(
+        private val index: Int,
+    ) : LazyListItem {
+
+        override val key: String = "${CASH_BACK_PRESET}_SHIMMER_$index"
 
         @Composable
-        fun Shimmer() {
+        override fun LazyItemScope.Compose() {
             Row(
                 modifier = Modifier
                     .padding(horizontal = Theme.sizes.padding8),

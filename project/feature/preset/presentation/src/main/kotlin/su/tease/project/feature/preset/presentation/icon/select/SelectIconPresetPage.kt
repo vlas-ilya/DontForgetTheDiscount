@@ -1,21 +1,20 @@
 package su.tease.project.feature.preset.presentation.icon.select
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyGridState
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -25,7 +24,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import su.tease.core.mvi.component.component.container.LocalFeatureConfig
 import su.tease.core.mvi.component.component.container.LocalRootConfig
@@ -36,8 +34,7 @@ import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.resource.ResourceProvider
 import su.tease.project.core.utils.utils.memoize
-import su.tease.project.core.utils.utils.rememberCallback
-import su.tease.project.core.utils.utils.scrollDirectionState
+import su.tease.project.design.component.controls.grid.LazyVerticalGridWrapper
 import su.tease.project.design.component.controls.image.DFImage
 import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.design.component.controls.page.DFPageFloatingButton
@@ -47,35 +44,18 @@ import su.tease.project.design.icons.R as RIcons
 
 class SelectIconPresetPage(
     store: Store<*>,
-    val target: Target,
+    resourceProvider: ResourceProvider,
+    private val target: Target,
     private val presetInteractor: PresetInteractor,
-    private val resourceProvider: ResourceProvider,
 ) : BasePageComponent<SelectIconPresetPage.Target>(store) {
 
-    private val lazyGridState = LazyGridState(0, 0)
-    private val scrollDirectionState = scrollDirectionState { resourceProvider.dpToPx(it) }
+    private val lazyVerticalGridWrapper = LazyVerticalGridWrapper(resourceProvider, SCROLL_ITEMS_FOR_SHOW_BUTTON)
 
     @Composable
     override operator fun invoke() {
-        RootConfig { copy(isFullscreen = true) }
+        val list by memoize { target.iconType.getIcons(presetInteractor) }
 
-        val icons by memoize { target.iconType.getIcons(presetInteractor) }
-
-        val isScrollTopButtonVisible = remember {
-            derivedStateOf {
-                lazyGridState.firstVisibleItemIndex >= SCROLL_ITEMS_FOR_SHOW_BUTTON
-            }
-        }
-
-        val (_, _, resetScroll) = scrollDirectionState
-
-        val scope = rememberCoroutineScope()
-        val scrollUp = rememberCallback(resetScroll, lazyGridState) {
-            scope.launch {
-                resetScroll()
-                lazyGridState.animateScrollToItem(0)
-            }
-        }
+        val (isScrollTopButtonVisible, _, _, _, scrollUp) = lazyVerticalGridWrapper.scrollState
 
         val floatingButtons = remember {
             derivedStateOf {
@@ -97,14 +77,34 @@ class SelectIconPresetPage(
             onActionPress = LocalFeatureConfig.current.action?.onClick,
             hasSystemNavigationBar = LocalRootConfig.current.hasSystemNavigationBar,
         ) {
-            LazyVerticalGrid(
-                state = lazyGridState,
+            val icons = list ?: run {
+                lazyVerticalGridWrapper.Shimmer(
+                    columns = GridCells.Adaptive(minSize = Theme.sizes.size40),
+                    contentPadding = PaddingValues(Theme.sizes.padding6),
+                    verticalArrangement = Arrangement.spacedBy(Theme.sizes.padding4),
+                    horizontalArrangement = Arrangement.spacedBy(Theme.sizes.padding4),
+                ) {
+                    repeat(SHIMMER_ITEM_COUNT) {
+                        item(it) {
+                            Box(
+                                modifier = Modifier
+                                    .clip(target.iconType.clip())
+                                    .background(Theme.colors.shimmer)
+                                    .padding(target.iconType.padding())
+                                    .size(target.iconType.size()),
+                            )
+                        }
+                    }
+                }
+                return@DFPage
+            }
+            lazyVerticalGridWrapper.Compose(
                 columns = GridCells.Adaptive(minSize = Theme.sizes.size40),
                 contentPadding = PaddingValues(Theme.sizes.padding6),
                 verticalArrangement = Arrangement.spacedBy(Theme.sizes.padding4),
                 horizontalArrangement = Arrangement.spacedBy(Theme.sizes.padding4),
             ) {
-                icons?.forEach {
+                icons.forEach {
                     item(key = it.iconUrl) {
                         DFImage(
                             modifier = Modifier
@@ -179,3 +179,4 @@ class SelectIconPresetPage(
 }
 
 private const val SCROLL_ITEMS_FOR_SHOW_BUTTON = 16
+private const val SHIMMER_ITEM_COUNT = 200

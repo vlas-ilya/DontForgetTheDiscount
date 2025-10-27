@@ -30,6 +30,7 @@ import su.tease.project.core.utils.utils.memoize
 import su.tease.project.core.utils.utils.rememberCallback
 import su.tease.project.core.utils.utils.scrollDirectionState
 import su.tease.project.design.component.controls.list.LazyList
+import su.tease.project.design.component.controls.list.LazyListWrapper
 import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.design.component.controls.page.DFPageFloatingButton
 import su.tease.project.design.component.controls.shimmer.Shimmer
@@ -52,8 +53,7 @@ class SelectBankAccountPage(
     private val bankPresetIconView: BankPresetIconView,
 ) : BasePageComponent<SelectBankAccountPage.Target>(store) {
 
-    private val lazyListState = LazyListState(0, 0)
-    private val scrollDirectionState = scrollDirectionState { resourceProvider.dpToPx(it) }
+    private val lazyListWrapper = LazyListWrapper(resourceProvider, SCROLL_ITEMS_FOR_SHOW_BUTTON)
 
     init {
         dispatch(OnInit)
@@ -72,21 +72,7 @@ class SelectBankAccountPage(
             }
         }
 
-        val isScrollTopButtonVisible = remember {
-            derivedStateOf {
-                lazyListState.firstVisibleItemIndex >= SCROLL_ITEMS_FOR_SHOW_BUTTON
-            }
-        }
-
-        val (_, _, resetScroll) = scrollDirectionState
-
-        val scope = rememberCoroutineScope()
-        val scrollUp = rememberCallback(resetScroll, lazyListState) {
-            scope.launch {
-                resetScroll()
-                lazyListState.animateScrollToItem(0)
-            }
-        }
+        val (isScrollTopButtonVisible, _, _, _, scrollUp) = lazyListWrapper.scrollState
 
         val floatingButtons = remember {
             persistentListOf(
@@ -111,17 +97,23 @@ class SelectBankAccountPage(
             floatingButtons = floatingButtons,
         ) {
             val banks = list.value ?: run {
-                SelectBankAccountShimmer()
+                lazyListWrapper.Shimmer(
+                    count = SHIMMER_ITEM_COUNT,
+                    modifier = Modifier.fillMaxWidth(),
+                    itemContent = { BankAccountsItem.Shimmer(it) },
+                    verticalArrangement = Arrangement.spacedBy(Theme.sizes.padding4),
+                    contentPadding = PaddingValues(vertical = Theme.sizes.padding8),
+                )
                 return@DFPage
             }
 
-            LazyList(
+
+            lazyListWrapper.Compose(
                 count = banks.size,
                 modifier = Modifier.fillMaxWidth(),
                 itemContent = banks::get,
                 verticalArrangement = Arrangement.spacedBy(Theme.sizes.padding4),
                 contentPadding = PaddingValues(vertical = Theme.sizes.padding8),
-                lazyListState = lazyListState,
             )
         }
     }
@@ -129,19 +121,6 @@ class SelectBankAccountPage(
     private fun onBankAccountClick(bankAccount: BankAccount) {
         dispatch(OnSelectAction(target.target, bankAccount))
         back()
-    }
-
-    @Composable
-    private fun SelectBankAccountShimmer() {
-        Shimmer {
-            Column(
-                verticalArrangement = Arrangement
-                    .spacedBy(Theme.sizes.padding4)
-            ) {
-                Spacer(Modifier.height(Theme.sizes.padding4))
-                repeat(SHIMMER_ITEM_COUNT) { BankAccountsItem.Shimmer() }
-            }
-        }
     }
 
     @Parcelize

@@ -81,10 +81,14 @@ data class CashBackPresetPreview(
         }
     }
 
-    companion object {
+    data class Shimmer(
+        private val index: Int,
+    ) : LazyListItem {
+
+        override val key: String = "${CASH_BACK_PRESET}_SHIMMER_$index"
 
         @Composable
-        fun Shimmer() {
+        override fun LazyItemScope.Compose() {
             Row(
                 modifier = Modifier,
                 verticalAlignment = Alignment.CenterVertically,

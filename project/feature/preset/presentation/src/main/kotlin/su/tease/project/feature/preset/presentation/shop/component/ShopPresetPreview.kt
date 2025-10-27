@@ -30,7 +30,7 @@ data class ShopPresetPreview(
     private val onClick: ((ShopPreset) -> Unit)? = null,
 ) : LazyListItem {
 
-    override val key = BANK_PRESET + shopPreset.id
+    override val key = SHOP_PRESET + shopPreset.id
 
     @Composable
     override fun LazyItemScope.Compose() {
@@ -54,10 +54,14 @@ data class ShopPresetPreview(
         }
     }
 
-    companion object {
+    data class Shimmer(
+        private val index: Int,
+    ) : LazyListItem {
+
+        override val key: String = "${SHOP_PRESET}_SHIMMER_$index"
 
         @Composable
-        fun Shimmer() {
+        override fun LazyItemScope.Compose() {
             Row(
                 modifier = Modifier,
                 verticalAlignment = Alignment.CenterVertically,
@@ -82,4 +86,4 @@ data class ShopPresetPreview(
     }
 }
 
-private const val BANK_PRESET = "BANK_PRESET"
+private const val SHOP_PRESET = "SHOP_PRESET"

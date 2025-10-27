@@ -17,6 +17,7 @@ fun LazyList(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
+    userScrollEnabled: Boolean = true,
     itemContent: (index: Int) -> LazyListItem,
 ) {
     LazyColumn(
@@ -24,6 +25,7 @@ fun LazyList(
         contentPadding = contentPadding,
         verticalArrangement = verticalArrangement,
         state = lazyListState,
+        userScrollEnabled = userScrollEnabled,
     ) {
         items(
             count = count,

@@ -18,6 +18,7 @@ import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.project.core.mvi.api.state.LoadingStatus
 import su.tease.project.core.mvi.api.store.Store
+import su.tease.project.core.utils.ext.map
 import su.tease.project.core.utils.ext.unit
 import su.tease.project.core.utils.resource.ResourceProvider
 import su.tease.project.core.utils.utils.and
@@ -25,6 +26,7 @@ import su.tease.project.core.utils.utils.or
 import su.tease.project.core.utils.utils.rememberCallback
 import su.tease.project.core.utils.utils.scrollDirectionState
 import su.tease.project.design.component.controls.list.LazyListItems
+import su.tease.project.design.component.controls.list.LazyListWrapper
 import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.design.component.controls.page.DFPageFloatingButton
 import su.tease.project.feature.bank.domain.entity.BankAccount
@@ -49,8 +51,7 @@ class BankAccountsInfoPage(
     private val bankPresetIconView: BankPresetIconView,
 ) : BasePageComponent<BankAccountsInfoPage.Target>(store) {
 
-    private val lazyListState = LazyListState(0, 0)
-    private val scrollDirectionState = scrollDirectionState { resourceProvider.dpToPx(it) }
+    private val lazyListWrapper = LazyListWrapper(resourceProvider, SCROLL_ITEMS_FOR_SHOW_BUTTON)
 
     init {
         dispatch(LoadBankAccountsInfoActions.OnLoad)
@@ -59,20 +60,8 @@ class BankAccountsInfoPage(
     @Composable
     override fun invoke() {
         val status = selectAsState(BankAccountsInfoPageState::status)
-        val list = selectAsState<BankAccountsInfoPageState, LazyListItems> {
-            list.toUi(bankPresetIconView, store, ::onBankAccountClick)
-        }
-        val isScrollTopButtonVisible = remember {
-            derivedStateOf {
-                and(
-                    or(
-                        status.value == LoadingStatus.Success,
-                        status.value == LoadingStatus.Loading,
-                    ),
-                    lazyListState.firstVisibleItemIndex >= SCROLL_ITEMS_FOR_SHOW_BUTTON
-                )
-            }
-        }
+        val list = selectAsState(BankAccountsInfoPageState::list)
+            .map { it.toUi(bankPresetIconView, store, ::onBankAccountClick) }
 
         val isAddButtonVisible = remember {
             derivedStateOf {
@@ -80,15 +69,7 @@ class BankAccountsInfoPage(
             }
         }
 
-        val (_, nestedScrollConnection, resetScroll) = scrollDirectionState
-
-        val scope = rememberCoroutineScope()
-        val scrollUp = rememberCallback(resetScroll, lazyListState) {
-            scope.launch {
-                resetScroll()
-                lazyListState.animateScrollToItem(0)
-            }
-        }
+        val (isScrollTopButtonVisible, _, _, _, scrollUp) = lazyListWrapper.scrollState
 
         val floatingButtons = remember {
             derivedStateOf {
@@ -119,14 +100,10 @@ class BankAccountsInfoPage(
         ) {
             val state = status.value
             when {
-                state == LoadingStatus.Init -> BankAccountsInfoPageInit()
-                state == LoadingStatus.Loading && list.value.isEmpty() -> BankAccountsInfoPageLoading()
+                state == LoadingStatus.Init -> BankAccountsInfoPageInit(lazyListWrapper)
+                state == LoadingStatus.Loading && list.value.isEmpty() -> BankAccountsInfoPageLoading(lazyListWrapper)
                 state == LoadingStatus.Failed -> BankAccountsInfoPageFailed({ onTryAgain() })
-                else -> BankAccountsInfoPageSuccess(
-                    list,
-                    lazyListState,
-                    Modifier.nestedScroll(nestedScrollConnection)
-                )
+                else -> BankAccountsInfoPageSuccess(list, lazyListWrapper,)
             }
         }
     }

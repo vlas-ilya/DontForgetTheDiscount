@@ -1,14 +1,11 @@
 package su.tease.project.feature.shop.presentation.info.list
 
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import su.tease.core.mvi.component.component.container.LocalFeatureConfig
 import su.tease.core.mvi.component.component.container.LocalRootConfig
@@ -16,13 +13,10 @@ import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.project.core.mvi.api.state.LoadingStatus
 import su.tease.project.core.mvi.api.store.Store
+import su.tease.project.core.utils.ext.map
 import su.tease.project.core.utils.ext.unit
 import su.tease.project.core.utils.resource.ResourceProvider
-import su.tease.project.core.utils.utils.and
-import su.tease.project.core.utils.utils.or
-import su.tease.project.core.utils.utils.rememberCallback
-import su.tease.project.core.utils.utils.scrollDirectionState
-import su.tease.project.design.component.controls.list.LazyListItems
+import su.tease.project.design.component.controls.list.LazyListWrapper
 import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.design.component.controls.page.DFPageFloatingButton
 import su.tease.project.feature.shop.domain.entity.Shop
@@ -42,13 +36,12 @@ import su.tease.project.design.icons.R as RIcons
 
 class ShopsInfoPage(
     store: Store<*>,
+    resourceProvider: ResourceProvider,
     private val loadShopsInfoAction: LoadShopsInfoAction,
-    private val resourceProvider: ResourceProvider,
     private val shopPresetIconView: ShopPresetIconView,
 ) : BasePageComponent<ShopsInfoPage.Target>(store) {
 
-    private val lazyListState = LazyListState(0, 0)
-    private val scrollDirectionState = scrollDirectionState { resourceProvider.dpToPx(it) }
+    private val lazyListWrapper = LazyListWrapper(resourceProvider, SCROLL_ITEMS_FOR_SHOW_BUTTON)
 
     init {
         dispatch(LoadShopsInfoActions.OnLoad)
@@ -57,20 +50,8 @@ class ShopsInfoPage(
     @Composable
     override fun invoke() {
         val status = selectAsState(ShopsInfoPageState::status)
-        val list = selectAsState<ShopsInfoPageState, LazyListItems> {
-            list.toUi(shopPresetIconView, store, ::onShopAccountClick)
-        }
-        val isScrollTopButtonVisible = remember {
-            derivedStateOf {
-                and(
-                    or(
-                        status.value == LoadingStatus.Success,
-                        status.value == LoadingStatus.Loading,
-                    ),
-                    lazyListState.firstVisibleItemIndex >= SCROLL_ITEMS_FOR_SHOW_BUTTON
-                )
-            }
-        }
+        val list = selectAsState(ShopsInfoPageState::list)
+            .map { it.toUi(shopPresetIconView, store, ::onShopAccountClick) }
 
         val isAddButtonVisible = remember {
             derivedStateOf {
@@ -78,15 +59,7 @@ class ShopsInfoPage(
             }
         }
 
-        val (_, _, resetScroll) = scrollDirectionState
-
-        val scope = rememberCoroutineScope()
-        val scrollUp = rememberCallback(resetScroll, lazyListState) {
-            scope.launch {
-                resetScroll()
-                lazyListState.animateScrollToItem(0)
-            }
-        }
+        val (isScrollTopButtonVisible, _, _, _, scrollUp) = lazyListWrapper.scrollState
 
         val floatingButtons = remember {
             derivedStateOf {
@@ -117,19 +90,15 @@ class ShopsInfoPage(
         ) {
             val state = status.value
             when {
-                state == LoadingStatus.Init -> ShopsInfoPageInit()
-                state == LoadingStatus.Loading && list.value.isEmpty() -> ShopsInfoPageLoading()
+                state == LoadingStatus.Init -> ShopsInfoPageInit(lazyListWrapper)
+                state == LoadingStatus.Loading && list.value.isEmpty() -> ShopsInfoPageLoading(lazyListWrapper)
                 state == LoadingStatus.Failed -> ShopsInfoPageFailed({ onTryAgain() })
-                else -> ShopsInfoPageSuccess(
-                    list,
-                    lazyListState,
-                )
+                else -> ShopsInfoPageSuccess(list, lazyListWrapper)
             }
         }
     }
 
-    private fun onShopAccountClick(shop: Shop) =
-        SaveShopInfoFeature(shop).forward()
+    private fun onShopAccountClick(shop: Shop) = SaveShopInfoFeature(shop).forward()
 
     private fun onTryAgain() = dispatch(loadShopsInfoAction()).unit()
 
