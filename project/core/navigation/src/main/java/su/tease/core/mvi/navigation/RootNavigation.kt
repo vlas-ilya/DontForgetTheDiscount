@@ -14,7 +14,9 @@ import su.tease.project.core.utils.stack.map
 import su.tease.project.core.utils.stack.moveToUp
 import su.tease.project.core.utils.stack.removeLast
 import su.tease.project.core.utils.stack.replaceLast
+import su.tease.project.core.utils.stack.toList
 import su.tease.project.core.utils.uuid.ImplicitUuid
+import kotlin.collections.flatMap
 import kotlin.reflect.KClass
 
 @Parcelize

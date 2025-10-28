@@ -60,6 +60,11 @@ include(":project:feature:shop:domain")
 include(":project:feature:shop:integration")
 include(":project:feature:shop:presentation")
 
+include(":project:feature:icon:data")
+include(":project:feature:icon:domain")
+include(":project:feature:icon:integration")
+include(":project:feature:icon:presentation")
+
 include(":project:design:component:navigation_bar")
 include(":project:design:component:controls")
 include(":project:design:icons")

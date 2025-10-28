@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import su.tease.design.theme.api.Theme
+import su.tease.project.core.utils.ext.thenIf
 import su.tease.project.design.component.controls.image.DFImage
 import su.tease.project.feature.preset.domain.entity.CashBackIconPreset
 import su.tease.project.feature.preset.presentation.R
@@ -32,8 +33,15 @@ fun CashBackPresetIcon(
         modifier = modifier
             .clip(CircleShape)
             .background(background)
-            .padding(size.padding())
-            .size(size.size())
+            .thenIf(iconPreset.iconUrl.endsWith(".png")) {
+                Modifier
+                    .size(size.size() + size.padding())
+            }
+            .thenIf(!iconPreset.iconUrl.endsWith(".png")) {
+                Modifier
+                    .padding(size.padding())
+                    .size(size.size())
+            }
     )
 }
 

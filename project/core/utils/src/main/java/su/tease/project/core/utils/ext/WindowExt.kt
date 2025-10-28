@@ -39,10 +39,7 @@ fun Window.showSystemUI() {
 fun Window.isNavigationBarVisible(): Boolean {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         val insets = decorView.rootWindowInsets
-        val bottom = insets
-            ?.getInsetsIgnoringVisibility(WindowInsets.Type.navigationBars())
-            ?.bottom
-            ?: 0
+        val bottom = insets?.getInsets(WindowInsets.Type.navigationBars())?.bottom ?: 0
         bottom > 0
     } else {
         val resources = context.resources
@@ -51,8 +48,7 @@ fun Window.isNavigationBarVisible(): Boolean {
             "dimen",
             "android"
         )
-        id > 0 && resources.getDimensionPixelSize(id) > MIN_NAVIGATION_BAR_SIZE
+        id > 0 && resources.getDimensionPixelSize(id) > 0
     }
 }
 
-private const val MIN_NAVIGATION_BAR_SIZE = 100

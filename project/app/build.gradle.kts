@@ -147,6 +147,11 @@ dependencies {
     implementation(project(":project:feature:shop:integration"))
     implementation(project(":project:feature:shop:presentation"))
 
+    implementation(project(":project:feature:icon:data"))
+    implementation(project(":project:feature:icon:domain"))
+    implementation(project(":project:feature:icon:integration"))
+    implementation(project(":project:feature:icon:presentation"))
+
     implementation(project(":project:design:icons"))
     implementation(project(":project:design:component:navigation_bar"))
     implementation(project(":project:design:component:controls"))

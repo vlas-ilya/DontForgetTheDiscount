@@ -34,6 +34,7 @@ import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.feature.preset.domain.entity.ShopPreset
 import su.tease.project.feature.preset.presentation.R
 import su.tease.project.feature.preset.presentation.icon.select.SelectIconPresetPage
+import su.tease.project.feature.preset.presentation.icon.entity.IconType
 import su.tease.project.feature.preset.presentation.shop.component.IconSelect
 import su.tease.project.feature.preset.presentation.shop.component.NameEditText
 import su.tease.project.feature.preset.presentation.shop.component.SaveButton
@@ -124,7 +125,7 @@ class SaveShopPresetPage(
 
     private fun selectIcon(@StringRes title: Int) {
         SelectIconPresetPage<SaveShopPresetReducer>(
-            iconType = SelectIconPresetPage.IconType.SHOP_ICON,
+            iconType = IconType.SHOP_ICON,
             pageTitle = title,
             selected = form.iconPreset.value
         ).forward()

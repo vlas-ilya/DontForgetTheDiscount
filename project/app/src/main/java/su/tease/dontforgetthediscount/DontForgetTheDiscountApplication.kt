@@ -15,7 +15,8 @@ import su.tease.dontforgetthediscount.state.dontForgetTheDiscountReducer
 import su.tease.feature.splash.integration.module.splashModule
 import su.tease.project.feature.bank.integration.module.bankIntegrationModule
 import su.tease.project.feature.cashback.integration.module.cashBackIntegrationModule
-import su.tease.project.feature.info.integration.module.otherModule
+import su.tease.project.feature.icon.integration.iconIntegrationModule
+import su.tease.project.feature.info.integration.module.infoIntegrationModule
 import su.tease.project.feature.main.module.mainModule
 import su.tease.project.feature.preset.integration.module.presetIntegrationModule
 import su.tease.project.feature.shop.integration.module.shopIntegrationModule
@@ -47,12 +48,11 @@ class DontForgetTheDiscountApplication : AndroidMviApplication(
             modules(bankIntegrationModule)
             modules(cashBackIntegrationModule)
             modules(shopIntegrationModule)
+            modules(iconIntegrationModule)
 
             modules(splashModule)
             modules(mainModule)
-            modules(otherModule)
+            modules(infoIntegrationModule)
         }
-
-        println()
     }
 }

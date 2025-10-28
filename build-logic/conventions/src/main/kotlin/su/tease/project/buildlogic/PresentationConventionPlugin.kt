@@ -85,6 +85,7 @@ class PresentationConventionPlugin : Plugin<Project> {
             val composeBom = platform(libs.findLibrary("compose-bom").get())
             add("implementation", composeBom)
             add("implementation", libs.findLibrary("compose-material").get())
+            add("implementation", libs.findLibrary("androidx-activity-compose").get())
             add("implementation", libs.findLibrary("compose-ui").get())
             add("implementation", libs.findLibrary("compose-ui-tooling-preview").get())
             add("implementation", libs.findLibrary("compose-material-adaptive").get())

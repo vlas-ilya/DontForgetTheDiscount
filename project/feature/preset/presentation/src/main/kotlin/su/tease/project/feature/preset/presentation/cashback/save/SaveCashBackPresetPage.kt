@@ -52,6 +52,7 @@ import su.tease.project.feature.preset.presentation.cashback.save.reducer.SaveCa
 import su.tease.project.feature.preset.presentation.cashback.save.reducer.SaveCashBackPresetState
 import su.tease.project.feature.preset.presentation.cashback.save.utils.SaveCashBackPresetForm
 import su.tease.project.feature.preset.presentation.icon.select.SelectIconPresetPage
+import su.tease.project.feature.preset.presentation.icon.entity.IconType
 import su.tease.project.feature.preset.presentation.mcc.select.SelectMccCodePresetPage
 import su.tease.project.feature.preset.presentation.shop.select.SelectShopPresetPage
 
@@ -173,7 +174,7 @@ class SaveCashBackPresetPage(
 
     private fun selectIcon() {
         SelectIconPresetPage<SaveCashBackPresetReducer>(
-            iconType = SelectIconPresetPage.IconType.CASH_BACK_ICON,
+            iconType = IconType.CASH_BACK_ICON,
             pageTitle = R.string.Presets_SaveCashBackPresetPage_IconSelect_PageTitle,
             selected = form.iconPreset.value
         ).forward()

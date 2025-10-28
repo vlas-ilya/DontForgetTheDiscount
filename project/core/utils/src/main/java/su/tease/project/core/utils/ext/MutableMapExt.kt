@@ -16,7 +16,7 @@ fun <Key, Value> MutableMap<Key, Value>.applyAndGet(
     .run(block)
     .also { put(key, it) }
 
-fun <Key, Value> MutableMap<Key, Value>.removeIf(
+inline fun <Key, Value> MutableMap<Key, Value>.removeIf(
     predicate: (Key) -> Boolean
 ) = keys
     .toList()

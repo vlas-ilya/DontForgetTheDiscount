@@ -27,6 +27,7 @@ interface BankPresetRepository {
 
 interface BankIconPresetRepository {
     suspend fun bankIcons(): PersistentList<BankIconPreset>
+    suspend fun save(preset: BankIconPreset)
 }
 
 interface ShopPresetRepository {
@@ -38,6 +39,7 @@ interface ShopPresetRepository {
 
 interface ShopIconPresetRepository {
     suspend fun shopIconPresets(): PersistentList<ShopIconPreset>
+    suspend fun save(preset: ShopIconPreset)
 }
 
 interface CashBackPresetRepository {
@@ -50,6 +52,7 @@ interface CashBackPresetRepository {
 
 interface CashBackIconPresetRepository {
     suspend fun cashBacksIconPresets(): PersistentList<CashBackIconPreset>
+    suspend fun save(preset: CashBackIconPreset)
 }
 
 interface MccCodePresetRepository {

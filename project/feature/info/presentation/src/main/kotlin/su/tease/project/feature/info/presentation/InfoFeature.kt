@@ -9,9 +9,9 @@ import su.tease.core.mvi.navigation.feature
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.feature.info.presentation.list.InfoListPage
 
-class OtherFeature(
+class InfoFeature(
     store: Store<*>,
-) : BaseFeatureComponent<OtherFeature.Target>(store) {
+) : BaseFeatureComponent<InfoFeature.Target>(store) {
 
     companion object {
         operator fun invoke() = feature(

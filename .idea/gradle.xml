@@ -58,6 +58,11 @@
             <option value="$PROJECT_DIR$/project/feature/cashback/domain" />
             <option value="$PROJECT_DIR$/project/feature/cashback/integration" />
             <option value="$PROJECT_DIR$/project/feature/cashback/presentation" />
+            <option value="$PROJECT_DIR$/project/feature/icon" />
+            <option value="$PROJECT_DIR$/project/feature/icon/data" />
+            <option value="$PROJECT_DIR$/project/feature/icon/domain" />
+            <option value="$PROJECT_DIR$/project/feature/icon/integration" />
+            <option value="$PROJECT_DIR$/project/feature/icon/presentation" />
             <option value="$PROJECT_DIR$/project/feature/info" />
             <option value="$PROJECT_DIR$/project/feature/info/data" />
             <option value="$PROJECT_DIR$/project/feature/info/domain" />

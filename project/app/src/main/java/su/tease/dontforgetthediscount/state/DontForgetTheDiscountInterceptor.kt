@@ -6,6 +6,7 @@ import su.tease.project.feature.bank.integration.dependencies.presentation.navig
 import su.tease.project.feature.cashback.integration.dependencies.presentation.navigation.SelectCashBackOwnerPageFromSaveCashBackInterceptor
 import su.tease.project.feature.cashback.integration.dependencies.presentation.navigation.SelectCashBackPresetPageFromCashBackInterceptor
 import su.tease.project.feature.info.integration.module.dependencies.presentation.navigation.InfoListPageNavigationInterceptor
+import su.tease.project.feature.preset.integration.dependencies.presentation.navigation.SaveIconPresetPateInterceptor
 import su.tease.project.feature.shop.integration.dependencies.presentation.navigation.SaveCashBackPageFromShopsPageInterceptor
 import su.tease.project.feature.shop.integration.dependencies.presentation.navigation.SelectShopPresetPageFromSaveShopPageInterceptor
 
@@ -18,4 +19,5 @@ val dontForgetTheDiscountInterceptors = listOf(
     SelectShopPresetPageFromSaveShopPageInterceptor(),
     InfoListPageNavigationInterceptor(),
     MainPageFromSplashInterceptor(),
+    SaveIconPresetPateInterceptor(),
 )

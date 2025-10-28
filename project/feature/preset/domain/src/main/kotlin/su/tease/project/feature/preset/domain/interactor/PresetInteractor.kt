@@ -40,6 +40,12 @@ interface PresetInteractor {
 
     suspend fun cashBackPreset(presetId: String): CashBackPreset
 
+    suspend fun save(preset: BankIconPreset)
+
+    suspend fun save(preset: ShopIconPreset)
+
+    suspend fun save(preset: CashBackIconPreset)
+
     suspend fun save(preset: BankPreset)
 
     suspend fun save(preset: ShopPreset)

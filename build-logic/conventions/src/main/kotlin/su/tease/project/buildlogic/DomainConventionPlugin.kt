@@ -4,7 +4,9 @@ import com.android.build.gradle.LibraryExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.MinimalExternalModuleDependency
 import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.project
@@ -59,6 +61,9 @@ class DomainConventionPlugin : Plugin<Project> {
 
         afterEvaluate {
             dependencies {
+                extension.libraryDependencies.forEach {
+                    add("implementation", it)
+                }
                 extension.projectDependencies.forEach {
                     add("implementation", project(it))
                 }
@@ -70,6 +75,7 @@ class DomainConventionPlugin : Plugin<Project> {
 // 🔹 DSL
 abstract class DomainExtension(private val project: Project) {
     internal val projectDependencies = mutableListOf<String>()
+    internal val libraryDependencies = mutableListOf<String>()
 
     fun dependencies(block: DependencyHandler.() -> Unit) {
         DependencyHandler().apply(block)
@@ -79,6 +85,10 @@ abstract class DomainExtension(private val project: Project) {
 
         fun implementation(project: Project) {
             projectDependencies.add(project.path)
+        }
+
+        fun implementation(provide: Provider<MinimalExternalModuleDependency>) {
+            libraryDependencies.add("${provide.get().group}:${provide.get().name}:${provide.get().version}")
         }
 
         fun implementation(notation: String) {

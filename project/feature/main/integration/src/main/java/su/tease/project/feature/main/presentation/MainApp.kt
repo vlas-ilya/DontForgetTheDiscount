@@ -13,7 +13,7 @@ import su.tease.design.component.navigationbar.data.NavigationBarItemData
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.navigation.selector.feature
 import su.tease.project.feature.bank.presentation.BankAccountFeature
-import su.tease.project.feature.info.presentation.OtherFeature
+import su.tease.project.feature.info.presentation.InfoFeature
 import su.tease.project.feature.main.integration.R
 import su.tease.project.feature.shop.presentation.ShopFeature
 
@@ -37,7 +37,7 @@ class MainApp(store: Store<*>) : BaseAppComponent<MainApp.Target>(store) {
                     image = painterResource(R.drawable.menu_icon_shop),
                 ),
                 NavigationBarItemData(
-                    value = OtherFeature(),
+                    value = InfoFeature(),
                     name = "Информация",
                     image = painterResource(R.drawable.menu_icon_other),
                 ),

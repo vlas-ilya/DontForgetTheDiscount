@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Icon_IconSelectPage_title">Выбор иконки</string>
+    <string name="Icon_IconSelectPage_SelectIcon_contentDescription">Выбранная иконка</string>
+    <string name="Icon_IconSelectPage_SelectButton_title">Выбрать иконку</string>
+    <string name="Icon_IconSelectPage_TryAgainButton_title">Попробовать еще раз</string>
+    <string name="Icon_IconSelectPage_SaveButton_title">Сохранить иконку</string>
+    <string name="Icon_IconSelectPage_CleanButton_title">Удалить иконку</string>
+</resources>

@@ -19,8 +19,10 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import kotlinx.coroutines.delay
 import su.tease.core.mvi.component.component.impl.BaseMviComponent
 import su.tease.core.mvi.component.resolver.impl.AppNavigationTargetResolver
 import su.tease.project.core.mvi.api.store.Store
@@ -70,6 +72,9 @@ class RootContainer(
     @Composable
     @Suppress("ModifierMissing")
     fun ComposeRootContainer() {
+        val isNavigationBarVisible =
+            remember { mutableStateOf(windowProvider().isNavigationBarVisible()) }
+
         val app = selectAsState(app())
             .map { navigationTargetResolver.resolve(it.id, it.name, it) }
             .value
@@ -82,14 +87,19 @@ class RootContainer(
             .map { navigationTargetResolver.resolve(it.id, it.name) }
             .value
 
-        val rootConfig = remember(app.rootConfig.value, feature.rootConfig.value, page.rootConfig.value) {
-                RootConfig()
-                    .pipe(app.rootConfig.value)
-                    .pipe(feature.rootConfig.value)
-                    .pipe(page.rootConfig.value)
-                    .invoke()
-                    .copy(isNavigationBarVisible = windowProvider().isNavigationBarVisible())
-            }
+        val rootConfig = remember(
+            app.rootConfig.value,
+            feature.rootConfig.value,
+            page.rootConfig.value,
+            isNavigationBarVisible.value
+        ) {
+            RootConfig()
+                .pipe(app.rootConfig.value)
+                .pipe(feature.rootConfig.value)
+                .pipe(page.rootConfig.value)
+                .invoke()
+                .copy(isNavigationBarVisible = isNavigationBarVisible.value)
+        }
 
         val appConfig =
             remember(app.appConfig.value, feature.appConfig.value, page.appConfig.value) {
@@ -105,6 +115,13 @@ class RootContainer(
                 .pipe(feature.featureConfig.value)
                 .pipe(page.featureConfig.value)
                 .invoke()
+        }
+
+        LaunchedEffect(Unit) {
+            while (true) {
+                delay(100)
+                isNavigationBarVisible.value = windowProvider().isNavigationBarVisible()
+            }
         }
 
         LaunchedEffect(rootConfig) {

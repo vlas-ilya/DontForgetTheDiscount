@@ -3,19 +3,30 @@
 package su.tease.project.core.mvi.middleware.intercept
 
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.completeWith
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import su.tease.project.core.mvi.api.action.Action
 import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.middleware.Middleware
 import su.tease.project.core.mvi.api.store.Dispatcher
+import su.tease.project.core.utils.either.Either
+import su.tease.project.core.utils.either.left
+import su.tease.project.core.utils.either.right
 import su.tease.project.core.utils.ext.applyAndGet
 import kotlin.reflect.KClass
 
 interface InterceptDispatcher : Dispatcher {
     suspend fun <T : PlainAction> interceptAction(clazz: KClass<T>): T
+
+    suspend fun <Left : PlainAction, Right : PlainAction> interceptAction(
+        left: KClass<Left>,
+        right: KClass<Right>,
+    ): Either<Left, Right>
 }
 
 fun interface InterceptSuspendAction : Action {
@@ -74,6 +85,25 @@ private class InterceptDispatcherImpl(
             map.applyAndGet(clazz as KClass<PlainAction>, mutableListOf()) {
                 it.apply { add(result as CompletableDeferred<PlainAction>) }
             }
+        }
+        return result.await()
+    }
+
+    override suspend fun <Left : PlainAction, Right : PlainAction> interceptAction(
+        left: KClass<Left>,
+        right: KClass<Right>,
+    ): Either<Left, Right> {
+        val result = CompletableDeferred<Either<Left, Right>>()
+        val scope = CoroutineScope(Job())
+        scope.launch {
+            val left = interceptAction(left)
+            result.complete(left.left())
+            scope.cancel()
+        }
+        scope.launch {
+            val right = interceptAction(right)
+            result.complete(right.right())
+            scope.cancel()
         }
         return result.await()
     }

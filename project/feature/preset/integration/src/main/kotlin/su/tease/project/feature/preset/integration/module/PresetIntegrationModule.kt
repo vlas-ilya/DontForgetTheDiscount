@@ -25,7 +25,11 @@ import su.tease.project.feature.preset.presentation.cashback.save.SaveCashBackPr
 import su.tease.project.feature.preset.presentation.cashback.save.action.SaveCashBackPresetAction
 import su.tease.project.feature.preset.presentation.cashback.save.action.impl.SaveCashBackPresetActionImpl
 import su.tease.project.feature.preset.presentation.cashback.select.SelectCashBackPresetPage
-import su.tease.project.feature.preset.presentation.icon.info.ListIconPresetPage
+import su.tease.project.feature.preset.presentation.icon.info.list.ListIconPresetPage
+import su.tease.project.feature.preset.presentation.icon.info.save.SaveIconPresetFeature
+import su.tease.project.feature.preset.presentation.icon.save.SaveIconPresetPage
+import su.tease.project.feature.preset.presentation.icon.save.action.SaveIconPresetAction
+import su.tease.project.feature.preset.presentation.icon.save.action.impl.SaveIconPresetActionImpl
 import su.tease.project.feature.preset.presentation.icon.select.SelectIconPresetPage
 import su.tease.project.feature.preset.presentation.mcc.select.SelectMccCodePresetPage
 import su.tease.project.feature.preset.presentation.mcc.select.action.SelectMccCodeAction
@@ -48,6 +52,7 @@ val presetIntegrationModule = module {
     factory<SaveShopPresetAction> { SaveShopPresetActionImpl(get(), get(), get()) }
     factory<SaveCashBackPresetAction> { SaveCashBackPresetActionImpl(get(), get(), get()) }
     factory<SelectMccCodeAction> { SelectMccCodeActionImpl(get(), get()) }
+    factory<SaveIconPresetAction> { SaveIconPresetActionImpl(get(), get()) }
 
     feature { SaveCashBackPresetFeature(get()) }
     page { ListInfoCashbackPresetPage(get(), get(), get()) }
@@ -64,8 +69,10 @@ val presetIntegrationModule = module {
     page { SelectShopPresetPage(get(), get(), get(), get()) }
     page { SaveShopPresetPage(get(), get(), get()) }
 
+    feature { SaveIconPresetFeature(get()) }
     page { ListIconPresetPage(get(), get(), get(), get()) }
     page { SelectIconPresetPage(get(), get(), get(), get()) }
+    page { SaveIconPresetPage(get(), get(), get()) }
 
     page { SelectMccCodePresetPage(get(), get(), get(), get()) }
 }

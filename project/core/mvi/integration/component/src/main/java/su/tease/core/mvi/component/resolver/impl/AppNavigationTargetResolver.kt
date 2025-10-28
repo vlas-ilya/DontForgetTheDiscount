@@ -17,6 +17,8 @@ import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.project.core.mvi.api.selector.select
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.navigation.selector.root
+import su.tease.project.core.utils.ext.alsoIf
+import su.tease.project.core.utils.ext.ifTrue
 import su.tease.project.core.utils.ext.removeIf
 
 @Suppress("UNCHECKED_CAST")
@@ -42,7 +44,7 @@ class AppNavigationTargetResolver(
         coroutineScope.launch {
             store.select(this, root()).collect { root ->
                 val pageIdSet = root.pageIdList.toSet()
-                pageCache.removeIf { it !in pageIdSet }
+                pageCache.removeIf { (it !in pageIdSet).ifTrue { pageCache[it]?.onFinish() } }
 
                 val featureIdSet = root.featureIdList.toSet()
                 featureCache.removeIf { it !in featureIdSet }

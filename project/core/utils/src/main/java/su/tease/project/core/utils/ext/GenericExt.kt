@@ -74,3 +74,9 @@ inline fun <T1, T2, R> letIfNotNull(t1: T1?, t2: T2?, block: (t1: T1, t2: T2) ->
         null
     }
 }
+
+inline fun Boolean.ifTrue(block: () -> Unit): Boolean = also {
+    if (it) {
+        block()
+    }
+}

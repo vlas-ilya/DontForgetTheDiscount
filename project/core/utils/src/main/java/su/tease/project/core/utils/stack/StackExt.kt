@@ -48,5 +48,7 @@ inline fun <T : Parcelable, R> Stack<T>.map(transform: (T) -> R): List<R> = buil
     }
 }.reversed()
 
+fun <T : Parcelable> Stack<T>.toList(): List<T> = map { it }
+
 inline fun <T : Parcelable, R> Stack<T>.flatMap(transform: (T) -> List<R>): List<R> =
     map(transform).flatten()

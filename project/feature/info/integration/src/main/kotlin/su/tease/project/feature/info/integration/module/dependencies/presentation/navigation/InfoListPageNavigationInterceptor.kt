@@ -16,10 +16,10 @@ import su.tease.project.feature.info.presentation.dependencies.navigation.ShopPr
 import su.tease.project.feature.info.presentation.dependencies.navigation.Shops
 import su.tease.project.feature.preset.presentation.bank.info.list.ListBankPresetPage
 import su.tease.project.feature.preset.presentation.cashback.info.list.ListInfoCashbackPresetPage
-import su.tease.project.feature.preset.presentation.icon.info.ListIconPresetPage
-import su.tease.project.feature.preset.presentation.icon.info.ListIconPresetPage.IconType.BANK_ICON
-import su.tease.project.feature.preset.presentation.icon.info.ListIconPresetPage.IconType.CASH_BACK_ICON
-import su.tease.project.feature.preset.presentation.icon.info.ListIconPresetPage.IconType.SHOP_ICON
+import su.tease.project.feature.preset.presentation.icon.info.list.ListIconPresetPage
+import su.tease.project.feature.preset.presentation.icon.entity.IconType.BANK_ICON
+import su.tease.project.feature.preset.presentation.icon.entity.IconType.CASH_BACK_ICON
+import su.tease.project.feature.preset.presentation.icon.entity.IconType.SHOP_ICON
 import su.tease.project.feature.preset.presentation.shop.info.list.ListShopPresetPage
 import su.tease.project.feature.shop.presentation.info.list.ShopsInfoPage
 

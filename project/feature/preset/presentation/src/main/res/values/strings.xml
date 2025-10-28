@@ -63,4 +63,5 @@
     <string name="Presets_SelectShopPreset_Title">Выбор магазина</string>
     <string name="Presets_ShopListPage_Title">Магазины</string>
     <string name="Presets_ShopPresetIconItem_ContentDescription">Логотип магазина \"%s\"</string>
+    <string name="Presets_SaveIconPresetPage_title">Выбор иконки</string>
 </resources>

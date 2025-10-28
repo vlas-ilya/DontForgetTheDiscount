@@ -42,6 +42,7 @@ import su.tease.project.feature.preset.presentation.bank.save.reducer.SaveBankPr
 import su.tease.project.feature.preset.presentation.bank.save.reducer.SaveBankPresetState
 import su.tease.project.feature.preset.presentation.bank.save.utils.SaveBankPresetForm
 import su.tease.project.feature.preset.presentation.icon.select.SelectIconPresetPage
+import su.tease.project.feature.preset.presentation.icon.entity.IconType
 
 class SaveBankPresetPage(
     store: Store<*>,
@@ -124,7 +125,7 @@ class SaveBankPresetPage(
 
     private fun selectIcon(@StringRes title: Int) {
         SelectIconPresetPage<SaveBankPresetReducer>(
-            iconType = SelectIconPresetPage.IconType.BANK_ICON,
+            iconType = IconType.BANK_ICON,
             pageTitle = title,
             selected = form.iconPreset.value
         ).forward()

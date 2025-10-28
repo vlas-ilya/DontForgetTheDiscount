@@ -15,6 +15,7 @@ import su.tease.project.feature.preset.data.dataSource.mapper.MapperHelper
 import su.tease.project.feature.preset.data.repository.exception.RepositoryException
 import su.tease.project.feature.preset.domain.entity.BankIconPreset
 import su.tease.project.feature.preset.domain.entity.BankPreset
+import su.tease.project.feature.preset.domain.entity.CashBackIconPreset
 import su.tease.project.feature.preset.domain.entity.CashBackOwnerPreset
 import su.tease.project.feature.preset.domain.entity.CashBackPreset
 import su.tease.project.feature.preset.domain.entity.MccCodePreset
@@ -48,6 +49,11 @@ class PresetRepositoryImpl(
         }
     }
 
+    override suspend fun save(preset: BankIconPreset) = withDefault {
+        presetDao.save(preset.toEntity())
+        cache.clear(BANK_ICONS_CACHE_LOCAL)
+    }
+
     override suspend fun shopPresets(): PersistentList<ShopPreset> = withDefault {
         tryOrDefault(returnOnError = persistentListOf()) {
             cache.getOrPut(SHOPS_CACHE_LOCAL) {
@@ -65,6 +71,11 @@ class PresetRepositoryImpl(
                 presetDao.shopIconPresets().mapPersistent { it.toDomain() as ShopIconPreset }
             }
         }
+    }
+
+    override suspend fun save(preset: ShopIconPreset) = withDefault {
+        presetDao.save(preset.toEntity())
+        cache.clear(SHOP_ICONS_CACHE_LOCAL)
     }
 
     override suspend fun cashBackPresets(): PersistentList<CashBackPreset> = withDefault {
@@ -100,6 +111,11 @@ class PresetRepositoryImpl(
                     .mapPersistent { it.toDomain() }
             }
         }
+    }
+
+    override suspend fun save(preset: CashBackIconPreset) = withDefault {
+        presetDao.save(preset.toEntity())
+        cache.clear(CASH_BACKS_ICONS_CACHE_LOCAL)
     }
 
     override suspend fun mccCodePresets() = withDefault {

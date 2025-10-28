@@ -59,6 +59,15 @@ class PresetInteractorImpl(
     override suspend fun cashBackPreset(presetId: String) =
         withDefault { repository.cashBackPreset(presetId) }
 
+    override suspend fun save(preset: BankIconPreset) =
+        withDefault { repository.save(preset) }
+
+    override suspend fun save(preset: ShopIconPreset) =
+        withDefault { repository.save(preset) }
+
+    override suspend fun save(preset: CashBackIconPreset) =
+        withDefault { repository.save(preset) }
+
     override suspend fun save(preset: BankPreset) =
         withDefault { repository.save(preset) }
 

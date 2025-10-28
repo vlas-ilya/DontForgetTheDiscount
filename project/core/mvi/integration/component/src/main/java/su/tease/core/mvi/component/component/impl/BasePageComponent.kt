@@ -41,4 +41,6 @@ abstract class BasePageComponent<T : NavigationTarget.Page>(
 
     @Composable
     abstract operator fun invoke()
+
+    open fun onFinish() = Unit
 }

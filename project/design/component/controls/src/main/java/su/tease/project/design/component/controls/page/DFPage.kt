@@ -3,7 +3,6 @@
 package su.tease.project.design.component.controls.page
 
 import androidx.annotation.DrawableRes
-import androidx.compose.animation.core.AnimationConstants.DefaultDurationMillis
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.keyframes
 import androidx.compose.foundation.background
@@ -51,14 +50,14 @@ fun DFPageContext.DFPage(
             when (targetValue) {
                 targetValueMin -> {
                     targetValueMax at 0
-                    targetValueMax at (DefaultDurationMillis * 0.9).toInt()
-                    0f at DefaultDurationMillis
+                    targetValueMax at (DURATION_MILLIS * 0.9).toInt()
+                    0f at DURATION_MILLIS
                 }
 
                 targetValueMax -> {
                     0f at 0
-                    targetValueMax at (DefaultDurationMillis * 0.1).toInt()
-                    targetValueMax at DefaultDurationMillis
+                    targetValueMax at (DURATION_MILLIS * 0.1).toInt()
+                    targetValueMax at DURATION_MILLIS
                 }
             }
         }
@@ -108,6 +107,8 @@ fun DFPageContext.DFPage(
         }
     }
 }
+
+private const val DURATION_MILLIS = 1000
 
 interface DFPageContext {
     fun onBackPress(): Job
