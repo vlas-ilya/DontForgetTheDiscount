@@ -20,6 +20,7 @@ import su.tease.project.feature.preset.presentation.icon.info.list.ListIconPrese
 import su.tease.project.feature.preset.presentation.icon.entity.IconType.BANK_ICON
 import su.tease.project.feature.preset.presentation.icon.entity.IconType.CASH_BACK_ICON
 import su.tease.project.feature.preset.presentation.icon.entity.IconType.SHOP_ICON
+import su.tease.project.feature.preset.presentation.mcc.info.list.ListMccCodePresetPage
 import su.tease.project.feature.preset.presentation.shop.info.list.ListShopPresetPage
 import su.tease.project.feature.shop.presentation.info.list.ShopsInfoPage
 
@@ -39,7 +40,7 @@ class InfoListPageNavigationInterceptor : Interceptor {
         BankIconPresets -> ListIconPresetPage(BANK_ICON)
         CashBackIconPresets -> ListIconPresetPage(CASH_BACK_ICON)
         ShopIconPresets -> ListIconPresetPage(SHOP_ICON)
-        MccCodePresets -> TODO()
+        MccCodePresets -> ListMccCodePresetPage()
     }
         .let { NavigationAction.ForwardToPage(it) }
         .let(::listOf)

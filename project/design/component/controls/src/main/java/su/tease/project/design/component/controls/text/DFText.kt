@@ -26,6 +26,6 @@ fun DFText(
         fontFamily = style.fontFamily,
         color = color,
         maxLines = maxLines,
-        overflow = (maxLines == 1).choose(TextOverflow.Ellipsis, TextOverflow.Clip)
+        overflow = (maxLines != Int.MAX_VALUE).choose(TextOverflow.Ellipsis, TextOverflow.Clip)
     )
 }

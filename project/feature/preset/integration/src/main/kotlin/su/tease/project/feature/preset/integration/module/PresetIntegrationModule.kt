@@ -31,6 +31,7 @@ import su.tease.project.feature.preset.presentation.icon.save.SaveIconPresetPage
 import su.tease.project.feature.preset.presentation.icon.save.action.SaveIconPresetAction
 import su.tease.project.feature.preset.presentation.icon.save.action.impl.SaveIconPresetActionImpl
 import su.tease.project.feature.preset.presentation.icon.select.SelectIconPresetPage
+import su.tease.project.feature.preset.presentation.mcc.info.list.ListMccCodePresetPage
 import su.tease.project.feature.preset.presentation.mcc.select.SelectMccCodePresetPage
 import su.tease.project.feature.preset.presentation.mcc.select.action.SelectMccCodeAction
 import su.tease.project.feature.preset.presentation.mcc.select.action.impl.SelectMccCodeActionImpl
@@ -74,5 +75,6 @@ val presetIntegrationModule = module {
     page { SelectIconPresetPage(get(), get(), get(), get()) }
     page { SaveIconPresetPage(get(), get(), get()) }
 
+    page { ListMccCodePresetPage(get(), get(), get()) }
     page { SelectMccCodePresetPage(get(), get(), get(), get()) }
 }

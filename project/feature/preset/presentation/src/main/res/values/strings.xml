@@ -10,6 +10,8 @@
     <string name="Presets_CashBackInfoDialog_MccList_Label">MCC коды</string>
     <string name="Presets_CashbackListPage_Title">Категории кэшбэка</string>
     <string name="Presets_CashBackPresetIconItem_ContentDescription">Иконка кэшбэка \"%s\"</string>
+    <string name="Presets_MccCodesListPage_Title">МСС коды</string>
+    <string name="Presets_MccCodesListPage_SearchInput_Placeholder">Поиск…</string>
     <string name="Presets_SaveBankPage_Add_Title">Добавление банка</string>
     <string name="Presets_SaveBankPage_Edit_Title">Редактирование банка</string>
     <string name="Presets_SaveBankPage_IconSelect_PageTitle">Выбор иконки для банка</string>
