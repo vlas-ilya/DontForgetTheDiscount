@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.TextFieldValue
@@ -50,6 +51,7 @@ fun DFTextField(
     placeholder: String = "",
     action: DFTextFieldAction? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
+    shape: Shape = RoundedCornerShape(Theme.sizes.roundInfinity)
 ) {
     val isFocused = remember { mutableStateOf(false) }
     val interactionSource = remember { MutableInteractionSource() }
@@ -85,9 +87,9 @@ fun DFTextField(
                         Theme.colors.accent,
                         Theme.colors.transparent,
                     ),
-                    shape = RoundedCornerShape(Theme.sizes.roundInfinity)
+                    shape = shape
                 )
-                .clip(RoundedCornerShape(Theme.sizes.roundInfinity))
+                .clip(shape)
                 .onFocusChanged {
                     isFocused.value = it.isFocused
                 }
@@ -98,7 +100,7 @@ fun DFTextField(
         ) {
             TextFieldDefaults.DecorationBox(
                 value = text.value,
-                shape = RoundedCornerShape(Theme.sizes.roundInfinity),
+                shape = shape,
                 contentPadding = TextFieldDefaults.contentPaddingWithLabel(
                     top = Theme.sizes.padding12,
                     bottom = Theme.sizes.padding12,

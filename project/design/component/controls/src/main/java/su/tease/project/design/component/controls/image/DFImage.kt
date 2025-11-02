@@ -1,10 +1,12 @@
 package su.tease.project.design.component.controls.image
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
@@ -36,13 +38,17 @@ fun DFImage(
             is AsyncImagePainter.State.Error -> {
                 // TODO Error content
             }
+
             is AsyncImagePainter.State.Loading -> {
                 // TODO Loader content
             }
+
             else -> Image(
+                modifier = Modifier.fillMaxSize(),
                 painter = painter,
                 contentDescription = contentDescription,
-                colorFilter = tint?.let { ColorFilter.tint(it) }
+                colorFilter = tint?.let { ColorFilter.tint(it) },
+                contentScale = ContentScale.Crop,
             )
         }
     }

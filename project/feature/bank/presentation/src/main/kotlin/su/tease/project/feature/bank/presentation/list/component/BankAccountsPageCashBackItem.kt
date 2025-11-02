@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import su.tease.core.mvi.component.component.impl.NavigationComponent
 import su.tease.core.mvi.component.component.impl.NavigationComponentImpl
 import su.tease.design.theme.api.Theme
@@ -110,14 +111,14 @@ data class BankAccountsPageCashBackItem(
         fun Shimmer() {
             Row(
                 modifier = Modifier
-                    .padding(horizontal = Theme.sizes.padding8)
+                    .padding(horizontal = Theme.sizes.padding8, vertical = Theme.sizes.padding2)
                     .padding(start = Theme.sizes.padding20),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Box(
                     modifier = Modifier
                         .clip(CircleShape)
-                        .size(Theme.sizes.size40)
+                        .size(Theme.sizes.size32)
                         .background(Theme.colors.shimmer),
                 )
                 Box(
@@ -125,7 +126,7 @@ data class BankAccountsPageCashBackItem(
                         .padding(start = Theme.sizes.padding4)
                         .clip(RoundedCornerShape(Theme.sizes.round12))
                         .fillMaxWidth()
-                        .height(Theme.sizes.size32)
+                        .height(Theme.sizes.size28)
                         .background(Theme.colors.shimmer)
                 )
             }

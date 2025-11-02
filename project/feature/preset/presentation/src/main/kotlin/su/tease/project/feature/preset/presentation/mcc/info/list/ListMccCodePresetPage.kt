@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -91,6 +92,7 @@ class ListMccCodePresetPage(
                             .fillMaxWidth()
                             .padding(bottom = Theme.sizes.padding4),
                         maxLength = SEARCH_MAX_LENGTH,
+                        shape = RoundedCornerShape(Theme.sizes.round16)
                     )
                 }
             }

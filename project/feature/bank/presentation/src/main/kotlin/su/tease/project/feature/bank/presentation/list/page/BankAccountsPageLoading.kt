@@ -2,7 +2,9 @@ package su.tease.project.feature.bank.presentation.list.page
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.NonSkippableComposable
@@ -37,10 +39,13 @@ data class ListCashBackShimmer(
     @Composable
     override fun LazyItemScope.Compose() {
         BankAccountsItem.Shimmer(0).run { Compose() }
+        Spacer(modifier = Modifier.height(Theme.sizes.padding2))
         BankAccountsPageCashBackItem.Shimmer()
         BankAccountsPageCashBackItem.Shimmer()
         BankAccountsPageCashBackItem.Shimmer()
+        Spacer(modifier = Modifier.height(Theme.sizes.padding4))
         BankAccountsPageAddMoreCashBackItem.Shimmer()
+        Spacer(modifier = Modifier.height(Theme.sizes.padding2))
     }
 
     companion object {

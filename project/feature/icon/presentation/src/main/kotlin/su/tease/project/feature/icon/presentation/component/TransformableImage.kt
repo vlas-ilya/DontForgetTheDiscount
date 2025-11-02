@@ -3,7 +3,6 @@ package su.tease.project.feature.icon.presentation.component
 import android.net.Uri
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -21,7 +20,7 @@ fun TransformableImage(
     onScaleChange: (Float) -> Unit,
     onOffsetChange: (Offset) -> Unit,
     onRotationChange: (Float) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val currentScale = remember { mutableFloatStateOf(1f) }
     val currentOffset = remember { mutableStateOf(Offset.Zero) }
@@ -32,7 +31,7 @@ fun TransformableImage(
             .pointerInput(Unit) {
                 detectTransformGestures(
                     onGesture = { centroid, pan, gestureScale, rotate ->
-                        currentScale.floatValue = (currentScale.floatValue * gestureScale).coerceIn(0.5f, 3f)
+                        currentScale.floatValue = (currentScale.floatValue * gestureScale).coerceIn(0.5f, 5f)
                         currentOffset.value += pan
                         currentRotation.floatValue += rotate
                         onScaleChange(currentScale.floatValue)
@@ -52,9 +51,8 @@ fun TransformableImage(
                     translationX = currentOffset.value.x
                     translationY = currentOffset.value.y
                     rotationZ = currentRotation.floatValue
-                }
-                .fillMaxSize(),
-            contentScale = ContentScale.Fit
+                },
+            contentScale = ContentScale.None
         )
     }
 }

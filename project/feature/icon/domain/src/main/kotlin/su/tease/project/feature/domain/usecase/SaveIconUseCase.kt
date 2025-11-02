@@ -27,9 +27,8 @@ class SaveIconUseCase(
     ): FilePath = withDefault {
         val originalBitmap = repository.read(uri) ?: throw SaveIconException()
         val transformedBitmap = applyTransformations(originalBitmap, scale, offset, rotation)
-        val circularBitmap = applyCircularMask(transformedBitmap)
         val fileName = "icon_${uuidProvider.uuid()}.png"
-        repository.save(fileName, circularBitmap) ?: throw SaveIconException()
+        repository.save(fileName, transformedBitmap) ?: throw SaveIconException()
     }
 
     private suspend fun applyTransformations(
@@ -38,32 +37,25 @@ class SaveIconUseCase(
         offset: Offset,
         rotation: Float
     ): Bitmap = withDefault {
-        val matrix = Matrix().apply {
-            postScale(scale, scale)
-            postTranslate(offset.x, offset.y)
-            postRotate(rotation)
+        val minSide = minOf(bitmap.width, bitmap.height)
+        createBitmap(minSide, minSide).apply {
+            val canvas = Canvas(this)
+            val matrix = Matrix().apply {
+                val cx = bitmap.width / 2f
+                val cy = bitmap.height / 2f
+
+                val targetCx = minSide / 2f
+                val targetCy = minSide / 2f
+
+                postTranslate(targetCx - cx, targetCy - cy)
+
+                postScale(scale, scale, targetCx, targetCy)
+                postRotate(rotation, targetCx, targetCy)
+
+                postTranslate(offset.x, offset.y)
+            }
+            canvas.drawBitmap(bitmap, matrix, null)
         }
-        Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
-    }
-
-    private suspend fun applyCircularMask(bitmap: Bitmap): Bitmap = withDefault {
-        val output = createBitmap(bitmap.width, bitmap.height)
-        val canvas = Canvas(output)
-        val paint = Paint().apply {
-            isAntiAlias = true
-        }
-
-        val radius = minOf(bitmap.width, bitmap.height) / 2f
-
-        val path = Path().apply {
-            addCircle(bitmap.width / 2f, bitmap.height / 2f, radius, Path.Direction.CW)
-        }
-
-        canvas.drawPath(path, paint)
-        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-        canvas.drawBitmap(bitmap, 0f, 0f, paint)
-
-        output
     }
 }
 

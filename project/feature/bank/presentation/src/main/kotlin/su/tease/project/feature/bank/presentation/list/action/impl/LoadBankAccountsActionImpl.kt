@@ -1,7 +1,6 @@
 package su.tease.project.feature.bank.presentation.list.action.impl
 
 import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import su.tease.core.clean.domain.repository.RepositoryException
 import su.tease.project.core.mvi.middleware.suspend.suspendAction
@@ -23,9 +22,10 @@ class LoadBankAccountsActionImpl(
     override fun run(request: CashBackDate?) = suspendAction {
         dispatch(LoadBankAccountsActions.OnLoad)
         try {
-            val date = request ?: dateProvider.current().toCashBackDate()
+            val currentDate = dateProvider.current().toCashBackDate()
+            val date = request ?: currentDate
             val list = interactor.filterBy(date)
-            val dates = interactor.listDates().takeIf { it.isNotEmpty() } ?: persistentListOf(date)
+            val dates = (interactor.listDates() + date + currentDate).distinct().toPersistentList()
             dispatch(LoadBankAccountsActions.OnSuccess(date, dates, list.sortBanks()))
         } catch (_: RepositoryException) {
             dispatch(LoadBankAccountsActions.OnFail)

@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import su.tease.design.theme.api.Theme
-import su.tease.project.core.utils.ext.choose
 import su.tease.project.core.utils.ext.thenIf
 import su.tease.project.design.component.controls.form.DFFormElement
 import su.tease.project.design.component.controls.image.DFImage
@@ -50,13 +49,24 @@ fun CashBackIconSelect(
             DFImage(
                 url = icon?.iconUrl ?: ICON_PLACEHOLDER_URL,
                 modifier = Modifier
-                    .size((icon != null).choose(Theme.sizes.size28, Theme.sizes.size20))
+                    .size(
+                        when {
+                            icon == null -> Theme.sizes.size20
+                            icon.iconUrl.endsWith(".png") -> Theme.sizes.size48
+                            else -> Theme.sizes.size28
+                        }
+                    )
                     .align(Alignment.Center),
                 contentDescription = "",
-                tint = (icon != null).choose(Theme.colors.iconTint, Theme.colors.inputPlaceholder)
+                tint = when {
+                    icon == null -> Theme.colors.inputPlaceholder
+                    icon.iconUrl.endsWith(".png") -> null
+                    else -> Theme.colors.iconTint
+                }
             )
         }
     }
 }
 
-private const val ICON_PLACEHOLDER_URL = "https://dontforgetthediscount.ru/static/img/icon/svg/svg/fi-rr-search.svg"
+private const val ICON_PLACEHOLDER_URL =
+    "https://dontforgetthediscount.ru/static/img/icon/svg/svg/fi-rr-search.svg"

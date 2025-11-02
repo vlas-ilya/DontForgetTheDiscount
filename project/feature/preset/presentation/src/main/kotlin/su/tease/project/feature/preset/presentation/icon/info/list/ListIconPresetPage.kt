@@ -1,7 +1,6 @@
 package su.tease.project.feature.preset.presentation.icon.info.list
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -33,10 +32,8 @@ import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.design.component.controls.page.DFPageFloatingButton
 import su.tease.project.feature.preset.domain.interactor.PresetInteractor
 import su.tease.project.feature.preset.presentation.R
-import su.tease.project.feature.preset.presentation.icon.save.SaveIconPresetPage
 import su.tease.project.feature.preset.presentation.icon.entity.IconType
 import su.tease.project.feature.preset.presentation.icon.info.save.SaveIconPresetFeature
-import su.tease.project.feature.preset.presentation.icon.select.SelectIconPresetPage.OnSelectAction
 import su.tease.project.feature.preset.presentation.icon.utils.toIconOwner
 import su.tease.project.design.icons.R as RIcons
 
