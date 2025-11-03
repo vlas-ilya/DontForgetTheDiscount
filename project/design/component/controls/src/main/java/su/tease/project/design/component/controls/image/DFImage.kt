@@ -48,7 +48,7 @@ fun DFImage(
                 painter = painter,
                 contentDescription = contentDescription,
                 colorFilter = tint?.let { ColorFilter.tint(it) },
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.Fit,
             )
         }
     }

@@ -3,6 +3,7 @@
 package su.tease.project.feature.cashback.presentation.save.action.impl
 
 import su.tease.project.core.mvi.middleware.suspend.suspendAction
+import su.tease.project.core.mvi.navigation.action.NavigationAction
 import su.tease.project.core.utils.ext.choose
 import su.tease.project.core.utils.resource.ResourceProvider
 import su.tease.project.core.utils.uuid.UuidProvider
@@ -28,11 +29,13 @@ class SaveCashBackActionImpl(
             dispatch(NotificationAction.ShowNotification(successNotification(payload.id == null)))
             dispatch(SaveCashBackActions.OnSaved).join()
             dispatch(ExternalSaveCashBackAction.OnSaved(cashBack)).join()
+            if (!payload.addMore) dispatch(NavigationAction.Back)
         } catch (_: SaveCashBackUseCase.DuplicateException) {
-            dispatch(SaveCashBackActions.OnInit(payload))
             dispatch(NotificationAction.ShowNotification(duplicateNotification()))
+            dispatch(SaveCashBackActions.OnSaveFail)
         } catch (e: Throwable) {
             Timber.e(e)
+            dispatch(NotificationAction.ShowNotification(someErrorNotification()))
             dispatch(SaveCashBackActions.OnSaveFail)
         }
     }
@@ -53,6 +56,13 @@ class SaveCashBackActionImpl(
         id = uuidProvider.uuid(),
         type = Notification.Type.ERROR,
         title = resourceProvider.string(R.string.SaveCashBack_AddPage_DuplicateNotification_Title),
+        closable = true,
+    )
+
+    private fun someErrorNotification() = Notification(
+        id = uuidProvider.uuid(),
+        type = Notification.Type.ERROR,
+        title = resourceProvider.string(R.string.SaveCashBack_AddPage_SomeErrorNotification_Title),
         closable = true,
     )
 }

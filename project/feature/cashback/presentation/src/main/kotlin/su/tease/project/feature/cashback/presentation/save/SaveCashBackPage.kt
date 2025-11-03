@@ -2,6 +2,8 @@
 
 package su.tease.project.feature.cashback.presentation.save
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -13,10 +15,12 @@ import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import kotlinx.parcelize.Parcelize
 import su.tease.core.mvi.component.component.container.LocalFeatureConfig
@@ -33,6 +37,7 @@ import su.tease.project.core.utils.ext.choose
 import su.tease.project.core.utils.ext.mapPersistent
 import su.tease.project.core.utils.ext.runIf
 import su.tease.project.design.component.controls.page.DFPage
+import su.tease.project.design.component.controls.shimmer.Shimmer
 import su.tease.project.feature.cashback.domain.entity.CashBackDate
 import su.tease.project.feature.cashback.domain.entity.CashBackOwner
 import su.tease.project.feature.cashback.domain.entity.preset.CashBackPreset
@@ -124,10 +129,10 @@ class SaveCashBackPage(
             hasSystemNavigationBar = LocalRootConfig.current.hasSystemNavigationBar,
         ) {
             when (status) {
-                LoadingStatus.Success -> return@DFPage
                 LoadingStatus.Init -> CashBackAddPageForm(isCreatingNew)
                 LoadingStatus.Loading -> CashBackAddPageLoading()
-                LoadingStatus.Failed -> CashBackAddPageFailed()
+                LoadingStatus.Success -> CashBackAddPageLoading()
+                LoadingStatus.Failed -> CashBackAddPageForm(isCreatingNew)
             }
         }
     }
@@ -206,23 +211,27 @@ class SaveCashBackPage(
         form.makeResult(cashBackId)?.let {
             form.addMore.value = false
             dispatch(saveCashBackAction(it))
-            back()
         }
     }
 
     private fun saveAndAddMore() {
         form.makeResult()?.let {
             form.addMore.value = true
-            dispatch(saveCashBackAction(it))
+            dispatch(saveCashBackAction(it.copy(addMore = true)))
         }
     }
 
     @Composable
-    private fun CashBackAddPageFailed() {
-    }
-
-    @Composable
     private fun CashBackAddPageLoading() {
+        Shimmer {
+            Box(
+                modifier = Modifier
+                    .padding(Theme.sizes.padding8)
+                    .clip(RoundedCornerShape(Theme.sizes.round12))
+                    .fillMaxSize()
+                    .background(Theme.colors.shimmer)
+            )
+        }
     }
 
     @Parcelize

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="SaveCashBack_AddPage_DuplicateNotification_Title">Кэшбэк уже добавлен</string>
+    <string name="SaveCashBack_AddPage_SomeErrorNotification_Title">Не удалось добавить кэшбэк</string>
     <string name="SaveCashBack_AddPage_SuccessNotification_Title">Кэшбэк успешно добавлен</string>
     <string name="SaveCashBack_AddPage_Title">Добавление Кэшбэка</string>
     <string name="SaveCashBack_CashBackOwnerSelect_Error">Поле должно быть заполнено</string>

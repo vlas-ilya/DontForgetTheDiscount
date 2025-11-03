@@ -39,12 +39,12 @@ data class MccCodePresetPreview(
 
         Column(
             modifier = Modifier
-                .fillParentMaxWidth()
-                .padding(horizontal = Theme.sizes.padding8)
                 .clickable {
                     isExpanded.value = !isExpanded.value
                     onClick?.invoke(mccCodePreset)
                 }
+                .fillParentMaxWidth()
+                .padding(horizontal = Theme.sizes.padding8)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 DFText(

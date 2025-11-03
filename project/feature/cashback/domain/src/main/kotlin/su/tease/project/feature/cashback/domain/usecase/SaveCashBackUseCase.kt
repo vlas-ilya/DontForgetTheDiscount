@@ -53,6 +53,7 @@ class SaveCashBackUseCase(
         val owner: CashBackOwner,
         val size: Int,
         val date: CashBackDate,
+        val addMore: Boolean = false
     ) : Parcelable
 
     class DuplicateException : Exception()
