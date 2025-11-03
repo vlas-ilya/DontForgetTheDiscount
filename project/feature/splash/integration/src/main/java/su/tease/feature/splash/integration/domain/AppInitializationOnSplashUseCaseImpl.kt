@@ -1,4 +1,4 @@
-package su.tease.feature.splash.integration.dependencies.domain
+package su.tease.feature.splash.integration.domain
 
 import ru.tease.project.feature.splash.domain.AppInitializationOnSplashUseCase
 import su.tease.project.core.utils.utils.withDefault

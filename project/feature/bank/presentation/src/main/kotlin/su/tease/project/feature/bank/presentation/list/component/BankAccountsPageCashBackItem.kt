@@ -33,7 +33,8 @@ import su.tease.project.feature.bank.domain.entity.BankAccount
 import su.tease.project.feature.bank.domain.entity.CashBack
 import su.tease.project.feature.bank.domain.entity.FRACTIONAL_SIZE
 import su.tease.project.feature.bank.presentation.R
-import su.tease.project.feature.bank.presentation.dependencies.navigation.SaveCashBackPage
+import su.tease.project.feature.bank.presentation.action.SaveCacheBackAction
+import su.tease.project.feature.bank.presentation.action.invoke
 import su.tease.project.feature.bank.presentation.dependencies.view.CashBackPresetIconView
 import su.tease.project.feature.bank.presentation.dependencies.view.Compose
 import su.tease.project.feature.bank.presentation.list.reducer.CashBackInfoDialogAction
@@ -44,6 +45,7 @@ data class BankAccountsPageCashBackItem(
     private val cashBack: CashBack,
     private val cashBackPresetIconView: CashBackPresetIconView,
     private val store: Store<*>,
+    private val saveCacheBackAction: SaveCacheBackAction,
 ) : LazyListItem, NavigationComponent by NavigationComponentImpl(store) {
 
     override val key = CASH_BACK + cashBack.id
@@ -54,13 +56,15 @@ data class BankAccountsPageCashBackItem(
             Modifier
                 .fillParentMaxWidth()
                 .clickable {
-                    SaveCashBackPage(
-                        id = cashBack.id,
-                        bankAccount = bankAccount,
-                        cashBackPreset = cashBack.preset,
-                        size = cashBack.size,
-                        date = cashBack.date,
-                    ).forward()
+                    store.dispatcher.dispatch(
+                        saveCacheBackAction(
+                            id = cashBack.id,
+                            bankAccount = bankAccount,
+                            cashBackPreset = cashBack.preset,
+                            size = cashBack.size,
+                            date = cashBack.date,
+                        )
+                    )
                 }
                 .padding(horizontal = Theme.sizes.padding8)
                 .padding(start = Theme.sizes.padding20),

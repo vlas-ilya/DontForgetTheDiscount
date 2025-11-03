@@ -6,6 +6,7 @@ import su.tease.project.core.utils.utils.buildPersistentList
 import su.tease.project.design.component.controls.list.LazyListItems
 import su.tease.project.feature.shop.domain.entity.CashBackDate
 import su.tease.project.feature.shop.domain.entity.Shop
+import su.tease.project.feature.shop.presentation.action.SaveCacheBackAction
 import su.tease.project.feature.shop.presentation.dependencies.view.CashBackPresetIconView
 import su.tease.project.feature.shop.presentation.dependencies.view.ShopPresetIconView
 import su.tease.project.feature.shop.presentation.list.component.ShopsAddMoreCashBackItem
@@ -17,16 +18,18 @@ fun List<Shop>.toUi(
     shopPresetIconView: ShopPresetIconView,
     cashBackPresetIconView: CashBackPresetIconView,
     store: Store<*>,
-): LazyListItems = flatMapPersistent { it.toUi(date, shopPresetIconView, cashBackPresetIconView, store) }
+    saveCacheBackAction: SaveCacheBackAction,
+): LazyListItems = flatMapPersistent { it.toUi(date, shopPresetIconView, cashBackPresetIconView, store, saveCacheBackAction) }
 
 fun Shop.toUi(
     date: CashBackDate,
     shopPresetIconView: ShopPresetIconView,
     cashBackPresetIconView: CashBackPresetIconView,
     store: Store<*>,
+    saveCacheBackAction: SaveCacheBackAction,
 ): LazyListItems = buildPersistentList {
     val shop = this@toUi
     add(ShopsItem(shop, shopPresetIconView, store))
-    cashBacks.forEach { add(ShopsPageCashBackItem(shop, it, cashBackPresetIconView, store)) }
-    add(ShopsAddMoreCashBackItem(date, shop, store))
+    cashBacks.forEach { add(ShopsPageCashBackItem(shop, it, cashBackPresetIconView, store, saveCacheBackAction)) }
+    add(ShopsAddMoreCashBackItem(date, shop, store, saveCacheBackAction))
 }

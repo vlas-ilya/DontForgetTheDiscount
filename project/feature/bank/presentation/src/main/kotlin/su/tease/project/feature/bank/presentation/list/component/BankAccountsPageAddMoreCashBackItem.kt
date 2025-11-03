@@ -22,12 +22,14 @@ import su.tease.project.design.component.controls.list.LazyListItem
 import su.tease.project.feature.bank.domain.entity.BankAccount
 import su.tease.project.feature.bank.domain.entity.CashBackDate
 import su.tease.project.feature.bank.presentation.R
-import su.tease.project.feature.bank.presentation.dependencies.navigation.SaveCashBackPage
+import su.tease.project.feature.bank.presentation.action.SaveCacheBackAction
+import su.tease.project.feature.bank.presentation.action.invoke
 
 data class BankAccountsPageAddMoreCashBackItem(
     private val date: CashBackDate,
     private val bankAccount: BankAccount,
     private val store: Store<*>,
+    private val saveCacheBackAction: SaveCacheBackAction,
 ) : LazyListItem, NavigationComponent by NavigationComponentImpl(store) {
 
     override val key = BANK_ADD_MORE + bankAccount.id
@@ -38,10 +40,12 @@ data class BankAccountsPageAddMoreCashBackItem(
             Modifier
                 .fillParentMaxWidth()
                 .clickable {
-                    SaveCashBackPage(
-                        date = date,
-                        bankAccount = bankAccount
-                    ).forward()
+                    store.dispatcher.dispatch(
+                        saveCacheBackAction(
+                            date = date,
+                            bankAccount = bankAccount
+                        )
+                    )
                 }
         ) {
             DFLinkButton(

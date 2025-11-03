@@ -8,7 +8,6 @@ import su.tease.core.mvi.android.AndroidMviApplication
 import su.tease.dontforgetthediscount.database.databaseModule
 import su.tease.dontforgetthediscount.module.dontForgetTheDiscountModule
 import su.tease.dontforgetthediscount.network.retrofitModule
-import su.tease.dontforgetthediscount.state.dontForgetTheDiscountInterceptors
 import su.tease.dontforgetthediscount.state.dontForgetTheDiscountLogger
 import su.tease.dontforgetthediscount.state.dontForgetTheDiscountMiddlewares
 import su.tease.dontforgetthediscount.state.dontForgetTheDiscountReducer
@@ -24,7 +23,6 @@ import timber.log.Timber
 
 class DontForgetTheDiscountApplication : AndroidMviApplication(
     dontForgetTheDiscountReducer,
-    dontForgetTheDiscountInterceptors,
     dontForgetTheDiscountMiddlewares,
     dontForgetTheDiscountLogger,
 ) {

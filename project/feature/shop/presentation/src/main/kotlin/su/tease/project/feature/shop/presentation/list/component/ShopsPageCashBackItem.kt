@@ -33,7 +33,9 @@ import su.tease.project.feature.shop.domain.entity.CashBack
 import su.tease.project.feature.shop.domain.entity.FRACTIONAL_SIZE
 import su.tease.project.feature.shop.domain.entity.Shop
 import su.tease.project.feature.shop.presentation.R
-import su.tease.project.feature.shop.presentation.dependencies.navigation.SaveCashBackPage
+
+import su.tease.project.feature.shop.presentation.action.SaveCacheBackAction
+import su.tease.project.feature.shop.presentation.action.invoke
 import su.tease.project.feature.shop.presentation.dependencies.view.CashBackPresetIconView
 import su.tease.project.feature.shop.presentation.dependencies.view.Compose
 import su.tease.project.feature.shop.presentation.list.reducer.CashBackInfoDialogAction
@@ -44,6 +46,7 @@ data class ShopsPageCashBackItem(
     private val cashBack: CashBack,
     private val cashBackPresetIconView: CashBackPresetIconView,
     private val store: Store<*>,
+    private val saveCacheBackAction: SaveCacheBackAction,
 ) : LazyListItem, NavigationComponent by NavigationComponentImpl(store) {
 
     override val key = CASH_BACK + cashBack.id
@@ -54,13 +57,15 @@ data class ShopsPageCashBackItem(
             Modifier
                 .fillParentMaxWidth()
                 .clickable {
-                    SaveCashBackPage(
-                        id = cashBack.id,
-                        shop = shop,
-                        cashBackPreset = cashBack.preset,
-                        size = cashBack.size,
-                        date = cashBack.date,
-                    ).forward()
+                    store.dispatcher.dispatch(
+                        saveCacheBackAction(
+                            id = cashBack.id,
+                            shop = shop,
+                            cashBackPreset = cashBack.preset,
+                            size = cashBack.size,
+                            date = cashBack.date,
+                        )
+                    )
                 }
                 .padding(horizontal = Theme.sizes.padding8)
                 .padding(start = Theme.sizes.padding20),

@@ -38,7 +38,8 @@ import su.tease.project.design.component.controls.page.DFPageFloatingButton
 import su.tease.project.feature.shop.domain.entity.CashBackDate
 import su.tease.project.feature.shop.domain.entity.defaultCashBackDate
 import su.tease.project.feature.shop.presentation.R
-import su.tease.project.feature.shop.presentation.dependencies.navigation.SaveCashBackPage
+import su.tease.project.feature.shop.presentation.action.SaveCacheBackAction
+import su.tease.project.feature.shop.presentation.action.invoke
 import su.tease.project.feature.shop.presentation.dependencies.view.CashBackInfoDialogView
 import su.tease.project.feature.shop.presentation.dependencies.view.CashBackPresetIconView
 import su.tease.project.feature.shop.presentation.dependencies.view.Compose
@@ -64,6 +65,7 @@ class ShopsPage(
     private val cashBackPresetIconView: CashBackPresetIconView,
     private val shopPresetIconView: ShopPresetIconView,
     private val cashBackInfoDialogView: CashBackInfoDialogView,
+    private val saveCacheBackAction: SaveCacheBackAction,
 ) : BasePageComponent<ShopsPage.Target>(store) {
 
     private val lazyListWrapper = LazyListWrapper(resourceProvider, SCROLL_ITEMS_FOR_SHOW_BUTTON)
@@ -78,7 +80,7 @@ class ShopsPage(
         val date = selectAsState(ShopsState::date)
         val dates = selectAsState(ShopsState::dates)
         val list = selectAsState(ShopsState::list)
-            .map { it.toUi(date.value, shopPresetIconView, cashBackPresetIconView, store) }
+            .map { it.toUi(date.value, shopPresetIconView, cashBackPresetIconView, store, saveCacheBackAction) }
 
         LaunchedEffect(date.value) {
             if (date.value === defaultCashBackDate) return@LaunchedEffect
@@ -98,7 +100,7 @@ class ShopsPage(
                 persistentListOf(
                     DFPageFloatingButton(
                         icon = RIcons.drawable.plus,
-                        onClick = { SaveCashBackPage(date = date.value).forward() },
+                        onClick = { dispatch(saveCacheBackAction(date = date.value)) },
                         isVisible = isAddButtonVisible.value
                     ),
                     DFPageFloatingButton(
@@ -139,7 +141,10 @@ class ShopsPage(
             val state = status.value
             when {
                 state == LoadingStatus.Init -> ListCashBackInit(lazyListWrapper)
-                state == LoadingStatus.Loading && list.value.isEmpty() -> ListCashBackLoading(lazyListWrapper)
+                state == LoadingStatus.Loading && list.value.isEmpty() -> ListCashBackLoading(
+                    lazyListWrapper
+                )
+
                 state == LoadingStatus.Failed -> ListCashBackFailed({ onTryAgain(date) })
                 else -> ListCashBackSuccess(
                     list,

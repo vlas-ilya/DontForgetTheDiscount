@@ -26,15 +26,16 @@ import su.tease.project.core.utils.utils.scrollDirectionState
 import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.design.component.controls.page.DFPageFloatingButton
 import su.tease.project.feature.info.presentation.R
+import su.tease.project.feature.info.presentation.navigation.NavigationTargets
 import su.tease.project.feature.info.presentation.list.component.ListItem
 import su.tease.project.feature.info.presentation.list.utils.infoItems
 import su.tease.project.design.icons.R as RIcons
 
 class InfoListPage(
     store: Store<*>,
+    private val navigationTargets: NavigationTargets,
     private val resourceProvider: ResourceProvider,
 ) : BasePageComponent<InfoListPage.Target>(store) {
-
 
     private val lazyListState = LazyListState(0, 0)
     private val scrollDirectionState = scrollDirectionState { resourceProvider.dpToPx(it) }
@@ -42,6 +43,7 @@ class InfoListPage(
     @Composable
     override fun invoke() {
 
+        val infoItems = remember { infoItems(navigationTargets) }
         val isScrollTopButtonVisible = remember {
             derivedStateOf { lazyListState.firstVisibleItemIndex >= SCROLL_ITEMS_FOR_SHOW_BUTTON }
         }

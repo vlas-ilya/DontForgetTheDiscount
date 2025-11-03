@@ -11,7 +11,6 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import su.tease.project.core.mvi.api.action.Action
 import su.tease.project.core.mvi.api.action.PlainAction
-import su.tease.project.core.mvi.api.intercetpor.Interceptor
 import su.tease.project.core.mvi.api.middleware.Middleware
 import su.tease.project.core.mvi.api.reducer.Reducer
 import su.tease.project.core.mvi.api.state.State
@@ -21,7 +20,6 @@ import su.tease.project.core.mvi.impl.logger.StoreLogger
 
 class StoreImpl<S : State>(
     private val reducer: Reducer<S>,
-    private val interceptors: List<Interceptor>,
     private val middlewares: List<Middleware>,
     private val coroutineScope: CoroutineScope,
     private val logger: StoreLogger? = null,
@@ -35,8 +33,7 @@ class StoreImpl<S : State>(
     override val dispatcher: Dispatcher = this
 
     override fun dispatch(action: Action) = coroutineScope.launch(Dispatchers.Default) {
-        val intercepted = intercept(action) ?: listOf(action)
-        intercepted.forEach { handleAction(it) }
+        handleAction(action)
     }
 
     private suspend fun handleAction(action: Action) {
@@ -52,14 +49,5 @@ class StoreImpl<S : State>(
                 stateFlow.emit(nextState)
             }
         }
-    }
-
-    private fun intercept(action: Action): List<Action>? {
-        if (action !is PlainAction) return null
-        return interceptors
-            .asSequence()
-            .map { it.intercept(action) }
-            .filter { it.isNotEmpty() }
-            .firstOrNull()
     }
 }

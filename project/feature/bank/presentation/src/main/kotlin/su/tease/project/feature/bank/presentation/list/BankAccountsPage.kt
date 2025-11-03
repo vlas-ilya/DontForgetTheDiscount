@@ -6,19 +6,16 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import su.tease.core.mvi.component.component.container.LocalFeatureConfig
 import su.tease.core.mvi.component.component.container.LocalRootConfig
@@ -34,25 +31,21 @@ import su.tease.project.core.utils.ext.map
 import su.tease.project.core.utils.ext.unit
 import su.tease.project.core.utils.resource.ResourceProvider
 import su.tease.project.core.utils.utils.ScrollDirection
-import su.tease.project.core.utils.utils.and
-import su.tease.project.core.utils.utils.or
-import su.tease.project.core.utils.utils.rememberCallback
-import su.tease.project.core.utils.utils.scrollDirectionState
 import su.tease.project.design.component.controls.dropdown.DFDropdownMenu
-import su.tease.project.design.component.controls.list.LazyListItems
 import su.tease.project.design.component.controls.list.LazyListWrapper
 import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.design.component.controls.page.DFPageFloatingButton
 import su.tease.project.feature.bank.domain.entity.CashBackDate
 import su.tease.project.feature.bank.domain.entity.defaultCashBackDate
 import su.tease.project.feature.bank.presentation.R
-import su.tease.project.feature.bank.presentation.dependencies.navigation.SaveCashBackPage
 import su.tease.project.feature.bank.presentation.dependencies.view.BankPresetIconView
 import su.tease.project.feature.bank.presentation.dependencies.view.CashBackInfoDialogView
 import su.tease.project.feature.bank.presentation.dependencies.view.CashBackPresetIconView
 import su.tease.project.feature.bank.presentation.dependencies.view.Compose
 import su.tease.project.feature.bank.presentation.list.action.LoadBankAccountsAction
 import su.tease.project.feature.bank.presentation.list.action.LoadBankAccountsActions
+import su.tease.project.feature.bank.presentation.action.SaveCacheBackAction
+import su.tease.project.feature.bank.presentation.action.invoke
 import su.tease.project.feature.bank.presentation.list.page.BankAccountsPageFailed
 import su.tease.project.feature.bank.presentation.list.page.BankAccountsPageInit
 import su.tease.project.feature.bank.presentation.list.page.BankAccountsPageLoading
@@ -66,8 +59,9 @@ import su.tease.project.design.icons.R as RIcons
 
 class BankAccountsPage(
     store: Store<*>,
+    resourceProvider: ResourceProvider,
     private val loadBankAccountList: LoadBankAccountsAction,
-    private val resourceProvider: ResourceProvider,
+    private val saveCacheBackAction: SaveCacheBackAction,
     private val dateProvider: DateProvider,
     private val cashBackPresetIconView: CashBackPresetIconView,
     private val bankPresetIconView: BankPresetIconView,
@@ -86,7 +80,7 @@ class BankAccountsPage(
         val date = selectAsState(BankAccountsState::date)
         val dates = selectAsState(BankAccountsState::dates)
         val list = selectAsState(BankAccountsState::list)
-            .map { it.toUi(date.value, bankPresetIconView, cashBackPresetIconView, store) }
+            .map { it.toUi(date.value, bankPresetIconView, cashBackPresetIconView, store, saveCacheBackAction) }
 
         LaunchedEffect(date.value) {
             if (date.value === defaultCashBackDate) return@LaunchedEffect
@@ -106,7 +100,7 @@ class BankAccountsPage(
                 persistentListOf(
                     DFPageFloatingButton(
                         icon = RIcons.drawable.plus,
-                        onClick = { SaveCashBackPage(date = date.value).forward() },
+                        onClick = { dispatch(saveCacheBackAction(date = date.value)) },
                         isVisible = isAddButtonVisible.value
                     ),
                     DFPageFloatingButton(
@@ -147,7 +141,10 @@ class BankAccountsPage(
             val state = status.value
             when {
                 state == LoadingStatus.Init -> BankAccountsPageInit(lazyListWrapper)
-                state == LoadingStatus.Loading && list.value.isEmpty() -> BankAccountsPageLoading(lazyListWrapper)
+                state == LoadingStatus.Loading && list.value.isEmpty() -> BankAccountsPageLoading(
+                    lazyListWrapper
+                )
+
                 state == LoadingStatus.Failed -> BankAccountsPageFailed({ onTryAgain(date) })
                 else -> BankAccountsPageSuccess(
                     list,

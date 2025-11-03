@@ -11,11 +11,13 @@ import su.tease.project.feature.bank.domain.interactor.impl.BankAccountIntercept
 import su.tease.project.feature.bank.domain.repository.BankAccountRepository
 import su.tease.project.feature.bank.integration.dependencies.data.CashBackIntegrationInteractorImpl
 import su.tease.project.feature.bank.integration.dependencies.data.PresetIntegrationIntegrationInteractorImpl
+import su.tease.project.feature.bank.integration.dependencies.presentation.action.SaveCacheBackActionImpl
 import su.tease.project.feature.bank.integration.dependencies.presentation.view.BankPresetIconViewImpl
 import su.tease.project.feature.bank.integration.dependencies.presentation.view.CashBackInfoDialogViewImpl
 import su.tease.project.feature.bank.integration.dependencies.presentation.view.CashBackPresetIconViewImpl
 import su.tease.project.feature.bank.integration.presentation.save.action.SaveBankAccountSelectBankPresetActionImpl
 import su.tease.project.feature.bank.presentation.BankAccountFeature
+import su.tease.project.feature.bank.presentation.action.SaveCacheBackAction
 import su.tease.project.feature.bank.presentation.dependencies.view.BankPresetIconView
 import su.tease.project.feature.bank.presentation.dependencies.view.CashBackInfoDialogView
 import su.tease.project.feature.bank.presentation.dependencies.view.CashBackPresetIconView
@@ -49,10 +51,11 @@ val bankIntegrationModule = module {
     factory<LoadBankAccountsInfoAction> { LoadBankAccountsInfoActionImpl(get()) }
     factory<SaveBankAccountSelectBankPresetAction> { SaveBankAccountSelectBankPresetActionImpl() }
     factory<CreateBankAccountAction> { CreateBankAccountActionImpl() }
+    factory<SaveCacheBackAction> { SaveCacheBackActionImpl() }
 
     feature { BankAccountFeature(get()) }
     feature { SaveBankAccountInfoFeature(get()) }
-    page { BankAccountsPage(get(), get(), get(), get(), get(), get(), get()) }
+    page { BankAccountsPage(get(), get(), get(), get(), get(), get(), get(), get()) }
     page { BankAccountsInfoPage(get(), get(), get(), get()) }
     page { SelectBankAccountPage(get(), get(), get(), get(), get()) }
     page { SaveBankAccountPage(get(), get(), get(), get(), get()) }

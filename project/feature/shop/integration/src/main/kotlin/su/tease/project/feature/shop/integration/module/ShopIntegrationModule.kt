@@ -11,11 +11,13 @@ import su.tease.project.feature.shop.domain.interactor.impl.ShopInterceptorImpl
 import su.tease.project.feature.shop.domain.repository.ShopRepository
 import su.tease.project.feature.shop.integration.dependencies.data.CashBackIntegrationInteractorImpl
 import su.tease.project.feature.shop.integration.dependencies.data.PresetIntegrationIntegrationInteractorImpl
+import su.tease.project.feature.shop.integration.dependencies.presentation.action.SaveCacheBackActionImpl
 import su.tease.project.feature.shop.integration.dependencies.presentation.view.CashBackInfoDialogViewImpl
 import su.tease.project.feature.shop.integration.dependencies.presentation.view.CashBackPresetIconViewImpl
 import su.tease.project.feature.shop.integration.dependencies.presentation.view.ShopPresetIconViewImpl
 import su.tease.project.feature.shop.integration.presentation.save.action.SaveShopSelectShopPresetActionImpl
 import su.tease.project.feature.shop.presentation.ShopFeature
+import su.tease.project.feature.shop.presentation.action.SaveCacheBackAction
 import su.tease.project.feature.shop.presentation.dependencies.view.CashBackInfoDialogView
 import su.tease.project.feature.shop.presentation.dependencies.view.CashBackPresetIconView
 import su.tease.project.feature.shop.presentation.dependencies.view.ShopPresetIconView
@@ -49,10 +51,11 @@ val shopIntegrationModule = module {
     factory<LoadShopsInfoAction> { LoadShopsInfoActionImpl(get()) }
     factory<SaveShopSelectShopPresetAction> { SaveShopSelectShopPresetActionImpl() }
     factory<CreateShopAction> { CreateShopActionImpl() }
+    factory<SaveCacheBackAction> { SaveCacheBackActionImpl() }
 
     feature { ShopFeature(get()) }
     feature { SaveShopInfoFeature(get()) }
-    page { ShopsPage(get(), get(), get(), get(), get(), get(), get()) }
+    page { ShopsPage(get(), get(), get(), get(), get(), get(), get(), get()) }
     page { ShopsInfoPage(get(), get(), get(), get()) }
     page { SelectShopPage(get(), get(), get(), get(), get()) }
     page { SaveShopPage(get(), get(), get(), get(), get()) }
