@@ -40,7 +40,7 @@ class ListShopPresetPage(
     @Composable
     override fun invoke() {
         val list = memoize { presetInteractor.shopPresets() }
-            .map { it?.toUi(store, null) }
+            .map { list -> list?.toUi(store, { SaveShopPresetFeature(it).forward() }) }
 
         val (isScrollTopButtonVisible, _, _, _, scrollUp) = lazyListWrapper.scrollState
 

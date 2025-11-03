@@ -40,7 +40,7 @@ class ListBankPresetPage(
     @Composable
     override fun invoke() {
         val list = memoize { presetInteractor.bankPresets() }
-            .map { it?.toUi(store, null) }
+            .map { list -> list?.toUi(store, { SaveBankPresetFeature(it).forward() }) }
 
         val (isScrollTopButtonVisible, _, _, _, scrollUp) = lazyListWrapper.scrollState
 
