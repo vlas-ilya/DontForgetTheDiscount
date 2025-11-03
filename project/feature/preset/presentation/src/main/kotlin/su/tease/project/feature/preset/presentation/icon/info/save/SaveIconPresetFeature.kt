@@ -8,11 +8,8 @@ import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.core.mvi.navigation.feature
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.design.icons.R
-import su.tease.project.feature.preset.domain.entity.BankPreset
-import su.tease.project.feature.preset.presentation.bank.save.SaveBankPresetPage
+import su.tease.project.feature.preset.presentation.icon.entity.IconType
 import su.tease.project.feature.preset.presentation.icon.save.SaveIconPresetPage
-import su.tease.project.feature.preset.presentation.icon.save.SaveIconPresetPage.Companion.invoke
-import su.tease.project.feature.preset.presentation.icon.save.action.IconOwner
 
 class SaveIconPresetFeature(
     store: Store<*>,
@@ -34,11 +31,9 @@ class SaveIconPresetFeature(
     }
 
     companion object {
-        operator fun invoke(
-            iconOwner: IconOwner
-        ) = feature(
+        operator fun invoke(iconType: IconType) = feature(
             Target,
-            SaveIconPresetPage(iconOwner),
+            SaveIconPresetPage(iconType),
         )
     }
 

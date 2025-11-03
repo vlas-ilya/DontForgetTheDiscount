@@ -5,17 +5,18 @@ import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.clean.doman.usecase.MviUseCase
 import su.tease.project.feature.bank.domain.entity.BankAccount
 
-interface SaveBankAccountAction : MviUseCase<SaveBankAccountRequest>
+interface SaveBankAccountAction : MviUseCase<BankAccount>
+
+@Parcelize
+sealed class ExternalSaveBankAccountAction : PlainAction {
+    data class OnSaved(val bankAccount: BankAccount) : ExternalSaveBankAccountAction()
+    data object OnFinish : ExternalSaveBankAccountAction()
+}
 
 @Parcelize
 sealed class SaveBankAccountActions : PlainAction {
     data class OnInit(val bankAccount: BankAccount? = null) : SaveBankAccountActions()
     data object OnSave : SaveBankAccountActions()
-    data class OnSaveSuccess(val target: String, val bankAccount: BankAccount) : SaveBankAccountActions()
+    data object OnSaveSuccess : SaveBankAccountActions()
     data object OnSaveFail : SaveBankAccountActions()
 }
-
-data class SaveBankAccountRequest(
-    val target: String,
-    val bankAccount: BankAccount,
-)

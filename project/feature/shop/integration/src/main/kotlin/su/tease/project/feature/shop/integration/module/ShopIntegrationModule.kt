@@ -14,6 +14,7 @@ import su.tease.project.feature.shop.integration.dependencies.data.PresetIntegra
 import su.tease.project.feature.shop.integration.dependencies.presentation.view.CashBackInfoDialogViewImpl
 import su.tease.project.feature.shop.integration.dependencies.presentation.view.CashBackPresetIconViewImpl
 import su.tease.project.feature.shop.integration.dependencies.presentation.view.ShopPresetIconViewImpl
+import su.tease.project.feature.shop.integration.presentation.save.action.SaveShopSelectShopPresetActionImpl
 import su.tease.project.feature.shop.presentation.ShopFeature
 import su.tease.project.feature.shop.presentation.dependencies.view.CashBackInfoDialogView
 import su.tease.project.feature.shop.presentation.dependencies.view.CashBackPresetIconView
@@ -27,8 +28,11 @@ import su.tease.project.feature.shop.presentation.list.action.LoadShopsAction
 import su.tease.project.feature.shop.presentation.list.action.impl.LoadShopsActionImpl
 import su.tease.project.feature.shop.presentation.save.SaveShopPage
 import su.tease.project.feature.shop.presentation.save.action.SaveShopAction
+import su.tease.project.feature.shop.presentation.save.action.SaveShopSelectShopPresetAction
 import su.tease.project.feature.shop.presentation.save.action.impl.SaveShopActionImpl
 import su.tease.project.feature.shop.presentation.select.SelectShopPage
+import su.tease.project.feature.shop.presentation.select.action.CreateShopAction
+import su.tease.project.feature.shop.presentation.select.action.impl.CreateShopActionImpl
 
 val shopIntegrationModule = module {
     factory<CashBackIntegrationInteractor> { CashBackIntegrationInteractorImpl(get()) }
@@ -43,11 +47,13 @@ val shopIntegrationModule = module {
     factory<LoadShopsAction> { LoadShopsActionImpl(get(), get()) }
     factory<SaveShopAction> { SaveShopActionImpl(get(), get(), get()) }
     factory<LoadShopsInfoAction> { LoadShopsInfoActionImpl(get()) }
+    factory<SaveShopSelectShopPresetAction> { SaveShopSelectShopPresetActionImpl() }
+    factory<CreateShopAction> { CreateShopActionImpl() }
 
     feature { ShopFeature(get()) }
     feature { SaveShopInfoFeature(get()) }
     page { ShopsPage(get(), get(), get(), get(), get(), get(), get()) }
     page { ShopsInfoPage(get(), get(), get(), get()) }
     page { SelectShopPage(get(), get(), get(), get(), get()) }
-    page { SaveShopPage(get(), get(), get(), get()) }
+    page { SaveShopPage(get(), get(), get(), get(), get()) }
 }

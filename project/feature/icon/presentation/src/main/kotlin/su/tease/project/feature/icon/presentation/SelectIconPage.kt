@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableFloatState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.NonSkippableComposable
@@ -31,6 +30,7 @@ import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.design.component.controls.button.DFButton
 import su.tease.project.design.component.controls.button.DFButtonType
 import su.tease.project.design.component.controls.page.DFPage
+import su.tease.project.feature.icon.presentation.action.ExternalSelectIconActions
 import su.tease.project.feature.icon.presentation.action.SelectIconAction
 import su.tease.project.feature.icon.presentation.action.SelectIconActionRequest
 import su.tease.project.feature.icon.presentation.action.SelectIconActions
@@ -40,7 +40,6 @@ import su.tease.project.feature.icon.presentation.utils.rememberIconSelector
 
 class SelectIconPage(
     store: Store<*>,
-    private val target: Target,
     private val selectIconAction: SelectIconAction,
 ) : BasePageComponent<SelectIconPage.Target>(store) {
 
@@ -49,7 +48,7 @@ class SelectIconPage(
     }
 
     override fun onFinish() {
-        dispatch(SelectIconActions.OnFinish(target.target))
+        dispatch(ExternalSelectIconActions.OnFinish)
     }
 
     @Composable
@@ -61,12 +60,6 @@ class SelectIconPage(
         val rotation = remember { mutableFloatStateOf(0f) }
 
         val status = selectAsState(SelectIconState::status)
-
-        LaunchedEffect(status.value) {
-            if (status.value == LoadingStatus.Success) {
-                back()
-            }
-        }
 
         DFPage(
             title = stringResource(R.string.Icon_IconSelectPage_title),
@@ -157,7 +150,6 @@ class SelectIconPage(
         dispatch(
             selectIconAction(
                 SelectIconActionRequest(
-                    target = target.target,
                     uri = uri,
                     scale = scale.floatValue,
                     offset = offset.value,
@@ -176,9 +168,9 @@ class SelectIconPage(
     }
 
     companion object {
-        inline operator fun <reified T> invoke() = Target(T::class.java.name)
+        operator fun invoke() = Target
     }
 
     @Parcelize
-    data class Target(val target: String) : NavigationTarget.Page
+    data object Target : NavigationTarget.Page
 }

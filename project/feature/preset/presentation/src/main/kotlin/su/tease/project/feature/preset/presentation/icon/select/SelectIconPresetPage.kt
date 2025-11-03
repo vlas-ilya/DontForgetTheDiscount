@@ -23,7 +23,6 @@ import su.tease.core.mvi.component.component.container.LocalRootConfig
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.design.theme.api.Theme
-import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.ext.runIf
 import su.tease.project.core.utils.ext.thenIf
@@ -36,8 +35,9 @@ import su.tease.project.design.component.controls.page.DFPageFloatingButton
 import su.tease.project.feature.preset.domain.entity.IconPreset
 import su.tease.project.feature.preset.domain.interactor.PresetInteractor
 import su.tease.project.feature.preset.presentation.icon.entity.IconType
-import su.tease.project.feature.preset.presentation.icon.save.SaveIconPresetPage
-import su.tease.project.feature.preset.presentation.icon.utils.toIconOwner
+import su.tease.project.feature.preset.presentation.icon.select.action.ExternalSelectIconPresetAction.OnFinish
+import su.tease.project.feature.preset.presentation.icon.select.action.ExternalSelectIconPresetAction.OnSelected
+import su.tease.project.feature.preset.presentation.icon.select.action.SelectIconPresetAction
 import su.tease.project.design.icons.R as RIcons
 
 class SelectIconPresetPage(
@@ -45,10 +45,15 @@ class SelectIconPresetPage(
     resourceProvider: ResourceProvider,
     private val target: Target,
     private val presetInteractor: PresetInteractor,
+    private val selectIconPresetAction: SelectIconPresetAction,
 ) : BasePageComponent<SelectIconPresetPage.Target>(store) {
 
     private val lazyVerticalGridWrapper =
         LazyVerticalGridWrapper(resourceProvider, SCROLL_ITEMS_FOR_SHOW_BUTTON)
+
+    override fun onFinish() {
+        dispatch(OnFinish)
+    }
 
     @Composable
     override operator fun invoke() {
@@ -61,7 +66,7 @@ class SelectIconPresetPage(
                 persistentListOf(
                     DFPageFloatingButton(
                         icon = RIcons.drawable.plus,
-                        onClick = { SaveIconPresetPage(target.iconType.toIconOwner()).forward() }
+                        onClick = { dispatch(selectIconPresetAction(target.iconType)) }
                     ),
                     DFPageFloatingButton(
                         icon = RIcons.drawable.angle_up,
@@ -113,7 +118,7 @@ class SelectIconPresetPage(
                             modifier = Modifier
                                 .clip(target.iconType.clip())
                                 .clickable {
-                                    dispatch(OnSelectAction(target.target, it))
+                                    dispatch(OnSelected(it))
                                     back()
                                 }
                                 .thenIf(it.iconUrl.endsWith(".png")) {
@@ -137,24 +142,17 @@ class SelectIconPresetPage(
 
     @Parcelize
     data class Target(
-        val target: String,
         val iconType: IconType,
         val pageTitle: Int,
         val selected: IconPreset?
     ) : NavigationTarget.Page
 
-    @Parcelize
-    data class OnSelectAction(
-        val target: String,
-        val selected: IconPreset?
-    ) : PlainAction
-
     companion object {
-        inline operator fun <reified T> invoke(
+        operator fun invoke(
             iconType: IconType,
             @StringRes pageTitle: Int,
             selected: IconPreset?,
-        ) = Target(T::class.java.name, iconType, pageTitle, selected)
+        ) = Target(iconType, pageTitle, selected)
     }
 }
 

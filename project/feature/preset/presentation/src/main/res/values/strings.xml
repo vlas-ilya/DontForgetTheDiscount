@@ -66,4 +66,6 @@
     <string name="Presets_ShopListPage_Title">Магазины</string>
     <string name="Presets_ShopPresetIconItem_ContentDescription">Логотип магазина \"%s\"</string>
     <string name="Presets_SaveIconPresetPage_title">Выбор иконки</string>
+    <string name="Presets_SaveIconPresetPage_Notification_Success_Title">Иконка сохранена</string>
+    <string name="Presets_SaveIconPresetPage_Notification_Failed_Title">Не удалось сохранить иконку</string>
 </resources>

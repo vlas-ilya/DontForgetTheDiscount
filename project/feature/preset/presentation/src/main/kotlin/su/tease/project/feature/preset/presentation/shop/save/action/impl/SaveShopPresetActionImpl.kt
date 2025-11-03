@@ -2,6 +2,7 @@ package su.tease.project.feature.preset.presentation.shop.save.action.impl
 
 import su.tease.core.clean.domain.repository.RepositoryException
 import su.tease.project.core.mvi.middleware.suspend.suspendAction
+import su.tease.project.core.mvi.navigation.action.NavigationAction
 import su.tease.project.core.utils.ext.choose
 import su.tease.project.core.utils.resource.ResourceProvider
 import su.tease.project.core.utils.uuid.UuidProvider
@@ -10,6 +11,7 @@ import su.tease.project.feature.notification.api.NotificationAction
 import su.tease.project.feature.preset.domain.entity.ShopPreset
 import su.tease.project.feature.preset.domain.interactor.PresetInteractor
 import su.tease.project.feature.preset.presentation.R
+import su.tease.project.feature.preset.presentation.shop.save.action.ExternalSaveShopPresetActions
 import su.tease.project.feature.preset.presentation.shop.save.action.SaveShopPresetAction
 import su.tease.project.feature.preset.presentation.shop.save.action.SaveShopPresetActions
 import su.tease.project.feature.preset.presentation.shop.save.action.SaveShopPresetError
@@ -20,21 +22,23 @@ class SaveShopPresetActionImpl(
     private val resourceProvider: ResourceProvider,
 ) : SaveShopPresetAction {
 
-    override fun run(request: ShopPreset) = suspendAction {
+    override fun run(payload: ShopPreset) = suspendAction {
         dispatch(SaveShopPresetActions.OnSave)
-        val shopPreset = request.copy(
-            id = request.id.takeIf { it.isNotBlank() } ?: uuidProvider.uuid(),
-            name = request.name.trim()
+        val shopPreset = payload.copy(
+            id = payload.id.takeIf { it.isNotBlank() } ?: uuidProvider.uuid(),
+            name = payload.name.trim()
         )
         try {
             val shops = presetInteractor.shopPresets()
-            if (shops.any { it.name == shopPreset.name && it.id != request.id }) {
+            if (shops.any { it.name == shopPreset.name && it.id != payload.id }) {
                 dispatch(SaveShopPresetActions.OnSaveFail(SaveShopPresetError.DUPLICATE_ERROR))
                 return@suspendAction
             }
             presetInteractor.save(shopPreset)
-            dispatch(SaveShopPresetActions.OnSaveSuccess(shopPreset))
-            dispatch(NotificationAction.ShowNotification(successNotification(request.id.isBlank())))
+            dispatch(NotificationAction.ShowNotification(successNotification(payload.id.isBlank())))
+            dispatch(SaveShopPresetActions.OnSaved).join()
+            dispatch(ExternalSaveShopPresetActions.OnSaved(shopPreset)).join()
+            dispatch(NavigationAction.Back).join()
         } catch (_: RepositoryException) {
             dispatch(SaveShopPresetActions.OnSaveFail(SaveShopPresetError.SOME_ERROR))
         }

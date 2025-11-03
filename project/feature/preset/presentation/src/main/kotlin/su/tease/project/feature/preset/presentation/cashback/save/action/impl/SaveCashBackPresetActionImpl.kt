@@ -2,6 +2,7 @@ package su.tease.project.feature.preset.presentation.cashback.save.action.impl
 
 import su.tease.core.clean.domain.repository.RepositoryException
 import su.tease.project.core.mvi.middleware.suspend.suspendAction
+import su.tease.project.core.mvi.navigation.action.NavigationAction
 import su.tease.project.core.utils.ext.choose
 import su.tease.project.core.utils.resource.ResourceProvider
 import su.tease.project.core.utils.uuid.UuidProvider
@@ -10,6 +11,7 @@ import su.tease.project.feature.notification.api.NotificationAction
 import su.tease.project.feature.preset.domain.entity.CashBackPreset
 import su.tease.project.feature.preset.domain.interactor.PresetInteractor
 import su.tease.project.feature.preset.presentation.R
+import su.tease.project.feature.preset.presentation.cashback.save.action.ExternalSaveCashBackPresetActions
 import su.tease.project.feature.preset.presentation.cashback.save.action.SaveCashBackPresetAction
 import su.tease.project.feature.preset.presentation.cashback.save.action.SaveCashBackPresetActions
 import su.tease.project.feature.preset.presentation.cashback.save.action.SaveCashBackPresetError
@@ -20,20 +22,22 @@ class SaveCashBackPresetActionImpl(
     private val resourceProvider: ResourceProvider,
 ) : SaveCashBackPresetAction {
 
-    override fun run(request: CashBackPreset) = suspendAction {
+    override fun run(payload: CashBackPreset) = suspendAction {
         dispatch(SaveCashBackPresetActions.OnSave)
         try {
-            val cashBackPresets = presetInteractor.cashBackPresets(request.cashBackOwnerPreset.id)
-            if (cashBackPresets.any { it.name == request.name && it.id != request.id }) {
+            val cashBackPresets = presetInteractor.cashBackPresets(payload.cashBackOwnerPreset.id)
+            if (cashBackPresets.any { it.name == payload.name && it.id != payload.id }) {
                 dispatch(SaveCashBackPresetActions.OnSaveFail(SaveCashBackPresetError.DUPLICATE_ERROR))
                 return@suspendAction
             }
-            val cashBackPreset = request.copy(
-                id = request.id.takeIf { it.isNotBlank() } ?: uuidProvider.uuid()
+            val cashBackPreset = payload.copy(
+                id = payload.id.takeIf { it.isNotBlank() } ?: uuidProvider.uuid()
             )
+            dispatch(NotificationAction.ShowNotification(successNotification(payload.id.isBlank())))
             presetInteractor.save(cashBackPreset)
-            dispatch(SaveCashBackPresetActions.OnSaveSuccess(cashBackPreset))
-            dispatch(NotificationAction.ShowNotification(successNotification(request.id.isBlank())))
+            dispatch(SaveCashBackPresetActions.OnSaveSuccess).join()
+            dispatch(ExternalSaveCashBackPresetActions.OnSaved(cashBackPreset)).join()
+            dispatch(NavigationAction.Back)
         } catch (_: RepositoryException) {
             dispatch(SaveCashBackPresetActions.OnSaveFail(SaveCashBackPresetError.SOME_ERROR))
         }

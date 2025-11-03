@@ -13,14 +13,17 @@ interface SelectIconAction : MviUseCase<SelectIconActionRequest>
 sealed class SelectIconActions : PlainAction {
     data object OnInit : SelectIconActions()
     data object OnStart : SelectIconActions()
-    data object OnSave : SelectIconActions()
-    data object OnSaveFail : SelectIconActions()
-    data class OnSelect(val target: String, val filePath: FilePath) : SelectIconActions()
-    data class OnFinish(val target: String) : SelectIconActions()
+    data object OnStored : SelectIconActions()
+    data object OnStoreFail : SelectIconActions()
+}
+
+@Parcelize
+sealed class ExternalSelectIconActions: PlainAction {
+    data class OnSelected(val filePath: FilePath) : ExternalSelectIconActions()
+    data object OnFinish : ExternalSelectIconActions()
 }
 
 data class SelectIconActionRequest(
-    val target: String,
     val uri: Uri,
     val scale: Float,
     val offset: Offset,

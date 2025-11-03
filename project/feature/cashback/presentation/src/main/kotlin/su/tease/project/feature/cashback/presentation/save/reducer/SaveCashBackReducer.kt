@@ -12,46 +12,36 @@ import su.tease.project.core.mvi.api.state.State
 import su.tease.project.feature.cashback.domain.entity.CashBackDate
 import su.tease.project.feature.cashback.domain.entity.CashBackOwner
 import su.tease.project.feature.cashback.domain.entity.preset.CashBackPreset
-import su.tease.project.feature.cashback.presentation.dependencies.navigation.SelectCashBackOwnerPage
-import su.tease.project.feature.cashback.presentation.dependencies.navigation.SelectCashBackPresetPage
-import su.tease.project.feature.cashback.presentation.save.action.SaveCashBackActions
+import su.tease.project.feature.cashback.presentation.save.action.SaveCashBackActions as Save
+import su.tease.project.feature.cashback.presentation.save.action.SaveCashBackSelectCashBackOwnerActionActions as Owner
+import su.tease.project.feature.cashback.presentation.save.action.SaveCashBackSelectCashBackPresetActions as Preset
 
 class SaveCashBackReducer : Reducer<SaveCashBackState> {
 
     override val initState = SaveCashBackState()
 
     override fun SaveCashBackState.onAction(action: PlainAction) = when (action) {
-        is SaveCashBackActions -> onSave(action)
-        is SelectCashBackOwnerPage.OnSelectAction -> onSelectBankAccount(action)
-        is SelectCashBackPresetPage.OnSelectAction -> onSelectCashBackPreset(action)
+        is Save -> onSave(action)
+        is Owner -> onOwner(action)
+        is Preset -> onPreset(action)
         else -> this
     }
 
-    private fun SaveCashBackState.onSave(action: SaveCashBackActions) = when (action) {
-        is SaveCashBackActions.OnSave -> copy(status = Loading)
-        is SaveCashBackActions.OnSaveSuccess -> SaveCashBackState(status = Success)
-        is SaveCashBackActions.OnSaveFail -> copy(status = Failed)
-        is SaveCashBackActions.OnSetDate -> copy(date = action.date)
-        is SaveCashBackActions.OnInit -> {
-            SaveCashBackState(
-                status = Init,
-                id = action.id,
-                cashBackOwner = action.owner,
-                cashBackPreset = action.preset,
-                size = action.size,
-                date = action.date,
-            )
-        }
+    private fun SaveCashBackState.onSave(action: Save) = when (action) {
+        is Save.OnInit -> SaveCashBackState(action)
+        is Save.OnSetDate -> copy(date = action.date)
+        is Save.OnSave -> copy(status = Loading)
+        is Save.OnSaved -> copy(status = Success)
+        is Save.OnSaveFail -> copy(status = Failed)
     }
 
-    private fun SaveCashBackState.onSelectBankAccount(action: SelectCashBackOwnerPage.OnSelectAction) =
-        copy(
-            cashBackOwner = action.selected,
-            cashBackPreset = cashBackPreset.takeIf { cashBackOwner?.id == action.selected?.id }
-        )
+    private fun SaveCashBackState.onOwner(action: Owner) = when (action) {
+        is Owner.OnSelected -> copy(cashBackOwner = action.cashBackOwner)
+    }
 
-    private fun SaveCashBackState.onSelectCashBackPreset(action: SelectCashBackPresetPage.OnSelectAction) =
-        copy(cashBackPreset = action.selected)
+    private fun SaveCashBackState.onPreset(action: Preset) = when (action) {
+        is Preset.OnSelected -> copy(cashBackPreset = action.cashBackPreset)
+    }
 }
 
 @Parcelize
@@ -63,4 +53,13 @@ data class SaveCashBackState(
     val size: Int? = null,
     val date: CashBackDate? = null,
     val wasValidation: Boolean = false,
-) : State
+) : State {
+    constructor(action: Save.OnInit) : this(
+        status = Init,
+        id = action.id,
+        cashBackOwner = action.owner,
+        cashBackPreset = action.preset,
+        size = action.size,
+        date = action.date,
+    )
+}

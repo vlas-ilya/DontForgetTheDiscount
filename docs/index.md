@@ -82,3 +82,4 @@
 - [ ] (cashback-3)  Сделать поиск по названию в категориях кэшбэка
 - [ ] (tech-6)      Сделать доступ к Store через composition local
 - [ ] (tech-7)      Сделать swipe-to-refresh
+- [x] (tech-8)      Убрать интерсепторы      

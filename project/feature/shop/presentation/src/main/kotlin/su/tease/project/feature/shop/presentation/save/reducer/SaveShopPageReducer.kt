@@ -11,7 +11,7 @@ import su.tease.project.core.mvi.api.state.LoadingStatus.Success
 import su.tease.project.core.mvi.api.state.State
 import su.tease.project.feature.shop.domain.entity.ShopPreset
 import su.tease.project.feature.shop.presentation.save.action.SaveShopActions
-import su.tease.project.feature.shop.presentation.dependencies.navigation.SelectShopPresetPage.OnSelectAction as Select
+import su.tease.project.feature.shop.presentation.save.action.SaveShopSelectShopPresetActions as ShopPresetActions
 
 class SaveShopPageReducer : Reducer<SaveShopState> {
     override val initState = SaveShopState()
@@ -19,7 +19,7 @@ class SaveShopPageReducer : Reducer<SaveShopState> {
     override fun SaveShopState.onAction(action: PlainAction): SaveShopState =
         when (action) {
             is SaveShopActions -> onSave(action)
-            is Select -> onShopPresetSelect(action)
+            is ShopPresetActions -> onShopPreset(action)
             else -> this
         }
 
@@ -35,10 +35,12 @@ class SaveShopPageReducer : Reducer<SaveShopState> {
         )
     }
 
-    private fun SaveShopState.onShopPresetSelect(action: Select) = copy(
-        ownerPreset = action.selected,
-        customName = customName ?: action.selected?.name
-    )
+    private fun SaveShopState.onShopPreset(action: ShopPresetActions) = when (action) {
+        is ShopPresetActions.OnSelected -> copy(
+            ownerPreset = action.shopPreset,
+            customName = customName ?: action.shopPreset.name
+        )
+    }
 }
 
 @Parcelize

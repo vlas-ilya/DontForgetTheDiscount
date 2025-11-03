@@ -27,6 +27,4 @@ class CashBackOwnerPreviewViewImpl : CashBackOwnerPreviewView {
             modifier = modifier,
         )
     }
-
-    override fun pageOnSelect() = SelectBankAccountPage<SaveCashBackReducer>()
 }

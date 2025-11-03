@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import kotlinx.parcelize.Parcelize
@@ -22,18 +21,17 @@ import su.tease.core.mvi.component.component.container.LocalRootConfig
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.design.theme.api.Theme
-import su.tease.project.core.mvi.api.state.LoadingStatus
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.ext.RedirectStateNotNull
 import su.tease.project.core.utils.ext.choose
 import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.feature.bank.domain.entity.BankAccount
 import su.tease.project.feature.bank.presentation.R
-import su.tease.project.feature.bank.presentation.dependencies.navigation.SelectBankPresetPage
 import su.tease.project.feature.bank.presentation.dependencies.view.BankPresetIconView
+import su.tease.project.feature.bank.presentation.save.action.ExternalSaveBankAccountAction
 import su.tease.project.feature.bank.presentation.save.action.SaveBankAccountAction
 import su.tease.project.feature.bank.presentation.save.action.SaveBankAccountActions
-import su.tease.project.feature.bank.presentation.save.action.SaveBankAccountRequest
+import su.tease.project.feature.bank.presentation.save.action.SaveBankAccountSelectBankPresetAction
 import su.tease.project.feature.bank.presentation.save.component.SaveBankAccountBankPresetSelect
 import su.tease.project.feature.bank.presentation.save.component.SaveBankAccountPageNameEditText
 import su.tease.project.feature.bank.presentation.save.component.SaveBankAccountPageSaveButton
@@ -45,6 +43,7 @@ class SaveBankAccountPage(
     private val target: Target,
     private val saveBankAccountAction: SaveBankAccountAction,
     private val bankPresetIconView: BankPresetIconView,
+    private val selectBankPresetAction: SaveBankAccountSelectBankPresetAction,
 ) : BasePageComponent<SaveBankAccountPage.Target>(store) {
 
     private val form = SaveBankAccountForm(
@@ -58,21 +57,16 @@ class SaveBankAccountPage(
         dispatch(SaveBankAccountActions.OnInit(target.bankAccount))
     }
 
+    override fun onFinish() {
+        dispatch(ExternalSaveBankAccountAction.OnFinish)
+    }
+
     @Composable
     override fun invoke() {
-        RedirectStateNotNull(selectAsState(SaveBankAccountState::ownerPreset), form.bankPreset)
+        RedirectStateNotNull(selectAsState(SaveBankAccountState::bankPreset), form.bankPreset)
         RedirectStateNotNull(selectAsState(SaveBankAccountState::customName), form.customName)
 
         val bankAccountId = selectAsState(SaveBankAccountState::id).value
-        val status = selectAsState(SaveBankAccountState::status).value
-
-        LaunchedEffect(status) {
-            if (status == LoadingStatus.Success) {
-                dispatch(SaveBankAccountActions.OnInit())
-                form.clean()
-                back()
-            }
-        }
 
         DFPage(
             title = stringResource(
@@ -95,7 +89,7 @@ class SaveBankAccountPage(
             ) {
                 SaveBankAccountBankPresetSelect(
                     bankState = form.bankPreset,
-                    onSelect = { SelectBankPresetPage(form.bankPreset.value).forward() },
+                    onSelect = { dispatch(selectBankPresetAction(form.bankPreset.value)) },
                     error = form.ui { bankPresetError },
                     bankPresetIconView = bankPresetIconView,
                     enabled = target.bankAccount == null,
@@ -119,18 +113,14 @@ class SaveBankAccountPage(
 
     private fun save(bankAccountId: String) {
         form.makeResult(bankAccountId)?.let {
-            dispatch(saveBankAccountAction(SaveBankAccountRequest(target.target, it)))
+            dispatch(saveBankAccountAction(it))
         }
     }
 
     @Parcelize
-    data class Target(
-        val target: String,
-        val bankAccount: BankAccount? = null
-    ) : NavigationTarget.Page
+    data class Target(val bankAccount: BankAccount? = null) : NavigationTarget.Page
 
     companion object {
-        inline operator fun <reified T> invoke(bankAccount: BankAccount? = null) =
-            Target(T::class.java.name, bankAccount)
+        operator fun invoke(bankAccount: BankAccount? = null) = Target(bankAccount)
     }
 }

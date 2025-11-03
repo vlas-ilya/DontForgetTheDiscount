@@ -30,6 +30,7 @@ val cashBackIntegrationModule = module {
     factory<SaveCashBackAction> { SaveCashBackActionImpl(get(), get(), get()) }
     factory<CashBackPresetIconView> { CashBackPresetIconViewImpl() }
     factory { SaveCashBackUseCase(get(), get(), get()) }
+
     feature { SaveCashBackFeature(get()) }
-    page { SaveCashBackPage(get(), get(), get(), get(), get(), get(), get(), get()) }
+    page { SaveCashBackPage(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
 }

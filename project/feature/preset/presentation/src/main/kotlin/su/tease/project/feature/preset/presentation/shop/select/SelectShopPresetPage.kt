@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -16,7 +15,6 @@ import su.tease.core.mvi.component.component.container.LocalRootConfig
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.design.theme.api.Theme
-import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.ext.map
 import su.tease.project.core.utils.resource.ResourceProvider
@@ -28,38 +26,31 @@ import su.tease.project.feature.preset.domain.entity.ShopPreset
 import su.tease.project.feature.preset.domain.interactor.PresetInteractor
 import su.tease.project.feature.preset.presentation.R
 import su.tease.project.feature.preset.presentation.shop.component.ShopPresetPreview
-import su.tease.project.feature.preset.presentation.shop.save.SaveShopPresetPage
-import su.tease.project.feature.preset.presentation.shop.select.reducer.SelectShopPresetState
+import su.tease.project.feature.preset.presentation.shop.select.action.CreateShopPresetAction
+import su.tease.project.feature.preset.presentation.shop.select.action.ExternalSelectShopPresetAction.OnFinish
+import su.tease.project.feature.preset.presentation.shop.select.action.ExternalSelectShopPresetAction.OnSelected
 import su.tease.project.feature.preset.presentation.shop.utils.toUi
 import su.tease.project.design.icons.R as RIcons
 
 class SelectShopPresetPage(
     store: Store<*>,
     resourceProvider: ResourceProvider,
-    private val target: Target,
     private val presetInteractor: PresetInteractor,
+    private val createShopPresetAction: CreateShopPresetAction,
 ) : BasePageComponent<SelectShopPresetPage.Target>(store) {
 
     private val lazyListWrapper = LazyListWrapper(resourceProvider, SCROLL_ITEMS_FOR_SHOW_BUTTON)
 
-    init {
-        dispatch(OnInit)
+    override fun onFinish() {
+        dispatch(OnFinish)
     }
 
     @Composable
     override operator fun invoke() {
         RootConfig { copy(isFullscreen = true) }
 
-        val savedShopPreset = selectAsState(SelectShopPresetState::savedCashBackOwnerPreset).value
-        val list = memoize { presetInteractor.shopPresets() }
-            .map { it?.toUi(store, ::onShopPresetClick) }
-
-        LaunchedEffect(savedShopPreset) {
-            if (savedShopPreset != null) {
-                dispatch(OnSelectAction(target.target, savedShopPreset))
-                back()
-            }
-        }
+        val list =
+            memoize { presetInteractor.shopPresets() }.map { it?.toUi(store, ::onShopPresetClick) }
 
         val (isScrollTopButtonVisible, _, _, _, scrollUp) = lazyListWrapper.scrollState
 
@@ -68,7 +59,7 @@ class SelectShopPresetPage(
                 persistentListOf(
                     DFPageFloatingButton(
                         icon = RIcons.drawable.plus,
-                        onClick = { SaveShopPresetPage().forward() }
+                        onClick = { dispatch(createShopPresetAction()) }
                     ),
                     DFPageFloatingButton(
                         icon = RIcons.drawable.angle_up,
@@ -108,29 +99,15 @@ class SelectShopPresetPage(
     }
 
     private fun onShopPresetClick(shopPreset: ShopPreset) {
-        dispatch(OnSelectAction(target.target, shopPreset))
+        dispatch(OnSelected(shopPreset))
         back()
     }
 
     @Parcelize
-    data class Target(
-        val target: String,
-        val selected: ShopPreset?
-    ) : NavigationTarget.Page
-
-    @Parcelize
-    data class OnSelectAction(
-        val target: String,
-        val selected: ShopPreset?
-    ) : PlainAction
-
-    @Parcelize
-    data object OnInit : PlainAction
+    data class Target(val selected: ShopPreset?) : NavigationTarget.Page
 
     companion object {
-        inline operator fun <reified T> invoke(
-            selected: ShopPreset? = null,
-        ) = Target(T::class.java.name, selected)
+        operator fun invoke(selected: ShopPreset? = null) = Target(selected)
     }
 }
 

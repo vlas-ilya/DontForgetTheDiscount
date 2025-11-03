@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import kotlinx.parcelize.Parcelize
@@ -22,18 +21,16 @@ import su.tease.core.mvi.component.component.container.LocalRootConfig
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.design.theme.api.Theme
-import su.tease.project.core.mvi.api.state.LoadingStatus
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.ext.RedirectStateNotNull
 import su.tease.project.core.utils.ext.choose
 import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.feature.shop.domain.entity.Shop
 import su.tease.project.feature.shop.presentation.R
-import su.tease.project.feature.shop.presentation.dependencies.navigation.SelectShopPresetPage
 import su.tease.project.feature.shop.presentation.dependencies.view.ShopPresetIconView
 import su.tease.project.feature.shop.presentation.save.action.SaveShopAction
-import su.tease.project.feature.shop.presentation.save.action.SaveShopActionRequest
 import su.tease.project.feature.shop.presentation.save.action.SaveShopActions
+import su.tease.project.feature.shop.presentation.save.action.SaveShopSelectShopPresetAction
 import su.tease.project.feature.shop.presentation.save.component.SaveShopPageNameEditText
 import su.tease.project.feature.shop.presentation.save.component.SaveShopPageSaveButton
 import su.tease.project.feature.shop.presentation.save.component.SaveShopPageShopPresetSelect
@@ -45,6 +42,7 @@ class SaveShopPage(
     private val target: Target,
     private val saveShopAction: SaveShopAction,
     private val shopPresetIconView: ShopPresetIconView,
+    private val selectShopPresetAction: SaveShopSelectShopPresetAction,
 ) : BasePageComponent<SaveShopPage.Target>(store) {
 
     private val form = SaveShopForm(
@@ -54,7 +52,9 @@ class SaveShopPage(
             ?: "",
     )
 
-    init { dispatch(SaveShopActions.OnInit(target.shop)) }
+    init {
+        dispatch(SaveShopActions.OnInit(target.shop))
+    }
 
     @Composable
     override fun invoke() {
@@ -62,15 +62,6 @@ class SaveShopPage(
         RedirectStateNotNull(selectAsState(SaveShopState::customName), form.customName)
 
         val shopId = selectAsState(SaveShopState::id).value
-        val status = selectAsState(SaveShopState::status).value
-
-        LaunchedEffect(status) {
-            if (status == LoadingStatus.Success) {
-                dispatch(SaveShopActions.OnInit())
-                form.clean()
-                back()
-            }
-        }
 
         DFPage(
             title = stringResource(
@@ -93,7 +84,7 @@ class SaveShopPage(
             ) {
                 SaveShopPageShopPresetSelect(
                     shopState = form.shopPreset,
-                    onSelect = { SelectShopPresetPage(form.shopPreset.value).forward() },
+                    onSelect = { dispatch(selectShopPresetAction(form.shopPreset.value)) },
                     error = form.ui { shopPresetError },
                     shopPresetIconView = shopPresetIconView,
                     enabled = target.shop == null,
@@ -116,19 +107,13 @@ class SaveShopPage(
     }
 
     private fun save(shopId: String) {
-        form.makeResult(shopId)?.let {
-            dispatch(saveShopAction(SaveShopActionRequest(target.target, it)))
-        }
+        form.makeResult(shopId)?.let { dispatch(saveShopAction(it)) }
     }
 
     @Parcelize
-    data class Target(
-        val target: String,
-        val shop: Shop? = null
-    ) : NavigationTarget.Page
+    data class Target(val shop: Shop? = null) : NavigationTarget.Page
 
     companion object {
-        inline operator fun <reified T> invoke(shop: Shop? = null) =
-            Target(T::class.java.name, shop)
+        operator fun invoke(shop: Shop? = null) = Target(shop)
     }
 }

@@ -12,6 +12,8 @@ import su.tease.project.feature.cashback.domain.entity.preset.CashBackOwnerIconP
 import su.tease.project.feature.cashback.domain.entity.preset.CashBackOwnerPreset
 import su.tease.project.feature.cashback.domain.entity.preset.CashBackPreset
 import su.tease.project.feature.cashback.domain.entity.preset.MccCodePreset
+import su.tease.project.feature.preset.domain.entity.BankIconPreset
+import su.tease.project.feature.preset.domain.entity.BankPreset
 import su.tease.project.feature.bank.domain.entity.BankIconPreset as DomainBankIconPreset
 import su.tease.project.feature.bank.domain.entity.BankPreset as DomainBankPreset
 import su.tease.project.feature.bank.domain.entity.CashBack as DomainCashBack
@@ -19,6 +21,9 @@ import su.tease.project.feature.bank.domain.entity.CashBackDate as DomainCashBac
 import su.tease.project.feature.bank.domain.entity.CashBackIconPreset as DomainCashBackIconPreset
 import su.tease.project.feature.bank.domain.entity.CashBackPreset as DomainCashBackPreset
 import su.tease.project.feature.bank.domain.entity.MccCodePreset as DomainMccCodePreset
+import su.tease.project.feature.preset.domain.entity.CashBackPreset as PresetCashBackPreset
+import su.tease.project.feature.preset.domain.entity.IconPreset as PresetIconPreset
+import su.tease.project.feature.preset.domain.entity.MccCodePreset as PresetMccCodePreset
 
 fun CashBackOwner.toDomain() = BankAccount(
     id = id,
@@ -119,4 +124,35 @@ fun MccCodePreset.toDomain() = DomainMccCodePreset(
 fun CashBackDate.toDomain() = DomainCashBackDate(
     month = month,
     year = year,
+)
+
+fun CashBackOwnerPreset.toPreset() = BankPreset(
+    id = id,
+    name = name,
+    iconPreset = iconPreset.toPreset(),
+)
+
+fun CashBackOwnerIconPreset.toPreset() = BankIconPreset(
+    id = id,
+    iconUrl = iconUrl,
+)
+
+fun PresetCashBackPreset.toExternal() = CashBackPreset(
+    id = id,
+    name = name,
+    info = info,
+    iconPreset = iconPreset.toExternal(),
+    mccCodes = mccCodes.mapPersistent { it.toExternal() },
+)
+
+private fun PresetIconPreset.toExternal() = CashBackIconPreset(
+    id = id,
+    iconUrl = iconUrl,
+)
+
+private fun PresetMccCodePreset.toExternal() = MccCodePreset(
+    id = id,
+    code = code,
+    name = name,
+    info = info,
 )

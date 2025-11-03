@@ -129,10 +129,13 @@ class IntegrationConventionPlugin : Plugin<Project> {
             add("implementation", project(":project:core:mvi:integration:clean"))
             add("implementation", project(":project:core:mvi:integration:component"))
             add("implementation", project(":project:core:mvi:integration:navigation"))
+            add("implementation", project(":project:core:mvi:middleware:intercept"))
+            add("implementation", project(":project:core:mvi:middleware:suspend"))
             add("implementation", project(":project:core:navigation"))
             add("implementation", project(":project:core:utils"))
             add("implementation", project(":project:design:theme:api"))
             add("implementation", project(":project:design:component:controls"))
+            add("implementation", project(":project:feature:notification:api"))
 
             domainModule?.let { add("implementation", project(it)) }
             dataModule?.let { add("implementation", project(it)) }

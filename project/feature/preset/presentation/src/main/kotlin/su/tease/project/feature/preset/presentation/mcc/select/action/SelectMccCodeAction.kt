@@ -1,20 +1,15 @@
 package su.tease.project.feature.preset.presentation.mcc.select.action
 
+import kotlinx.collections.immutable.PersistentList
 import kotlinx.parcelize.Parcelize
 import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.clean.doman.usecase.MviUseCase
+import su.tease.project.feature.preset.domain.entity.MccCodePreset
 
-interface SelectMccCodeAction : MviUseCase<SelectMccCodeRequest> {
-    operator fun invoke(
-        target: String,
-        codes: List<String>,
-    ) = invoke(SelectMccCodeRequest(target, codes))
-}
+interface SelectMccCodeAction : MviUseCase<List<String>>
 
 @Parcelize
-data object OnSelectMccCodeInit : PlainAction
-
-data class SelectMccCodeRequest(
-    val target: String,
-    val codes: List<String>,
-)
+sealed class ExternalSelectMccCodeAction : PlainAction {
+    data class OnSelected(val mccCodes: PersistentList<MccCodePreset>) : ExternalSelectMccCodeAction()
+    data object OnFinish : ExternalSelectMccCodeAction()
+}

@@ -6,7 +6,7 @@ import su.tease.project.core.mvi.api.action.Action
 
 interface MviUseCase<Request> {
 
-    fun run(request: Request): Action
+    fun run(payload: Request): Action
 
-    operator fun invoke(request: Request): Action = run(request)
+    operator fun invoke(payload: Request): Action = run(payload)
 }

@@ -1,28 +1,33 @@
 package su.tease.project.feature.icon.presentation.action.impl
 
 import su.tease.project.core.mvi.middleware.suspend.suspendAction
+import su.tease.project.core.mvi.navigation.action.NavigationAction.Back
 import su.tease.project.feature.domain.usecase.SaveIconUseCase
+import su.tease.project.feature.icon.presentation.action.ExternalSelectIconActions.OnSelected
 import su.tease.project.feature.icon.presentation.action.SelectIconAction
 import su.tease.project.feature.icon.presentation.action.SelectIconActionRequest
-import su.tease.project.feature.icon.presentation.action.SelectIconActions
+import su.tease.project.feature.icon.presentation.action.SelectIconActions.OnStart
+import su.tease.project.feature.icon.presentation.action.SelectIconActions.OnStoreFail
+import su.tease.project.feature.icon.presentation.action.SelectIconActions.OnStored
 
 class SelectIconActionImpl(
     private val saveIconUseCase: SaveIconUseCase,
 ) : SelectIconAction {
 
-    override fun run(request: SelectIconActionRequest) = suspendAction {
-        dispatch(SelectIconActions.OnStart)
+    override fun run(payload: SelectIconActionRequest) = suspendAction {
+        dispatch(OnStart)
         try {
             val filePath = saveIconUseCase.saveIcon(
-                uri = request.uri,
-                scale = request.scale,
-                offset = request.offset,
-                rotation = request.rotation,
+                uri = payload.uri,
+                scale = payload.scale,
+                offset = payload.offset,
+                rotation = payload.rotation,
             )
-            dispatch(SelectIconActions.OnSave)
-            dispatch(SelectIconActions.OnSelect(request.target, filePath))
+            dispatch(OnStored).join()
+            dispatch(OnSelected(filePath)).join()
+            dispatch(Back).join()
         } catch (_: Throwable) {
-            dispatch(SelectIconActions.OnSaveFail)
+            dispatch(OnStoreFail)
         }
     }
 }

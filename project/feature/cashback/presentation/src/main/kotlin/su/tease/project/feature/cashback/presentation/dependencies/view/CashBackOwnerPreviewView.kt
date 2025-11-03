@@ -3,7 +3,6 @@ package su.tease.project.feature.cashback.presentation.dependencies.view
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
-import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.project.feature.cashback.domain.entity.preset.CashBackOwnerIconPreset
 
 @Immutable
@@ -15,8 +14,6 @@ interface CashBackOwnerPreviewView {
         icon: CashBackOwnerIconPreset,
         modifier: Modifier,
     )
-
-    fun pageOnSelect(): NavigationTarget.Page
 }
 
 @Composable

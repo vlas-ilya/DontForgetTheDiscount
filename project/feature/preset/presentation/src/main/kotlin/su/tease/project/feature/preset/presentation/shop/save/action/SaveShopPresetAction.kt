@@ -16,6 +16,12 @@ enum class SaveShopPresetError {
 sealed class SaveShopPresetActions : PlainAction {
     data class OnInit(val initShopPreset: ShopPreset? = null) : SaveShopPresetActions()
     data object OnSave : SaveShopPresetActions()
-    data class OnSaveSuccess(val cashBackOwnerPreset: ShopPreset) : SaveShopPresetActions()
+    data object OnSaved : SaveShopPresetActions()
     data class OnSaveFail(val error: SaveShopPresetError) : SaveShopPresetActions()
+}
+
+@Parcelize
+sealed class ExternalSaveShopPresetActions : PlainAction {
+    data class OnSaved(val shopPreset: ShopPreset) : ExternalSaveShopPresetActions()
+    data object OnFinish : ExternalSaveShopPresetActions()
 }

@@ -38,13 +38,14 @@ import su.tease.project.feature.cashback.domain.entity.CashBackOwner
 import su.tease.project.feature.cashback.domain.entity.preset.CashBackPreset
 import su.tease.project.feature.cashback.domain.mapper.toCashBackDate
 import su.tease.project.feature.cashback.presentation.R
-import su.tease.project.feature.cashback.presentation.dependencies.CashBackOwnerTypeProvider
-import su.tease.project.feature.cashback.presentation.dependencies.navigation.SelectCashBackPresetPage
 import su.tease.project.feature.cashback.presentation.dependencies.view.CashBackOwnerPreviewView
 import su.tease.project.feature.cashback.presentation.dependencies.view.CashBackOwnerText
 import su.tease.project.feature.cashback.presentation.dependencies.view.CashBackPresetIconView
+import su.tease.project.feature.cashback.presentation.save.action.ExternalSaveCashBackAction
 import su.tease.project.feature.cashback.presentation.save.action.SaveCashBackAction
 import su.tease.project.feature.cashback.presentation.save.action.SaveCashBackActions
+import su.tease.project.feature.cashback.presentation.save.action.SaveCashBackSelectCashBackOwnerAction
+import su.tease.project.feature.cashback.presentation.save.action.SaveCashBackSelectCashBackPresetAction
 import su.tease.project.feature.cashback.presentation.save.component.CashBackDateSelect
 import su.tease.project.feature.cashback.presentation.save.component.CashBackOwnerSelect
 import su.tease.project.feature.cashback.presentation.save.component.CashBackPresetSelect
@@ -62,7 +63,8 @@ class SaveCashBackPage(
     private val cashBackPresetIconView: CashBackPresetIconView,
     private val cashBackOwnerPreviewView: CashBackOwnerPreviewView,
     private val cashBackOwnerText: CashBackOwnerText,
-    private val ownerTypeProvider: CashBackOwnerTypeProvider,
+    private val selectCashBackOwnerAction: SaveCashBackSelectCashBackOwnerAction,
+    private val selectCashBackPresetAction: SaveCashBackSelectCashBackPresetAction,
 ) : BasePageComponent<SaveCashBackPage.Target>(store) {
 
     private val dateValue = target.date
@@ -82,6 +84,10 @@ class SaveCashBackPage(
         dispatch(SaveCashBackActions.OnInit(target))
     }
 
+    override fun onFinish() {
+        dispatch(ExternalSaveCashBackAction.OnFinish)
+    }
+
     @Composable
     override operator fun invoke() {
         val status = selectAsState(SaveCashBackState::status).value
@@ -91,7 +97,6 @@ class SaveCashBackPage(
 
             if (form.addMore.value.not()) {
                 dispatch(SaveCashBackActions.OnInit())
-                back()
             } else {
                 val cashBackOwner = form.cashBackOwner.value
                 val date = form.date.value
@@ -153,7 +158,7 @@ class SaveCashBackPage(
             Spacer(modifier = Modifier.height(Theme.sizes.padding4))
             CashBackOwnerSelect(
                 cashBackOwnerState = form.cashBackOwner,
-                onSelect = { cashBackOwnerPreviewView.pageOnSelect().forward() },
+                onSelect = { dispatch(selectCashBackOwnerAction()) },
                 error = form.ui { bankAccountError },
                 disabled = !isCreatingNew,
                 cashBackOwnerPreviewView = cashBackOwnerPreviewView,
@@ -194,13 +199,14 @@ class SaveCashBackPage(
 
     private fun selectCashBackPreset() {
         val ownerPreset = form.cashBackOwner.value?.preset ?: return
-        SelectCashBackPresetPage(ownerPreset, ownerTypeProvider.get()).forward()
+        dispatch(selectCashBackPresetAction(ownerPreset))
     }
 
     private fun save(cashBackId: String?) {
         form.makeResult(cashBackId)?.let {
             form.addMore.value = false
             dispatch(saveCashBackAction(it))
+            back()
         }
     }
 

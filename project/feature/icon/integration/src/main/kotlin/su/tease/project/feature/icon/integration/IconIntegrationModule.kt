@@ -13,5 +13,5 @@ val iconIntegrationModule = module {
     factory<SaveIconRepository> { SaveIconRepositoryImpl(get()) }
     factory { SaveIconUseCase(get(), get()) }
     factory<SelectIconAction> { SelectIconActionImpl(get()) }
-    page { SelectIconPage(get(), get(), get()) }
+    page { SelectIconPage(get(), get()) }
 }

@@ -2,24 +2,23 @@ package su.tease.project.feature.preset.presentation.mcc.select.action.impl
 
 import kotlinx.collections.immutable.PersistentList
 import su.tease.project.core.mvi.middleware.suspend.suspendAction
+import su.tease.project.core.mvi.navigation.action.NavigationAction
 import su.tease.project.core.utils.ext.mapPersistent
 import su.tease.project.core.utils.uuid.UuidProvider
 import su.tease.project.feature.preset.domain.entity.MccCodePreset
 import su.tease.project.feature.preset.domain.interactor.PresetInteractor
-import su.tease.project.feature.preset.presentation.mcc.select.SelectMccCodePresetPage
-import su.tease.project.feature.preset.presentation.mcc.select.action.OnSelectMccCodeInit
+import su.tease.project.feature.preset.presentation.mcc.select.action.ExternalSelectMccCodeAction.OnSelected
 import su.tease.project.feature.preset.presentation.mcc.select.action.SelectMccCodeAction
-import su.tease.project.feature.preset.presentation.mcc.select.action.SelectMccCodeRequest
 
 class SelectMccCodeActionImpl(
     private val uuidProvider: UuidProvider,
     private val presetInteractor: PresetInteractor,
 ) : SelectMccCodeAction {
 
-    override fun run(request: SelectMccCodeRequest) = suspendAction {
-        dispatch(OnSelectMccCodeInit)
-        val codes = savePresets(request.codes)
-        dispatch(SelectMccCodePresetPage.OnSelectAction(request.target, codes))
+    override fun run(payload: List<String>) = suspendAction {
+        val codes = savePresets(payload)
+        dispatch(OnSelected(codes)).join()
+        dispatch(NavigationAction.Back).join()
     }
 
     private suspend fun savePresets(codes: List<String>): PersistentList<MccCodePreset> {

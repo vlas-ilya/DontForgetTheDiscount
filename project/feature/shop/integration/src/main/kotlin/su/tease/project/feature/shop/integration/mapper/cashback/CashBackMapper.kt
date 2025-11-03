@@ -3,6 +3,7 @@
 package su.tease.project.feature.shop.integration.mapper.cashback
 
 import su.tease.project.core.utils.ext.mapPersistent
+import su.tease.project.feature.shop.domain.entity.Shop
 import su.tease.project.feature.cashback.domain.entity.CashBack
 import su.tease.project.feature.cashback.domain.entity.CashBackDate
 import su.tease.project.feature.cashback.domain.entity.CashBackOwner
@@ -11,14 +12,18 @@ import su.tease.project.feature.cashback.domain.entity.preset.CashBackOwnerIconP
 import su.tease.project.feature.cashback.domain.entity.preset.CashBackOwnerPreset
 import su.tease.project.feature.cashback.domain.entity.preset.CashBackPreset
 import su.tease.project.feature.cashback.domain.entity.preset.MccCodePreset
-import su.tease.project.feature.shop.domain.entity.Shop
+import su.tease.project.feature.preset.domain.entity.ShopIconPreset
+import su.tease.project.feature.preset.domain.entity.ShopPreset
+import su.tease.project.feature.shop.domain.entity.ShopIconPreset as DomainShopIconPreset
+import su.tease.project.feature.shop.domain.entity.ShopPreset as DomainShopPreset
 import su.tease.project.feature.shop.domain.entity.CashBack as DomainCashBack
 import su.tease.project.feature.shop.domain.entity.CashBackDate as DomainCashBackDate
 import su.tease.project.feature.shop.domain.entity.CashBackIconPreset as DomainCashBackIconPreset
 import su.tease.project.feature.shop.domain.entity.CashBackPreset as DomainCashBackPreset
 import su.tease.project.feature.shop.domain.entity.MccCodePreset as DomainMccCodePreset
-import su.tease.project.feature.shop.domain.entity.ShopIconPreset as DomainShopIconPreset
-import su.tease.project.feature.shop.domain.entity.ShopPreset as DomainShopPreset
+import su.tease.project.feature.preset.domain.entity.CashBackPreset as PresetCashBackPreset
+import su.tease.project.feature.preset.domain.entity.IconPreset as PresetIconPreset
+import su.tease.project.feature.preset.domain.entity.MccCodePreset as PresetMccCodePreset
 
 fun CashBackOwner.toDomain() = Shop(
     id = id,
@@ -119,4 +124,36 @@ fun MccCodePreset.toDomain() = DomainMccCodePreset(
 fun CashBackDate.toDomain() = DomainCashBackDate(
     month = month,
     year = year,
+)
+
+
+fun CashBackOwnerPreset.toPreset() = ShopPreset(
+    id = id,
+    name = name,
+    iconPreset = iconPreset.toPreset(),
+)
+
+fun CashBackOwnerIconPreset.toPreset() = ShopIconPreset(
+    id = id,
+    iconUrl = iconUrl,
+)
+
+fun PresetCashBackPreset.toExternal() = CashBackPreset(
+    id = id,
+    name = name,
+    info = info,
+    iconPreset = iconPreset.toExternal(),
+    mccCodes = mccCodes.mapPersistent { it.toExternal() },
+)
+
+private fun PresetIconPreset.toExternal() = CashBackIconPreset(
+    id = id,
+    iconUrl = iconUrl,
+)
+
+private fun PresetMccCodePreset.toExternal() = MccCodePreset(
+    id = id,
+    code = code,
+    name = name,
+    info = info,
 )

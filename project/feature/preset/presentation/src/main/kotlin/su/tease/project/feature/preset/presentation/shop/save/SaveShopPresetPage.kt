@@ -1,6 +1,5 @@
 package su.tease.project.feature.preset.presentation.shop.save
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,14 +32,13 @@ import su.tease.project.core.utils.ext.choose
 import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.feature.preset.domain.entity.ShopPreset
 import su.tease.project.feature.preset.presentation.R
-import su.tease.project.feature.preset.presentation.icon.select.SelectIconPresetPage
-import su.tease.project.feature.preset.presentation.icon.entity.IconType
 import su.tease.project.feature.preset.presentation.shop.component.IconSelect
 import su.tease.project.feature.preset.presentation.shop.component.NameEditText
 import su.tease.project.feature.preset.presentation.shop.component.SaveButton
+import su.tease.project.feature.preset.presentation.shop.save.action.ExternalSaveShopPresetActions
 import su.tease.project.feature.preset.presentation.shop.save.action.SaveShopPresetAction
 import su.tease.project.feature.preset.presentation.shop.save.action.SaveShopPresetActions
-import su.tease.project.feature.preset.presentation.shop.save.reducer.SaveShopPresetReducer
+import su.tease.project.feature.preset.presentation.shop.save.action.SelectShopIconAction
 import su.tease.project.feature.preset.presentation.shop.save.reducer.SaveShopPresetState
 import su.tease.project.feature.preset.presentation.shop.save.utils.SaveShopPresetForm
 
@@ -48,12 +46,17 @@ class SaveShopPresetPage(
     store: Store<*>,
     private val target: Target,
     private val saveShopPresetAction: SaveShopPresetAction,
+    private val selectShopIconAction: SelectShopIconAction,
 ) : BasePageComponent<SaveShopPresetPage.Target>(store) {
 
     private val form = SaveShopPresetForm(target.shopPreset)
 
     init {
         dispatch(SaveShopPresetActions.OnInit(target.shopPreset))
+    }
+
+    override fun onFinish() {
+        dispatch(ExternalSaveShopPresetActions.OnFinish)
     }
 
     @Composable
@@ -75,7 +78,6 @@ class SaveShopPresetPage(
             if (status == LoadingStatus.Success) {
                 dispatch(SaveShopPresetActions.OnInit())
                 form.clean()
-                back()
             }
         }
 
@@ -101,7 +103,7 @@ class SaveShopPresetPage(
                 ) {
                     IconSelect(
                         iconState = form.iconPreset,
-                        onSelect = { selectIcon(R.string.Presets_SaveShopPage_IconSelect_PageTitle) },
+                        onSelect = { dispatch(selectShopIconAction(form.iconPreset.value)) },
                         error = form.ui { iconError },
                         modifier = Modifier.wrapContentWidth(),
                     )
@@ -123,18 +125,8 @@ class SaveShopPresetPage(
         }
     }
 
-    private fun selectIcon(@StringRes title: Int) {
-        SelectIconPresetPage<SaveShopPresetReducer>(
-            iconType = IconType.SHOP_ICON,
-            pageTitle = title,
-            selected = form.iconPreset.value
-        ).forward()
-    }
-
     private fun save() {
-        form.makeResult()?.let {
-            dispatch(saveShopPresetAction(it))
-        }
+        form.makeResult()?.let { dispatch(saveShopPresetAction(it)) }
     }
 
     @Parcelize

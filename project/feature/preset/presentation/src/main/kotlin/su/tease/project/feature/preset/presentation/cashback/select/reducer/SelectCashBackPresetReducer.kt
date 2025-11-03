@@ -6,9 +6,6 @@ import su.tease.project.core.mvi.api.reducer.Reducer
 import su.tease.project.core.mvi.api.state.State
 import su.tease.project.feature.preset.domain.entity.CashBackOwnerPreset
 import su.tease.project.feature.preset.domain.entity.CashBackPreset
-import su.tease.project.feature.preset.presentation.cashback.save.action.SaveCashBackPresetActions.OnSaveSuccess as Save
-import su.tease.project.feature.preset.presentation.cashback.select.SelectCashBackPresetPage.OnInit as Init
-import su.tease.project.feature.preset.presentation.cashback.select.SelectCashBackPresetPage.OnSelectAction as Select
 import su.tease.project.feature.preset.presentation.cashback.select.reducer.CashBackPresetInfoDialogAction as Dialog
 import su.tease.project.feature.preset.presentation.cashback.select.reducer.SelectCashBackPresetState as S
 
@@ -17,9 +14,6 @@ class SelectCashBackPresetReducer : Reducer<S> {
     override val initState = S()
 
     override fun S.onAction(action: PlainAction) = when (action) {
-        is Init -> S()
-        is Select -> copy(savedCashBackPreset = null)
-        is Save -> copy(savedCashBackPreset = action.cashBankPreset)
         is Dialog -> anCashBackInfoDialog(action)
         else -> this
     }

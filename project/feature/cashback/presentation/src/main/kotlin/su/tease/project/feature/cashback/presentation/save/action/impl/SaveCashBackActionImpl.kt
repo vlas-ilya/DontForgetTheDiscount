@@ -8,6 +8,7 @@ import su.tease.project.core.utils.resource.ResourceProvider
 import su.tease.project.core.utils.uuid.UuidProvider
 import su.tease.project.feature.cashback.domain.usecase.SaveCashBackUseCase
 import su.tease.project.feature.cashback.presentation.R
+import su.tease.project.feature.cashback.presentation.save.action.ExternalSaveCashBackAction
 import su.tease.project.feature.cashback.presentation.save.action.SaveCashBackAction
 import su.tease.project.feature.cashback.presentation.save.action.SaveCashBackActions
 import su.tease.project.feature.notification.api.Notification
@@ -20,14 +21,15 @@ class SaveCashBackActionImpl(
     private val resourceProvider: ResourceProvider,
 ) : SaveCashBackAction {
 
-    override fun run(request: SaveCashBackUseCase.Request) = suspendAction {
+    override fun run(payload: SaveCashBackUseCase.Request) = suspendAction {
         dispatch(SaveCashBackActions.OnSave)
         try {
-            val cashBack = saveCashBackUseCase.save(request)
-            dispatch(SaveCashBackActions.OnSaveSuccess(cashBack))
-            dispatch(NotificationAction.ShowNotification(successNotification(request.id == null)))
+            val cashBack = saveCashBackUseCase.save(payload)
+            dispatch(NotificationAction.ShowNotification(successNotification(payload.id == null)))
+            dispatch(SaveCashBackActions.OnSaved).join()
+            dispatch(ExternalSaveCashBackAction.OnSaved(cashBack)).join()
         } catch (_: SaveCashBackUseCase.DuplicateException) {
-            dispatch(SaveCashBackActions.OnInit(request))
+            dispatch(SaveCashBackActions.OnInit(payload))
             dispatch(NotificationAction.ShowNotification(duplicateNotification()))
         } catch (e: Throwable) {
             Timber.e(e)

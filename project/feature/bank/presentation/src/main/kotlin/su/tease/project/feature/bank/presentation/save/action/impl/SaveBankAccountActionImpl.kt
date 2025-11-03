@@ -2,14 +2,16 @@ package su.tease.project.feature.bank.presentation.save.action.impl
 
 import su.tease.core.clean.domain.repository.RepositoryException
 import su.tease.project.core.mvi.middleware.suspend.suspendAction
+import su.tease.project.core.mvi.navigation.action.NavigationAction
 import su.tease.project.core.utils.ext.choose
 import su.tease.project.core.utils.resource.ResourceProvider
 import su.tease.project.core.utils.uuid.UuidProvider
+import su.tease.project.feature.bank.domain.entity.BankAccount
 import su.tease.project.feature.bank.domain.interactor.BankAccountInterceptor
 import su.tease.project.feature.bank.presentation.R
+import su.tease.project.feature.bank.presentation.save.action.ExternalSaveBankAccountAction
 import su.tease.project.feature.bank.presentation.save.action.SaveBankAccountAction
 import su.tease.project.feature.bank.presentation.save.action.SaveBankAccountActions
-import su.tease.project.feature.bank.presentation.save.action.SaveBankAccountRequest
 import su.tease.project.feature.notification.api.Notification
 import su.tease.project.feature.notification.api.NotificationAction
 import timber.log.Timber
@@ -20,17 +22,19 @@ data class SaveBankAccountActionImpl(
     private val resourceProvider: ResourceProvider,
 ) : SaveBankAccountAction {
 
-    override fun run(request: SaveBankAccountRequest) = suspendAction {
+    override fun run(payload: BankAccount) = suspendAction {
         dispatch(SaveBankAccountActions.OnSave)
         try {
-            val persisted = request.bankAccount.takeIf { it.id.isNotBlank() }?.let { interceptor.get(it.id) }
-            val bankAccount = request.bankAccount.copy(
+            val persisted = payload.takeIf { it.id.isNotBlank() }?.let { interceptor.get(it.id) }
+            val bankAccount = payload.copy(
                 id = persisted?.id ?: uuidProvider.uuid(),
-                cashBacks = persisted?.cashBacks ?: request.bankAccount.cashBacks
+                cashBacks = persisted?.cashBacks ?: payload.cashBacks
             )
             interceptor.save(bankAccount)
-            dispatch(SaveBankAccountActions.OnSaveSuccess(request.target, bankAccount))
-            dispatch(NotificationAction.ShowNotification(successNotification(request.bankAccount.id.isBlank())))
+            dispatch(NotificationAction.ShowNotification(successNotification(payload.id.isBlank())))
+            dispatch(SaveBankAccountActions.OnSaveSuccess).join()
+            dispatch(ExternalSaveBankAccountAction.OnSaved(bankAccount)).join()
+            dispatch(NavigationAction.Back).join()
         } catch (e: RepositoryException) {
             Timber.e(e)
             dispatch(SaveBankAccountActions.OnSaveFail)

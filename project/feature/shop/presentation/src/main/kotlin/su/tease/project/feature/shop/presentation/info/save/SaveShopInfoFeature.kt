@@ -35,7 +35,7 @@ class SaveShopInfoFeature(
             shop: Shop? = null
         ) = feature(
             Target,
-            SaveShopPage<Unit>(shop),
+            SaveShopPage(shop),
         )
     }
 

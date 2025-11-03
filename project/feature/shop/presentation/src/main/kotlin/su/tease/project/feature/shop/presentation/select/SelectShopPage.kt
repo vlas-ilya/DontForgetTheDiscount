@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -15,7 +14,6 @@ import su.tease.core.mvi.component.component.container.LocalRootConfig
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.design.theme.api.Theme
-import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.ext.map
 import su.tease.project.core.utils.resource.ResourceProvider
@@ -29,37 +27,28 @@ import su.tease.project.feature.shop.presentation.R
 import su.tease.project.feature.shop.presentation.component.ShopsItem
 import su.tease.project.feature.shop.presentation.dependencies.view.ShopPresetIconView
 import su.tease.project.feature.shop.presentation.info.list.utils.toUi
-import su.tease.project.feature.shop.presentation.save.SaveShopPage
-import su.tease.project.feature.shop.presentation.select.reducer.SelectShopPageReducer
-import su.tease.project.feature.shop.presentation.select.reducer.SelectShopState
+import su.tease.project.feature.shop.presentation.select.action.CreateShopAction
+import su.tease.project.feature.shop.presentation.select.action.ExternalSelectShopActions
 import su.tease.project.design.icons.R as RIcons
 
 class SelectShopPage(
     store: Store<*>,
     resourceProvider: ResourceProvider,
-    private val target: Target,
     private val interceptor: ShopInterceptor,
     private val shopPresetIconView: ShopPresetIconView,
+    private val createShopAction: CreateShopAction,
 ) : BasePageComponent<SelectShopPage.Target>(store) {
 
     private val lazyListWrapper = LazyListWrapper(resourceProvider, SCROLL_ITEMS_FOR_SHOW_BUTTON)
 
-    init {
-        dispatch(OnInit)
+    override fun onFinish() {
+        dispatch(ExternalSelectShopActions.OnFinish)
     }
 
     @Composable
     override fun invoke() {
-        val savedShop = selectAsState(SelectShopState::savedShop).value
         val list = memoize { interceptor.list() }
             .map { it?.toUi(shopPresetIconView, store, ::onShopClick) }
-
-        LaunchedEffect(savedShop) {
-            if (savedShop != null) {
-                dispatch(OnSelectAction(target.target, savedShop))
-                back()
-            }
-        }
 
         val (isScrollTopButtonVisible, _, _, _, scrollUp) = lazyListWrapper.scrollState
 
@@ -67,7 +56,7 @@ class SelectShopPage(
             persistentListOf(
                 DFPageFloatingButton(
                     icon = RIcons.drawable.plus,
-                    onClick = { SaveShopPage<SelectShopPageReducer>().forward() }
+                    onClick = { dispatch(createShopAction()) }
                 ),
                 DFPageFloatingButton(
                     icon = RIcons.drawable.angle_up,
@@ -108,26 +97,15 @@ class SelectShopPage(
     }
 
     private fun onShopClick(shop: Shop) {
-        dispatch(OnSelectAction(target.target, shop))
+        dispatch(ExternalSelectShopActions.OnSelected(shop))
         back()
     }
 
     @Parcelize
-    data class Target(
-        val target: String,
-    ) : NavigationTarget.Page
-
-    @Parcelize
-    data class OnSelectAction(
-        val target: String,
-        val selected: Shop?,
-    ) : PlainAction
-
-    @Parcelize
-    data object OnInit : PlainAction
+    data object Target : NavigationTarget.Page
 
     companion object {
-        inline operator fun <reified T> invoke() = Target(T::class.java.name)
+        operator fun invoke() = Target
     }
 }
 

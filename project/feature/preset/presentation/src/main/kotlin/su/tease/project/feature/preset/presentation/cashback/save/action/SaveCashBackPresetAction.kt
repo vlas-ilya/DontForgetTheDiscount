@@ -8,6 +8,13 @@ import su.tease.project.feature.preset.domain.entity.CashBackPreset
 
 interface SaveCashBackPresetAction : MviUseCase<CashBackPreset>
 
+
+@Parcelize
+sealed class ExternalSaveCashBackPresetActions : PlainAction {
+    data class OnSaved(val cashBankPreset: CashBackPreset) : ExternalSaveCashBackPresetActions()
+    data object OnFinish : ExternalSaveCashBackPresetActions()
+}
+
 enum class SaveCashBackPresetError {
     DUPLICATE_ERROR,
     SOME_ERROR,
@@ -21,6 +28,6 @@ sealed class SaveCashBackPresetActions : PlainAction {
     ) : SaveCashBackPresetActions()
 
     data object OnSave : SaveCashBackPresetActions()
-    data class OnSaveSuccess(val cashBankPreset: CashBackPreset) : SaveCashBackPresetActions()
+    data object OnSaveSuccess : SaveCashBackPresetActions()
     data class OnSaveFail(val error: SaveCashBackPresetError) : SaveCashBackPresetActions()
 }

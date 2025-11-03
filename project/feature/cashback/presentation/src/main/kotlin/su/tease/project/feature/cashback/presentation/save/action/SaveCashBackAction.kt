@@ -13,6 +13,12 @@ import su.tease.project.feature.cashback.presentation.save.SaveCashBackPage
 interface SaveCashBackAction : MviUseCase<SaveCashBackUseCase.Request>
 
 @Parcelize
+sealed class ExternalSaveCashBackAction : PlainAction {
+    data class OnSaved(val cashBack: CashBack) : ExternalSaveCashBackAction()
+    data object OnFinish : ExternalSaveCashBackAction()
+}
+
+@Parcelize
 sealed class SaveCashBackActions : PlainAction {
     data class OnInit(
         val id: String? = null,
@@ -41,6 +47,6 @@ sealed class SaveCashBackActions : PlainAction {
 
     data class OnSetDate(val date: CashBackDate) : SaveCashBackActions()
     data object OnSave : SaveCashBackActions()
-    data class OnSaveSuccess(val cashBack: CashBack) : SaveCashBackActions()
+    data object OnSaved : SaveCashBackActions()
     data object OnSaveFail : SaveCashBackActions()
 }

@@ -13,20 +13,17 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.PersistentList
-import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import su.tease.core.mvi.component.component.container.LocalFeatureConfig
 import su.tease.core.mvi.component.component.container.LocalRootConfig
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.design.theme.api.Theme
-import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.ext.toIntSafe
 import su.tease.project.design.component.controls.page.DFPage
@@ -37,6 +34,7 @@ import su.tease.project.feature.preset.presentation.mcc.component.CodeSelectPage
 import su.tease.project.feature.preset.presentation.mcc.component.CodeSelectPageInput
 import su.tease.project.feature.preset.presentation.mcc.component.CodeSelectPageSelectedCodes
 import su.tease.project.feature.preset.presentation.mcc.component.CodeSelectPateSaveButton
+import su.tease.project.feature.preset.presentation.mcc.select.action.ExternalSelectMccCodeAction.OnFinish
 import su.tease.project.feature.preset.presentation.mcc.select.action.SelectMccCodeAction
 
 class SelectMccCodePresetPage(
@@ -48,6 +46,10 @@ class SelectMccCodePresetPage(
 
     private val selected = target.selected?.map { it.code } ?: emptyList()
 
+    override fun onFinish() {
+        dispatch(OnFinish)
+    }
+
     @Composable
     override operator fun invoke() {
         RootConfig { copy(isFullscreen = true) }
@@ -56,7 +58,6 @@ class SelectMccCodePresetPage(
         val codePresets = remember { mutableStateListOf<String>() }
         val selectedCodes = remember { selected.toMutableStateList() }
         val focusRequester = remember { FocusRequester() }
-        val scope = rememberCoroutineScope()
 
         LaunchedEffect(Unit) {
             focusRequester.requestFocus()
@@ -119,12 +120,7 @@ class SelectMccCodePresetPage(
                 Spacer(modifier = Modifier.height(Theme.sizes.padding4))
 
                 CodeSelectPateSaveButton(
-                    onClick = {
-                        scope.launch {
-                            dispatch(selectMccCodeAction(target.target, selectedCodes.toList())).join()
-                            back()
-                        }
-                    }
+                    onClick = { dispatch(selectMccCodeAction(selectedCodes.toList())) }
                 )
             }
         }
@@ -132,20 +128,12 @@ class SelectMccCodePresetPage(
 
     @Parcelize
     data class Target(
-        val target: String,
         val selected: PersistentList<MccCodePreset>?
     ) : NavigationTarget.Page
 
-    @Parcelize
-    data class OnSelectAction(
-        val target: String,
-        val selected: PersistentList<MccCodePreset>,
-    ) : PlainAction
 
     companion object {
-        inline operator fun <reified T> invoke(
-            selected: PersistentList<MccCodePreset>?,
-        ) = Target(T::class.java.name, selected)
+        operator fun invoke(selected: PersistentList<MccCodePreset>?) = Target(selected)
     }
 }
 

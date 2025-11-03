@@ -1,6 +1,5 @@
 package su.tease.project.feature.preset.presentation.bank.save
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,24 +35,28 @@ import su.tease.project.feature.preset.presentation.R
 import su.tease.project.feature.preset.presentation.bank.component.IconSelect
 import su.tease.project.feature.preset.presentation.bank.component.NameEditText
 import su.tease.project.feature.preset.presentation.bank.component.SaveButton
+import su.tease.project.feature.preset.presentation.bank.save.action.ExternalSaveBankPresetActions
 import su.tease.project.feature.preset.presentation.bank.save.action.SaveBankPresetAction
 import su.tease.project.feature.preset.presentation.bank.save.action.SaveBankPresetActions
-import su.tease.project.feature.preset.presentation.bank.save.reducer.SaveBankPresetReducer
+import su.tease.project.feature.preset.presentation.bank.save.action.SelectBankIconAction
 import su.tease.project.feature.preset.presentation.bank.save.reducer.SaveBankPresetState
 import su.tease.project.feature.preset.presentation.bank.save.utils.SaveBankPresetForm
-import su.tease.project.feature.preset.presentation.icon.select.SelectIconPresetPage
-import su.tease.project.feature.preset.presentation.icon.entity.IconType
 
 class SaveBankPresetPage(
     store: Store<*>,
     private val target: Target,
     private val saveBankPresetAction: SaveBankPresetAction,
+    private val selectBankIconAction: SelectBankIconAction,
 ) : BasePageComponent<SaveBankPresetPage.Target>(store) {
 
     private val form = SaveBankPresetForm(target.bankPreset)
 
     init {
         dispatch(SaveBankPresetActions.OnInit(target.bankPreset))
+    }
+
+    override fun onFinish() {
+        dispatch(ExternalSaveBankPresetActions.OnFinish)
     }
 
     @Composable
@@ -75,7 +78,6 @@ class SaveBankPresetPage(
             if (status == LoadingStatus.Success) {
                 dispatch(SaveBankPresetActions.OnInit())
                 form.clean()
-                back()
             }
         }
 
@@ -101,7 +103,7 @@ class SaveBankPresetPage(
                 ) {
                     IconSelect(
                         iconState = form.iconPreset,
-                        onSelect = { selectIcon(R.string.Presets_SaveBankPage_IconSelect_PageTitle) },
+                        onSelect = { dispatch(selectBankIconAction(form.iconPreset.value)) },
                         error = form.ui { iconError },
                         modifier = Modifier.wrapContentWidth(),
                     )
@@ -121,14 +123,6 @@ class SaveBankPresetPage(
                 )
             }
         }
-    }
-
-    private fun selectIcon(@StringRes title: Int) {
-        SelectIconPresetPage<SaveBankPresetReducer>(
-            iconType = IconType.BANK_ICON,
-            pageTitle = title,
-            selected = form.iconPreset.value
-        ).forward()
     }
 
     private fun save() {

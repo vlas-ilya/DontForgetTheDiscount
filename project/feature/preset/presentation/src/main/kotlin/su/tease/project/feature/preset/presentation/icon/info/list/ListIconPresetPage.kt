@@ -34,7 +34,6 @@ import su.tease.project.feature.preset.domain.interactor.PresetInteractor
 import su.tease.project.feature.preset.presentation.R
 import su.tease.project.feature.preset.presentation.icon.entity.IconType
 import su.tease.project.feature.preset.presentation.icon.info.save.SaveIconPresetFeature
-import su.tease.project.feature.preset.presentation.icon.utils.toIconOwner
 import su.tease.project.design.icons.R as RIcons
 
 class ListIconPresetPage(
@@ -58,7 +57,7 @@ class ListIconPresetPage(
                 persistentListOf(
                     DFPageFloatingButton(
                         icon = RIcons.drawable.plus,
-                        onClick = { SaveIconPresetFeature(target.iconType.toIconOwner()).forward() }
+                        onClick = { SaveIconPresetFeature(target.iconType).forward() }
                     ),
                     DFPageFloatingButton(
                         icon = RIcons.drawable.angle_up,

@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -16,7 +15,6 @@ import su.tease.core.mvi.component.component.container.LocalRootConfig
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.design.theme.api.Theme
-import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.ext.map
 import su.tease.project.core.utils.resource.ResourceProvider
@@ -28,36 +26,29 @@ import su.tease.project.feature.preset.domain.entity.BankPreset
 import su.tease.project.feature.preset.domain.interactor.PresetInteractor
 import su.tease.project.feature.preset.presentation.R
 import su.tease.project.feature.preset.presentation.bank.component.BankPresetPreview
-import su.tease.project.feature.preset.presentation.bank.save.SaveBankPresetPage
-import su.tease.project.feature.preset.presentation.bank.select.reducer.SelectBankPresetState
+import su.tease.project.feature.preset.presentation.bank.select.action.CreateBankPresetAction
+import su.tease.project.feature.preset.presentation.bank.select.action.ExternalSelectBankPresetAction.OnFinish
+import su.tease.project.feature.preset.presentation.bank.select.action.ExternalSelectBankPresetAction.OnSelected
 import su.tease.project.feature.preset.presentation.bank.utils.toUi
 import su.tease.project.design.icons.R as RIcons
 
 class SelectBankPresetPage(
     store: Store<*>,
     resourceProvider: ResourceProvider,
-    private val target: Target,
     private val presetInteractor: PresetInteractor,
+    private val createBankPresetAction: CreateBankPresetAction,
 ) : BasePageComponent<SelectBankPresetPage.Target>(store) {
 
     private val lazyListWrapper = LazyListWrapper(resourceProvider, SCROLL_ITEMS_FOR_SHOW_BUTTON)
 
-    init {
-        dispatch(OnInit)
+    override fun onFinish() {
+        dispatch(OnFinish)
     }
 
     @Composable
     override operator fun invoke() {
-        val savedBankPreset = selectAsState(SelectBankPresetState::savedCashBackOwnerPreset).value
-        val list = memoize { presetInteractor.bankPresets() }
-            .map { it?.toUi(store, ::onBankPresetClick) }
-
-        LaunchedEffect(savedBankPreset) {
-            if (savedBankPreset != null) {
-                dispatch(OnSelectAction(target.target, savedBankPreset))
-                back()
-            }
-        }
+        val list =
+            memoize { presetInteractor.bankPresets() }.map { it?.toUi(store, ::onBankPresetClick) }
 
         val (isScrollTopButtonVisible, _, _, _, scrollUp) = lazyListWrapper.scrollState
 
@@ -66,7 +57,7 @@ class SelectBankPresetPage(
                 persistentListOf(
                     DFPageFloatingButton(
                         icon = RIcons.drawable.plus,
-                        onClick = { SaveBankPresetPage().forward() }
+                        onClick = { dispatch(createBankPresetAction()) }
                     ),
                     DFPageFloatingButton(
                         icon = RIcons.drawable.angle_up,
@@ -107,29 +98,18 @@ class SelectBankPresetPage(
     }
 
     private fun onBankPresetClick(bankPreset: BankPreset) {
-        dispatch(OnSelectAction(target.target, bankPreset))
+        dispatch(OnSelected(bankPreset))
         back()
     }
 
     @Parcelize
     data class Target(
-        val target: String,
         val selected: BankPreset?
     ) : NavigationTarget.Page
 
-    @Parcelize
-    data class OnSelectAction(
-        val target: String,
-        val selected: BankPreset?
-    ) : PlainAction
-
-    @Parcelize
-    data object OnInit : PlainAction
 
     companion object {
-        inline operator fun <reified T> invoke(
-            selected: BankPreset? = null,
-        ) = Target(T::class.java.name, selected)
+        operator fun invoke(selected: BankPreset? = null) = Target(selected)
     }
 }
 

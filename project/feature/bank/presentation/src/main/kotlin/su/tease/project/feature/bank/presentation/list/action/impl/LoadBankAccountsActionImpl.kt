@@ -19,11 +19,11 @@ class LoadBankAccountsActionImpl(
     private val dateProvider: DateProvider,
 ) : LoadBankAccountsAction {
 
-    override fun run(request: CashBackDate?) = suspendAction {
+    override fun run(payload: CashBackDate?) = suspendAction {
         dispatch(LoadBankAccountsActions.OnLoad)
         try {
             val currentDate = dateProvider.current().toCashBackDate()
-            val date = request ?: currentDate
+            val date = payload ?: currentDate
             val list = interactor.filterBy(date)
             val dates = (interactor.listDates() + date + currentDate).distinct().toPersistentList()
             dispatch(LoadBankAccountsActions.OnSuccess(date, dates, list.sortBanks()))

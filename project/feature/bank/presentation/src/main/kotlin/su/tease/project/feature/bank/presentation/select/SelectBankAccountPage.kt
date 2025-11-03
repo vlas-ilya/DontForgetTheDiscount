@@ -1,39 +1,26 @@
 package su.tease.project.feature.bank.presentation.select
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import su.tease.core.mvi.component.component.container.LocalFeatureConfig
 import su.tease.core.mvi.component.component.container.LocalRootConfig
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.design.theme.api.Theme
-import su.tease.project.core.mvi.api.action.PlainAction
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.ext.map
 import su.tease.project.core.utils.resource.ResourceProvider
 import su.tease.project.core.utils.utils.memoize
-import su.tease.project.core.utils.utils.rememberCallback
-import su.tease.project.core.utils.utils.scrollDirectionState
-import su.tease.project.design.component.controls.list.LazyList
 import su.tease.project.design.component.controls.list.LazyListWrapper
 import su.tease.project.design.component.controls.page.DFPage
 import su.tease.project.design.component.controls.page.DFPageFloatingButton
-import su.tease.project.design.component.controls.shimmer.Shimmer
 import su.tease.project.feature.bank.domain.entity.BankAccount
 import su.tease.project.feature.bank.domain.interactor.BankAccountInterceptor
 import su.tease.project.feature.bank.presentation.R
@@ -41,36 +28,28 @@ import su.tease.project.feature.bank.presentation.component.BankAccountsItem
 import su.tease.project.feature.bank.presentation.dependencies.view.BankPresetIconView
 import su.tease.project.feature.bank.presentation.info.list.utils.toUi
 import su.tease.project.feature.bank.presentation.save.SaveBankAccountPage
-import su.tease.project.feature.bank.presentation.select.reducer.SelectBankAccountPageReducer
-import su.tease.project.feature.bank.presentation.select.reducer.SelectBankAccountState
+import su.tease.project.feature.bank.presentation.select.action.CreateBankAccountAction
+import su.tease.project.feature.bank.presentation.select.action.ExternalSelectBankAccountActions
 import su.tease.project.design.icons.R as RIcons
 
 class SelectBankAccountPage(
     store: Store<*>,
-    private val target: Target,
+    resourceProvider: ResourceProvider,
     private val interceptor: BankAccountInterceptor,
-    private val resourceProvider: ResourceProvider,
     private val bankPresetIconView: BankPresetIconView,
+    private val createBankAccountAction: CreateBankAccountAction,
 ) : BasePageComponent<SelectBankAccountPage.Target>(store) {
 
     private val lazyListWrapper = LazyListWrapper(resourceProvider, SCROLL_ITEMS_FOR_SHOW_BUTTON)
 
-    init {
-        dispatch(OnInit)
+    override fun onFinish() {
+        dispatch(ExternalSelectBankAccountActions.OnFinish)
     }
 
     @Composable
     override fun invoke() {
-        val savedBankAccount = selectAsState(SelectBankAccountState::savedBankAccount).value
         val list = memoize { interceptor.list() }
             .map { it?.toUi(bankPresetIconView, store, ::onBankAccountClick) }
-
-        LaunchedEffect(savedBankAccount) {
-            if (savedBankAccount != null) {
-                dispatch(OnSelectAction(target.target, savedBankAccount))
-                back()
-            }
-        }
 
         val (isScrollTopButtonVisible, _, _, _, scrollUp) = lazyListWrapper.scrollState
 
@@ -78,7 +57,7 @@ class SelectBankAccountPage(
             persistentListOf(
                 DFPageFloatingButton(
                     icon = RIcons.drawable.plus,
-                    onClick = { SaveBankAccountPage<SelectBankAccountPageReducer>().forward() }
+                    onClick = { dispatch(createBankAccountAction()) }
                 ),
                 DFPageFloatingButton(
                     icon = RIcons.drawable.angle_up,
@@ -119,26 +98,15 @@ class SelectBankAccountPage(
     }
 
     private fun onBankAccountClick(bankAccount: BankAccount) {
-        dispatch(OnSelectAction(target.target, bankAccount))
+        dispatch(ExternalSelectBankAccountActions.OnSelected(bankAccount))
         back()
     }
 
     @Parcelize
-    data class Target(
-        val target: String,
-    ) : NavigationTarget.Page
-
-    @Parcelize
-    data object OnInit : PlainAction
-
-    @Parcelize
-    data class OnSelectAction(
-        val target: String,
-        val selected: BankAccount?,
-    ) : PlainAction
+    data object Target : NavigationTarget.Page
 
     companion object {
-        inline operator fun <reified T> invoke() = Target(T::class.java.name)
+        operator fun invoke() = Target
     }
 }
 

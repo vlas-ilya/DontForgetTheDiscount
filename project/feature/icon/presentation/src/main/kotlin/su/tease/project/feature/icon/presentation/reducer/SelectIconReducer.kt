@@ -19,10 +19,8 @@ class SelectIconReducer : Reducer<S> {
     fun S.onSelect(action: SelectIconActions): S = when (action) {
         is SelectIconActions.OnInit -> copy(status = LoadingStatus.Init)
         is SelectIconActions.OnStart -> copy(status = LoadingStatus.Loading)
-        is SelectIconActions.OnSave -> copy(status = LoadingStatus.Success)
-        is SelectIconActions.OnSaveFail -> copy(status = LoadingStatus.Failed)
-        is SelectIconActions.OnFinish -> copy(status = LoadingStatus.Init)
-        is SelectIconActions.OnSelect -> copy(status = LoadingStatus.Init)
+        is SelectIconActions.OnStored -> copy(status = LoadingStatus.Success)
+        is SelectIconActions.OnStoreFail -> copy(status = LoadingStatus.Failed)
     }
 }
 

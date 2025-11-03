@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,7 +23,6 @@ import su.tease.core.mvi.component.component.container.LocalRootConfig
 import su.tease.core.mvi.component.component.impl.BasePageComponent
 import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.design.theme.api.Theme
-import su.tease.project.core.mvi.api.state.LoadingStatus
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.utils.ext.RedirectState
 import su.tease.project.core.utils.ext.RedirectStateNotNull
@@ -39,27 +37,30 @@ import su.tease.project.feature.preset.domain.entity.CashBackPreset
 import su.tease.project.feature.preset.domain.entity.ShopPreset
 import su.tease.project.feature.preset.domain.entity.cashBackOwnerPresetType
 import su.tease.project.feature.preset.presentation.R
-import su.tease.project.feature.preset.presentation.bank.select.SelectBankPresetPage
+import su.tease.project.feature.preset.presentation.cashback.save.action.ExternalSaveCashBackPresetActions
 import su.tease.project.feature.preset.presentation.cashback.save.action.SaveCashBackPresetAction
 import su.tease.project.feature.preset.presentation.cashback.save.action.SaveCashBackPresetActions
+import su.tease.project.feature.preset.presentation.cashback.save.action.SaveCashBackSelectBankPresetAction
+import su.tease.project.feature.preset.presentation.cashback.save.action.SaveCashBackSelectIconAction
+import su.tease.project.feature.preset.presentation.cashback.save.action.SaveCashBackSelectMccCodeAction
+import su.tease.project.feature.preset.presentation.cashback.save.action.SaveCashBackSelectShopPresetAction
 import su.tease.project.feature.preset.presentation.cashback.save.component.CashBackIconSelect
 import su.tease.project.feature.preset.presentation.cashback.save.component.CashBackInfoEditText
 import su.tease.project.feature.preset.presentation.cashback.save.component.CashBackMccCodeSelect
 import su.tease.project.feature.preset.presentation.cashback.save.component.CashBackNameEditText
 import su.tease.project.feature.preset.presentation.cashback.save.component.CashBackOwnerPresetSelect
 import su.tease.project.feature.preset.presentation.cashback.save.component.CashBackSaveButton
-import su.tease.project.feature.preset.presentation.cashback.save.reducer.SaveCashBackPresetReducer
 import su.tease.project.feature.preset.presentation.cashback.save.reducer.SaveCashBackPresetState
 import su.tease.project.feature.preset.presentation.cashback.save.utils.SaveCashBackPresetForm
-import su.tease.project.feature.preset.presentation.icon.select.SelectIconPresetPage
-import su.tease.project.feature.preset.presentation.icon.entity.IconType
-import su.tease.project.feature.preset.presentation.mcc.select.SelectMccCodePresetPage
-import su.tease.project.feature.preset.presentation.shop.select.SelectShopPresetPage
 
 class SaveCashBackPresetPage(
     store: Store<*>,
     private val target: Target,
     private val saveCashBackPresetAction: SaveCashBackPresetAction,
+    private val selectIconAction: SaveCashBackSelectIconAction,
+    private val selectMccCodeAction: SaveCashBackSelectMccCodeAction,
+    private val selectBankPresetAction: SaveCashBackSelectBankPresetAction,
+    private val selectShopPresetAction: SaveCashBackSelectShopPresetAction,
 ) : BasePageComponent<SaveCashBackPresetPage.Target>(store) {
 
     private val form = SaveCashBackPresetForm(
@@ -80,6 +81,10 @@ class SaveCashBackPresetPage(
         )
     }
 
+    override fun onFinish() {
+        dispatch(ExternalSaveCashBackPresetActions.OnFinish)
+    }
+
     @Composable
     override fun invoke() {
         RootConfig { copy(isFullscreen = true) }
@@ -90,16 +95,6 @@ class SaveCashBackPresetPage(
             form.cashBackOwnerPreset
         )
         RedirectStateNotNull(selectAsState(SaveCashBackPresetState::mccCodes), form.mccCodes)
-
-        val status = selectAsState(SaveCashBackPresetState::status).value
-
-        LaunchedEffect(status) {
-            if (status == LoadingStatus.Success) {
-                dispatch(SaveCashBackPresetActions.OnInit())
-                form.clean()
-                back()
-            }
-        }
 
         DFPage(
             title = stringResource(
@@ -133,7 +128,7 @@ class SaveCashBackPresetPage(
                 ) {
                     CashBackIconSelect(
                         iconState = form.iconPreset,
-                        onSelect = { selectIcon() },
+                        onSelect = { dispatch(selectIconAction(form.iconPreset.value)) },
                         error = form.ui { iconError },
                         modifier = Modifier.wrapContentWidth(),
                     )
@@ -154,7 +149,7 @@ class SaveCashBackPresetPage(
                 Spacer(modifier = Modifier.height(Theme.sizes.padding4))
                 CashBackMccCodeSelect(
                     mccCodesState = form.mccCodes,
-                    onSelect = { selectMccCode() }
+                    onSelect = { dispatch(selectMccCodeAction(form.mccCodes.value)) }
                 )
                 Spacer(modifier = Modifier.weight(1F))
                 CashBackSaveButton(
@@ -167,21 +162,9 @@ class SaveCashBackPresetPage(
 
     private fun selectBank() = form.cashBackOwnerPreset.value.let {
         when (target.ownerType) {
-            BANK -> SelectBankPresetPage<SaveCashBackPresetReducer>(it as BankPreset?)
-            SHOP -> SelectShopPresetPage<SaveCashBackPresetReducer>(it as ShopPreset?)
-        }.forward()
-    }
-
-    private fun selectIcon() {
-        SelectIconPresetPage<SaveCashBackPresetReducer>(
-            iconType = IconType.CASH_BACK_ICON,
-            pageTitle = R.string.Presets_SaveCashBackPresetPage_IconSelect_PageTitle,
-            selected = form.iconPreset.value
-        ).forward()
-    }
-
-    private fun selectMccCode() {
-        SelectMccCodePresetPage<SaveCashBackPresetReducer>(form.mccCodes.value).forward()
+            BANK -> dispatch(selectBankPresetAction(it as BankPreset?))
+            SHOP -> dispatch(selectShopPresetAction(it as ShopPreset?))
+        }
     }
 
     private fun save(cashBackPresetId: String?) {
