@@ -1,12 +1,18 @@
 package su.tease.dontforgetthediscount.activity
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 import su.tease.dontforgetthediscount.component.DontForgetTheDiscountComponent
@@ -18,7 +24,7 @@ import su.tease.project.design.theme.impl.Theme
 import su.tease.project.design.theme.impl.ThemeValue
 import su.tease.project.design.theme.impl.switchTheme
 
-class DontForgetTheDiscountActivity : AppCompatActivity() {
+class DontForgetTheDiscountActivity : ComponentActivity() {
 
     private val dontForgetTheDiscountComponent: DontForgetTheDiscountComponent by inject {
         val windowProvider = { window }
@@ -28,8 +34,15 @@ class DontForgetTheDiscountActivity : AppCompatActivity() {
     private val store: Store<*> by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        window
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(scrim = Color.Transparent.toArgb()),
+            navigationBarStyle = SystemBarStyle.dark(scrim = Color.Transparent.toArgb()),
+        )
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        val controller = WindowCompat.getInsetsController(window, window.decorView)
+        controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
 
         store.dispatcher.dispatch(NavigationAction.Start)

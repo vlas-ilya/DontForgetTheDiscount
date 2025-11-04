@@ -41,10 +41,10 @@ class DontForgetTheDiscountComponent(
         }
         Box(
             modifier = Modifier
+                .background(Theme.colors.background1)
                 .fillMaxSize()
                 .padding(WindowInsets.statusBars.asPaddingValues())
-                .padding(WindowInsets.navigationBars.asPaddingValues())
-                .background(Theme.colors.background1),
+                .padding(WindowInsets.navigationBars.asPaddingValues()),
         ) {
             rootContainer.ComposeRootContainer()
 

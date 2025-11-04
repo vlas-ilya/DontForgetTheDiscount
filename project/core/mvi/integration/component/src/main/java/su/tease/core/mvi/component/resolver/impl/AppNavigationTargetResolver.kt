@@ -17,7 +17,6 @@ import su.tease.core.mvi.navigation.NavigationTarget
 import su.tease.project.core.mvi.api.selector.select
 import su.tease.project.core.mvi.api.store.Store
 import su.tease.project.core.mvi.navigation.selector.root
-import su.tease.project.core.utils.ext.alsoIf
 import su.tease.project.core.utils.ext.ifTrue
 import su.tease.project.core.utils.ext.removeIf
 
@@ -43,14 +42,20 @@ class AppNavigationTargetResolver(
     init {
         coroutineScope.launch {
             store.select(this, root()).collect { root ->
-                val pageIdSet = root.pageIdList.toSet()
-                pageCache.removeIf { (it !in pageIdSet).ifTrue { pageCache[it]?.onFinish() } }
+                synchronized(pageCache) {
+                    val pageIdSet = root.pageIdList.toSet()
+                    pageCache.removeIf { (it !in pageIdSet).ifTrue { pageCache[it]?.onFinish() } }
+                }
 
-                val featureIdSet = root.featureIdList.toSet()
-                featureCache.removeIf { it !in featureIdSet }
+                synchronized(featureCache) {
+                    val featureIdSet = root.featureIdList.toSet()
+                    featureCache.removeIf { it !in featureIdSet }
+                }
 
-                val appIdSet = root.appIdList.toSet()
-                appCache.removeIf { it !in appIdSet }
+                synchronized(appCache) {
+                    val appIdSet = root.appIdList.toSet()
+                    appCache.removeIf { it !in appIdSet }
+                }
             }
         }
     }
@@ -58,34 +63,42 @@ class AppNavigationTargetResolver(
     override fun <T : NavigationTarget.Page> resolve(
         pageId: String,
         page: T,
-    ) = pageCache.getOrPut(pageId) {
-        mapPage[page::class.java]
-            ?.let { it as? PageProvider<T> }
-            ?.run { NavigationScope<T>(scope, store, page).component() }
-            ?: error("There are no page component")
+    ) = synchronized(pageCache) {
+        pageCache.getOrPut(pageId) {
+            mapPage[page::class.java]
+                ?.let { it as? PageProvider<T> }
+                ?.run { NavigationScope<T>(scope, store, page).component() }
+                ?: error("There are no page component")
+        }
     }
 
+    @Synchronized
     override fun <T : NavigationTarget.Feature> resolve(
         featureId: String,
         feature: T,
         featureNavigation: FeatureNavigation,
-    ) = featureCache.getOrPut(featureId) {
-        mapFeatures[feature::class.java]
-            ?.let { it as? FeatureProvider<T> }
-            ?.run { NavigationScope<T>(scope, store, feature).component() }
-            ?.also { it.featureNavigation = featureNavigation }
-            ?: error("There are no feature component")
+    ) = synchronized(featureCache) {
+        featureCache.getOrPut(featureId) {
+            mapFeatures[feature::class.java]
+                ?.let { it as? FeatureProvider<T> }
+                ?.run { NavigationScope<T>(scope, store, feature).component() }
+                ?.also { it.featureNavigation = featureNavigation }
+                ?: error("There are no feature component")
+        }
     }
 
+    @Synchronized
     override fun <T : NavigationTarget.App> resolve(
         appId: String,
         app: T,
         appNavigation: AppNavigation,
-    ) = appCache.getOrPut(appId) {
-        mapApps[app::class.java]
-            ?.let { it as? AppProvider<T> }
-            ?.run { NavigationScope<T>(scope, store, app).component() }
-            ?.also { it.appNavigation = appNavigation }
-            ?: error("There are no app component")
+    ) = synchronized(appCache) {
+        appCache.getOrPut(appId) {
+            mapApps[app::class.java]
+                ?.let { it as? AppProvider<T> }
+                ?.run { NavigationScope<T>(scope, store, app).component() }
+                ?.also { it.appNavigation = appNavigation }
+                ?: error("There are no app component")
+        }
     }
 }

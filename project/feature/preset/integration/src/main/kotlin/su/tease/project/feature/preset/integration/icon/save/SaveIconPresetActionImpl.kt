@@ -3,6 +3,7 @@ package su.tease.project.feature.preset.integration.icon.save
 import su.tease.project.core.mvi.middleware.intercept.interceptSuspendAction
 import su.tease.project.core.mvi.navigation.action.NavigationAction.Back
 import su.tease.project.core.mvi.navigation.action.NavigationAction.ForwardToPage
+import su.tease.project.core.utils.either.onFailure
 import su.tease.project.core.utils.either.onSuccess
 import su.tease.project.core.utils.resource.ResourceProvider
 import su.tease.project.core.utils.uuid.UuidProvider
@@ -10,7 +11,7 @@ import su.tease.project.feature.icon.presentation.SelectIconPage
 import su.tease.project.feature.icon.presentation.action.ExternalSelectIconActions.OnFinish
 import su.tease.project.feature.icon.presentation.action.ExternalSelectIconActions.OnSelected
 import su.tease.project.feature.notification.api.Notification
-import su.tease.project.feature.notification.api.NotificationAction
+import su.tease.project.feature.notification.api.NotificationAction.ShowNotification
 import su.tease.project.feature.preset.domain.entity.BankIconPreset
 import su.tease.project.feature.preset.domain.entity.CashBackIconPreset
 import su.tease.project.feature.preset.domain.entity.IconPreset
@@ -33,12 +34,14 @@ class SaveIconPresetActionImpl(
             try {
                 val iconPreset = makeIconPreset(uuidProvider.uuid(), payload, it.filePath)
                 save(iconPreset)
-                dispatch(NotificationAction.ShowNotification(successNotification()))
+                dispatch(ShowNotification(successNotification()))
                 dispatch(OnSaved(iconPreset)).join()
                 dispatch(Back).join()
             } catch (_: Throwable) {
-                dispatch(NotificationAction.ShowNotification(failedNotification()))
+                dispatch(ShowNotification(failedNotification()))
             }
+        }.onFailure {
+            dispatch(Back).join()
         }
     }
 

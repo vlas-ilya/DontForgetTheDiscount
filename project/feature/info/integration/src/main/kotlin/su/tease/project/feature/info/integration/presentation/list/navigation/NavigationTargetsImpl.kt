@@ -16,11 +16,11 @@ import su.tease.project.feature.shop.presentation.info.list.ShopsInfoPage
 class NavigationTargetsImpl : NavigationTargets {
     override val banks = BankAccountsInfoPage()
     override val bankPresets = ListBankPresetPage()
-    override val bankIconPresets = ShopsInfoPage()
-    override val shops = ListShopPresetPage()
-    override val shopPresets = ListInfoCashbackPresetPage()
-    override val shopIconPresets = ListIconPresetPage(BANK_ICON)
-    override val cashBackPresets = ListIconPresetPage(CASH_BACK_ICON)
-    override val cashBackIconPresets = ListIconPresetPage(SHOP_ICON)
+    override val bankIconPresets = ListIconPresetPage(BANK_ICON)
+    override val shops = ShopsInfoPage()
+    override val shopPresets = ListShopPresetPage()
+    override val shopIconPresets = ListIconPresetPage(SHOP_ICON)
+    override val cashBackPresets = ListInfoCashbackPresetPage()
+    override val cashBackIconPresets = ListIconPresetPage(CASH_BACK_ICON)
     override val mccCodePresets = ListMccCodePresetPage()
 }

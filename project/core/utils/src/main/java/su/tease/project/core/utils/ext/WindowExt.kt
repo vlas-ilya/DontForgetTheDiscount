@@ -38,9 +38,18 @@ fun Window.showSystemUI() {
 
 fun Window.isNavigationBarVisible(): Boolean {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-        val insets = decorView.rootWindowInsets
-        val bottom = insets?.getInsets(WindowInsets.Type.navigationBars())?.bottom ?: 0
-        bottom > 0
+        val insets = decorView.rootWindowInsets ?: return false
+
+        val navInsets = insets.getInsets(WindowInsets.Type.navigationBars())
+        val imeInsets = insets.getInsets(WindowInsets.Type.ime())
+
+        val isNavBarReportedVisible = insets.isVisible(WindowInsets.Type.navigationBars())
+        val isImeReportedVisible = insets.isVisible(WindowInsets.Type.ime())
+
+        // Если IME открыта и занимает ту же область, что и навбар — считаем навбар невидимым.
+        val imeOverlapsNavBar = imeInsets.bottom >= navInsets.bottom && imeInsets.bottom > 0
+
+        isNavBarReportedVisible && !isImeReportedVisible && navInsets.bottom > 0 && !imeOverlapsNavBar
     } else {
         val resources = context.resources
         val id = resources.getIdentifier(
@@ -51,4 +60,3 @@ fun Window.isNavigationBarVisible(): Boolean {
         id > 0 && resources.getDimensionPixelSize(id) > 0
     }
 }
-
